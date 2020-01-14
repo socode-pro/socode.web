@@ -1,0 +1,139 @@
+$cells: 4;
+$dots: 23;
+$size: 200px;
+
+$cellR: $size*.3;
+$dotR: $size*.05;
+
+$da: 360deg/$dots;
+$dur: 0.8s;
+$ddur: $dur/$dots;
+
+$c1: #ff4081;
+$c2: #ffab40;
+
+$fns: cubic-bezier(0.65, 0.05, 0.36, 1),cubic-bezier(0.55, 0.06, 0.68, 0.19), cubic-bezier(0.46, 0.03, 0.52, 0.96), cubic-bezier(0.65, 0.05, 0.36, 1);
+$dels: 4, .25, 1, 2;
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cell {
+  position: relative;
+  overflow: hidden;
+  position: relative;
+  width: $size;
+  height: $size;
+  flex-grow: 1;
+  padding: $size*.5;
+
+  &.type1 {
+    .loader {
+      .dot {
+        @for $j from 0 to $dots {
+          $jj: $j+1;
+          &:nth-child(#{$jj}) {
+            transform: rotate($da*$j);
+            &:after {
+              animation-delay: $ddur*$j*nth($dels, 1);
+            }
+          }
+        }
+      }
+      .dot:after {
+        animation-timing-function: nth($fns, 1);
+      }
+    }
+  }
+
+  &.type2 {
+    .loader {
+      .dot {
+        @for $j from 0 to $dots {
+          $jj: $j+1;
+          &:nth-child(#{$jj}) {
+            transform: rotate($da*$j);
+            &:after {
+              animation-delay: $ddur*$j*nth($dels, 2);
+            }
+          }
+        }
+      }
+      .dot:after {
+        animation-timing-function: nth($fns, 2);
+      }
+    }
+  }
+
+  &.type3 {
+    .loader {
+      .dot {
+        @for $j from 0 to $dots {
+          $jj: $j+1;
+          &:nth-child(#{$jj}) {
+            transform: rotate($da*$j);
+            &:after {
+              animation-delay: $ddur*$j*nth($dels, 3);
+            }
+          }
+        }
+      }
+      .dot:after {
+        animation-timing-function: nth($fns, 3);
+      }
+    }
+  }
+
+  &.type4 {
+    .loader {
+      .dot {
+        @for $j from 0 to $dots {
+          $jj: $j+1;
+          &:nth-child(#{$jj}) {
+            transform: rotate($da*$j);
+            &:after {
+              animation-delay: $ddur*$j*nth($dels, 4);
+            }
+          }
+        }
+      }
+      .dot:after {
+        animation-timing-function: nth($fns, 4);
+      }
+    }
+  }
+}
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.dot {
+  position: absolute;
+  top: -1*$cellR;
+  height: $cellR*2;
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%) translateY(-50%);
+    width: $dotR;
+    height: $dotR;
+    background-color: $c1;
+    border-radius: 100%;
+    transform: scale(1);
+    animation: loader2a $dur infinite alternate;
+  }
+}
+
+@keyframes loader2a {
+  to {
+    top: 100%;
+    transform: scale(.5);
+    background-color: $c2;
+  }
+}

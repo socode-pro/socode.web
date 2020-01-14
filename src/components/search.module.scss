@@ -1,0 +1,235 @@
+@import "../styles/variable";
+
+.searchWapper {
+  background: #fff;
+  border-radius: 6px;
+  transition: box-shadow .3s;
+  box-shadow: $shadow_ionic;
+  &.focus {
+    box-shadow: $shadow_ionic_focus;
+  }
+  width: 100%;
+  position: absolute;
+  top: 130px;
+  margin-bottom: 20px;
+}
+
+.searchInput {
+  display: flex;
+  height: 64px;
+  align-items: center;
+  & > .input {
+    font-family: $font-sans;
+    @include ms-respond(font-size, 2);
+    padding: 16px 0;
+    height: 64px;
+    background: transparent;
+    border: 0;
+    flex: 1 1 auto;
+    color: $dh-head;
+    min-width: 48px;
+    caret-color: $dh-mute;
+
+    &::placeholder {
+      color: $dh-mute;
+    }
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active  {
+        // https://stackoverflow.com/a/14205976/346701
+        box-shadow: 0 0 0 50px white inset !important;
+        -webkit-text-fill-color: $dh-mute !important;
+    }
+  }
+
+  & > .input:focus {
+    outline: 0;
+  }
+
+  & > .prefix {
+    @include ms-respond(font-size, 0);
+    display: block;
+    color: rgba($dh-mute, 0.5);
+    font-weight: 400;
+    user-select: none;
+    line-height: 1.5em;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: rgba($dh-body, 0.5);
+    margin: 0 0 0 16px;
+    box-shadow: 0 1px 1px rgba($dh-mute, 0.25);
+  }
+
+  & > .sep {
+    color: rgba($dh-mute, 0.5);
+    @include ms-respond(font-size, 2);
+    margin: 0 6px;
+  }
+
+  // Hide prefix in mobiel
+  @media (max-width: 768px) {
+    & > .prefix,
+    & > .sep {
+      display: none;
+    }
+
+    & > .input {
+      padding-left: 16px;
+    }
+  }
+
+  // Icon
+  & > i.sicon {
+    @extend %fa-icon;
+    @extend .fas;
+    @extend .fa-search;
+    color: rgba($dh-mute, 0.5);
+    font-size: 20px;
+    flex: 0 0 64px;
+    order: 2;
+    align-self: stretch;
+    text-align: center;
+    line-height: 64px;
+    cursor: pointer;
+  }
+
+  &.-small {
+    & {
+      height: 48px;
+    }
+
+    & > .input {
+      padding: 8px;
+      height: 48px;
+      padding-left: 0;
+    }
+
+    & > .prefix,
+    & > .sep,
+    & > .input {
+      @include ms-respond(font-size, 1);
+    }
+
+    &::before {
+      flex: 0 0 48px;
+      width: 48px;
+      line-height: 48px;
+      background-size: 24px 24px;
+      background-position: center center;
+    }
+  }
+}
+
+.autocomplate {
+  display: block !important;
+  margin-left: 110px;
+  a {
+    @include ms-respond(font-size, 1);
+  }
+}
+
+.searchResult {
+  padding: 0 20px;
+  .result {
+    padding: 0 0 15px;
+  }
+  .header {
+    @include ms-respond(font-size, 2);
+    text-shadow: 0 0 $dh-text;
+  }
+  .external {
+    color: #069025;
+    font-size: 12px;
+  }
+  .content {
+    word-wrap: break-word;
+    color: $dh-text;
+    @include ms-respond(font-size, 1);
+  }
+  .highlighter {
+    font-weight: 700;
+    background: $highlight;
+  }
+  .pagination {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 15px;
+    .pageNext {
+      @extend %fa-icon;
+      @extend .fas;
+      @extend .fa-angle-double-right;
+    }
+    .pagePrevious {
+      @extend %fa-icon;
+      @extend .fas;
+      @extend .fa-angle-double-left;
+    }
+  }
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+  color: $pink;
+  @include ms-respond(font-size, 2);
+}
+
+.notFound {
+  background: url("../images/not_found.png") center/20% no-repeat;
+  height: 200px;
+}
+
+// @media (prefers-color-scheme: dark) {
+//   .searchWapper {
+//     background: #000;
+//     box-shadow: $shadow_ionic_invert;
+//     &.focus {
+//       box-shadow: $shadow_ionic_focus_invert;
+//     }
+//   }
+//   .searchInput {
+//     & > .input {
+//       color: invert($dh-head);
+//       caret-color: invert($dh-mute);
+//       &::placeholder {
+//         color: invert($dh-mute);
+//       }
+//       &:-webkit-autofill,
+//       &:-webkit-autofill:hover,
+//       &:-webkit-autofill:focus,
+//       &:-webkit-autofill:active  {
+//           // https://stackoverflow.com/a/14205976/346701
+//           box-shadow: 0 0 0 50px black inset !important;
+//           -webkit-text-fill-color: invert($dh-mute) !important;
+//       }
+//     }
+//     & > .prefix {
+//       color: rgba(invert($dh-mute), 0.5);
+//       background: rgba(invert($dh-body), 0.5);
+//       margin: 0 0 0 16px;
+//       box-shadow: 0 1px 1px rgba(invert($dh-mute), 0.25);
+//     }
+
+//     & > .sep {
+//       color: rgba(invert($dh-mute), 0.5);
+//     }
+//     & > i.sicon {
+//       color: rgba(invert($dh-mute), 0.5);
+//     }
+//   }
+//   .searchResult {
+//     .header {
+//       text-shadow: none;
+//     }
+//     .external {
+//       color: invert(#069025);
+//     }
+//     .content {
+//       color: invert($dh-text);
+//     }
+//   }
+//   .error {
+//     color: invert($pink);
+//   }
+// }

@@ -3,16 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.12.0",
+    "@huchenme/github-trending": "^2.2.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
-    "@types/jest": "^24.0.25",
-    "@types/node": "^12.12.24",
-    "@types/react": "^16.9.17",
-    "@types/react-dom": "^16.9.4",
+    "axios": "^0.19.1",
+    "bulma": "^0.8.0",
+    "classnames": "^2.2.6",
+    "dayjs": "^1.8.19",
+    "easy-peasy": "^3.2.6",
+    "hotkeys-js": "^3.7.3",
+    "joi": "^14.3.1",
+    "lodash": "^4.17.15",
+    "modularscale-sass": "^3.0.10",
+    "qs": "^6.9.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-highlight-words": "^0.16.0",
+    "react-media-hook": "^0.4.4",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
+    "react-spring": "^9.0.0-beta.34",
     "typescript": "^3.7.4"
   },
   "scripts": {
@@ -26,14 +38,31 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "chrome 64",
+      "firefox 70"
     ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.25",
+    "@types/lodash": "^4.14.149",
+    "@types/node": "^12.12.24",
+    "@types/node-sass": "^4.11.0",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "@types/react-router-dom": "^5.1.3",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "node-sass": "^4.13.0"
   }
 }

@@ -1,0 +1,61 @@
+@import "../styles/variable";
+
+.brand {
+  margin: 1.5em 0 0;
+  display: inline-block;
+  text-transform: uppercase;
+  text-decoration: none;
+  // color: rgba(0, 0, 0, .40);
+  color: rgba($dh-mute, 0.5);
+  line-height: 3.5rem;
+  font-size: 3rem;
+  font-family: 'Patua One';
+  position: relative;
+  & > span {
+    // color: rgba(0, 0, 0, .80);
+    color: $dh-text;
+  }
+
+  .toggle {
+    // https://stackoverflow.com/a/36285419/346701 batter to Official
+    @extend %fa-icon;
+    @extend .far;
+    @extend .fa-meh-blank;
+    font-size: 2.4rem;
+    position: relative;
+    bottom: 2px;
+    cursor: pointer;
+  }
+}
+
+.subtitle {
+  min-height: 2.5rem;
+  .text {
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, .20);
+    line-height: 2.5rem;
+    font-size: 2rem;
+    font-family: 'Kreon';
+    white-space: nowrap;
+    & > .adjective {
+      color: $primary
+    }
+  }
+}
+
+// @media (prefers-color-scheme: dark) {
+//   .brand {
+//     color: invert(rgba(0, 0, 0, .40));
+//     & > span {
+//       color: invert(rgba(0, 0, 0, .80));
+//     }
+//   }
+//   .subtitle {
+//     .text {
+//       color: invert(rgba(0, 0, 0, .20));
+//       & > .adjective {
+//         color: invert($primary);
+//       }
+//     }
+//   }
+// }

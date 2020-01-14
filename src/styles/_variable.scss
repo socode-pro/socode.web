@@ -1,0 +1,149 @@
+@charset "utf-8";
+
+// https://ionicons.com https://github.com/rstacruz/ionicons-inline
+// @import '~ionicons-inline/dist/ionicons';
+
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+// @import '~@fortawesome/fontawesome-free/scss/brands';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+// plus icons: https://www.iconfont.cn/collections/detail?cid=17211
+
+
+// https://github.com/modularscale/modularscale-sass
+@import '~modularscale-sass/stylesheets/modularscale';
+$modularscale: (
+  base: 14px, ratio: 1.2,
+  480px: (base: 13px, ratio: 1.15),
+  768px: (base: 14px, ratio: 1.16),
+  1280px: (base: 14px, ratio: 1.17)
+);
+
+
+$primary: #745fb5;
+$primary-light: #9a6dbb;
+$primary-light2: lighten($primary-light, 15%) !default;
+$primary-dark: #5f4aa1;
+$primary-dark2: darken($primary-dark, 15%) !default;
+
+$secondary: #26648e;
+$secondary2: adjust-color($secondary, $lightness: 16%, $hue: -20deg);
+$tertiary: #14af83;
+
+$dh-body: #f1f3f5;
+$dh-head: #111;
+$dh-text: #345;
+$dh-mute: #678;
+$bulma-grey-light: #D0D1CD;
+$highlight: #f8f8f8;
+
+$line: rgba($dh-mute, 0.05);
+$line-dark: rgba($dh-mute, 0.2);
+
+$naka:      rgb(63,63,63) !default;
+$gray:      rgb(110,110,110) !default;
+$red:       rgb(221,56,35) !default;
+$orange:	  rgb(204,102,0) !default;
+$yellow:    rgb(255, 246, 168) !default;
+$green:     rgb(41,132,90) !default;
+$blue:      rgb(24,96,192) !default;
+$pink:      #FA7C91;
+
+$primary-gradient: linear-gradient(5deg, $primary, adjust-color($primary, $lightness: 2%, $hue: 16deg));
+
+$fontsize: 14px;
+$fontsize-small: 13px;
+$fontsize-head: 16px;
+
+$font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+$font-mono: cousine, 'SFMono-Regular', Consolas, Menlo, 'Liberation Mono', 'Ubuntu Mono', Courier, monospace;
+
+$shadow2:
+  0 1px 1px rgba($dh-mute, 0.55);
+
+$shadow3:
+  0 6px 8px rgba($dh-mute, 0.03),
+  0 1px 2px rgba($dh-mute, 0.30);
+
+$shadow3_invert:
+  0 6px 8px rgba(invert($dh-mute), 0.03),
+  0 1px 2px rgba(invert($dh-mute), 0.30);
+
+$shadow6:
+  0 6px 8px rgba($dh-mute, 0.03),
+  0 1px 2px rgba($dh-mute, 0.30),
+  0 8px 12px rgba($secondary2, 0.1);
+
+$shadow_ionic:
+  0 3px 6px 0 rgba(0,0,0,.1),
+  0 1px 3px 0 rgba(0,0,0,.08);
+$shadow_ionic_focus:
+  0 6px 12px 0 rgba(0,0,0,.1),
+  0 1px 3px 0 rgba(0,0,0,.08);
+
+$shadow_ionic_invert:
+  0 3px 6px 0 rgba(255,255,255,.1),
+  0 1px 3px 0 rgba(255,255,255,.08);
+$shadow_ionic_focus_invert:
+  0 6px 12px 0 rgba(255,255,255,.1),
+  0 1px 3px 0 rgba(255,255,255,.08);
+
+@mixin ion-base {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@mixin text-hide {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+
+// Requires inline-block or block
+@mixin ellipsis() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// https://getbootstrap.com/docs/4.3/utilities/stretched-link/
+// https://github.com/twbs/bootstrap/blob/master/scss/utilities/_stretched-link.scss
+@mixin stretched-link() {
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: auto;
+    content: "";
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+@mixin split-line($prefix, $color) {
+  position: relative;
+  &:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    transform-origin: center;
+    box-sizing: border-box;
+    pointer-events: none;
+    left: $prefix;
+    right: 0;
+    bottom: 0;
+    transform: scaleY(0.5);
+    border-bottom: 1PX solid $color;
+  }
+}
+
+@mixin active-color() {
+  transition: background-color 0.3s;
+  &:active {
+    background-color: #F0F0F0;
+  }
+}
