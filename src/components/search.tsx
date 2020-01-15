@@ -27,7 +27,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [autocomplate, setAutocomplate] = useState<Array<string>>([])
   const [acIndex, setAcIndex] = useState(-1)
   const [acDisplay, setAcDisplay] = useState(false)
-  const inputEl = useRef<HTMLInputElement & { onsearch: (e: any)=> void }>(null)
+  const inputEl = useRef<HTMLInputElement & { onsearch: (e: InputEvent)=> void }>(null)
 
   const searchAction = useStoreActions(actions => actions.search.search)
   const setResultAction = useStoreActions(actions => actions.search.setResult)
@@ -76,8 +76,8 @@ const SearchInput: React.FC = (): JSX.Element => {
   const handlerSearch = useCallback(e => {
     setAcIndex(-1)
     setAutocomplate([])
-    searchSubmit(e.target.value)
-    e.target.blur()
+    searchSubmit(e.target?.value)
+    e.target?.blur()
   }, [searchSubmit])
 
   if (inputEl.current !== null)
