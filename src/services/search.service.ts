@@ -5,6 +5,7 @@ import * as env from '../env'
 const axiosInstance = axios.create({
   // https://github.com/axios/axios#request-config
   timeout: 5000,
+  headers: { 'Access-Control-Allow-Origin': '*' }
 })
 
 export enum SearchTimeRange {
@@ -107,7 +108,9 @@ export const Autocompleter = async (q: string): Promise<Array<string>> => {
   try {
     const response = await axiosInstance.get<Array<string>>(`${env.host()}/autocompleter`, {
       params: { q },
-      // headers: { Cookie: 'autocomplete=google;' }
+      // headers: {
+      //   Cookie: 'autocomplete=google;',
+      // }
     })
     return response.data
   } catch (error) {
