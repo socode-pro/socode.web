@@ -181,16 +181,16 @@ const SearchInput: React.FC = (): JSX.Element => {
 
           {result.paging && <div className={cs(css.pagination, 'field has-addons')}>
             {pageno !== 1 && <p className="control">
-              <a className="button" onClick={() => { setPageno(pageno - 1); window.scrollTo({ top: 0 }) }}>
+              <button type="button" className="button is-rounded" onClick={() => { setPageno(pageno - 1); window.scrollTo({ top: 0 }) }}>
                 <span className="icon"><i className={css.pagePrevious} /></span>
                 <span>Previous Page</span>
-              </a>
+              </button>
             </p>}
             <p className="control">
-              <a className="button" onClick={() => { setPageno(pageno + 1); window.scrollTo({ top: 0 }) }}>
+              <button type="button" className="button is-rounded" onClick={() => { setPageno(pageno + 1); window.scrollTo({ top: 0 }) }}>
                 <span>Next Page</span>
                 <span className="icon"><i className={css.pageNext} /></span>
-              </a>
+              </button>
             </p>
           </div>}
 
