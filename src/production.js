@@ -1,3 +1,3 @@
 export default {
-  HOST: 'http://search.socode.pro'
+  HOST: 'https://search.socode.pro'
 }
