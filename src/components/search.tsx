@@ -73,6 +73,12 @@ const SearchInput: React.FC = (): JSX.Element => {
   //   }
   // }, [searchSubmit])
 
+  const closeResult = useCallback(() => {
+    setAcIndex(-1)
+    setAutocomplate([])
+    searchSubmit('')
+  }, [searchSubmit])
+
   const handlerSearch = useCallback(e => {
     setAcIndex(-1)
     setAutocomplate([])
@@ -195,6 +201,10 @@ const SearchInput: React.FC = (): JSX.Element => {
           </div>}
 
           {result.results.length === 0 && <div className={css.notFound} />}
+        </div>}
+
+        {result !== null && <div className={css.closer} onClick={closeResult}>
+          <a className="delete is-medium" />
         </div>}
       </animated.div>
     </>

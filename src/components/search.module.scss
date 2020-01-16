@@ -180,6 +180,25 @@
   height: 200px;
 }
 
+div.closer {
+  position: absolute;
+  top: 0;
+  right: -40px;
+  width: 40px;
+  height: 100%;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+  &:hover {
+    opacity: 1;
+    background: linear-gradient(to left, $dh-body, rgba(0,0,0,.1));
+  }
+  & > a {
+    margin-top: 20px;
+    margin-left: 10px;
+  }
+}
+
 // @media (prefers-color-scheme: dark) {
 //   .searchWapper {
 //     background: #000;
