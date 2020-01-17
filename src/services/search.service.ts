@@ -65,6 +65,7 @@ const Sites = [
   'w3schools.com',
   'mozilla.org',
   'eslint.org',
+  '30secondsofcode.org',
   'mysql.com',
   'docker.com',
   'segmentfault.com',

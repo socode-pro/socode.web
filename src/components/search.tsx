@@ -76,12 +76,14 @@ const SearchInput: React.FC = (): JSX.Element => {
   const closeResult = useCallback(() => {
     setAcIndex(-1)
     setAutocomplate([])
+    setPageno(1)
     searchSubmit('')
   }, [searchSubmit])
 
   const handlerSearch = useCallback(e => {
     setAcIndex(-1)
     setAutocomplate([])
+    setPageno(1)
     searchSubmit(e.target?.value)
     e.target?.blur()
   }, [searchSubmit])
@@ -106,6 +108,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const autocomplateClick = useCallback((a) => {
     setAcIndex(-1)
     setAutocomplate([])
+    setPageno(1)
     searchSubmit(a)
   }, [searchSubmit])
 
