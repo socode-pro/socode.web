@@ -20,8 +20,9 @@
     // https://stackoverflow.com/a/36285419/346701 batter to Official
     @extend %fa-icon;
     @extend .far;
-    @extend .fa-meh-blank;
-    font-size: 2.4rem;
+    @extend .fa-compass;
+    // font-size: 2.4rem;
+    font-size: 2.3rem;
     position: relative;
     bottom: 2px;
     cursor: pointer;
