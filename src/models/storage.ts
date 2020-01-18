@@ -19,7 +19,9 @@ export interface StorageModel {
 }
 
 const storageModel: StorageModel = {
-  values: { language: SearchLanguage.English },
+  values: {
+    language: navigator.language.includes('zh') ? SearchLanguage.中文 : SearchLanguage.English
+  },
 
   set: action((state, payload) => {
     state.values = { ...state.values, ...payload }

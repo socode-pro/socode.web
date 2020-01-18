@@ -19,7 +19,6 @@
   height: 64px;
   align-items: center;
   & > .input {
-    font-family: $font-sans;
     @include ms-respond(font-size, 2);
     padding: 16px 0;
     height: 64px;
@@ -196,6 +195,21 @@ div.closer {
   & > a {
     margin-top: 20px;
     margin-left: 10px;
+  }
+}
+
+.slogan {
+  position: absolute;
+  bottom: -35px;
+  width: 100%;
+  text-align: center;
+  word-spacing: 0.5em;
+  color: $dh-mute;
+  font-family: "Bree Serif", sans-serif;
+  // font-family: "Kreon", sans-serif;
+  // font-family: "Patua One", sans-serif;
+  &.zh {
+    letter-spacing: 1em;
   }
 }
 

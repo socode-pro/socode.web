@@ -38,7 +38,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
   const storage = useStoreState<StorageType>(state => state.storage.values)
   const getAllStorage = useStoreActions(actions => actions.storage.getAllStorage)
-  useEffect(() => { getAllStorage() }, [])
+  useEffect(() => { getAllStorage() }, [getAllStorage])
 
   const { wapperTop } = useSpring({
     wapperTop: result?.results.length? -5: (displaySubtitle? 150: 130),
@@ -214,6 +214,10 @@ const SearchInput: React.FC = (): JSX.Element => {
         {result !== null && <div className={css.closer} onClick={closeResult}>
           <a className="delete is-medium" />
         </div>}
+
+        {result === null && <p className={cs(css.slogan, { [css.zh]: storage.language !== SearchLanguage.English })}>
+          {storage.language === SearchLanguage.English ? 'A search engine for programmers' : '给程序员用的搜索引擎'}
+        </p>}
       </animated.div>
     </>
   )
