@@ -46,6 +46,7 @@
     "import/no-cycle": "warn", // import/no-cycle: https://github.com/benmosher/eslint-plugin-import/issues/1453,
     "no-param-reassign": ["warn", { "props": false }],
     "no-nested-ternary": "off",
-    "no-unused-expressions": ["warn", { "allowShortCircuit": true, "allowTernary": true }]
+    "no-unused-expressions": ["warn", { "allowShortCircuit": true, "allowTernary": true }],
+    "no-restricted-syntax": "off"
   }
 }

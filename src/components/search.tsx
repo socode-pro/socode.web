@@ -9,6 +9,7 @@ import useHotkeys from '../utils/useHotkeys'
 import { EnumObjects } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { SearchParam, SearchLanguage, SearchTimeRange, Autocompleter, SearchResult } from '../services/search.service'
+import { StorageType } from '../models/storage'
 import css from './search.module.scss'
 import Loader1 from './loader/loader1'
 // import Loader2 from './loader/loader2'
@@ -21,7 +22,6 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [displaySubtitle, setDisplaySubtitle] = useState(false)
   const [focus, setFocus] = useState(false)
   const [squery, setSquery] = useState('')
-  const [language, setLanguage] = useState<SearchLanguage>(SearchLanguage.English)
   const [timeRange, setTimeRange] = useState<SearchTimeRange>(SearchTimeRange.Anytime)
   const [pageno, setPageno] = useState(1)
   const [autocomplate, setAutocomplate] = useState<Array<string>>([])
@@ -34,6 +34,11 @@ const SearchInput: React.FC = (): JSX.Element => {
   const result = useStoreState<SearchResult | null>(state => state.search.result)
   const loading = useStoreState<boolean>(state => state.search.loading)
   const error = useStoreState<AxiosError | null>(state => state.search.error)
+
+  const setStorage = useStoreActions(actions => actions.storage.setStorage)
+  const storage = useStoreState<StorageType>(state => state.storage.values)
+  const getAllStorage = useStoreActions(actions => actions.storage.getAllStorage)
+  useEffect(() => { getAllStorage() }, [])
 
   const { wapperTop } = useSpring({
     wapperTop: result?.results.length? -5: (displaySubtitle? 150: 130),
@@ -49,9 +54,9 @@ const SearchInput: React.FC = (): JSX.Element => {
       setResultAction(null)
       return
     }
-    const param = { query, language, timeRange, pageno } as SearchParam
+    const param = { query, language: storage.language, timeRange, pageno } as SearchParam
     await searchAction(param)
-  }, [squery, language, timeRange, pageno, searchAction, setResultAction])
+  }, [squery, storage.language, timeRange, pageno, searchAction, setResultAction])
 
   const throttleAutocomplate = useCallback(throttle<(value: any) => Promise<void>>(async (value) => {
     setAcIndex(-1)
@@ -120,7 +125,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   useEffect(() => {
     searchSubmit()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language, timeRange, pageno])
+  }, [storage.language, timeRange, pageno])
 
   return (
     <>
@@ -150,7 +155,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           </div>}
 
           <div className="select is-rounded mgl10">
-            <select value={language} onChange={e => setLanguage(e.target.value as SearchLanguage)}>
+            <select value={storage.language} onChange={e => setStorage({ language: e.target.value as SearchLanguage })}>
               {languageOptions.map(o => (<option key={o.value} value={o.value}>{o.label}</option>))}
             </select>
           </div>

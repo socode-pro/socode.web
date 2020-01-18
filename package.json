@@ -2,7 +2,7 @@
   "name": "socode.web",
   "version": "0.1.0",
   "private": true,
-  "homepage" : "https://socode.pro",
+  "homepage": "https://socode.pro",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.12.0",
     "@huchenme/github-trending": "^2.2.0",
