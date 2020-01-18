@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, Dispatch, SetStateAction } from 'react'
 import { useSpring, animated, to } from 'react-spring'
-import { useMediaPredicate } from 'react-media-hook'
+// import { useMediaPredicate } from 'react-media-hook'
 import cs from 'classnames'
 import css from './brand.module.scss'
 

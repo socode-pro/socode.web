@@ -37,8 +37,6 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
   const storage = useStoreState<StorageType>(state => state.storage.values)
-  const getAllStorage = useStoreActions(actions => actions.storage.getAllStorage)
-  useEffect(() => { getAllStorage() }, [getAllStorage])
 
   const { wapperTop } = useSpring({
     wapperTop: result?.results.length? -5: (displaySubtitle? 150: 130),
