@@ -19,7 +19,7 @@ export interface StorageModel {
 }
 
 const storageModel: StorageModel = {
-  values: { language: SearchLanguage.中文 },
+  values: { language: SearchLanguage.English },
 
   set: action((state, payload) => {
     state.values = { ...state.values, ...payload }
@@ -27,9 +27,9 @@ const storageModel: StorageModel = {
 
   getAllStorage: action((state) => {
     try {
-      storageKeys.forEach(k => {
-        const value = localStorage.getItem(`socode_${k}`)
-        state.values = { ...state.values, ...{ k: value } }
+      storageKeys.forEach(key => {
+        const value = localStorage.getItem(`socode_${key}`)
+        state.values = { ...state.values, ...{ [key]: value } }
       })
     } catch (err) {
       console.error(err)
@@ -40,7 +40,7 @@ const storageModel: StorageModel = {
     try {
       for (const [key, value] of Object.entries(payload)) {
         localStorage.setItem(`socode_${key}`, value)
-        state.values = { ...state.values, ...{ key: value } }
+        state.values = { ...state.values, ...{ [key]: value } }
       }
     } catch (err) {
       console.error(err)

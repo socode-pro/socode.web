@@ -75,6 +75,7 @@ const Sites = [
   'cnblogs.com',
   'v2ex.com',
   'juejin.im',
+  'jianshu.com',
   // 'csdn.net',
   // 'codecademy.com',
   // 'freecodecamp.org',
