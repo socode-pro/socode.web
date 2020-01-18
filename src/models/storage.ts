@@ -31,7 +31,8 @@ const storageModel: StorageModel = {
     try {
       storageKeys.forEach(key => {
         const value = localStorage.getItem(`socode_${key}`)
-        state.values = { ...state.values, ...{ [key]: value } }
+        if (value)
+          state.values = { ...state.values, ...{ [key]: value } }
       })
     } catch (err) {
       console.error(err)
