@@ -5,17 +5,19 @@ import { AxiosError } from 'axios'
 import cs from 'classnames'
 import Highlighter from 'react-highlight-words'
 import Brand from './brand'
+import Language from '../utils/language'
+import useIntl, { Words } from '../utils/useIntl'
 import useHotkeys from '../utils/useHotkeys'
 import { EnumObjects } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
-import { SearchParam, SearchLanguage, SearchTimeRange, Autocompleter, SearchResult } from '../services/search.service'
+import { SearchParam, SearchTimeRange, Autocompleter, SearchResult } from '../services/search.service'
 import { StorageType } from '../models/storage'
 import css from './search.module.scss'
 import Loader1 from './loader/loader1'
 // import Loader2 from './loader/loader2'
 // import Loader3 from './loader/loader3'
 
-const languageOptions = EnumObjects(SearchLanguage)
+const languageOptions = EnumObjects(Language)
 const timeRangeOptions = EnumObjects(SearchTimeRange)
 
 const SearchInput: React.FC = (): JSX.Element => {
@@ -28,6 +30,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [acIndex, setAcIndex] = useState(-1)
   const [acDisplay, setAcDisplay] = useState(false)
   const inputEl = useRef<HTMLInputElement & { onsearch: (e: InputEvent)=> void }>(null)
+  const slogon = useIntl(Words.ASearchEngineForProgrammers)
 
   const searchAction = useStoreActions(actions => actions.search.search)
   const setResultAction = useStoreActions(actions => actions.search.setResult)
@@ -153,7 +156,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           </div>}
 
           <div className="select is-rounded mgl10">
-            <select value={storage.language} onChange={e => setStorage({ language: e.target.value as SearchLanguage })}>
+            <select value={storage.language} onChange={e => setStorage({ language: e.target.value as Language })}>
               {languageOptions.map(o => (<option key={o.value} value={o.value}>{o.label}</option>))}
             </select>
           </div>
@@ -213,8 +216,8 @@ const SearchInput: React.FC = (): JSX.Element => {
           <a className="delete is-medium" />
         </div>}
 
-        {result === null && <p className={cs(css.slogan, { [css.zh]: storage.language !== SearchLanguage.English })}>
-          {storage.language === SearchLanguage.English ? 'A search engine for programmers' : '给程序员用的搜索引擎'}
+        {result === null && <p className={cs(css.slogan, { [css.zh]: storage.language !== Language.English })}>
+          {slogon}
         </p>}
       </animated.div>
     </>

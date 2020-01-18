@@ -1,5 +1,6 @@
 import React from 'react'
 import Brand from './components/brand'
+import useIntl, { Words } from './utils/useIntl'
 import './Privacy.scss'
 
 const Privacy: React.FC = () => {
@@ -7,8 +8,8 @@ const Privacy: React.FC = () => {
   return (
     <div className='container'>
       <Brand />
-      <h1 className="title">隐私政策</h1>
-      <h2 className="subtitle">我们不收集或共享个人信息。简而言之，这就是我们的隐私政策。</h2>
+      <h1 className="title mgt40">{useIntl(Words.PrivacyPolicy)}</h1>
+      <h2 className="subtitle">{useIntl(Words.PrivacyPolicyContent)}</h2>
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios'
 import qs from 'qs'
 import * as env from '../env'
+import Language from '../utils/language'
 
 const axiosInstance = axios.create({
   // https://github.com/axios/axios#request-config
@@ -14,11 +15,6 @@ export enum SearchTimeRange {
   Week = 'week',
   Month = 'month',
   Year = 'year',
-}
-
-export enum SearchLanguage {
-  English = 'en',
-  中文 = 'zh'
 }
 
 export interface SearchResult {
@@ -39,7 +35,7 @@ export interface SearchItem {
 export interface SearchParam {
   query: string,
   timeRange?: SearchTimeRange
-  language?: SearchLanguage
+  language?: Language
   pageno?: number
 }
 
@@ -88,7 +84,7 @@ const Sites = [
 export const search = async ({
   query,
   timeRange = SearchTimeRange.Anytime,
-  language = SearchLanguage.English,
+  language = Language.English,
   pageno = 1
 }: SearchParam): Promise<SearchResult | null> => {
   const q = `${query} site:${Sites.join(' OR site:')}`
