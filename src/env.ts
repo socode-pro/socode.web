@@ -9,11 +9,11 @@ interface EnvVariable {
 let variable: EnvVariable
 
 export interface ProxyOptions {
-  protocol: string;
-  host: string;
-  port: number;
-  auth: string;
-  urlRegex: string;
+  protocol: string
+  host: string
+  port: number
+  auth: string
+  urlRegex: string
 }
 
 // https://docs.nestjs.cn/6/techniques?id=%e9%aa%8c%e8%af%81-1
@@ -30,33 +30,30 @@ const validateInput = (vars: EnvVariable): EnvVariable => {
     PROXY_PORT: Joi.number().optional(),
     PROXY_AUTH: Joi.string().optional(),
     PROXY_URL_REGEX: Joi.string().optional(),
-  });
+  })
 
-  const { error, value: validatedVariables } = Joi.validate(
-    vars,
-    varsSchema,
-  );
+  const { error, value: validatedVariables } = Joi.validate(vars, varsSchema)
 
   if (error) {
-    throw new Error(`Config validation error: ${error.message}`);
+    throw new Error(`Config validation error: ${error.message}`)
   }
 
-  return validatedVariables;
+  return validatedVariables
 }
 
 switch (process.env.NODE_ENV || 'development') {
   case 'development':
     variable = validateInput(development)
-    break;
+    break
   case 'production':
     variable = validateInput(production)
-    break;
+    break
   default:
     throw new Error('config null')
 }
 
 export const host = (): string => {
-  return variable.HOST;
+  return variable.HOST
 }
 
 export const proxy = (): ProxyOptions => {
@@ -66,9 +63,9 @@ export const proxy = (): ProxyOptions => {
     port: +variable.PROXY_PORT,
     auth: variable.PROXY_AUTH,
     urlRegex: variable.PROXY_URL_REGEX || '.*',
-  };
+  }
 }
 
 export const get = (key: string): any => {
-  return variable[key];
+  return variable[key]
 }
