@@ -29,7 +29,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [autocomplate, setAutocomplate] = useState<Array<string>>([])
   const [acIndex, setAcIndex] = useState(-1)
   const [acDisplay, setAcDisplay] = useState(false)
-  const inputEl = useRef<HTMLInputElement & { onsearch: (e: InputEvent)=> void }>(null)
+  const inputEl = useRef<HTMLInputElement & { onsearch: (e: InputEvent) => void }>(null)
   const slogon = useIntl(Words.ASearchEngineForProgrammers)
 
   const searchAction = useStoreActions(actions => actions.search.search)
@@ -42,37 +42,46 @@ const SearchInput: React.FC = (): JSX.Element => {
   const storage = useStoreState<StorageType>(state => state.storage.values)
 
   const { wapperTop } = useSpring({
-    wapperTop: result?.results.length? -5: (displaySubtitle? 150: 130),
+    wapperTop: result?.results.length ? -5 : displaySubtitle ? 150 : 130,
   })
 
-  const searchSubmit = useCallback(async (q?) => {
-    let query = squery
-    if (q !== undefined) {
-      setSquery(q)
-      query = q
-    }
-    if (!query) {
-      setResultAction(null)
-      return
-    }
-    const param = { query, language: storage.language, timeRange, pageno } as SearchParam
-    await searchAction(param)
-  }, [squery, storage.language, timeRange, pageno, searchAction, setResultAction])
+  const searchSubmit = useCallback(
+    async (q?) => {
+      let query = squery
+      if (q !== undefined) {
+        setSquery(q)
+        query = q
+      }
+      if (!query) {
+        setResultAction(null)
+        return
+      }
+      const param = { query, language: storage.language, timeRange, pageno } as SearchParam
+      await searchAction(param)
+    },
+    [squery, storage.language, timeRange, pageno, searchAction, setResultAction]
+  )
 
-  const throttleAutocomplate = useCallback(throttle<(value: any) => Promise<void>>(async (value) => {
-    setAcIndex(-1)
-    if (value) {
-      const words = await Autocompleter(value)
-      setAutocomplate(words)
-    } else {
-      setAutocomplate([])
-    }
-  }, 500), [])
+  const throttleAutocomplate = useCallback(
+    throttle<(value: any) => Promise<void>>(async value => {
+      setAcIndex(-1)
+      if (value) {
+        const words = await Autocompleter(value)
+        setAutocomplate(words)
+      } else {
+        setAutocomplate([])
+      }
+    }, 500),
+    []
+  )
 
-  const handleQueryChange = useCallback(e => {
-    setSquery(e.target.value)
-    throttleAutocomplate(e.target.value)
-  }, [throttleAutocomplate])
+  const handleQueryChange = useCallback(
+    e => {
+      setSquery(e.target.value)
+      throttleAutocomplate(e.target.value)
+    },
+    [throttleAutocomplate]
+  )
 
   // const handleQueryKeyPress = useCallback((e) => {
   //   if (e.key === 'Enter') {
@@ -86,41 +95,58 @@ const SearchInput: React.FC = (): JSX.Element => {
     searchSubmit('')
   }, [searchSubmit])
 
-  const handlerSearch = useCallback(e => {
-    setAcIndex(-1)
-    setAutocomplate([])
-    setPageno(1)
-    searchSubmit(e.target?.value)
-    e.target?.blur()
-  }, [searchSubmit])
+  const handlerSearch = useCallback(
+    e => {
+      setAcIndex(-1)
+      setAutocomplate([])
+      setPageno(1)
+      searchSubmit(e.target?.value)
+      e.target?.blur()
+    },
+    [searchSubmit]
+  )
 
-  if (inputEl.current !== null)
-    inputEl.current.onsearch = handlerSearch
+  if (inputEl.current !== null) inputEl.current.onsearch = handlerSearch
 
-  useHotkeys('/', () => {
-    inputEl.current?.focus()
-    return false
-  }, [], ['BODY'])
+  useHotkeys(
+    '/',
+    () => {
+      inputEl.current?.focus()
+      return false
+    },
+    [],
+    ['BODY']
+  )
 
-  useHotkeys('down', () => {
-    if (autocomplate.length > acIndex + 1)
-      setAcIndex(acIndex + 1)
-  }, [acIndex, autocomplate], [css.input])
-  useHotkeys('up', () => {
-    if (acIndex >= 0)
-      setAcIndex(acIndex - 1)
-  }, [acIndex], [css.input])
+  useHotkeys(
+    'down',
+    () => {
+      if (autocomplate.length > acIndex + 1) setAcIndex(acIndex + 1)
+    },
+    [acIndex, autocomplate],
+    [css.input]
+  )
+  useHotkeys(
+    'up',
+    () => {
+      if (acIndex >= 0) setAcIndex(acIndex - 1)
+    },
+    [acIndex],
+    [css.input]
+  )
 
-  const autocomplateClick = useCallback((a) => {
-    setAcIndex(-1)
-    setAutocomplate([])
-    setPageno(1)
-    searchSubmit(a)
-  }, [searchSubmit])
+  const autocomplateClick = useCallback(
+    a => {
+      setAcIndex(-1)
+      setAutocomplate([])
+      setPageno(1)
+      searchSubmit(a)
+    },
+    [searchSubmit]
+  )
 
   useEffect(() => {
-    if (acIndex >= 0 && autocomplate.length > 0)
-      setSquery(autocomplate[acIndex]) // warn: acIndex must '-1' when autocomplate arr init
+    if (acIndex >= 0 && autocomplate.length > 0) setSquery(autocomplate[acIndex]) // warn: acIndex must '-1' when autocomplate arr init
   }, [acIndex, autocomplate])
 
   useEffect(() => {
@@ -131,33 +157,56 @@ const SearchInput: React.FC = (): JSX.Element => {
   return (
     <>
       <Brand onDisplaySubtitle={setDisplaySubtitle} />
-      <animated.div className={cs(css.searchWapper, { [css.focus]: focus })} style={{
-        top: wapperTop,
-      }}>
+      <animated.div
+        className={cs(css.searchWapper, { [css.focus]: focus })}
+        style={{
+          top: wapperTop,
+        }}
+      >
         <div className={css.searchInput}>
           <span className={css.prefix}>socode.pro</span>
           <span className={css.sep}>$</span>
 
-          <input type="search" className={css.input} spellCheck={false} value={squery}
+          <input
+            type="search"
+            className={css.input}
+            spellCheck={false}
+            value={squery}
             autoFocus
             // name="q"
-            onBlur={() => { setFocus(false); setTimeout(() => setAcDisplay(false), 500) }} // fix autocomplateClick
-            onFocus={() => { setFocus(true); setAcDisplay(true) }}
+            onBlur={() => {
+              setFocus(false)
+              setTimeout(() => setAcDisplay(false), 500)
+            }} // fix autocomplateClick
+            onFocus={() => {
+              setFocus(true)
+              setAcDisplay(true)
+            }}
             onChange={handleQueryChange}
             ref={inputEl} // https://stackoverflow.com/a/48656310/346701
-          // onKeyPress={handleQueryKeyPress}
+            // onKeyPress={handleQueryKeyPress}
           />
 
-          {result !== null && <div className="select is-rounded mgl10">
-            {/* https://www.typescriptlang.org/docs/handbook/jsx.html#the-as-operator */}
-            <select value={timeRange} onChange={e => setTimeRange(e.target.value as SearchTimeRange)}>
-              {timeRangeOptions.map(o => (<option key={o.value} value={o.value}>{o.label}</option>))}
-            </select>
-          </div>}
+          {result !== null && (
+            <div className="select is-rounded mgl10">
+              {/* https://www.typescriptlang.org/docs/handbook/jsx.html#the-as-operator */}
+              <select value={timeRange} onChange={e => setTimeRange(e.target.value as SearchTimeRange)}>
+                {timeRangeOptions.map(o => (
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
           <div className="select is-rounded mgl10">
             <select value={storage.language} onChange={e => setStorage({ language: e.target.value as Language })}>
-              {languageOptions.map(o => (<option key={o.value} value={o.value}>{o.label}</option>))}
+              {languageOptions.map(o => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
             </select>
           </div>
           <i className={css.sicon} onClick={() => searchSubmit()} />
@@ -167,7 +216,15 @@ const SearchInput: React.FC = (): JSX.Element => {
           <div className="dropdown-menu">
             <div className="dropdown-content">
               {autocomplate.map((a, i) => {
-                return <a key={a} onClick={() => autocomplateClick(a)} className={cs('dropdown-item', { 'is-active': acIndex === i })}>{a}</a>
+                return (
+                  <a
+                    key={a}
+                    onClick={() => autocomplateClick(a)}
+                    className={cs('dropdown-item', { 'is-active': acIndex === i })}
+                  >
+                    {a}
+                  </a>
+                )
               })}
             </div>
           </div>
@@ -179,46 +236,76 @@ const SearchInput: React.FC = (): JSX.Element => {
 
         {error !== null && <div className={css.error}>{error.message}</div>}
 
-        {result !== null && <div className={css.searchResult}>
-          {result.results.map(r =>
-            <div key={r.url} className={css.result}>
-              <h4 className={css.header}><a href={r.url} target="_blank" rel="noopener noreferrer">{r.title}</a></h4>
-              <p className={css.external}>{r.pretty_url}</p>
-              <Highlighter
-                className={css.content}
-                highlightClassName={css.highlighter}
-                searchWords={squery.split(' ')}
-                autoEscape
-                textToHighlight={r.content}
-              />
-            </div>
-          )}
+        {result !== null && (
+          <div className={css.searchResult}>
+            {result.results.map(r => (
+              <div key={r.url} className={css.result}>
+                <h4 className={css.header}>
+                  <a href={r.url} target="_blank" rel="noopener noreferrer">
+                    {r.title}
+                  </a>
+                </h4>
+                <p className={css.external}>{r.pretty_url}</p>
+                <Highlighter
+                  className={css.content}
+                  highlightClassName={css.highlighter}
+                  searchWords={squery.split(' ')}
+                  autoEscape
+                  textToHighlight={r.content}
+                />
+              </div>
+            ))}
 
-          {result.paging && <div className={cs(css.pagination, 'field has-addons')}>
-            {pageno !== 1 && <p className="control">
-              <button type="button" className="button is-rounded" onClick={() => { setPageno(pageno - 1); window.scrollTo({ top: 0 }) }}>
-                <span className="icon"><i className={css.pagePrevious} /></span>
-                <span>Previous Page</span>
-              </button>
-            </p>}
-            <p className="control">
-              <button type="button" className="button is-rounded" onClick={() => { setPageno(pageno + 1); window.scrollTo({ top: 0 }) }}>
-                <span>Next Page</span>
-                <span className="icon"><i className={css.pageNext} /></span>
-              </button>
-            </p>
-          </div>}
+            {result.paging && (
+              <div className={cs(css.pagination, 'field has-addons')}>
+                {pageno !== 1 && (
+                  <p className="control">
+                    <button
+                      type="button"
+                      className="button is-rounded"
+                      onClick={() => {
+                        setPageno(pageno - 1)
+                        window.scrollTo({ top: 0 })
+                      }}
+                    >
+                      <span className="icon">
+                        <i className={css.pagePrevious} />
+                      </span>
+                      <span>Previous Page</span>
+                    </button>
+                  </p>
+                )}
+                <p className="control">
+                  <button
+                    type="button"
+                    className="button is-rounded"
+                    onClick={() => {
+                      setPageno(pageno + 1)
+                      window.scrollTo({ top: 0 })
+                    }}
+                  >
+                    <span>Next Page</span>
+                    <span className="icon">
+                      <i className={css.pageNext} />
+                    </span>
+                  </button>
+                </p>
+              </div>
+            )}
 
-          {result.results.length === 0 && <div className={css.notFound} />}
-        </div>}
+            {result.results.length === 0 && <div className={css.notFound} />}
+          </div>
+        )}
 
-        {result !== null && <div className={css.closer} onClick={closeResult}>
-          <a className="delete is-medium" />
-        </div>}
+        {result !== null && (
+          <div className={css.closer} onClick={closeResult}>
+            <a className="delete is-medium" />
+          </div>
+        )}
 
-        {result === null && <p className={cs(css.slogan, { [css.zh]: storage.language !== Language.English })}>
-          {slogon}
-        </p>}
+        {result === null && (
+          <p className={cs(css.slogan, { [css.zh]: storage.language !== Language.English })}>{slogon}</p>
+        )}
       </animated.div>
     </>
   )
