@@ -20,19 +20,18 @@ export interface StorageModel {
 
 const storageModel: StorageModel = {
   values: {
-    language: navigator.language.includes('zh') ? Language.中文 : Language.English
+    language: navigator.language.includes('zh') ? Language.中文 : Language.English,
   },
 
   set: action((state, payload) => {
     state.values = { ...state.values, ...payload }
   }),
 
-  getAllStorage: action((state) => {
+  getAllStorage: action(state => {
     try {
       storageKeys.forEach(key => {
         const value = localStorage.getItem(`socode_${key}`)
-        if (value)
-          state.values = { ...state.values, ...{ [key]: value } }
+        if (value) state.values = { ...state.values, ...{ [key]: value } }
       })
     } catch (err) {
       console.error(err)
