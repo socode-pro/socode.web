@@ -66,6 +66,8 @@ const Sites = [
   '30secondsofcode.org',
   'mysql.com',
   'docker.com',
+  'ruanyifeng.com',
+  'infoq.cn',
   'segmentfault.com',
   'zhihu.com',
   'oschina.net',
@@ -75,7 +77,6 @@ const Sites = [
   'juejin.im',
   'jianshu.com',
   'weixin.qq.com',
-  'infoq.cn',
 ]
 
 export const search = async ({
