@@ -7,16 +7,13 @@ import Highlighter from 'react-highlight-words'
 import Brand from './brand'
 import Language from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
-import winSearchParams from '../utils/winSearchParams'
 import useHotkeys from '../utils/useHotkeys'
-import { EnumObjects } from '../utils/assist'
+import { EnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { SearchParam, SearchTimeRange, Autocompleter, SearchResult } from '../services/search.service'
 import { StorageType } from '../models/storage'
 import css from './search.module.scss'
 import Loader1 from './loader/loader1'
-// import Loader2 from './loader/loader2'
-// import Loader3 from './loader/loader3'
 
 const languageOptions = EnumObjects(Language)
 const timeRangeOptions = EnumObjects(SearchTimeRange)
@@ -40,7 +37,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const error = useStoreState<AxiosError | null>(state => state.search.error)
 
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
-  const storage = useStoreState<StorageType>(state => state.storage.values)
+  const { language } = useStoreState<StorageType>(state => state.storage.values)
 
   const { wapperTop } = useSpring({
     wapperTop: result?.results.length ? -5 : displaySubtitle ? 150 : 130,
@@ -66,10 +63,10 @@ const SearchInput: React.FC = (): JSX.Element => {
         setResultAction(null)
         return
       }
-      const param = { query, language: storage.language, timeRange, pageno } as SearchParam
+      const param = { query, language, timeRange, pageno } as SearchParam
       await searchAction(param)
     },
-    [storage.language, timeRange, pageno, searchAction, squery, setResultAction]
+    [language, timeRange, pageno, searchAction, squery, setResultAction]
   )
 
   const throttleAutocomplate = useCallback(
@@ -165,10 +162,9 @@ const SearchInput: React.FC = (): JSX.Element => {
   useEffect(() => {
     searchSubmit()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storage.language, timeRange, pageno])
+  }, [language, timeRange, pageno])
 
   useEffect(() => {
-    searchSubmit()
     const popstateSearch = (): void => {
       searchSubmit()
     }
@@ -225,7 +221,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           )}
 
           <div className='select is-rounded mgl10'>
-            <select value={storage.language} onChange={e => setStorage({ language: e.target.value as Language })}>
+            <select value={language} onChange={e => setStorage({ language: e.target.value as Language })}>
               {languageOptions.map(o => (
                 <option key={o.value} value={o.value}>
                   {o.label}
@@ -254,8 +250,6 @@ const SearchInput: React.FC = (): JSX.Element => {
         </div>
 
         {loading && <Loader1 type={2} />}
-        {/* {loading && <Loader2 type={4} />} */}
-        {/* {loading && <Loader3 />} */}
 
         {error !== null && <div className={css.error}>{error.message}</div>}
 
@@ -325,7 +319,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         )}
 
         {result === null && (
-          <p className={cs(css.slogan, { [css.zh]: storage.language !== Language.English })}>{slogon}</p>
+          <p className={cs(css.slogan, { [css.zh]: language !== Language.English })}>{slogon}</p>
         )}
       </animated.div>
     </>
