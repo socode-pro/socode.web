@@ -6,7 +6,7 @@ import Language from '../utils/language'
 const axiosInstance = axios.create({
   // https://github.com/axios/axios#request-config
   timeout: 5000,
-  headers: { 'Access-Control-Allow-Origin': '*' }
+  headers: { 'Access-Control-Allow-Origin': '*' },
 })
 
 export enum SearchTimeRange {
@@ -20,6 +20,7 @@ export enum SearchTimeRange {
 export interface SearchResult {
   paging: boolean
   results: Array<SearchItem>
+  unresponsive_engines?: Array<string[]>
 }
 
 export interface SearchItem {
@@ -27,13 +28,13 @@ export interface SearchItem {
   title: string
   content: string
   engine: string
-  score: 1.0,
-  category: string,
+  score: 1.0
+  category: string
   pretty_url: string
 }
 
 export interface SearchParam {
-  query: string,
+  query: string
   timeRange?: SearchTimeRange
   language?: Language
   pageno?: number
@@ -85,7 +86,7 @@ export const search = async ({
   query,
   timeRange = SearchTimeRange.Anytime,
   language = Language.English,
-  pageno = 1
+  pageno = 1,
 }: SearchParam): Promise<SearchResult | null> => {
   const q = `${query} site:${Sites.join(' OR site:')}`
   try {
@@ -97,9 +98,14 @@ export const search = async ({
         time_range: timeRange,
         language,
         format: 'json',
-        pageno
+        pageno,
       })
     )
+
+    if (response.data.unresponsive_engines) {
+      console.warn(`unresponsive:${JSON.stringify(response.data.unresponsive_engines)}`)
+    }
+
     return response.data
   } catch (error) {
     if (error.isAxiosError) {

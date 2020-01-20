@@ -1,7 +1,7 @@
-@import "sanitize";
-@import "variable";
-@import "animate";
-@import "googlefonts";
+@import 'sanitize';
+@import 'variable';
+@import 'animate';
+@import 'googlefonts';
 
 // https://bulma.io/documentation/customize/with-node-sass/#6-add-your-own-bulma-styles
 $purple: $primary; // #8A4D76;
@@ -21,82 +21,99 @@ $fullhd-enabled: true;
 // $input-shadow: none;
 
 // Import only what you need from Bulma
-@import "~bulma/sass/utilities/_all.sass";
-@import "~bulma/sass/base/_all.sass";
-@import "~bulma/sass/elements/button.sass";
-@import "~bulma/sass/elements/container.sass";
-@import "~bulma/sass/elements/title.sass";
-@import "~bulma/sass/elements/other.sass";
-@import "~bulma/sass/form/_all.sass";
-@import "~bulma/sass/components/navbar.sass";
-@import "~bulma/sass/components/dropdown.sass";
-@import "~bulma/sass/layout/hero.sass";
-@import "~bulma/sass/layout/section.sass";
+@import '~bulma/sass/utilities/_all.sass';
+@import '~bulma/sass/base/_all.sass';
+@import '~bulma/sass/elements/button.sass';
+@import '~bulma/sass/elements/container.sass';
+@import '~bulma/sass/elements/title.sass';
+@import '~bulma/sass/elements/other.sass';
+@import '~bulma/sass/form/_all.sass';
+@import '~bulma/sass/components/navbar.sass';
+@import '~bulma/sass/components/dropdown.sass';
+@import '~bulma/sass/layout/hero.sass';
+@import '~bulma/sass/layout/section.sass';
+// @import '~bulma/sass/layout/footer.sass';
 // ------------------------------------------------------------------------------------
-
 
 $positions: static, relative, absolute, fixed, sticky !default;
 @each $position in $positions {
-  .pos-#{$position} { position: $position !important; }
+  .pos-#{$position} {
+    position: $position !important;
+  }
 }
 
 $preset-displays: none, inline, inline-block, block, table, table-row, table-cell, flex, inline-flex !default;
 @each $value in $preset-displays {
-	.dis-#{$value} { display: $value !important; }
+  .dis-#{$value} {
+    display: $value !important;
+  }
 }
 
 $preset-sizes: (
-	25: 25%,
-	50: 50%,
-	75: 75%,
-	100: 100%,
-	auto: auto
+  25: 25%,
+  50: 50%,
+  75: 75%,
+  100: 100%,
+  auto: auto,
 );
 @each $prop, $abbrev in (width: w, height: h) {
   @each $size, $length in $preset-sizes {
-    .#{$abbrev}#{$size} { #{$prop}: $length !important; }
+    .#{$abbrev}#{$size} {
+      #{$prop}: $length !important;
+    }
   }
 }
 
 $spaces: (
-	5: 5px,
-	10: 10px,
-	20: 20px,
+  5: 5px,
+  10: 10px,
+  20: 20px,
   40: 40px,
-	5v: 5vw,
-	10v: 10vw,
-	20v: 20vw,
+  5v: 5vw,
+  10v: 10vw,
+  20v: 20vw,
   40v: 40vw,
-	1r: 1rem,
-	2r: 2rem,
-	3r: 3rem,
-	4r: 4rem,
-	5r: 5rem,
+  1r: 1rem,
+  2r: 2rem,
+  3r: 3rem,
+  4r: 4rem,
+  5r: 5rem,
 );
 $space-props: (
-	margin: mg,
-	margin-top: mgt,
-	margin-bottom: mgb,
-	margin-left: mgl,
-	margin-right: mgr,
-	padding: pd,
-	padding-top: pdt,
-	padding-bottom: pdb,
-	padding-left: pdl,
-	padding-right: pdr,
+  margin: mg,
+  margin-top: mgt,
+  margin-bottom: mgb,
+  margin-left: mgl,
+  margin-right: mgr,
+  padding: pd,
+  padding-top: pdt,
+  padding-bottom: pdb,
+  padding-left: pdl,
+  padding-right: pdr,
 );
 @each $prop, $abbrev in $space-props {
   @each $space, $value in $spaces {
-    .#{$abbrev}#{$space} { #{$prop}: $value !important; }
+    .#{$abbrev}#{$space} {
+      #{$prop}: $value !important;
+    }
   }
 }
 
-.hide { visibility: hidden; }
-.hide-im { visibility: hidden !important; }
-.pnt { cursor: pointer; }
-.stretched-link { @include stretched-link() }
+.hide {
+  visibility: hidden;
+}
+.hide-im {
+  visibility: hidden !important;
+}
+.pnt {
+  cursor: pointer;
+}
+.stretched-link {
+  @include stretched-link();
+}
 
-html,body {
+html,
+body {
   background: $dh-body;
   font-family: $font-sans;
   font-size: $fontsize;
@@ -104,13 +121,19 @@ html,body {
   color: #345;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Roboto Slab";
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Roboto Slab';
 }
 
-pre, code {
+pre,
+code {
   font-family: $font-mono;
-  letter-spacing: -.03em;
+  letter-spacing: -0.03em;
 }
 
 // @media (prefers-color-scheme: dark) {
@@ -130,17 +153,28 @@ a.link {
 }
 
 html.WithJs {
-  & .pages-list, & .post-content {
-    opacity: .4
+  & .pages-list,
+  & .post-content {
+    opacity: 0.4;
   }
   &.LoadDone {
-    & .pages-list, & .post-content {
+    & .pages-list,
+    & .post-content {
       opacity: 1;
-      transition: opacity 100ms linear 100ms
+      transition: opacity 100ms linear 100ms;
     }
   }
 }
 
 .app {
   height: 100vh;
+  & > .container {
+    height: 100vh;
+  }
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }

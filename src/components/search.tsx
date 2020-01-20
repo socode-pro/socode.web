@@ -7,6 +7,7 @@ import Highlighter from 'react-highlight-words'
 import Brand from './brand'
 import Language from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
+import winSearchParams from '../utils/winSearchParams'
 import useHotkeys from '../utils/useHotkeys'
 import { EnumObjects } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
@@ -46,12 +47,21 @@ const SearchInput: React.FC = (): JSX.Element => {
   })
 
   const searchSubmit = useCallback(
-    async (q?) => {
-      let query = squery
+    async (q?: string) => {
+      let query: string | null = null
       if (q !== undefined) {
-        setSquery(q)
         query = q
+        setSquery(q)
+      } else if (squery) {
+        query = squery
+      } else {
+        const searchParams = new URLSearchParams(window.location.search)
+        if (searchParams.has('q')) {
+          query = searchParams.get('q') || ''
+          setSquery(query)
+        }
       }
+
       if (!query) {
         setResultAction(null)
         return
@@ -59,7 +69,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       const param = { query, language: storage.language, timeRange, pageno } as SearchParam
       await searchAction(param)
     },
-    [squery, storage.language, timeRange, pageno, searchAction, setResultAction]
+    [storage.language, timeRange, pageno, searchAction, squery, setResultAction]
   )
 
   const throttleAutocomplate = useCallback(
@@ -93,6 +103,7 @@ const SearchInput: React.FC = (): JSX.Element => {
     setAutocomplate([])
     setPageno(1)
     searchSubmit('')
+    winSearchParams('')
   }, [searchSubmit])
 
   const handlerSearch = useCallback(
@@ -101,6 +112,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       setAutocomplate([])
       setPageno(1)
       searchSubmit(e.target?.value)
+      winSearchParams(e.target?.value)
       e.target?.blur()
     },
     [searchSubmit]
@@ -141,6 +153,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       setAutocomplate([])
       setPageno(1)
       searchSubmit(a)
+      winSearchParams(a)
     },
     [searchSubmit]
   )
@@ -154,6 +167,18 @@ const SearchInput: React.FC = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storage.language, timeRange, pageno])
 
+  useEffect(() => {
+    searchSubmit()
+    const popstateSearch = (): void => {
+      searchSubmit()
+    }
+    window.addEventListener('popstate', popstateSearch)
+    return () => {
+      window.removeEventListener('popstate', popstateSearch)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <>
       <Brand onDisplaySubtitle={setDisplaySubtitle} />
@@ -161,14 +186,13 @@ const SearchInput: React.FC = (): JSX.Element => {
         className={cs(css.searchWapper, { [css.focus]: focus })}
         style={{
           top: wapperTop,
-        }}
-      >
+        }}>
         <div className={css.searchInput}>
           <span className={css.prefix}>socode.pro</span>
           <span className={css.sep}>$</span>
 
           <input
-            type="search"
+            type='search'
             className={css.input}
             spellCheck={false}
             value={squery}
@@ -188,7 +212,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           />
 
           {result !== null && (
-            <div className="select is-rounded mgl10">
+            <div className='select is-rounded mgl10'>
               {/* https://www.typescriptlang.org/docs/handbook/jsx.html#the-as-operator */}
               <select value={timeRange} onChange={e => setTimeRange(e.target.value as SearchTimeRange)}>
                 {timeRangeOptions.map(o => (
@@ -200,7 +224,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             </div>
           )}
 
-          <div className="select is-rounded mgl10">
+          <div className='select is-rounded mgl10'>
             <select value={storage.language} onChange={e => setStorage({ language: e.target.value as Language })}>
               {languageOptions.map(o => (
                 <option key={o.value} value={o.value}>
@@ -213,15 +237,14 @@ const SearchInput: React.FC = (): JSX.Element => {
         </div>
 
         <div className={cs(css.autocomplate, 'dropdown', { 'is-active': autocomplate.length && acDisplay })}>
-          <div className="dropdown-menu">
-            <div className="dropdown-content">
+          <div className='dropdown-menu'>
+            <div className='dropdown-content'>
               {autocomplate.map((a, i) => {
                 return (
                   <a
                     key={a}
                     onClick={() => autocomplateClick(a)}
-                    className={cs('dropdown-item', { 'is-active': acIndex === i })}
-                  >
+                    className={cs('dropdown-item', { 'is-active': acIndex === i })}>
                     {a}
                   </a>
                 )
@@ -241,7 +264,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             {result.results.map(r => (
               <div key={r.url} className={css.result}>
                 <h4 className={css.header}>
-                  <a href={r.url} target="_blank" rel="noopener noreferrer">
+                  <a href={r.url} target='_blank' rel='noopener noreferrer'>
                     {r.title}
                   </a>
                 </h4>
@@ -259,33 +282,31 @@ const SearchInput: React.FC = (): JSX.Element => {
             {result.paging && (
               <div className={cs(css.pagination, 'field has-addons')}>
                 {pageno !== 1 && (
-                  <p className="control">
+                  <p className='control'>
                     <button
-                      type="button"
-                      className="button is-rounded"
+                      type='button'
+                      className='button is-rounded'
                       onClick={() => {
                         setPageno(pageno - 1)
                         window.scrollTo({ top: 0 })
-                      }}
-                    >
-                      <span className="icon">
+                      }}>
+                      <span className='icon'>
                         <i className={css.pagePrevious} />
                       </span>
                       <span>Previous Page</span>
                     </button>
                   </p>
                 )}
-                <p className="control">
+                <p className='control'>
                   <button
-                    type="button"
-                    className="button is-rounded"
+                    type='button'
+                    className='button is-rounded'
                     onClick={() => {
                       setPageno(pageno + 1)
                       window.scrollTo({ top: 0 })
-                    }}
-                  >
+                    }}>
                     <span>Next Page</span>
-                    <span className="icon">
+                    <span className='icon'>
                       <i className={css.pageNext} />
                     </span>
                   </button>
@@ -299,7 +320,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
         {result !== null && (
           <div className={css.closer} onClick={closeResult}>
-            <a className="delete is-medium" />
+            <a className='delete is-medium' />
           </div>
         )}
 
