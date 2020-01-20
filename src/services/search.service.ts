@@ -41,10 +41,12 @@ export interface SearchParam {
 }
 
 const Sites = [
+  'ruanyifeng.com',
+  'infoq.cn',
+  'v2ex.com',
   'stackoverflow.com',
   'stackexchange.com',
   'github.com',
-  'gitlab.com',
   'apache.org',
   'docs.microsoft.com',
   'developer.apple.com',
@@ -66,14 +68,11 @@ const Sites = [
   '30secondsofcode.org',
   'mysql.com',
   'docker.com',
-  'ruanyifeng.com',
-  'infoq.cn',
   'segmentfault.com',
   'zhihu.com',
   'oschina.net',
   'iteye.com',
   'cnblogs.com',
-  'v2ex.com',
   'juejin.im',
   'jianshu.com',
   'weixin.qq.com',
