@@ -162,7 +162,13 @@ const SearchInput: React.FC = (): JSX.Element => {
   useEffect(() => {
     searchSubmit()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language, timeRange, pageno])
+  }, [pageno])
+
+  useEffect(() => {
+    setPageno(1)
+    searchSubmit()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [language, timeRange])
 
   useEffect(() => {
     const popstateSearch = (): void => {
@@ -318,9 +324,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           </div>
         )}
 
-        {result === null && (
-          <p className={cs(css.slogan, { [css.zh]: language !== Language.English })}>{slogon}</p>
-        )}
+        {result === null && <p className={cs(css.slogan, { [css.zh]: language !== Language.English })}>{slogon}</p>}
       </animated.div>
     </>
   )

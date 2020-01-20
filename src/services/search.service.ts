@@ -20,7 +20,7 @@ export enum SearchTimeRange {
 export interface SearchResult {
   paging: boolean
   results: Array<SearchItem>
-  unresponsive_engines?: Array<string[]>
+  unresponsive_engines: Array<string[]>
 }
 
 export interface SearchItem {
@@ -102,7 +102,7 @@ export const search = async ({
       })
     )
 
-    if (response.data.unresponsive_engines) {
+    if (response.data.unresponsive_engines.length) {
       console.warn(`unresponsive:${JSON.stringify(response.data.unresponsive_engines)}`)
     }
 
