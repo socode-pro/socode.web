@@ -180,6 +180,7 @@ const SearchInput: React.FC = (): JSX.Element => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+  
 
   return (
     <>
