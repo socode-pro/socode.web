@@ -38,6 +38,7 @@ export interface SearchParam {
   timeRange?: SearchTimeRange
   language?: Language
   pageno?: number
+  cookie?: string
 }
 
 const Sites = [
@@ -52,28 +53,31 @@ const Sites = [
   'infoq.*', // 80
   'stackexchange.*', // 75
   'apache.org', // 75
-
   'apple.*', // 70
   'ibm.*', // 70
+  'javatpoint.com', // 72
+  'geeksforgeeks.com', // 72
+  'journaldev.com', // 72
+  'bitdefender.*', // 70
   'v2ex.com', // 70
   'segmentfault.*', // 70
   'zhihu.com', // 70
+  'mvnrepository.*', // 70
+  'npmjs.com', // 70
+  'nuget.org', // 65
+  'pypi.org', // 65
   'oschina.net', // 60
   'iteye.com', // 60
   'cnblogs.com', // 60
   'juejin.im', // 60
   'weixin.qq.*', // 60
 
-  'mvnrepository.*',
-  'npmjs.com',
   'reactjs.org',
   'vuejs.org',
   'eslint.org',
   'visualstudio.*',
   'python.org',
   'golang.org',
-  'nuget.org',
-  'pypi.org',
   'mysql.com',
   'docker.com',
   'ruby-lang.org',
@@ -88,9 +92,20 @@ export const search = async ({
   timeRange = SearchTimeRange.Anytime,
   language = Language.English,
   pageno = 1,
+  cookie = undefined,
 }: SearchParam): Promise<SearchResult | null> => {
   const q = `${query} site:${Sites.join(' OR site:')}`
   // const q = `${query} -site:${ExcludeSites.join(' AND -site:')}`
+  // const q = query
+
+  let config = {}
+  if (cookie) {
+    config = {
+      headers: {
+        Cookie: cookie,
+      },
+    }
+  }
 
   try {
     const response = await axiosInstance.post<SearchResult>(
@@ -102,11 +117,24 @@ export const search = async ({
         language,
         format: 'json',
         pageno,
-      })
+      }),
+      config
     )
 
     if (response.data.unresponsive_engines.length) {
-      console.warn(`unresponsive:${JSON.stringify(response.data.unresponsive_engines)}`)
+      const unresponsive = JSON.stringify(response.data.unresponsive_engines)
+      console.warn(`unresponsive:${unresponsive}`)
+
+      if (unresponsive.includes('CAPTCHA required')) {
+        const data = await search({
+          query,
+          timeRange,
+          language,
+          pageno,
+          cookie: 'disabled_engines="google__general"; enabled_engines=duckduckgo__general;',
+        })
+        return data
+      }
     }
 
     return response.data
