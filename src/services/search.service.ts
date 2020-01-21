@@ -41,42 +41,47 @@ export interface SearchParam {
 }
 
 const Sites = [
-  'ruanyifeng.com',
-  'infoq.cn',
-  'v2ex.com',
-  'stackoverflow.com',
-  'stackexchange.com',
-  'github.com',
-  'apache.org',
-  'docs.microsoft.com',
-  'developer.apple.com',
-  'ibm.com',
-  'docs.oracle.com',
-  'python.org',
-  'golang.org',
-  'ruby-lang.org',
-  'mvnrepository.com',
+  'ruanyifeng.*', // 100
+  'stackoverflow.*', // 95
+  'mozilla.*', // 90
+  'github.*', // 90
+  'digitalocean.*', // 85
+  'microsoft.*', // 80
+  'dev.to', // 80
+  'w3schools.com', // 80
+  'infoq.*', // 80
+  'stackexchange.*', // 75
+  'apache.org', // 75
+
+  'apple.*', // 70
+  'ibm.*', // 70
+  'v2ex.com', // 70
+  'segmentfault.*', // 70
+  'zhihu.com', // 70
+  'oschina.net', // 60
+  'iteye.com', // 60
+  'cnblogs.com', // 60
+  'juejin.im', // 60
+  'weixin.qq.*', // 60
+
+  'mvnrepository.*',
   'npmjs.com',
-  'nuget.org',
-  'pypi.org',
-  'rubygems.org',
-  'mozilla.org',
-  'w3schools.com',
   'reactjs.org',
   'vuejs.org',
   'eslint.org',
-  '30secondsofcode.org',
+  'visualstudio.*',
+  'python.org',
+  'golang.org',
+  'nuget.org',
+  'pypi.org',
   'mysql.com',
   'docker.com',
-  'segmentfault.com',
-  'zhihu.com',
-  'oschina.net',
-  'iteye.com',
-  'cnblogs.com',
-  'juejin.im',
-  'jianshu.com',
-  'weixin.qq.com',
+  'ruby-lang.org',
+  'rubygems.org',
 ]
+
+// shorturl.at/ovOUW too many, infeasible way
+const ExcludeSites = ['youtube.*', 'wikipedia.*', 'medium.*', 'twitter.*', 'pornhub.*']
 
 export const search = async ({
   query,
@@ -85,6 +90,8 @@ export const search = async ({
   pageno = 1,
 }: SearchParam): Promise<SearchResult | null> => {
   const q = `${query} site:${Sites.join(' OR site:')}`
+  // const q = `${query} -site:${ExcludeSites.join(' AND -site:')}`
+
   try {
     const response = await axiosInstance.post<SearchResult>(
       env.host(),
