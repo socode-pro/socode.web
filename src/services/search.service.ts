@@ -94,9 +94,8 @@ export const search = async ({
   pageno = 1,
   cookie = undefined,
 }: SearchParam): Promise<SearchResult | null> => {
-  const q = `${query} site:${Sites.join(' OR site:')}`
+  const q = env.ignoreSites() ? query : `${query} site:${Sites.join(' OR site:')}`
   // const q = `${query} -site:${ExcludeSites.join(' AND -site:')}`
-  // const q = query
 
   let config = {}
   if (cookie) {

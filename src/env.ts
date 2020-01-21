@@ -24,6 +24,9 @@ const validateInput = (vars: EnvVariable): EnvVariable => {
       .default('development'),
 
     HOST: Joi.string(),
+    IGNORESITES: Joi.boolean()
+      .optional()
+      .default(false),
 
     PROXY_PROTOCOL: Joi.string().optional(),
     PROXY_HOST: Joi.string().optional(),
@@ -54,6 +57,10 @@ switch (process.env.NODE_ENV || 'development') {
 
 export const host = (): string => {
   return variable.HOST
+}
+
+export const ignoreSites = (): boolean => {
+  return variable.IGNORESITES
 }
 
 export const proxy = (): ProxyOptions => {
