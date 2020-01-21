@@ -24,7 +24,7 @@ const useIntl = (words: Words): string => {
     } else if (language === Language.中文) {
       switch (words) {
         case Words.ASearchEngineForProgrammers:
-          setContent('给程序员用的问答搜索引擎')
+          setContent('给程序员用的问答搜索')
           break
         case Words.PrivacyPolicy:
           setContent('隐私政策')
