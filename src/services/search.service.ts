@@ -55,9 +55,9 @@ const Sites = [
   'apache.org', // 75
   'apple.*', // 70
   'ibm.*', // 70
-  'javatpoint.com', // 72
-  'geeksforgeeks.com', // 72
-  'journaldev.com', // 72
+  'javatpoint.*', // 72
+  'geeksforgeeks.*', // 72
+  'journaldev.*', // 72
   'bitdefender.*', // 70
   'v2ex.com', // 70
   'segmentfault.*', // 70
