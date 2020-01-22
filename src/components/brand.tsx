@@ -18,13 +18,13 @@ const Brand: React.FC<Props> = ({ onDisplaySubtitle }: Props): JSX.Element => {
   const titleColor = 'rgba(102, 119, 136, 0.5)'
 
   const { color, rotate } = useSpring({
-    color: displaySubtitle ? '#FA7C91': titleColor,
-    rotate: displaySubtitle? 180: 0,
+    color: displaySubtitle ? '#FA7C91' : titleColor,
+    rotate: displaySubtitle ? 180 : 0,
   })
 
   const [{ xys }, setXys] = useSpring(() => ({
     xys: [0, 0, 1],
-    config: { mass: 5, tension: 350, friction: 40 }
+    config: { mass: 5, tension: 350, friction: 40 },
   }))
 
   const typingTimer = useCallback((): void => {
@@ -85,17 +85,22 @@ const Brand: React.FC<Props> = ({ onDisplaySubtitle }: Props): JSX.Element => {
     <>
       <div className={cs(css.brand)}>
         <span>$OCODE</span>.PR
-        <animated.i className={cs(css.toggle)} onClick={onToggle} onKeyPress={onToggle}
+        <animated.i
+          className={cs(css.toggle)}
+          onClick={onToggle}
+          onKeyPress={onToggle}
           style={{
-            transform: to([rotate, xys], (r, _xys):string => `rotate(${r}deg) perspective(60px) rotateX(${_xys[0]}deg) rotateY(${_xys[1]}deg) scale(${_xys[2]})`),
-            color
+            // transform: to([rotate, xys], (r, _xys):string => `rotate(${r}deg) perspective(60px) rotateX(${_xys[0]}deg) rotateY(${_xys[1]}deg) scale(${_xys[2]})`),
+            transform: to([rotate], (r): string => `rotate(${r}deg)`),
+            color,
           }}
-          onMouseMove={({ clientX: x, clientY: y }) => setXys({ xys: [-(y - 500)/20, (x - 500)/20, 1.1] })}
-          onMouseLeave={() => setXys({ xys: [0, 0, 1] })}
+          // onMouseMove={({ clientX: x, clientY: y }) => setXys({ xys: [-(y - 500)/20, (x - 500)/20, 1.1] })}
+          // onMouseLeave={() => setXys({ xys: [0, 0, 1] })}
         />
       </div>
       <div className={css.subtitle}>
-        <div className={cs(css.text, 'animated', 'flipInX', { 'flipOutX': !displaySubtitle, 'dis-none': !activeSubtitle })}>
+        <div
+          className={cs(css.text, 'animated', 'flipInX', { flipOutX: !displaySubtitle, 'dis-none': !activeSubtitle })}>
           Make life better for programmers who are good at <span className={cs(css.adjective, 'typing')}>...</span>
         </div>
       </div>
