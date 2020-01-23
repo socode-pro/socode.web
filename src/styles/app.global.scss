@@ -30,10 +30,19 @@ $fullhd-enabled: true;
 @import '~bulma/sass/form/_all.sass';
 @import '~bulma/sass/components/navbar.sass';
 @import '~bulma/sass/components/dropdown.sass';
+@import '~bulma/sass/components/menu.sass';
 @import '~bulma/sass/layout/hero.sass';
 @import '~bulma/sass/layout/section.sass';
 // @import '~bulma/sass/layout/footer.sass';
 // ------------------------------------------------------------------------------------
+
+$hamburger-layer-color: rgba($dh-mute, 0.5);
+$hamburger-active-layer-color: $primary;
+$hamburger-layer-width: 34px;
+$hamburger-layer-height: 6px;
+$hamburger-layer-border-radius: 3px;
+// $hamburger-layer-spacing: 8px;
+@import '~hamburgers/_sass/hamburgers/hamburgers';
 
 $positions: static, relative, absolute, fixed, sticky !default;
 @each $position in $positions {
@@ -118,7 +127,8 @@ body {
   font-family: $font-sans;
   font-size: $fontsize;
   line-height: 1.6;
-  color: #345;
+  color: $dh-text;
+  overflow-y: auto;
 }
 
 h1,

@@ -1,0 +1,53 @@
+@import '../styles/variable';
+
+.hamburger {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  outline: none;
+  z-index: 10;
+  // :global(&.is-active) {
+  //   right: 0%;
+  // }
+}
+
+.drawer {
+  width: 380px;
+  position: absolute;
+  right: 0;
+  top: 20px;
+  bottom: 20px;
+  background: #fff;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  z-index: 9;
+  transition: transform 0.5s cubic-bezier(0.7, 0.3, 0.1, 1), box-shadow 0.5s cubic-bezier(0.7, 0.3, 0.1, 1);
+  transform: translateX(100%);
+  &.active {
+    box-shadow: $card-shadow;
+    transform: translateX(0%);
+  }
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .jacket {
+    padding: 20px;
+    flex-grow: 1;
+  }
+  .skirt {
+    padding: 20px 20px 60px;
+    background-color: #fafafa;
+    border-top: solid 1px $highlight2;
+    border-bottom-left-radius: 6px;
+  }
+}
+
+.mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+}

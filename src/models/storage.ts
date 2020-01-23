@@ -1,9 +1,10 @@
 import { Action, action } from 'easy-peasy'
 import { TrendingParam } from '../services/trending'
-import Language from '../utils/language'
+import Language, { navigatorLanguage } from '../utils/language'
 
 export interface StorageType {
   language?: Language
+  searchLanguage?: Language
   searchEngine?: string
   starHistoryToken?: string
   trending?: TrendingParam
@@ -20,7 +21,8 @@ export interface StorageModel {
 
 const storageModel: StorageModel = {
   values: {
-    language: navigator.language.includes('zh') ? Language.中文 : Language.English,
+    language: navigatorLanguage(navigator.language),
+    searchLanguage: navigatorLanguage(navigator.language),
   },
 
   set: action((state, payload) => {

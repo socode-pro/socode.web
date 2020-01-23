@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 // import { Link } from 'react-router-dom'
 import { useStoreActions } from './utils/hooks'
 import Search from './components/search'
+import Drawer from './components/drawer'
 import './styles/app.global.scss'
 
 const Home: React.FC = () => {
@@ -11,9 +12,10 @@ const Home: React.FC = () => {
   }, [getAllStorage])
 
   return (
-    <div className='container'>
-      <Search />
-      {/* <footer className='footer'>
+    <>
+      <div className='container'>
+        <Search />
+        {/* <footer className='footer'>
         <div className='content has-text-centered'>
           <p>
             <Link className='link' to='/Privacy'>
@@ -22,7 +24,9 @@ const Home: React.FC = () => {
           </p>
         </div>
       </footer> */}
-    </div>
+      </div>
+      <Drawer />
+    </>
   )
 }
 

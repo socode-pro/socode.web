@@ -10,16 +10,24 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import '~@fortawesome/fontawesome-free/scss/regular';
 // plus icons: https://www.iconfont.cn/collections/detail?cid=17211
 
-
 // https://github.com/modularscale/modularscale-sass
 @import '~modularscale-sass/stylesheets/modularscale';
 $modularscale: (
-  base: 14px, ratio: 1.2,
-  480px: (base: 13px, ratio: 1.15),
-  768px: (base: 14px, ratio: 1.16),
-  1280px: (base: 14px, ratio: 1.17)
+  base: 14px,
+  ratio: 1.2,
+  480px: (
+    base: 13px,
+    ratio: 1.15,
+  ),
+  768px: (
+    base: 14px,
+    ratio: 1.16,
+  ),
+  1280px: (
+    base: 14px,
+    ratio: 1.17,
+  ),
 );
-
 
 $primary: #745fb5;
 $primary-light: #9a6dbb;
@@ -35,20 +43,25 @@ $dh-body: #f1f3f5;
 $dh-head: #111;
 $dh-text: #345;
 $dh-mute: #678;
-$bulma-grey-light: #D0D1CD;
+$bulma-grey-light: #d0d1cd;
 $highlight: #f8f8f8;
+$highlight2: #fafafa;
 
 $line: rgba($dh-mute, 0.05);
 $line-dark: rgba($dh-mute, 0.2);
 
-$naka:      rgb(63,63,63) !default;
-$gray:      rgb(110,110,110) !default;
-$red:       rgb(221,56,35) !default;
-$orange:	  rgb(204,102,0) !default;
-$yellow:    rgb(255, 246, 168) !default;
-$green:     rgb(41,132,90) !default;
-$blue:      rgb(24,96,192) !default;
-$pink:      #FA7C91;
+$naka: rgb(63, 63, 63) !default;
+$gray: rgb(110, 110, 110) !default;
+$red: rgb(221, 56, 35) !default;
+$orange: rgb(204, 102, 0) !default;
+$yellow: rgb(255, 246, 168) !default;
+$green: rgb(41, 132, 90) !default;
+$blue: rgb(24, 96, 192) !default;
+$pink: #fa7c91;
+
+$black: hsl(0, 0%, 4%) !default;
+$black-bis: hsl(0, 0%, 7%) !default;
+$black-ter: hsl(0, 0%, 14%) !default;
 
 $primary-gradient: linear-gradient(5deg, $primary, adjust-color($primary, $lightness: 2%, $hue: 16deg));
 
@@ -56,38 +69,25 @@ $fontsize: 14px;
 $fontsize-small: 13px;
 $fontsize-head: 16px;
 
-$font-sans: -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+$font-sans: -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+  'Helvetica Neue', sans-serif;
 $font-mono: Consolas, Menlo, 'Liberation Mono', 'Ubuntu Mono', monospace;
 
-$shadow2:
-  0 1px 1px rgba($dh-mute, 0.55);
+$card-shadow: 0 0.5em 1em -0.125em rgba($black, 0.1), 0 0px 0 1px rgba($black, 0.02);
 
-$shadow3:
-  0 6px 8px rgba($dh-mute, 0.03),
-  0 1px 2px rgba($dh-mute, 0.30);
+$shadow2: 0 1px 1px rgba($dh-mute, 0.55);
 
-$shadow3_invert:
-  0 6px 8px rgba(invert($dh-mute), 0.03),
-  0 1px 2px rgba(invert($dh-mute), 0.30);
+$shadow3: 0 6px 8px rgba($dh-mute, 0.03), 0 1px 2px rgba($dh-mute, 0.3);
 
-$shadow6:
-  0 6px 8px rgba($dh-mute, 0.03),
-  0 1px 2px rgba($dh-mute, 0.30),
-  0 8px 12px rgba($secondary2, 0.1);
+$shadow3_invert: 0 6px 8px rgba(invert($dh-mute), 0.03), 0 1px 2px rgba(invert($dh-mute), 0.3);
 
-$shadow_ionic:
-  0 3px 6px 0 rgba(0,0,0,.1),
-  0 1px 3px 0 rgba(0,0,0,.08);
-$shadow_ionic_focus:
-  0 6px 12px 0 rgba(0,0,0,.1),
-  0 1px 3px 0 rgba(0,0,0,.08);
+$shadow6: 0 6px 8px rgba($dh-mute, 0.03), 0 1px 2px rgba($dh-mute, 0.3), 0 8px 12px rgba($secondary2, 0.1);
 
-$shadow_ionic_invert:
-  0 3px 6px 0 rgba(255,255,255,.1),
-  0 1px 3px 0 rgba(255,255,255,.08);
-$shadow_ionic_focus_invert:
-  0 6px 12px 0 rgba(255,255,255,.1),
-  0 1px 3px 0 rgba(255,255,255,.08);
+$shadow_ionic: 0 3px 6px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+$shadow_ionic_focus: 0 6px 12px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+
+$shadow_ionic_invert: 0 3px 6px 0 rgba(255, 255, 255, 0.1), 0 1px 3px 0 rgba(255, 255, 255, 0.08);
+$shadow_ionic_focus_invert: 0 6px 12px 0 rgba(255, 255, 255, 0.1), 0 1px 3px 0 rgba(255, 255, 255, 0.08);
 
 @mixin ion-base {
   display: inline-block;
@@ -120,7 +120,7 @@ $shadow_ionic_focus_invert:
     left: 0;
     z-index: 1;
     pointer-events: auto;
-    content: "";
+    content: '';
     background-color: rgba(0, 0, 0, 0);
   }
 }
@@ -137,13 +137,13 @@ $shadow_ionic_focus_invert:
     right: 0;
     bottom: 0;
     transform: scaleY(0.5);
-    border-bottom: 1PX solid $color;
+    border-bottom: 1px solid $color;
   }
 }
 
 @mixin active-color() {
   transition: background-color 0.3s;
   &:active {
-    background-color: #F0F0F0;
+    background-color: #f0f0f0;
   }
 }

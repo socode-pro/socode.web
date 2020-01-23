@@ -22,10 +22,10 @@ const Brand: React.FC<Props> = ({ onDisplaySubtitle }: Props): JSX.Element => {
     rotate: displaySubtitle ? 180 : 0,
   })
 
-  const [{ xys }, setXys] = useSpring(() => ({
-    xys: [0, 0, 1],
-    config: { mass: 5, tension: 350, friction: 40 },
-  }))
+  // const [{ xys }, setXys] = useSpring(() => ({
+  //   xys: [0, 0, 1],
+  //   config: { mass: 5, tension: 350, friction: 40 },
+  // }))
 
   const typingTimer = useCallback((): void => {
     let typingDoc
