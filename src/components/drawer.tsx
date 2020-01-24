@@ -111,7 +111,10 @@ const Drawer: React.FC = (): JSX.Element => {
           <p className='menu-label'>Footer</p>
           <ul className='menu-list'>
             <li>
-              <Link to='/Privacy'>Privacy</Link>
+              <Link to='/Privacy' className={cs(css.navlink, css.privacy)}>
+                <h3>Privacy</h3>
+                <span>we don&apos;t collect or share personal information</span>
+              </Link>
             </li>
             {/* <li>
               <a>投放广告</a>
@@ -127,8 +130,8 @@ const Drawer: React.FC = (): JSX.Element => {
               </li>
             )}
           </ul>
-          <p className={css.slogon}>{useIntl(Words.ProgrammersStartPage)}</p>
-          <p className={css.principles}>hack your life, and become a professional mistake maker.</p>
+          <p className={css.slogon}>Hack your life</p>
+          <p className={css.principles}>and become a professional mistake maker.</p>
         </footer>
       </div>
       <div className={cs(css.mask, { 'dis-none': !active })} onClick={() => setActive(!active)} />

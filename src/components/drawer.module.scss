@@ -36,20 +36,20 @@
     flex-grow: 1;
   }
   .skirt {
-    padding: 20px 20px 70px;
+    padding: 20px 20px 20px;
     background-color: #fafafa;
     border-top: solid 1px $highlight2;
     border-bottom-left-radius: 6px;
   }
 
-  .slogon {
-    color: $nobody;
-    margin-top: 20px;
-    font-size: 13px;
-  }
+  .slogon,
   .principles {
     color: $nobody;
     font-size: 12px;
+  }
+  .slogon {
+    font-size: 13px;
+    margin-top: 20px;
   }
 
   a.navlink {
@@ -62,6 +62,9 @@
     }
     &.chrome {
       background: #fff url(../images/icons8-chrome.svg) left 0.5em center/50px 50px no-repeat;
+    }
+    &.privacy {
+      background: #fafafa url(../images/icons8-fingerprint-100.png) left 0.5em center/50px 50px no-repeat;
     }
     &:hover {
       background-color: #f7f7f7;
