@@ -40,16 +40,24 @@ const Drawer: React.FC = (): JSX.Element => {
           <ul className='menu-list'>
             {language !== Language.中文 && (
               <li>
-                <a>Github OAuth (save settings)</a>
+                <a className={cs(css.navlink, css.github)}>
+                  <h3>Github OAuth</h3>
+                  <span>to synchronize your settings</span>
+                </a>
               </li>
             )}
             {/* <li>
-              <Link to='chat.socode.pro'>Spectrum Chat</Link>
+              <a className={cs(css.navlink, css.spectrum)} href='https://chat.socode.pro'>
+                <h3>Spectrum Chat</h3>
+                <span>the community platform for socode future</span>
+              </a>
             </li> */}
             <li>
-              <a href='https://chrome.google.com/webstore/detail/socode/hlkgijncpebndijijbcakkcefmpniacd'>
-                Chrome/Edge Extensions
-                <i className={css.arrow_icon} />
+              <a
+                className={cs(css.navlink, css.chrome)}
+                href='https://chrome.google.com/webstore/detail/socode/hlkgijncpebndijijbcakkcefmpniacd'>
+                <h3>Chrome/Edge Extension</h3>
+                <span>become the start page of your work</span>
               </a>
             </li>
             {/* <li>

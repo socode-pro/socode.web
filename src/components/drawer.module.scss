@@ -47,20 +47,29 @@
   }
   .slogon,
   .principles {
-    color: #bbb;
+    color: $nobody;
     font-size: 12px;
   }
 
-  i.arrow_icon {
-    @extend %fa-icon;
-    @extend .fas;
-    @extend .fa-external-link-square-alt;
-    margin-left: 10px;
-  }
-
-  ul {
-    a {
-      padding: 1em 1.2em;
+  a.navlink {
+    padding: 1.5em 1.5em 1.5em calc(1em + 50px);
+    &.github {
+      background: #fff url(../images/icons8-github.svg) left 0.5em center/50px 50px no-repeat;
+    }
+    &.spectrum {
+      background: #fff url(../images/icons8-rainbow-100.png) left 0.5em center/50px 50px no-repeat;
+    }
+    &.chrome {
+      background: #fff url(../images/icons8-chrome.svg) left 0.5em center/50px 50px no-repeat;
+    }
+    &:hover {
+      background-color: #f7f7f7;
+      h3 {
+        text-decoration: underline;
+      }
+    }
+    span {
+      color: $nobody;
     }
   }
 }
