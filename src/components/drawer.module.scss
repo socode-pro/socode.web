@@ -43,9 +43,10 @@
   }
 
   .slogon {
+    color: $nobody;
     margin-top: 20px;
+    font-size: 13px;
   }
-  .slogon,
   .principles {
     color: $nobody;
     font-size: 12px;
@@ -71,6 +72,12 @@
     span {
       color: $nobody;
     }
+  }
+
+  i.globe {
+    @extend %fa-icon;
+    @extend .fas;
+    @extend .fa-globe;
   }
 }
 

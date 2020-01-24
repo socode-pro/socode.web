@@ -73,14 +73,19 @@ const Drawer: React.FC = (): JSX.Element => {
           <p className='menu-label'>Setting</p>
           <ul className='menu-list'>
             <li>
-              <div className='select is-rounded mgl10'>
-                <select value={language} onChange={e => setStorage({ language: e.target.value as Language })}>
-                  {languageOptions.map(o => (
-                    <option key={o.value} value={o.value}>
-                      {o.label}
-                    </option>
-                  ))}
-                </select>
+              <div className='control has-icons-left'>
+                <div className='select is-rounded'>
+                  <select value={language} onChange={e => setStorage({ language: e.target.value as Language })}>
+                    {languageOptions.map(o => (
+                      <option key={o.value} value={o.value}>
+                        {o.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <span className='icon is-left'>
+                  <i className={css.globe} />
+                </span>
               </div>
             </li>
             {/* <li>
@@ -123,7 +128,7 @@ const Drawer: React.FC = (): JSX.Element => {
             )}
           </ul>
           <p className={css.slogon}>{useIntl(Words.ProgrammersStartPage)}</p>
-          <p className={css.principles}>hack your life, and become a professional mistake maker</p>
+          <p className={css.principles}>hack your life, and become a professional mistake maker.</p>
         </footer>
       </div>
       <div className={cs(css.mask, { 'dis-none': !active })} onClick={() => setActive(!active)} />
