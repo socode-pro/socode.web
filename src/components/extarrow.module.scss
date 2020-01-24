@@ -1,0 +1,27 @@
+@import '../styles/variable';
+
+.arrow {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  height: 64px;
+  width: 64px;
+  margin: 0 0 10px -32px;
+  cursor: pointer;
+  background: url(../images/chromestore.png) center/contain no-repeat;
+  opacity: 0.8;
+  transition: opacity 0.25s ease;
+  text-align: right;
+  &:hover {
+    opacity: 1;
+  }
+
+  .arrow_icon {
+    @extend %fa-icon;
+    @extend .fas;
+    @extend .fa-external-link-square-alt;
+    font-size: 20px;
+    margin: -4px -4px 0 0;
+    color: $dh-text;
+  }
+}

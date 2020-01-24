@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { useStoreActions } from './utils/hooks'
 import Search from './components/search'
 import Drawer from './components/drawer'
+import ExtArrow from './components/extarrow'
 import './styles/app.global.scss'
 
 const Home: React.FC = () => {
@@ -26,6 +27,7 @@ const Home: React.FC = () => {
       </footer> */}
       </div>
       <Drawer />
+      <ExtArrow />
     </>
   )
 }

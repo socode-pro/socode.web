@@ -36,10 +36,32 @@
     flex-grow: 1;
   }
   .skirt {
-    padding: 20px 20px 60px;
+    padding: 20px 20px 70px;
     background-color: #fafafa;
     border-top: solid 1px $highlight2;
     border-bottom-left-radius: 6px;
+  }
+
+  .slogon {
+    margin-top: 20px;
+  }
+  .slogon,
+  .principles {
+    color: #bbb;
+    font-size: 12px;
+  }
+
+  i.arrow_icon {
+    @extend %fa-icon;
+    @extend .fas;
+    @extend .fa-external-link-square-alt;
+    margin-left: 10px;
+  }
+
+  ul {
+    a {
+      padding: 1em 1.2em;
+    }
   }
 }
 
