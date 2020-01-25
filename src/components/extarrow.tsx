@@ -9,14 +9,17 @@ import css from './extarrow.module.scss'
 
 const ExtArrow: React.FC = (): JSX.Element => {
   return (
-    <a
-      className={css.arrow}
-      target='_blank'
-      rel='noopener noreferrer'
-      href='https://chrome.google.com/webstore/detail/socode/hlkgijncpebndijijbcakkcefmpniacd'>
-      <i className={css.arrow_icon} />
-    </a>
+    <div className={css.extwapper}>
+      <a
+        className={cs(css.arrow)}
+        href='https://chrome.google.com/webstore/detail/socode/hlkgijncpebndijijbcakkcefmpniacd'>
+        <h3>Browser Extension</h3>
+        <span>become the start page of your work</span>
+      </a>
+    </div>
   )
 }
 
 export default ExtArrow
+
+// install browser extension to become the start page of your work

@@ -1,9 +1,9 @@
-@import "../styles/variable";
+@import '../styles/variable';
 
 .searchWapper {
   background: #fff;
   border-radius: 6px;
-  transition: box-shadow .3s;
+  transition: box-shadow 0.3s;
   box-shadow: $shadow_ionic;
   &.focus {
     box-shadow: $shadow_ionic_focus;
@@ -35,10 +35,10 @@
     &:-webkit-autofill,
     &:-webkit-autofill:hover,
     &:-webkit-autofill:focus,
-    &:-webkit-autofill:active  {
-        // https://stackoverflow.com/a/14205976/346701
-        box-shadow: 0 0 0 50px white inset !important;
-        -webkit-text-fill-color: $dh-mute !important;
+    &:-webkit-autofill:active {
+      // https://stackoverflow.com/a/14205976/346701
+      box-shadow: 0 0 0 50px white inset !important;
+      -webkit-text-fill-color: $dh-mute !important;
     }
   }
 
@@ -148,7 +148,7 @@
   }
   .highlighter {
     font-weight: 700;
-    background: $highlight;
+    background: #f8f8f8;
   }
   .pagination {
     display: flex;
@@ -175,7 +175,7 @@
 }
 
 .notFound {
-  background: url("../images/not_found.png") center/20% no-repeat;
+  background: url('../images/not_found.png') center/20% no-repeat;
   height: 200px;
 }
 
@@ -190,7 +190,7 @@ div.closer {
   transition: opacity 0.4s ease-in-out;
   &:hover {
     opacity: 1;
-    background: linear-gradient(to left, $dh-body, rgba(0,0,0,.1));
+    background: linear-gradient(to left, $dh-body, rgba(0, 0, 0, 0.1));
   }
   & > a {
     margin-top: 20px;
@@ -205,7 +205,7 @@ div.closer {
   text-align: center;
   word-spacing: 0.5em;
   color: $dh-mute;
-  font-family: "Bree Serif", sans-serif;
+  font-family: 'Bree Serif', sans-serif;
   // font-family: "Kreon", sans-serif;
   // font-family: "Patua One", sans-serif;
   &.zh {

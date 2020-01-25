@@ -31,13 +31,28 @@ $modularscale: (
 
 $primary: #745fb5;
 $primary-light: #9a6dbb;
-$primary-light2: lighten($primary-light, 15%) !default;
+$primary-light2: lighten($primary-light, 15%);
 $primary-dark: #5f4aa1;
-$primary-dark2: darken($primary-dark, 15%) !default;
+$primary-dark2: darken($primary-dark, 15%);
 
 $secondary: #26648e;
 $secondary2: adjust-color($secondary, $lightness: 16%, $hue: -20deg);
 $tertiary: #14af83;
+
+$black: hsl(0, 0%, 4%);
+$black-bis: hsl(0, 0%, 7%);
+$black-ter: hsl(0, 0%, 14%);
+
+$grey-darker: hsl(0, 0%, 21%);
+$grey-dark: hsl(0, 0%, 29%);
+$grey: hsl(0, 0%, 48%);
+$grey-light: hsl(0, 0%, 71%);
+$grey-lighter: hsl(0, 0%, 86%);
+$grey-lightest: hsl(0, 0%, 93%);
+
+$white-ter: hsl(0, 0%, 96%);
+$white-bis: hsl(0, 0%, 98%);
+$white: hsl(0, 0%, 100%);
 
 $dh-body: #f1f3f5;
 $dh-head: #111;
@@ -45,24 +60,18 @@ $dh-text: #345;
 $dh-mute: #678;
 $nobody: #bbb;
 $bulma-grey-light: #d0d1cd;
-$highlight: #f8f8f8;
-$highlight2: #fafafa;
 
 $line: rgba($dh-mute, 0.05);
 $line-dark: rgba($dh-mute, 0.2);
 
-$naka: rgb(63, 63, 63) !default;
-$gray: rgb(110, 110, 110) !default;
-$red: rgb(221, 56, 35) !default;
-$orange: rgb(204, 102, 0) !default;
-$yellow: rgb(255, 246, 168) !default;
-$green: rgb(41, 132, 90) !default;
-$blue: rgb(24, 96, 192) !default;
+$naka: rgb(63, 63, 63);
+$gray: rgb(110, 110, 110);
+$red: rgb(221, 56, 35);
+$orange: rgb(204, 102, 0);
+$yellow: rgb(255, 246, 168);
+$green: rgb(41, 132, 90);
+$blue: rgb(24, 96, 192);
 $pink: #fa7c91;
-
-$black: hsl(0, 0%, 4%) !default;
-$black-bis: hsl(0, 0%, 7%) !default;
-$black-ter: hsl(0, 0%, 14%) !default;
 
 $primary-gradient: linear-gradient(5deg, $primary, adjust-color($primary, $lightness: 2%, $hue: 16deg));
 

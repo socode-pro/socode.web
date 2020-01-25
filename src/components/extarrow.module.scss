@@ -1,27 +1,37 @@
 @import '../styles/variable';
 
-.arrow {
+.extwapper {
   position: absolute;
-  bottom: 20px;
-  left: 50%;
-  height: 64px;
-  width: 64px;
-  margin: 0 0 10px -32px;
+  bottom: 35px;
+  left: 35px;
   cursor: pointer;
-  background: url(../images/chromestore.png) center/contain no-repeat;
-  opacity: 0.8;
-  transition: opacity 0.25s ease;
-  text-align: right;
-  &:hover {
-    opacity: 1;
-  }
+  background-color: #fff;
+  box-shadow: $card-shadow;
+  border-radius: 6px;
+  color: $grey-dark;
+  padding: 1.5rem;
 
-  .arrow_icon {
-    @extend %fa-icon;
-    @extend .fas;
-    @extend .fa-external-link-square-alt;
-    font-size: 20px;
-    margin: -4px -4px 0 0;
-    color: $dh-text;
+  a.arrow {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 50px;
+    padding-left: 60px;
+    background: url(../images/icons8-chrome.svg) left / contain no-repeat;
+    @include stretched-link;
+    span {
+      color: $nobody;
+    }
+
+    opacity: 0.85;
+    transition: opacity 0.25s ease, padding 0.25s ease, height 0.25s ease;
+    &:hover {
+      opacity: 1;
+      height: 60px;
+      padding-left: 70px;
+      h3 {
+        text-decoration: underline;
+      }
+    }
   }
 }

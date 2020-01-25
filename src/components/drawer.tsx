@@ -56,7 +56,7 @@ const Drawer: React.FC = (): JSX.Element => {
               <a
                 className={cs(css.navlink, css.chrome)}
                 href='https://chrome.google.com/webstore/detail/socode/hlkgijncpebndijijbcakkcefmpniacd'>
-                <h3>Chrome/Edge Extension</h3>
+                <h3>Browser Extension</h3>
                 <span>become the start page of your work</span>
               </a>
             </li>
