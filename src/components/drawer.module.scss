@@ -67,7 +67,7 @@
       background: #fafafa url(../images/icons8-fingerprint-100.png) left 0.5em center/50px 50px no-repeat;
     }
     &:hover {
-      background-color: #f7f7f7;
+      background-color: $white-duck;
       h3 {
         text-decoration: underline;
       }

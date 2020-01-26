@@ -39,27 +39,27 @@ $secondary: #26648e;
 $secondary2: adjust-color($secondary, $lightness: 16%, $hue: -20deg);
 $tertiary: #14af83;
 
-$black: hsl(0, 0%, 4%);
-$black-bis: hsl(0, 0%, 7%);
-$black-ter: hsl(0, 0%, 14%);
+$black: hsl(0, 0%, 4%) !default;
+$black-bis: hsl(0, 0%, 7%) !default;
+$black-ter: hsl(0, 0%, 14%) !default;
 
-$grey-darker: hsl(0, 0%, 21%);
-$grey-dark: hsl(0, 0%, 29%);
-$grey: hsl(0, 0%, 48%);
-$grey-light: hsl(0, 0%, 71%);
-$grey-lighter: hsl(0, 0%, 86%);
-$grey-lightest: hsl(0, 0%, 93%);
+$grey-darker: hsl(0, 0%, 21%) !default;
+$grey-dark: hsl(0, 0%, 29%) !default;
+$grey: hsl(0, 0%, 48%) !default;
+$nobody: #bbb;
+$grey-light: hsl(0, 0%, 71%) !default;
+$grey-lighter: hsl(0, 0%, 86%) !default;
+$grey-lightest: hsl(0, 0%, 93%) !default;
 
-$white-ter: hsl(0, 0%, 96%);
-$white-bis: hsl(0, 0%, 98%);
-$white: hsl(0, 0%, 100%);
+$white-ter: hsl(0, 0%, 96%) !default;
+$white-duck: hsl(0, 0%, 97%) !default;
+$white-bis: hsl(0, 0%, 98%) !default;
+$white: hsl(0, 0%, 100%) !default;
 
 $dh-body: #f1f3f5;
 $dh-head: #111;
 $dh-text: #345;
 $dh-mute: #678;
-$nobody: #bbb;
-$bulma-grey-light: #d0d1cd;
 
 $line: rgba($dh-mute, 0.05);
 $line-dark: rgba($dh-mute, 0.2);

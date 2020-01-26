@@ -255,6 +255,27 @@ const SearchInput: React.FC = (): JSX.Element => {
           </div>
         </div>
 
+        <div className={css.skeys}>
+          <div className={css.skgroup}>
+            <div className={css.skey}>
+              <div className={cs(css.skname, css.google)}>Google</div>
+              <div className={css.shortkeys}>g +</div>
+            </div>
+            <div className={css.skey}>
+              <div className={cs(css.skname, css.duckduckgo)}>Duckduckgo</div>
+              <div className={css.shortkeys}>dd +</div>
+            </div>
+            <div className={css.skey}>
+              <div className={cs(css.skname, css.github)}>Github</div>
+              <div className={css.shortkeys}>gh +</div>
+            </div>
+            <div className={css.skey}>
+              <div className={cs(css.skname, css.stackexchange)}>StackExchange</div>
+              <div className={css.shortkeys}>se +</div>
+            </div>
+          </div>
+        </div>
+
         {loading && <Loader1 type={2} />}
 
         {error !== null && <div className={css.error}>{error.message}</div>}

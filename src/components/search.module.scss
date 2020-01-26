@@ -128,6 +128,49 @@
   }
 }
 
+.skeys {
+  padding: 10px;
+  .skgroup {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+  }
+  .skey {
+    cursor: pointer;
+    border-radius: 6px;
+    flex-basis: 50%;
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+    .skname {
+      padding-left: 40px;
+      @include ms-respond(font-size, 1);
+      text-shadow: 0 0 $dh-text;
+      &.google {
+        background: url(../images/keys/google.png) left 0.5em center/contain no-repeat;
+      }
+      &.duckduckgo {
+        background: url(../images/keys/duckduckgo.svg) left 0.5em center/contain no-repeat;
+      }
+      &.github {
+        background: url(../images/keys/github.svg) left 0.5em center/contain no-repeat;
+      }
+      &.stackexchange {
+        background: url(../images/keys/stackexchange.png) left 0.5em center/contain no-repeat;
+      }
+    }
+    .shortkeys {
+      padding-right: 50px;
+      background: url(../images/tab.png) center right 0.5em / contain no-repeat;
+      @include ms-respond(font-size, 1);
+      color: $grey-light;
+    }
+    &:hover {
+      background-color: $white-duck;
+    }
+  }
+}
+
 .searchResult {
   padding: 0 20px;
   .result {

@@ -17,7 +17,7 @@
     justify-content: center;
     height: 50px;
     padding-left: 60px;
-    background: url(../images/icons8-chrome.svg) left / contain no-repeat;
+    background: url(../images/icons8-chrome.svg) left/contain no-repeat;
     @include stretched-link;
     span {
       color: $nobody;
