@@ -8,6 +8,7 @@ import Brand from './brand'
 import Language from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import useHotkeys from '../utils/useHotkeys'
+import { SKey, SearchKeys, SearchKeysCN, PackageKeys } from '../utils/skeys'
 import { EnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { SearchParam, SearchTimeRange, Autocompleter, SearchResult } from '../services/search.service'
@@ -37,7 +38,12 @@ const SearchInput: React.FC = (): JSX.Element => {
   const error = useStoreState<AxiosError | null>(state => state.search.error)
 
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
-  const { language } = useStoreState<StorageType>(state => state.storage.values)
+  const { language, searchLanguage } = useStoreState<StorageType>(state => state.storage.values)
+
+  const [displayKeys, setDisplayKeys] = useState(false)
+  const [currentKey, setCurrentKey] = useState<SKey>(
+    language === Language.中文 ? SearchKeysCN.socode : SearchKeys.google
+  )
 
   const { wapperTop } = useSpring({
     wapperTop: result?.results.length ? -5 : displaySubtitle ? 150 : 130,
@@ -181,6 +187,50 @@ const SearchInput: React.FC = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const skeyNameClick = useCallback(() => {
+    setDisplayKeys(!displayKeys)
+  }, [displayKeys])
+
+  let SearchKeysDom
+  if (language === Language.中文) {
+    SearchKeysDom = Object.entries(SearchKeysCN).map(([key, value]) => {
+      return (
+        <div key={key} className={css.skey} onClick={() => { setCurrentKey(value); setDisplayKeys(false) }}>
+          <div className={cs(css.skname)} style={{ backgroundImage: `url(/keys/${value.icon})` }}>
+            {value.name}
+          </div>
+          <div className={css.shortkeys}>{value.shortkeys} +</div>
+        </div>
+      )
+    })
+  } else {
+    SearchKeysDom = Object.entries(SearchKeys).map(([key, value]) => {
+      return (
+        <div key={key} className={css.skey} onClick={() => { setCurrentKey(value); setDisplayKeys(false) }}>
+          <div className={cs(css.skname)} style={{ backgroundImage: `url(/keys/${value.icon})` }}>
+            {value.name}
+          </div>
+          <div className={css.shortkeys}>{value.shortkeys} +</div>
+        </div>
+      )
+    })
+  }
+
+  const PackageKeysDom = Object.entries(PackageKeys).map(([key, value]) => {
+    let styles = { backgroundImage: `url(/keys/${value.icon})` } as object
+    if (value.backgroundSize) {
+      styles = { ...styles, backgroundSize: value.backgroundSize }
+    }
+    return (
+      <div key={key} className={css.skey} onClick={() => { setCurrentKey(value); setDisplayKeys(false) }}>
+        <div className={cs(css.skname)} style={styles}>
+          {value.name ? value.name : <i>&nbsp;</i>}
+        </div>
+        <div className={css.shortkeys}>{value.shortkeys} +</div>
+      </div>
+    )
+  })
+
   return (
     <>
       <Brand onDisplaySubtitle={setDisplaySubtitle} />
@@ -190,7 +240,9 @@ const SearchInput: React.FC = (): JSX.Element => {
           top: wapperTop,
         }}>
         <div className={css.searchInput}>
-          <span className={css.prefix}>socode.pro</span>
+          <span className={css.prefix} onClick={skeyNameClick}>
+            {currentKey.name}
+          </span>
           <span className={css.sep}>$</span>
 
           <input
@@ -255,65 +307,12 @@ const SearchInput: React.FC = (): JSX.Element => {
           </div>
         </div>
 
-        <div className={css.skeys}>
-          <div className={css.skgroup}>
-            <div className={css.skey}>
-              <div className={cs(css.skname, css.google)}>Google</div>
-              <div className={css.shortkeys}>g +</div>
-            </div>
-            <div className={css.skey}>
-              <div className={cs(css.skname, css.duckduckgo)}>Duckduckgo</div>
-              <div className={css.shortkeys}>dd +</div>
-            </div>
-            <div className={css.skey}>
-              <div className={cs(css.skname, css.github)}>Github</div>
-              <div className={css.shortkeys}>gh +</div>
-            </div>
-            <div className={css.skey}>
-              <div className={cs(css.skname, css.stackexchange)}>StackExchange</div>
-              <div className={css.shortkeys}>se +</div>
-            </div>
+        {displayKeys && (
+          <div className={css.skeys}>
+            <div className={css.skgroup}>{SearchKeysDom}</div>
+            <div className={css.skgroup}>{PackageKeysDom}</div>
           </div>
-
-          <div className={css.skgroup}>
-            <div className={css.skey}>
-              <div className={cs(css.skname, css.npm)}>&nbsp;</div>
-              <div className={css.shortkeys}>n +</div>
-            </div>
-            <div className={css.skey}>
-              <div className={cs(css.skname, css.cocoapods)}>&nbsp;</div>
-              <div className={css.shortkeys}>cc +</div>
-            </div>
-            <div className={css.skey}>
-              <div className={cs(css.skname, css.maven)}>maven</div>
-              <div className={css.shortkeys}>m +</div>
-            </div>
-            <div className={css.skey}>
-              <div className={cs(css.skname, css.pypi)}>pypi</div>
-              <div className={css.shortkeys}>pp +</div>
-            </div>
-            <div className={css.skey}>
-              <div className={cs(css.skname, css.nuget)}>nuget</div>
-              <div className={css.shortkeys}>ng +</div>
-            </div>
-            <div className={css.skey}>
-              <div className={cs(css.skname, css.composer)}>Composer</div>
-              <div className={css.shortkeys}>cp +</div>
-            </div>
-            <div className={css.skey}>
-              <div className={cs(css.skname, css.rubygems)}>rubygems</div>
-              <div className={css.shortkeys}>rg +</div>
-            </div>
-            <div className={css.skey}>
-              <div className={cs(css.skname, css.godoc)}>godoc</div>
-              <div className={css.shortkeys}>gd +</div>
-            </div>
-            <div className={css.skey}>
-              <div className={cs(css.skname, css.cargo)}>cargo</div>
-              <div className={css.shortkeys}>cg +</div>
-            </div>
-          </div>
-        </div>
+        )}
 
         {loading && <Loader1 type={2} />}
 

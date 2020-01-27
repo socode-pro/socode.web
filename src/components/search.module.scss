@@ -58,6 +58,7 @@
     background: rgba($dh-body, 0.5);
     margin: 0 0 0 16px;
     box-shadow: 0 1px 1px rgba($dh-mute, 0.25);
+    cursor: pointer;
   }
 
   & > .sep {
@@ -152,47 +153,50 @@
       padding-left: 46px;
       @include ms-respond(font-size, 1);
       text-shadow: 0 0 $dh-text;
-      &.google {
-        background: url(../images/keys/google.png) left 0.5em center/contain no-repeat;
-      }
-      &.duckduckgo {
-        background: url(../images/keys/duckduckgo.svg) left 0.5em center/contain no-repeat;
-      }
-      &.github {
-        background: url(../images/keys/github.svg) left 0.5em center/contain no-repeat;
-      }
-      &.stackexchange {
-        background: url(../images/keys/stackexchange.png) left 0.5em center/contain no-repeat;
-      }
-      &.npm {
-        background: url(../images/keys/npm.svg) left 0.5em center/50% no-repeat;
-        width: 100px;
-      }
-      &.cocoapods {
-        background: url(../images/keys/cocoapods.png) left 0.5em center/contain no-repeat;
-        width: 100px;
-      }
-      &.maven {
-        background: url(../images/keys/sonatype.svg) left 0.5em center/contain no-repeat;
-      }
-      &.pypi {
-        background: url(../images/keys/pypi.svg) left 0.5em center/contain no-repeat;
-      }
-      &.nuget {
-        background: url(../images/keys/nuget.svg) left 0.5em center/contain no-repeat;
-      }
-      &.composer {
-        background: url(../images/keys/composer.png) left 0.5em center/contain no-repeat;
-      }
-      &.rubygems {
-        background: url(../images/keys/rubygems.jpg) left 0.5em center/contain no-repeat;
-      }
-      &.godoc {
-        background: url(../images/keys/godoc.png) left 0.5em center/contain no-repeat;
-      }
-      &.cargo {
-        background: url(../images/keys/Cargo.png) left 0.5em center/contain no-repeat;
-      }
+      background-position: left 0.5em center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      // &.google {
+      //   background: url(../images/keys/google.png) left 0.5em center/contain no-repeat;
+      // }
+      // &.duckduckgo {
+      //   background: url(../images/keys/duckduckgo.svg) left 0.5em center/contain no-repeat;
+      // }
+      // &.github {
+      //   background: url(../images/keys/github.svg) left 0.5em center/contain no-repeat;
+      // }
+      // &.stackexchange {
+      //   background: url(../images/keys/stackexchange.png) left 0.5em center/contain no-repeat;
+      // }
+      // &.npm {
+      //   background: url(../images/keys/npm.svg) left 0.5em center/50% no-repeat;
+      //   width: 100px;
+      // }
+      // &.cocoapods {
+      //   background: url(../images/keys/cocoapods.png) left 0.5em center/contain no-repeat;
+      //   width: 100px;
+      // }
+      // &.maven {
+      //   background: url(../images/keys/sonatype.svg) left 0.5em center/contain no-repeat;
+      // }
+      // &.pypi {
+      //   background: url(../images/keys/pypi.svg) left 0.5em center/contain no-repeat;
+      // }
+      // &.nuget {
+      //   background: url(../images/keys/nuget.svg) left 0.5em center/contain no-repeat;
+      // }
+      // &.composer {
+      //   background: url(../images/keys/composer.png) left 0.5em center/contain no-repeat;
+      // }
+      // &.rubygems {
+      //   background: url(../images/keys/rubygems.jpg) left 0.5em center/contain no-repeat;
+      // }
+      // &.godoc {
+      //   background: url(../images/keys/godoc.png) left 0.5em center/contain no-repeat;
+      // }
+      // &.cargo {
+      //   background: url(../images/keys/Cargo.png) left 0.5em center/contain no-repeat;
+      // }
     }
     .shortkeys {
       margin-left: 15px;
