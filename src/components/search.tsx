@@ -274,6 +274,45 @@ const SearchInput: React.FC = (): JSX.Element => {
               <div className={css.shortkeys}>se +</div>
             </div>
           </div>
+
+          <div className={css.skgroup}>
+            <div className={css.skey}>
+              <div className={cs(css.skname, css.npm)}>&nbsp;</div>
+              <div className={css.shortkeys}>n +</div>
+            </div>
+            <div className={css.skey}>
+              <div className={cs(css.skname, css.cocoapods)}>&nbsp;</div>
+              <div className={css.shortkeys}>cc +</div>
+            </div>
+            <div className={css.skey}>
+              <div className={cs(css.skname, css.maven)}>maven</div>
+              <div className={css.shortkeys}>m +</div>
+            </div>
+            <div className={css.skey}>
+              <div className={cs(css.skname, css.pypi)}>pypi</div>
+              <div className={css.shortkeys}>pp +</div>
+            </div>
+            <div className={css.skey}>
+              <div className={cs(css.skname, css.nuget)}>nuget</div>
+              <div className={css.shortkeys}>ng +</div>
+            </div>
+            <div className={css.skey}>
+              <div className={cs(css.skname, css.composer)}>Composer</div>
+              <div className={css.shortkeys}>cp +</div>
+            </div>
+            <div className={css.skey}>
+              <div className={cs(css.skname, css.rubygems)}>rubygems</div>
+              <div className={css.shortkeys}>rg +</div>
+            </div>
+            <div className={css.skey}>
+              <div className={cs(css.skname, css.godoc)}>godoc</div>
+              <div className={css.shortkeys}>gd +</div>
+            </div>
+            <div className={css.skey}>
+              <div className={cs(css.skname, css.cargo)}>cargo</div>
+              <div className={css.shortkeys}>cg +</div>
+            </div>
+          </div>
         </div>
 
         {loading && <Loader1 type={2} />}

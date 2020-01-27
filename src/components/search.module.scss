@@ -134,16 +134,22 @@
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
+    &:not(:first-child) {
+      border-top: solid 1px $white-ter;
+      padding-top: 10px;
+    }
+    &:not(:last-child) {
+      padding-bottom: 10px;
+    }
   }
   .skey {
     cursor: pointer;
     border-radius: 6px;
     flex-basis: 50%;
     display: flex;
-    justify-content: space-between;
-    padding: 1em;
+    padding: 1em 1em 1em 0.5em;
     .skname {
-      padding-left: 40px;
+      padding-left: 46px;
       @include ms-respond(font-size, 1);
       text-shadow: 0 0 $dh-text;
       &.google {
@@ -158,15 +164,49 @@
       &.stackexchange {
         background: url(../images/keys/stackexchange.png) left 0.5em center/contain no-repeat;
       }
+      &.npm {
+        background: url(../images/keys/npm.svg) left 0.5em center/50% no-repeat;
+        width: 100px;
+      }
+      &.cocoapods {
+        background: url(../images/keys/cocoapods.png) left 0.5em center/contain no-repeat;
+        width: 100px;
+      }
+      &.maven {
+        background: url(../images/keys/sonatype.svg) left 0.5em center/contain no-repeat;
+      }
+      &.pypi {
+        background: url(../images/keys/pypi.svg) left 0.5em center/contain no-repeat;
+      }
+      &.nuget {
+        background: url(../images/keys/nuget.svg) left 0.5em center/contain no-repeat;
+      }
+      &.composer {
+        background: url(../images/keys/composer.png) left 0.5em center/contain no-repeat;
+      }
+      &.rubygems {
+        background: url(../images/keys/rubygems.jpg) left 0.5em center/contain no-repeat;
+      }
+      &.godoc {
+        background: url(../images/keys/godoc.png) left 0.5em center/contain no-repeat;
+      }
+      &.cargo {
+        background: url(../images/keys/Cargo.png) left 0.5em center/contain no-repeat;
+      }
     }
     .shortkeys {
-      padding-right: 50px;
+      margin-left: 15px;
+      padding-right: 40px;
       background: url(../images/tab.png) center right 0.5em / contain no-repeat;
       @include ms-respond(font-size, 1);
       color: $grey-light;
+      display: none;
     }
     &:hover {
       background-color: $white-duck;
+      .shortkeys {
+        display: block;
+      }
     }
   }
 }
