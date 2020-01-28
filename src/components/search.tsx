@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react'
 import { useSpring, animated } from 'react-spring'
 import throttle from 'lodash/throttle'
 import { AxiosError } from 'axios'
@@ -8,7 +8,7 @@ import Brand from './brand'
 import Language from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import useHotkeys from '../utils/useHotkeys'
-import { SKey, SearchKeys, SearchKeysCN, PackageKeys } from '../utils/skeys'
+import { SKey, SearchKeys, SearchKeysCN, PackageKeys, ToolKeys, DocKeys } from '../utils/skeys'
 import { EnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { SearchParam, SearchTimeRange, Autocompleter, SearchResult } from '../services/search.service'
@@ -42,7 +42,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const [displayKeys, setDisplayKeys] = useState(false)
   const [currentKey, setCurrentKey] = useState<SKey>(
-    language === Language.中文 ? SearchKeysCN.socode : SearchKeys.google
+    language === Language.中文 ? SearchKeysCN.socode : SearchKeys.github
   )
 
   const { wapperTop } = useSpring({
@@ -191,46 +191,36 @@ const SearchInput: React.FC = (): JSX.Element => {
     setDisplayKeys(!displayKeys)
   }, [displayKeys])
 
-  const SearchKeysDom = Object.entries(language === Language.中文 ? SearchKeysCN : SearchKeys).map(([key, value]) => {
-    return (
-      <div
-        key={key}
-        className={css.skey}
-        onClick={() => {
-          setCurrentKey(value)
-          setDisplayKeys(false)
-        }}>
-        <div className={cs(css.skname)} style={{ backgroundImage: `url(/keys/${value.icon})` }}>
-          {value.name}
+  const getKeysDom = useCallback((Keys: { [key: string]: SKey }) => {
+    return Object.entries(Keys).map(([key, value]) => {
+      let styles = { backgroundImage: `url(/keys/${value.icon})` } as object
+      if (value.backgroundSize) {
+        styles = { ...styles, backgroundSize: value.backgroundSize }
+      }
+      if (value.width) {
+        styles = { ...styles, width: value.width }
+      }
+      return (
+        <div
+          key={key}
+          className={css.skey}
+          onClick={() => {
+            setCurrentKey(value)
+            setDisplayKeys(false)
+          }}>
+          <div className={cs(css.skname)} style={styles}>
+            {value.name ? value.name : <>&nbsp;</>}
+          </div>
+          <div className={css.shortkeys}>{value.shortkeys} +</div>
         </div>
-        <div className={css.shortkeys}>{value.shortkeys} +</div>
-      </div>
-    )
-  })
+      )
+    })
+  }, [])
 
-  const PackageKeysDom = Object.entries(PackageKeys).map(([key, value]) => {
-    let styles = { backgroundImage: `url(/keys/${value.icon})` } as object
-    if (value.backgroundSize) {
-      styles = { ...styles, backgroundSize: value.backgroundSize }
-    }
-    if (value.width) {
-      styles = { ...styles, width: value.width }
-    }
-    return (
-      <div
-        key={key}
-        className={css.skey}
-        onClick={() => {
-          setCurrentKey(value)
-          setDisplayKeys(false)
-        }}>
-        <div className={cs(css.skname)} style={styles}>
-          {value.name ? value.name : <i>&nbsp;</i>}
-        </div>
-        <div className={css.shortkeys}>{value.shortkeys} +</div>
-      </div>
-    )
-  })
+  const SearchKeysDom = getKeysDom(language === Language.中文 ? SearchKeysCN : SearchKeys)
+  const PackageKeysDom = getKeysDom(PackageKeys)
+  const ToolKeysDom = getKeysDom(ToolKeys)
+  const DocKeysDom = getKeysDom(DocKeys)
 
   return (
     <>
@@ -311,7 +301,9 @@ const SearchInput: React.FC = (): JSX.Element => {
         {displayKeys && (
           <div className={css.skeys}>
             <div className={css.skgroup}>{SearchKeysDom}</div>
+            <div className={css.skgroup}>{ToolKeysDom}</div>
             <div className={css.skgroup}>{PackageKeysDom}</div>
+            <div className={css.skgroup}>{DocKeysDom}</div>
           </div>
         )}
 
