@@ -1,7 +1,7 @@
 // https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 enum Language {
-  English = 'en',
-  中文 = 'zh',
+  English = 'en-us',
+  中文 = 'zh-cn',
   Português = 'pt',
   日本語 = 'ja',
   русский = 'ru',

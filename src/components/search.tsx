@@ -1,7 +1,6 @@
-import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useSpring, animated } from 'react-spring'
 import throttle from 'lodash/throttle'
-import { AxiosError } from 'axios'
 import cs from 'classnames'
 import Highlighter from 'react-highlight-words'
 import Brand from './brand'
@@ -11,8 +10,9 @@ import useHotkeys from '../utils/useHotkeys'
 import { SKey, SearchKeys, SearchKeysCN, PackageKeys, ToolKeys, DocKeys } from '../utils/skeys'
 import { EnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
-import { SearchParam, SearchTimeRange, Autocompleter, SearchResult } from '../services/search.service'
+import { SocodeParam, SearchTimeRange, Autocompleter, SocodeResult } from '../services/socode.service'
 import { StorageType } from '../models/storage'
+import { SError } from '../models/search'
 import css from './search.module.scss'
 import Loader1 from './loader/loader1'
 
@@ -33,9 +33,9 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const searchAction = useStoreActions(actions => actions.search.search)
   const setResultAction = useStoreActions(actions => actions.search.setResult)
-  const result = useStoreState<SearchResult | null>(state => state.search.result)
+  const result = useStoreState<SocodeResult | null>(state => state.search.result)
   const loading = useStoreState<boolean>(state => state.search.loading)
-  const error = useStoreState<AxiosError | null>(state => state.search.error)
+  const error = useStoreState<SError | null>(state => state.search.error)
 
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
   const { language, searchLanguage } = useStoreState<StorageType>(state => state.storage.values)
@@ -69,10 +69,10 @@ const SearchInput: React.FC = (): JSX.Element => {
         setResultAction(null)
         return
       }
-      const param = { query, language, timeRange, pageno } as SearchParam
-      await searchAction(param)
+      const param = { query, language: searchLanguage, timeRange, pageno } as SocodeParam
+      await searchAction({ ...param, ...currentKey })
     },
-    [language, timeRange, pageno, searchAction, squery, setResultAction]
+    [squery, searchLanguage, timeRange, pageno, searchAction, currentKey, setResultAction]
   )
 
   const throttleAutocomplate = useCallback(
@@ -174,7 +174,7 @@ const SearchInput: React.FC = (): JSX.Element => {
     setPageno(1)
     searchSubmit()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language, timeRange])
+  }, [searchLanguage, timeRange])
 
   useEffect(() => {
     const popstateSearch = (): void => {
@@ -209,18 +209,13 @@ const SearchInput: React.FC = (): JSX.Element => {
             setDisplayKeys(false)
           }}>
           <div className={cs(css.skname)} style={styles}>
-            {value.name ? value.name : <>&nbsp;</>}
+            {value.hideName ? <>&nbsp;</> : value.name}
           </div>
           <div className={css.shortkeys}>{value.shortkeys} +</div>
         </div>
       )
     })
   }, [])
-
-  const SearchKeysDom = getKeysDom(language === Language.中文 ? SearchKeysCN : SearchKeys)
-  const PackageKeysDom = getKeysDom(PackageKeys)
-  const ToolKeysDom = getKeysDom(ToolKeys)
-  const DocKeysDom = getKeysDom(DocKeys)
 
   return (
     <>
@@ -269,15 +264,18 @@ const SearchInput: React.FC = (): JSX.Element => {
             </div>
           )}
 
-          <div className='select is-rounded mgl10'>
-            <select value={language} onChange={e => setStorage({ language: e.target.value as Language })}>
-              {languageOptions.map(o => (
-                <option key={o.value} value={o.value}>
-                  {o.label}
-                </option>
-              ))}
-            </select>
-          </div>
+          {currentKey.bylang && (
+            <div className='select is-rounded mgl10'>
+              <select value={searchLanguage} onChange={e => setStorage({ searchLanguage: e.target.value as Language })}>
+                {languageOptions.map(o => (
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
           <i className={css.sicon} onClick={() => searchSubmit()} />
         </div>
 
@@ -300,16 +298,16 @@ const SearchInput: React.FC = (): JSX.Element => {
 
         {displayKeys && (
           <div className={css.skeys}>
-            <div className={css.skgroup}>{SearchKeysDom}</div>
-            <div className={css.skgroup}>{ToolKeysDom}</div>
-            <div className={css.skgroup}>{PackageKeysDom}</div>
-            <div className={css.skgroup}>{DocKeysDom}</div>
+            <div className={css.skgroup}>{getKeysDom(language === Language.中文 ? SearchKeysCN : SearchKeys)}</div>
+            <div className={css.skgroup}>{getKeysDom(PackageKeys)}</div>
+            <div className={css.skgroup}>{getKeysDom(ToolKeys)}</div>
+            <div className={css.skgroup}>{getKeysDom(DocKeys)}</div>
           </div>
         )}
 
         {loading && <Loader1 type={2} />}
 
-        {error !== null && <div className={css.error}>{error.message}</div>}
+        {error !== null && <div className={css.error}>{error instanceof String ? error : error.message}</div>}
 
         {result !== null && (
           <div className={css.searchResult}>
@@ -376,7 +374,9 @@ const SearchInput: React.FC = (): JSX.Element => {
           </div>
         )}
 
-        {result === null && <p className={cs(css.slogan, { [css.zh]: language !== Language.English })}>{slogon}</p>}
+        {result === null && currentKey.name === 'socode.pro' && (
+          <p className={cs(css.slogan, { [css.zh]: language === Language.中文 })}>{slogon}</p>
+        )}
       </animated.div>
     </>
   )

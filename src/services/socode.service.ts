@@ -17,13 +17,13 @@ export enum SearchTimeRange {
   Year = 'year',
 }
 
-export interface SearchResult {
+export interface SocodeResult {
   paging: boolean
-  results: Array<SearchItem>
+  results: Array<SocodeItem>
   unresponsive_engines: Array<string[]>
 }
 
-export interface SearchItem {
+export interface SocodeItem {
   url: string
   title: string
   content: string
@@ -33,7 +33,7 @@ export interface SearchItem {
   pretty_url: string
 }
 
-export interface SearchParam {
+export interface SocodeParam {
   query: string
   timeRange?: SearchTimeRange
   language?: Language
@@ -85,7 +85,7 @@ const Sites = [
 ]
 
 // shorturl.at/ovOUW too many, infeasible way
-const ExcludeSites = ['youtube.*', 'wikipedia.*', 'medium.*', 'twitter.*', 'pornhub.*']
+// const ExcludeSites = ['youtube.*', 'wikipedia.*', 'medium.*', 'twitter.*', 'pornhub.*']
 
 export const search = async ({
   query,
@@ -93,7 +93,7 @@ export const search = async ({
   language = Language.English,
   pageno = 1,
   cookie = undefined,
-}: SearchParam): Promise<SearchResult | null> => {
+}: SocodeParam): Promise<SocodeResult | null> => {
   const q = env.ignoreSites() ? query : `${query} site:${Sites.join(' OR site:')}`
   // const q = `${query} -site:${ExcludeSites.join(' AND -site:')}`
 
@@ -107,7 +107,7 @@ export const search = async ({
   }
 
   try {
-    const response = await axiosInstance.post<SearchResult>(
+    const response = await axiosInstance.post<SocodeResult>(
       env.host(),
       qs.stringify({
         q,

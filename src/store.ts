@@ -1,6 +1,6 @@
 import { createStore } from 'easy-peasy'
 import model from './models'
-import * as searchService from './services/search.service'
+import * as searchService from './services/socode.service'
 
 export interface Injections {
   searchService: typeof searchService
