@@ -3,6 +3,7 @@ export interface SKey {
   shortkeys: string
   icon: string
   backgroundSize?: string
+  width?: number
 }
 
 export const SearchKeys: { [key: string]: SKey } = {
@@ -19,8 +20,8 @@ export const SearchKeysCN: { [key: string]: SKey } = {
 }
 
 export const PackageKeys: { [key: string]: SKey } = {
-  npm: { name: '', shortkeys: 'n', icon: 'npm.svg', backgroundSize: '50%' },
-  cocoapods: { name: '', shortkeys: 'cc', icon: 'cocoapods.png' },
+  npm: { name: '', shortkeys: 'n', icon: 'npm.svg', backgroundSize: '50%', width: 100 },
+  cocoapods: { name: '', shortkeys: 'cc', icon: 'cocoapods.png', width: 100 },
   maven: { name: 'Maven', shortkeys: 'mv', icon: 'sonatype.svg' },
   pypi: { name: 'PyPI', shortkeys: 'pp', icon: 'pypi.svg' },
   nuget: { name: 'NuGet', shortkeys: 'ng', icon: 'nuget.svg' },

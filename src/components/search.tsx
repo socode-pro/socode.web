@@ -191,38 +191,39 @@ const SearchInput: React.FC = (): JSX.Element => {
     setDisplayKeys(!displayKeys)
   }, [displayKeys])
 
-  let SearchKeysDom
-  if (language === Language.中文) {
-    SearchKeysDom = Object.entries(SearchKeysCN).map(([key, value]) => {
-      return (
-        <div key={key} className={css.skey} onClick={() => { setCurrentKey(value); setDisplayKeys(false) }}>
-          <div className={cs(css.skname)} style={{ backgroundImage: `url(/keys/${value.icon})` }}>
-            {value.name}
-          </div>
-          <div className={css.shortkeys}>{value.shortkeys} +</div>
+  const SearchKeysDom = Object.entries(language === Language.中文 ? SearchKeysCN : SearchKeys).map(([key, value]) => {
+    return (
+      <div
+        key={key}
+        className={css.skey}
+        onClick={() => {
+          setCurrentKey(value)
+          setDisplayKeys(false)
+        }}>
+        <div className={cs(css.skname)} style={{ backgroundImage: `url(/keys/${value.icon})` }}>
+          {value.name}
         </div>
-      )
-    })
-  } else {
-    SearchKeysDom = Object.entries(SearchKeys).map(([key, value]) => {
-      return (
-        <div key={key} className={css.skey} onClick={() => { setCurrentKey(value); setDisplayKeys(false) }}>
-          <div className={cs(css.skname)} style={{ backgroundImage: `url(/keys/${value.icon})` }}>
-            {value.name}
-          </div>
-          <div className={css.shortkeys}>{value.shortkeys} +</div>
-        </div>
-      )
-    })
-  }
+        <div className={css.shortkeys}>{value.shortkeys} +</div>
+      </div>
+    )
+  })
 
   const PackageKeysDom = Object.entries(PackageKeys).map(([key, value]) => {
     let styles = { backgroundImage: `url(/keys/${value.icon})` } as object
     if (value.backgroundSize) {
       styles = { ...styles, backgroundSize: value.backgroundSize }
     }
+    if (value.width) {
+      styles = { ...styles, width: value.width }
+    }
     return (
-      <div key={key} className={css.skey} onClick={() => { setCurrentKey(value); setDisplayKeys(false) }}>
+      <div
+        key={key}
+        className={css.skey}
+        onClick={() => {
+          setCurrentKey(value)
+          setDisplayKeys(false)
+        }}>
         <div className={cs(css.skname)} style={styles}>
           {value.name ? value.name : <i>&nbsp;</i>}
         </div>
