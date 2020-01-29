@@ -31,6 +31,7 @@ const storageModel: StorageModel = {
   values: {
     language: navigatorLanguage(navigator.language),
     searchLanguage: navigatorLanguage(navigator.language),
+    openNewTab: true,
   },
 
   set: action((state, payload) => {
@@ -42,7 +43,7 @@ const storageModel: StorageModel = {
       storageKeys.forEach(key => {
         let value: any = localStorage.getItem(`socode_${key}`)
         if (value) {
-          if (key === 'openNewTab') value = value === 'true'
+          if (key === 'openNewTab') value = value !== 'false'
           else if (key === 'darkMode') value = parseInt(value)
           else if (key === 'trending') value = JSON.parse(value)
           state.values = { ...state.values, ...{ [key]: value } }

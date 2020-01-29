@@ -132,6 +132,15 @@ const SearchInput: React.FC = (): JSX.Element => {
   if (inputEl.current !== null) inputEl.current.onsearch = handlerSearch
 
   useHotkeys(
+    '`',
+    () => {
+      setDisplayKeys(!displayKeys)
+    },
+    [displayKeys],
+    ['BODY']
+  )
+
+  useHotkeys(
     '/',
     () => {
       inputEl.current?.focus()
@@ -212,6 +221,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           onClick={() => {
             setCurrentKey(value)
             setDisplayKeys(false)
+            winSearchParams('', value.name)
           }}>
           <div className={cs(css.skname)} style={styles}>
             {value.hideName ? <>&nbsp;</> : value.name}
