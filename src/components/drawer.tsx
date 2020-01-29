@@ -147,7 +147,7 @@ const Drawer: React.FC = (): JSX.Element => {
           <p className={css.principles}>and become a professional mistake maker.</p>
         </footer>
       </div>
-      <div className={cs(css.mask, { 'dis-none': !active })} onClick={() => setActive(!active)} />
+      <div className={cs('mask', { 'dis-none': !active })} onClick={() => setActive(!active)} />
     </>
   )
 }

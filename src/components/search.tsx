@@ -134,7 +134,9 @@ const SearchInput: React.FC = (): JSX.Element => {
   useHotkeys(
     '`',
     () => {
-      setDisplayKeys(!displayKeys)
+      if (inputEl.current !== document.activeElement) {
+        setDisplayKeys(!displayKeys)
+      }
     },
     [displayKeys],
     ['BODY']
@@ -222,6 +224,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             setCurrentKey(value)
             setDisplayKeys(false)
             winSearchParams('', value.name)
+            inputEl.current?.focus()
           }}>
           <div className={cs(css.skname)} style={styles}>
             {value.hideName ? <>&nbsp;</> : value.name}
@@ -234,165 +237,170 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <Brand onDisplaySubtitle={setDisplaySubtitle} />
-      <animated.div
-        className={cs(css.searchWapper, { [css.focus]: focus })}
-        style={{
-          top: wapperTop,
-        }}>
-        <div className={css.searchInput}>
-          <span className={css.prefix} onClick={() => setDisplayKeys(!displayKeys)}>
-            {currentKey.name}
-          </span>
-          <span className={css.sep}>$</span>
+      <div className='container'>
+        <Brand onDisplaySubtitle={setDisplaySubtitle} />
+        <animated.div
+          className={cs(css.searchWapper, { [css.focus]: focus })}
+          style={{
+            top: wapperTop,
+          }}>
+          <div className={css.searchInput}>
+            <span className={css.prefix} onClick={() => setDisplayKeys(!displayKeys)}>
+              {currentKey.name}
+            </span>
+            <span className={css.sep}>$</span>
 
-          <input
-            type='search'
-            className={css.input}
-            spellCheck={false}
-            value={squery}
-            autoFocus
-            // name="q"
-            onBlur={() => {
-              setFocus(false)
-              setTimeout(() => setAcDisplay(false), 500)
-            }} // fix autocomplateClick
-            onFocus={() => {
-              setFocus(true)
-              setAcDisplay(true)
-            }}
-            onChange={handleQueryChange}
-            ref={inputEl} // https://stackoverflow.com/a/48656310/346701
-            // onKeyPress={handleQueryKeyPress}
-          />
+            <input
+              type='search'
+              className={css.input}
+              spellCheck={false}
+              value={squery}
+              autoFocus
+              // name="q"
+              onBlur={() => {
+                setFocus(false)
+                setTimeout(() => setAcDisplay(false), 500)
+              }} // fix autocomplateClick
+              onFocus={() => {
+                setFocus(true)
+                setAcDisplay(true)
+              }}
+              onChange={handleQueryChange}
+              ref={inputEl} // https://stackoverflow.com/a/48656310/346701
+              // onKeyPress={handleQueryKeyPress}
+            />
+
+            {result !== null && (
+              <div className='select is-rounded mgl10'>
+                {/* https://www.typescriptlang.org/docs/handbook/jsx.html#the-as-operator */}
+                <select value={timeRange} onChange={e => setTimeRange(e.target.value as SearchTimeRange)}>
+                  {timeRangeOptions.map(o => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {currentKey.bylang && (
+              <div className='select is-rounded mgl10'>
+                <select
+                  value={searchLanguage}
+                  onChange={e => setStorage({ searchLanguage: e.target.value as Language })}>
+                  {languageOptions.map(o => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            <i className={css.sicon} onClick={() => searchSubmit()} />
+          </div>
+
+          <div className={cs(css.autocomplate, 'dropdown', { 'is-active': autocomplate.length && acDisplay })}>
+            <div className='dropdown-menu'>
+              <div className='dropdown-content'>
+                {autocomplate.map((a, i) => {
+                  return (
+                    <a
+                      key={a}
+                      onClick={() => autocomplateClick(a)}
+                      className={cs('dropdown-item', { 'is-active': acIndex === i })}>
+                      {a}
+                    </a>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+
+          {displayKeys && (
+            <div className={css.skeys}>
+              <div className={css.skgroup}>{getKeysDom(language === Language.中文 ? SearchKeysCN : SearchKeys)}</div>
+              <div className={css.skgroup}>{getKeysDom(ToolKeys)}</div>
+              <div className={css.skgroup}>{getKeysDom(PackageKeys)}</div>
+              <div className={css.skgroup}>{getKeysDom(DocKeys)}</div>
+            </div>
+          )}
+
+          {loading && <Loader1 type={2} />}
+
+          {error !== null && <div className={css.error}>{error instanceof String ? error : error.message}</div>}
 
           {result !== null && (
-            <div className='select is-rounded mgl10'>
-              {/* https://www.typescriptlang.org/docs/handbook/jsx.html#the-as-operator */}
-              <select value={timeRange} onChange={e => setTimeRange(e.target.value as SearchTimeRange)}>
-                {timeRangeOptions.map(o => (
-                  <option key={o.value} value={o.value}>
-                    {o.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+            <div className={css.searchResult}>
+              {result.results.map(r => (
+                <div key={r.url} className={css.result}>
+                  <h4 className={css.header}>
+                    <a href={r.url} target='_blank' rel='noopener noreferrer'>
+                      {r.title}
+                    </a>
+                  </h4>
+                  <p className={css.external}>{r.pretty_url}</p>
+                  <Highlighter
+                    className={css.content}
+                    highlightClassName={css.highlighter}
+                    searchWords={squery.split(' ')}
+                    autoEscape
+                    textToHighlight={r.content}
+                  />
+                </div>
+              ))}
 
-          {currentKey.bylang && (
-            <div className='select is-rounded mgl10'>
-              <select value={searchLanguage} onChange={e => setStorage({ searchLanguage: e.target.value as Language })}>
-                {languageOptions.map(o => (
-                  <option key={o.value} value={o.value}>
-                    {o.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-
-          <i className={css.sicon} onClick={() => searchSubmit()} />
-        </div>
-
-        <div className={cs(css.autocomplate, 'dropdown', { 'is-active': autocomplate.length && acDisplay })}>
-          <div className='dropdown-menu'>
-            <div className='dropdown-content'>
-              {autocomplate.map((a, i) => {
-                return (
-                  <a
-                    key={a}
-                    onClick={() => autocomplateClick(a)}
-                    className={cs('dropdown-item', { 'is-active': acIndex === i })}>
-                    {a}
-                  </a>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-
-        {displayKeys && (
-          <div className={css.skeys}>
-            <div className={css.skgroup}>{getKeysDom(language === Language.中文 ? SearchKeysCN : SearchKeys)}</div>
-            <div className={css.skgroup}>{getKeysDom(ToolKeys)}</div>
-            <div className={css.skgroup}>{getKeysDom(PackageKeys)}</div>
-            <div className={css.skgroup}>{getKeysDom(DocKeys)}</div>
-          </div>
-        )}
-
-        {loading && <Loader1 type={2} />}
-
-        {error !== null && <div className={css.error}>{error instanceof String ? error : error.message}</div>}
-
-        {result !== null && (
-          <div className={css.searchResult}>
-            {result.results.map(r => (
-              <div key={r.url} className={css.result}>
-                <h4 className={css.header}>
-                  <a href={r.url} target='_blank' rel='noopener noreferrer'>
-                    {r.title}
-                  </a>
-                </h4>
-                <p className={css.external}>{r.pretty_url}</p>
-                <Highlighter
-                  className={css.content}
-                  highlightClassName={css.highlighter}
-                  searchWords={squery.split(' ')}
-                  autoEscape
-                  textToHighlight={r.content}
-                />
-              </div>
-            ))}
-
-            {result.paging && (
-              <div className={cs(css.pagination, 'field has-addons')}>
-                {pageno !== 1 && (
+              {result.paging && (
+                <div className={cs(css.pagination, 'field has-addons')}>
+                  {pageno !== 1 && (
+                    <p className='control'>
+                      <button
+                        type='button'
+                        className='button is-rounded'
+                        onClick={() => {
+                          setPageno(pageno - 1)
+                          window.scrollTo({ top: 0 })
+                        }}>
+                        <span className='icon'>
+                          <i className={css.pagePrevious} />
+                        </span>
+                        <span>Previous Page</span>
+                      </button>
+                    </p>
+                  )}
                   <p className='control'>
                     <button
                       type='button'
                       className='button is-rounded'
                       onClick={() => {
-                        setPageno(pageno - 1)
+                        setPageno(pageno + 1)
                         window.scrollTo({ top: 0 })
                       }}>
+                      <span>Next Page</span>
                       <span className='icon'>
-                        <i className={css.pagePrevious} />
+                        <i className={css.pageNext} />
                       </span>
-                      <span>Previous Page</span>
                     </button>
                   </p>
-                )}
-                <p className='control'>
-                  <button
-                    type='button'
-                    className='button is-rounded'
-                    onClick={() => {
-                      setPageno(pageno + 1)
-                      window.scrollTo({ top: 0 })
-                    }}>
-                    <span>Next Page</span>
-                    <span className='icon'>
-                      <i className={css.pageNext} />
-                    </span>
-                  </button>
-                </p>
-              </div>
-            )}
+                </div>
+              )}
 
-            {result.results.length === 0 && <div className={css.notFound} />}
-          </div>
-        )}
+              {result.results.length === 0 && <div className={css.notFound} />}
+            </div>
+          )}
 
-        {result !== null && (
-          <div className={css.closer} onClick={closeResult}>
-            <a className='delete is-medium' />
-          </div>
-        )}
+          {result !== null && (
+            <div className={css.closer} onClick={closeResult}>
+              <a className='delete is-medium' />
+            </div>
+          )}
 
-        {result === null && currentKey.name === 'socode.pro' && (
-          <p className={cs(css.slogan, { [css.zh]: language === Language.中文 })}>{slogon}</p>
-        )}
-      </animated.div>
+          {result === null && currentKey.name === 'socode.pro' && (
+            <p className={cs(css.slogan, { [css.zh]: language === Language.中文 })}>{slogon}</p>
+          )}
+        </animated.div>
+      </div>
+      <div className={cs('mask', { 'dis-none': !displayKeys })} onClick={() => setDisplayKeys(!displayKeys)} />
     </>
   )
 }

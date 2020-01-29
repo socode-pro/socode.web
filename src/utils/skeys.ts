@@ -89,7 +89,7 @@ export const PackageKeys: { [key: string]: SKey } = {
 
 export const DocKeys: { [key: string]: SKey } = {
   mdn: {
-    name: 'MDN(Mozilla Developer Network)',
+    name: 'Mozilla Developer Network',
     hideName: true,
     shortkeys: 'mdn',
     icon: 'MDN.svg',

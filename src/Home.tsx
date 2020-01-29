@@ -14,18 +14,7 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <div className='container'>
-        <Search />
-        {/* <footer className='footer'>
-        <div className='content has-text-centered'>
-          <p>
-            <Link className='link' to='/Privacy'>
-              Privacy
-            </Link>
-          </p>
-        </div>
-      </footer> */}
-      </div>
+      <Search />
       <Drawer />
       <ExtArrow />
     </>
