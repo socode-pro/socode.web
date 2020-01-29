@@ -19,8 +19,13 @@ export const EnumObjects = (enumme): Array<{ label: string; value: any }> => {
 const { location, history } = window
 
 // https://stackoverflow.com/a/41542008
-export const winSearchParams = (query: string): void => {
+export const winSearchParams = (query: string, keyname: string): void => {
   const searchParams = new URLSearchParams(location.search)
+  if (!keyname) {
+    searchParams.delete('k')
+  } else {
+    searchParams.set('k', keyname)
+  }
   if (!query) {
     searchParams.delete('q')
   } else {

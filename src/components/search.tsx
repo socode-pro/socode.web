@@ -7,7 +7,7 @@ import Brand from './brand'
 import Language from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import useHotkeys from '../utils/useHotkeys'
-import { SKey, SearchKeys, SearchKeysCN, PackageKeys, ToolKeys, DocKeys } from '../utils/skeys'
+import { SKey, SearchKeys, SearchKeysCN, PackageKeys, ToolKeys, DocKeys, GetKey } from '../utils/skeys'
 import { EnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { SocodeParam, SearchTimeRange, Autocompleter, SocodeResult } from '../services/socode.service'
@@ -52,6 +52,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const searchSubmit = useCallback(
     async (q?: string) => {
       let query: string | null = null
+      let skey = currentKey
       if (q !== undefined) {
         query = q
         setSquery(q)
@@ -63,6 +64,13 @@ const SearchInput: React.FC = (): JSX.Element => {
           query = searchParams.get('q') || ''
           setSquery(query)
         }
+        if (searchParams.has('k')) {
+          const key = GetKey(searchParams.get('k') || '')
+          if (key) {
+            skey = key
+            setCurrentKey(key)
+          }
+        }
       }
 
       if (!query) {
@@ -70,7 +78,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         return
       }
       const param = { query, language: searchLanguage, timeRange, pageno } as SocodeParam
-      await searchAction({ ...param, ...currentKey })
+      await searchAction({ ...param, ...skey })
     },
     [squery, searchLanguage, timeRange, pageno, searchAction, currentKey, setResultAction]
   )
@@ -106,8 +114,8 @@ const SearchInput: React.FC = (): JSX.Element => {
     setAutocomplate([])
     setPageno(1)
     searchSubmit('')
-    winSearchParams('')
-  }, [searchSubmit])
+    winSearchParams('', currentKey.name)
+  }, [currentKey.name, searchSubmit])
 
   const handlerSearch = useCallback(
     e => {
@@ -115,10 +123,10 @@ const SearchInput: React.FC = (): JSX.Element => {
       setAutocomplate([])
       setPageno(1)
       searchSubmit(e.target?.value)
-      winSearchParams(e.target?.value)
+      winSearchParams(e.target?.value, currentKey.name)
       e.target?.blur()
     },
-    [searchSubmit]
+    [currentKey.name, searchSubmit]
   )
 
   if (inputEl.current !== null) inputEl.current.onsearch = handlerSearch
@@ -141,6 +149,7 @@ const SearchInput: React.FC = (): JSX.Element => {
     [acIndex, autocomplate],
     [css.input]
   )
+
   useHotkeys(
     'up',
     () => {
@@ -156,9 +165,9 @@ const SearchInput: React.FC = (): JSX.Element => {
       setAutocomplate([])
       setPageno(1)
       searchSubmit(a)
-      winSearchParams(a)
+      winSearchParams(a, currentKey.name)
     },
-    [searchSubmit]
+    [currentKey.name, searchSubmit]
   )
 
   useEffect(() => {
@@ -186,10 +195,6 @@ const SearchInput: React.FC = (): JSX.Element => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  const skeyNameClick = useCallback(() => {
-    setDisplayKeys(!displayKeys)
-  }, [displayKeys])
 
   const getKeysDom = useCallback((Keys: { [key: string]: SKey }) => {
     return Object.entries(Keys).map(([key, value]) => {
@@ -226,7 +231,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           top: wapperTop,
         }}>
         <div className={css.searchInput}>
-          <span className={css.prefix} onClick={skeyNameClick}>
+          <span className={css.prefix} onClick={() => setDisplayKeys(!displayKeys)}>
             {currentKey.name}
           </span>
           <span className={css.sep}>$</span>
@@ -299,8 +304,8 @@ const SearchInput: React.FC = (): JSX.Element => {
         {displayKeys && (
           <div className={css.skeys}>
             <div className={css.skgroup}>{getKeysDom(language === Language.中文 ? SearchKeysCN : SearchKeys)}</div>
-            <div className={css.skgroup}>{getKeysDom(PackageKeys)}</div>
             <div className={css.skgroup}>{getKeysDom(ToolKeys)}</div>
+            <div className={css.skgroup}>{getKeysDom(PackageKeys)}</div>
             <div className={css.skgroup}>{getKeysDom(DocKeys)}</div>
           </div>
         )}

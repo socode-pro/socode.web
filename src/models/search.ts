@@ -1,5 +1,6 @@
-import { Action, action, Thunk, thunk } from 'easy-peasy'
+import { Action, action, Thunk, thunk, Computed, computed } from 'easy-peasy'
 import { Injections } from '../store'
+import { StoreModel } from './index'
 import { SocodeResult, SocodeParam } from '../services/socode.service'
 import { SKey } from '../utils/skeys'
 
@@ -14,7 +15,7 @@ export interface SearchModel {
   loading: boolean
   setLoading: Action<SearchModel, boolean>
 
-  search: Thunk<SearchModel, SocodeParam & SKey, Injections>
+  search: Thunk<SearchModel, SocodeParam & SKey, Injections, StoreModel>
 
   error: SError | null
   setError: Action<SearchModel, SError | null>
@@ -31,7 +32,7 @@ const searchModel: SearchModel = {
     state.loading = payload
   }),
 
-  search: thunk(async (actions, payload, { injections }) => {
+  search: thunk(async (actions, payload, { injections, getStoreState }) => {
     if (payload.name === 'socode') {
       actions.setLoading(true)
       actions.setError(null)
@@ -49,8 +50,15 @@ const searchModel: SearchModel = {
       if (url && payload.bylang && payload.language) {
         url = url?.replace('%l', payload.language)
       }
-      if (url) window.location.href = url
-      else actions.setError({ message: 'query fail' })
+      if (url) {
+        if (getStoreState().storage.values.openNewTab) {
+          window.open(url, '_blank')?.focus()
+        } else {
+          window.location.href = url
+        }
+      } else {
+        actions.setError({ message: 'query fail' })
+      }
     }
   }),
 

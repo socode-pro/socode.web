@@ -1,5 +1,7 @@
+import _ from 'lodash/core'
+
 export interface SKey {
-  name?: string
+  name: string
   hideName?: boolean
   shortkeys: string
   icon: string
@@ -25,6 +27,7 @@ export const SearchKeys: { [key: string]: SKey } = {
     icon: 'stackexchange.png',
     template: '//stackexchange.com/search?q=%s',
   },
+  socode: { name: 'socode.pro', shortkeys: 'sc', icon: 'socode.png' },
 }
 
 export const SearchKeysCN: { [key: string]: SKey } = {
@@ -64,7 +67,7 @@ export const PackageKeys: { [key: string]: SKey } = {
     hideName: true,
     shortkeys: 'cc',
     icon: 'cocoapods.png',
-    width: 100,
+    width: 120,
     template: '//cocoacontrols.com/search?q=%s',
   },
   maven: {
@@ -72,7 +75,7 @@ export const PackageKeys: { [key: string]: SKey } = {
     hideName: true,
     shortkeys: 'mv',
     icon: 'maven.png',
-    backgroundSize: '70%',
+    backgroundSize: '66%',
     width: 100,
     template: '//mvnrepository.com/search?q=%s',
   },
@@ -85,15 +88,15 @@ export const PackageKeys: { [key: string]: SKey } = {
 }
 
 export const DocKeys: { [key: string]: SKey } = {
-  eslint: { name: 'ESLint', shortkeys: 'es', icon: 'eslint.svg', template: '//eslint.org/docs/rules/%s' }, // algolia autocomplate
   mdn: {
     name: 'MDN(Mozilla Developer Network)',
     hideName: true,
     shortkeys: 'mdn',
     icon: 'MDN.svg',
-    width: 100,
+    width: 130,
     template: '//developer.mozilla.org/en-US/search?q=%s',
   },
+  eslint: { name: 'ESLint', shortkeys: 'es', icon: 'eslint.svg', template: '//eslint.org/docs/rules/%s' }, // algolia autocomplate
   apple: {
     name: 'Apple Developer',
     shortkeys: 'ap',
@@ -118,4 +121,19 @@ export const DocKeys: { [key: string]: SKey } = {
   },
   go: { name: 'Go', shortkeys: 'go', icon: 'golang.png', template: '//golang.org/search?q=%s' },
   rust: { name: 'Rust', shortkeys: 'rs', icon: 'rust.png', template: '//doc.rust-lang.org/alloc/index.html?search=%s' },
+}
+
+export const GetKey = (name: string): SKey | null => {
+  const r1 = _.find(SearchKeys, { name })
+  if (r1) return r1
+  const r2 = _.find(SearchKeysCN, { name })
+  if (r2) return r2
+  const r3 = _.find(ToolKeys, { name })
+  if (r3) return r3
+  const r4 = _.find(PackageKeys, { name })
+  if (r4) return r4
+  const r5 = _.find(DocKeys, { name })
+  if (r5) return r5
+
+  return null
 }

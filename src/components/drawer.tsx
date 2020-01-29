@@ -13,7 +13,7 @@ const languageOptions = EnumObjects(Language)
 
 const Drawer: React.FC = (): JSX.Element => {
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
-  const { language } = useStoreState<StorageType>(state => state.storage.values)
+  const { language, openNewTab } = useStoreState<StorageType>(state => state.storage.values)
 
   const [active, setActive] = useState(false)
   const { right } = useSpring({
@@ -88,6 +88,19 @@ const Drawer: React.FC = (): JSX.Element => {
                 </span>
               </div>
             </li>
+            <li>
+              <div className={css.field}>
+                <input
+                  className='is-checkradio is-circle'
+                  id='opennewtab'
+                  type='checkbox'
+                  checked={openNewTab}
+                  onChange={e => setStorage({ openNewTab: e.target.checked })}
+                />
+                <label htmlFor='opennewtab'>{useIntl(Words.OpenNewTab)}</label>
+              </div>
+            </li>
+
             {/* <li>
               <a>Dark Switch</a>
             </li>

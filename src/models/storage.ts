@@ -2,15 +2,23 @@ import { Action, action } from 'easy-peasy'
 import { TrendingParam } from '../services/trending'
 import Language, { navigatorLanguage } from '../utils/language'
 
+export enum DarkMode {
+  light,
+  flowSystem,
+  dark,
+}
+
 export interface StorageType {
   language?: Language
   searchLanguage?: Language
   searchEngine?: string
   starHistoryToken?: string
   trending?: TrendingParam
+  openNewTab?: boolean
+  darkMode?: DarkMode
 }
 
-const storageKeys = ['language', 'searchEngine', 'starHistoryToken', 'trending']
+const storageKeys = ['language', 'searchEngine', 'starHistoryToken', 'trending', 'openNewTab', 'darkMode']
 
 export interface StorageModel {
   values: StorageType
@@ -32,8 +40,13 @@ const storageModel: StorageModel = {
   getAllStorage: action(state => {
     try {
       storageKeys.forEach(key => {
-        const value = localStorage.getItem(`socode_${key}`)
-        if (value) state.values = { ...state.values, ...{ [key]: value } }
+        let value: any = localStorage.getItem(`socode_${key}`)
+        if (value) {
+          if (key === 'openNewTab') value = value === 'true'
+          else if (key === 'darkMode') value = parseInt(value)
+          else if (key === 'trending') value = JSON.parse(value)
+          state.values = { ...state.values, ...{ [key]: value } }
+        }
       })
     } catch (err) {
       console.error(err)
