@@ -45,7 +45,7 @@ export const ToolKeys: { [key: string]: SKey } = {
   cheatsheets: { name: 'cheat sheets', shortkeys: 'cs', icon: 'sheets.svg' }, // selfbuild
   starhistory: { name: 'Star History', shortkeys: 'sh', icon: 'star.png', template: '//star-history.t9t.io/#%s' }, // selfbuild
   _30secondsofcode: {
-    name: '30secondsof code',
+    name: '30 seconds of code',
     shortkeys: '3s',
     icon: '30secondsofcode.png',
     template: '//www.30secondsofcode.org/?keyphrase=%s',
@@ -123,7 +123,7 @@ export const DocKeys: { [key: string]: SKey } = {
   rust: { name: 'Rust', shortkeys: 'rs', icon: 'rust.png', template: '//doc.rust-lang.org/alloc/index.html?search=%s' },
 }
 
-export const GetKey = (name: string): SKey | null => {
+export const GetKeyByName = (name: string): SKey | null => {
   const r1 = _.find(SearchKeys, { name })
   if (r1) return r1
   const r2 = _.find(SearchKeysCN, { name })
@@ -133,6 +133,21 @@ export const GetKey = (name: string): SKey | null => {
   const r4 = _.find(PackageKeys, { name })
   if (r4) return r4
   const r5 = _.find(DocKeys, { name })
+  if (r5) return r5
+
+  return null
+}
+
+export const GetKeyByShortkeys = (shortkeys: string): SKey | null => {
+  const r1 = _.find(SearchKeys, { shortkeys })
+  if (r1) return r1
+  const r2 = _.find(SearchKeysCN, { shortkeys })
+  if (r2) return r2
+  const r3 = _.find(ToolKeys, { shortkeys })
+  if (r3) return r3
+  const r4 = _.find(PackageKeys, { shortkeys })
+  if (r4) return r4
+  const r5 = _.find(DocKeys, { shortkeys })
   if (r5) return r5
 
   return null

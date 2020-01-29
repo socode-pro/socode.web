@@ -7,7 +7,16 @@ import Brand from './brand'
 import Language from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import useHotkeys from '../utils/useHotkeys'
-import { SKey, SearchKeys, SearchKeysCN, PackageKeys, ToolKeys, DocKeys, GetKey } from '../utils/skeys'
+import {
+  SKey,
+  SearchKeys,
+  SearchKeysCN,
+  PackageKeys,
+  ToolKeys,
+  DocKeys,
+  GetKeyByName,
+  GetKeyByShortkeys,
+} from '../utils/skeys'
 import { EnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { SocodeParam, SearchTimeRange, Autocompleter, SocodeResult } from '../services/socode.service'
@@ -65,7 +74,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           setSquery(query)
         }
         if (searchParams.has('k')) {
-          const key = GetKey(searchParams.get('k') || '')
+          const key = GetKeyByName(searchParams.get('k') || '')
           if (key) {
             skey = key
             setCurrentKey(key)
@@ -234,6 +243,20 @@ const SearchInput: React.FC = (): JSX.Element => {
       )
     })
   }, [])
+
+  useHotkeys(
+    'tab',
+    () => {
+      const key = GetKeyByShortkeys(squery)
+      if (key) {
+        setSquery('')
+        setCurrentKey(key)
+        setTimeout(() => inputEl.current?.focus(), 0)
+      }
+    },
+    [squery],
+    [css.input]
+  )
 
   return (
     <>
