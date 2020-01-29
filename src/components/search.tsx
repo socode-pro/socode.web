@@ -251,6 +251,8 @@ const SearchInput: React.FC = (): JSX.Element => {
       if (key) {
         setSquery('')
         setCurrentKey(key)
+        setAcIndex(-1)
+        setAutocomplate([])
         setTimeout(() => inputEl.current?.focus(), 0)
       }
     },
