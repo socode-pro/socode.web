@@ -4,7 +4,7 @@ import { useSpring, animated, to } from 'react-spring'
 import cs from 'classnames'
 import css from './brand.module.scss'
 
-const words = ['searching', 'learning', 'communication']
+const words = ['learning', 'communication', 'searching']
 
 interface Props {
   onDisplaySubtitle?: Dispatch<SetStateAction<boolean>>
@@ -37,7 +37,7 @@ const Brand: React.FC<Props> = ({ onDisplaySubtitle }: Props): JSX.Element => {
           add(text, index + 1, uu)
         }, 100)
       } else {
-        setTimeout(uu, 2000)
+        setTimeout(uu, 3000)
       }
     }
 
@@ -53,7 +53,7 @@ const Brand: React.FC<Props> = ({ onDisplaySubtitle }: Props): JSX.Element => {
       }
     }
 
-    const run = (index: number): void => {
+    const run = (index: number = 0): void => {
       typingDoc = document.querySelector('span.typing')
       if (!typingDoc) return
 
@@ -65,21 +65,26 @@ const Brand: React.FC<Props> = ({ onDisplaySubtitle }: Props): JSX.Element => {
       })
     }
 
-    run(0)
+    run()
   }, [])
 
   useEffect(() => {
-    const typingInterval = window.setTimeout(typingTimer, 3000)
+    const typingInterval = window.setTimeout(typingTimer, 4000)
     return () => {
       clearInterval(typingInterval)
     }
   }, [typingTimer])
 
   const onToggle = useCallback(() => {
-    setActiveSubtitle(true)
+    if (activeSubtitle) {
+      setTimeout(() => setActiveSubtitle(false), 1000)
+    } else {
+      setActiveSubtitle(true)
+    }
+
     setDisplaySubtitle(!displaySubtitle)
     onDisplaySubtitle && onDisplaySubtitle(!displaySubtitle)
-  }, [displaySubtitle, onDisplaySubtitle])
+  }, [activeSubtitle, displaySubtitle, onDisplaySubtitle])
 
   return (
     <>
@@ -101,7 +106,8 @@ const Brand: React.FC<Props> = ({ onDisplaySubtitle }: Props): JSX.Element => {
       <div className={css.subtitle}>
         <div
           className={cs(css.text, 'animated', 'flipInX', { flipOutX: !displaySubtitle, 'dis-none': !activeSubtitle })}>
-          Make life better for programmers who are good at <span className={cs(css.adjective, 'typing')}>...</span>
+          Make life better for programmers who are good at{' '}
+          <span className={cs(css.adjective, 'typing')}>searching</span>
         </div>
       </div>
     </>
