@@ -428,8 +428,8 @@ const SearchInput: React.FC = (): JSX.Element => {
           )}
 
           {result === null && currentKey.name === 'socode.pro' && (
-            <div className={cs(css.slogan, { [css.zh]: language === Language.中文 })}>
-              {slogon}
+            <div className={css.slogan}>
+              <span className={cs({ [css.zh]: language === Language.中文 })}>{slogon}</span>
               <div className={cs('dropdown is-right', css.scdropdown, { 'is-active': displayTips })}>
                 <i className={css.scicon} onClick={() => setDisplayTips(!displayTips)} />
                 <div className='dropdown-menu' style={{ width: 300 }}>
