@@ -12,7 +12,13 @@ export interface SKey {
 }
 
 export const SearchKeys: { [key: string]: SKey } = {
-  google: { name: 'Google', shortkeys: 'g', icon: 'google.png', template: '//google.com/search?q=%s', bylang: true }, // autocomplate
+  google: {
+    name: 'Google',
+    shortkeys: 'g',
+    icon: 'google.png',
+    template: '//google.com/search?q=%s&hl=%l',
+    bylang: true,
+  }, // autocomplate
   duckduckgo: {
     name: 'Duckduckgo',
     shortkeys: 'dd',
@@ -31,7 +37,7 @@ export const SearchKeys: { [key: string]: SKey } = {
 }
 
 export const SearchKeysCN: { [key: string]: SKey } = {
-  socode: { name: 'socode.pro', shortkeys: 'sc', icon: 'socode.png' },
+  socode: { name: 'socode.pro', shortkeys: 'sc', icon: 'socode.png', bylang: true },
   github: { name: 'Github', shortkeys: 'gh', icon: 'github.svg', template: '//github.com/search?q=%s' },
   stackexchange: {
     name: 'StackExchange',

@@ -41,7 +41,7 @@ export interface SocodeParam {
   cookie?: string
 }
 
-const Sites = [
+const SitesCN = [
   'ruanyifeng.*', // 100
   'stackoverflow.*', // 95
   'mozilla.*', // 90
@@ -66,11 +66,50 @@ const Sites = [
   'npmjs.com', // 70
   'nuget.org', // 65
   'pypi.org', // 65
+  'cocoacontrols.com', // 65
   'oschina.net', // 60
   'iteye.com', // 60
   'cnblogs.com', // 60
   'juejin.im', // 60
   'weixin.qq.*', // 60
+
+  'reactjs.org',
+  'vuejs.org',
+  'eslint.org',
+  'visualstudio.*',
+  'python.org',
+  'golang.org',
+  'mysql.com',
+  'docker.com',
+  'ruby-lang.org',
+  'rubygems.org',
+]
+
+const Sites = [
+  'stackoverflow.*', // 95
+  'mozilla.*', // 90
+  'github.*', // 90
+  'digitalocean.*', // 85
+  'google.*', // 85
+  'youtube.*', // 85
+  'microsoft.*', // 80
+  'medium.*', // 85
+  'dev.to', // 80
+  'w3schools.com', // 80
+  'infoq.*', // 80
+  'stackexchange.*', // 75
+  'apache.org', // 75
+  'apple.*', // 70
+  'ibm.*', // 70
+  'javatpoint.*', // 72
+  'geeksforgeeks.*', // 72
+  'journaldev.*', // 72
+  'bitdefender.*', // 70
+  'mvnrepository.*', // 70
+  'npmjs.com', // 70
+  'nuget.org', // 65
+  'pypi.org', // 65
+  'cocoacontrols.com', // 65
 
   'reactjs.org',
   'vuejs.org',
@@ -94,7 +133,8 @@ export const search = async ({
   pageno = 1,
   cookie = undefined,
 }: SocodeParam): Promise<SocodeResult | null> => {
-  const q = env.ignoreSites() ? query : `${query} site:${Sites.join(' OR site:')}`
+  const sites = language === Language.中文 ? SitesCN : Sites
+  const q = env.ignoreSites() ? query : `${query} site:${sites.join(' OR site:')}`
   // const q = `${query} -site:${ExcludeSites.join(' AND -site:')}`
 
   let config = {}

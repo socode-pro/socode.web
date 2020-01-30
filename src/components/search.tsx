@@ -205,8 +205,10 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [pageno])
 
   useEffect(() => {
-    setPageno(1)
-    searchSubmit()
+    if (result !== null) {
+      setPageno(1)
+      searchSubmit()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchLanguage, timeRange])
 
