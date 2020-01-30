@@ -38,14 +38,12 @@ const Drawer: React.FC = (): JSX.Element => {
         <aside className={cs('menu', css.jacket)}>
           <p className='menu-label'>Aside</p>
           <ul className='menu-list'>
-            {language !== Language.中文 && (
-              <li>
-                <a className={cs(css.navlink, css.github)}>
-                  <h3>Github OAuth</h3>
-                  <span>to synchronize your settings</span>
-                </a>
-              </li>
-            )}
+            <li>
+              <a className={cs(css.navlink, css.github)}>
+                <h3>Github OAuth</h3>
+                <span>to synchronize your settings</span>
+              </a>
+            </li>
             {/* <li>
               <a className={cs(css.navlink, css.spectrum)} href='https://chat.socode.pro'>
                 <h3>Spectrum Chat</h3>
@@ -124,7 +122,7 @@ const Drawer: React.FC = (): JSX.Element => {
           <p className='menu-label'>Footer</p>
           <ul className='menu-list'>
             <li>
-              <Link to='/Privacy' className={cs(css.navlink, css.privacy)}>
+              <Link to='/privacy' className={cs(css.navlink, css.privacy)}>
                 <h3>{useIntl(Words.PrivacyPolicy)}</h3>
                 <span>we don&apos;t collect or share personal information</span>
               </Link>

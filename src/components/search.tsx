@@ -94,7 +94,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       const param = { query, language: searchLanguage, timeRange, pageno } as SocodeParam
       await searchAction({ ...param, ...skey })
     },
-    [squery, searchLanguage, timeRange, pageno, searchAction, currentKey, setResultAction]
+    [currentKey, squery, searchLanguage, timeRange, pageno, searchAction, setResultAction]
   )
 
   const throttleAutocomplate = useCallback(
@@ -431,22 +431,22 @@ const SearchInput: React.FC = (): JSX.Element => {
             <div className={cs(css.slogan, { [css.zh]: language === Language.中文 })}>
               {slogon}
               <div className={cs('dropdown is-right', css.scdropdown, { 'is-active': displayTips })}>
-                <i className={css.scicon} onClick={() => setDisplayTips(!displayTips)}></i>
+                <i className={css.scicon} onClick={() => setDisplayTips(!displayTips)} />
                 <div className='dropdown-menu' style={{ width: 300 }}>
                   <div className='dropdown-content'>
                     <div className='dropdown-item'>
                       {language !== Language.中文 ? (
                         <p>
                           socode.pro is a privacy-respecting, hackable google search by{' '}
-                          <a href='https://github.com/asciimoo/searx' target='_blank'>
+                          <a href='https://github.com/asciimoo/searx' target='_blank' rel="noopener noreferrer">
                             searx
                           </a>
                           . convenient for users who do not have access to google.com (such as Chinese users).
                         </p>
                       ) : (
                         <p>
-                          socode.pro 只是一个使用
-                          <a href='https://github.com/asciimoo/searx' target='_blank'>
+                          socode.pro 是一个使用
+                          <a href='https://github.com/asciimoo/searx' target='_blank' rel="noopener noreferrer">
                             searx
                           </a>
                           构建的google搜索代理，限定了搜索范围。仅用于给无法访问google.com的用户方便地搜索编程问答信息，请不要用于其它需求场合。
@@ -465,7 +465,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         </animated.div>
       </div>
       <div
-        className={cs('mask', { 'dis-none': displayKeys && displayTips })}
+        className={cs('mask', { 'dis-none': !displayKeys && !displayTips })}
         onClick={() => {
           setDisplayKeys(false)
           setDisplayTips(false)

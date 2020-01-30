@@ -1,4 +1,4 @@
-import { Action, action, Thunk, thunk, Computed, computed } from 'easy-peasy'
+import { Action, action, Thunk, thunk } from 'easy-peasy'
 import { Injections } from '../store'
 import { StoreModel } from './index'
 import { SocodeResult, SocodeParam } from '../services/socode.service'
