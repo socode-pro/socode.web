@@ -16,7 +16,7 @@ const Home: React.FC = () => {
     <>
       <Search />
       <Drawer />
-      <ExtArrow />
+      {!document.body.classList.contains('socode_ext') && <ExtArrow />}
     </>
   )
 }
