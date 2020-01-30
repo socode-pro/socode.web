@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useSpring, animated } from 'react-spring'
+import { Link } from 'react-router-dom'
 import throttle from 'lodash/throttle'
 import cs from 'classnames'
 import Highlighter from 'react-highlight-words'
@@ -30,6 +31,8 @@ const timeRangeOptions = EnumObjects(SearchTimeRange)
 
 const SearchInput: React.FC = (): JSX.Element => {
   const [displaySubtitle, setDisplaySubtitle] = useState(false)
+  const [displayTips, setDisplayTips] = useState(false)
+
   const [focus, setFocus] = useState(false)
   const [squery, setSquery] = useState('')
   const [timeRange, setTimeRange] = useState<SearchTimeRange>(SearchTimeRange.Anytime)
@@ -38,7 +41,9 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [acIndex, setAcIndex] = useState(-1)
   const [acDisplay, setAcDisplay] = useState(false)
   const inputEl = useRef<HTMLInputElement & { onsearch: (e: InputEvent) => void }>(null)
+
   const slogon = useIntl(Words.ASearchEngineForProgrammers)
+  const privacyPolicy = useIntl(Words.PrivacyPolicy)
 
   const searchAction = useStoreActions(actions => actions.search.search)
   const setResultAction = useStoreActions(actions => actions.search.setResult)
@@ -421,11 +426,49 @@ const SearchInput: React.FC = (): JSX.Element => {
           )}
 
           {result === null && currentKey.name === 'socode.pro' && (
-            <p className={cs(css.slogan, { [css.zh]: language === Language.中文 })}>{slogon}</p>
+            <div className={cs(css.slogan, { [css.zh]: language === Language.中文 })}>
+              {slogon}
+              <div className={cs('dropdown is-right', css.scdropdown, { 'is-active': displayTips })}>
+                <i className={css.scicon} onClick={() => setDisplayTips(!displayTips)}></i>
+                <div className='dropdown-menu' style={{ width: 300 }}>
+                  <div className='dropdown-content'>
+                    <div className='dropdown-item'>
+                      {language !== Language.中文 ? (
+                        <p>
+                          socode.pro is a privacy-respecting, hackable google search by{' '}
+                          <a href='https://github.com/asciimoo/searx' target='_blank'>
+                            searx
+                          </a>
+                          . convenient for users who do not have access to google.com (such as Chinese users).
+                        </p>
+                      ) : (
+                        <p>
+                          socode.pro 只是一个使用
+                          <a href='https://github.com/asciimoo/searx' target='_blank'>
+                            searx
+                          </a>
+                          构建的google搜索代理，限定了搜索范围。仅用于给无法访问google.com的用户方便地搜索编程问答信息，请不要用于其它需求场合。
+                        </p>
+                      )}
+                    </div>
+                    <hr className='dropdown-divider' />
+                    <Link to='/Privacy' className={cs(css.navlink, css.privacy, 'dropdown-item')}>
+                      <h3>{privacyPolicy}</h3>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
         </animated.div>
       </div>
-      <div className={cs('mask', { 'dis-none': !displayKeys })} onClick={() => setDisplayKeys(!displayKeys)} />
+      <div
+        className={cs('mask', { 'dis-none': displayKeys && displayTips })}
+        onClick={() => {
+          setDisplayKeys(false)
+          setDisplayTips(false)
+        }}
+      />
     </>
   )
 }

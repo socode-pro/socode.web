@@ -302,6 +302,16 @@ div.closer {
   &.zh {
     letter-spacing: 1em;
   }
+  .scdropdown {
+    vertical-align: middle;
+  }
+  i.scicon {
+    @extend %fa-icon;
+    @extend .far;
+    @extend .fa-question-circle;
+    cursor: pointer;
+    margin-left: 5px;
+  }
 }
 
 // @media (prefers-color-scheme: dark) {

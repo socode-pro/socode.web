@@ -125,7 +125,7 @@ const Drawer: React.FC = (): JSX.Element => {
           <ul className='menu-list'>
             <li>
               <Link to='/Privacy' className={cs(css.navlink, css.privacy)}>
-                <h3>Privacy</h3>
+                <h3>{useIntl(Words.PrivacyPolicy)}</h3>
                 <span>we don&apos;t collect or share personal information</span>
               </Link>
             </li>
