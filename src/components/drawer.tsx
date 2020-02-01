@@ -6,10 +6,10 @@ import Language from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import { StorageType } from '../models/storage'
 import { useStoreActions, useStoreState } from '../utils/hooks'
-import { EnumObjects } from '../utils/assist'
+import { StringEnumObjects } from '../utils/assist'
 import css from './drawer.module.scss'
 
-const languageOptions = EnumObjects(Language)
+const languageOptions = StringEnumObjects(Language)
 
 const Drawer: React.FC = (): JSX.Element => {
   const setStorage = useStoreActions(actions => actions.storage.setStorage)

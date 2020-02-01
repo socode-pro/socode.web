@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios'
 import qs from 'qs'
 import * as env from '../env'
-import Language from '../utils/language'
+import Language, { ProgramLanguage } from '../utils/language'
 
 const axiosInstance = axios.create({
   // https://github.com/axios/axios#request-config
@@ -36,7 +36,8 @@ export interface SocodeItem {
 export interface SocodeParam {
   query: string
   timeRange?: SearchTimeRange
-  language?: Language
+  searchLanguage?: Language
+  porogramLanguage?: ProgramLanguage
   pageno?: number
   cookie?: string
 }
@@ -129,11 +130,11 @@ const Sites = [
 export const search = async ({
   query,
   timeRange = SearchTimeRange.Anytime,
-  language = Language.English,
+  searchLanguage = Language.English,
   pageno = 1,
   cookie = undefined,
 }: SocodeParam): Promise<SocodeResult | null> => {
-  const sites = language === Language.中文 ? SitesCN : Sites
+  const sites = searchLanguage === Language.中文 ? SitesCN : Sites
   const q = env.ignoreSites() ? query : `${query} site:${sites.join(' OR site:')}`
   // const q = `${query} -site:${ExcludeSites.join(' AND -site:')}`
 
@@ -153,7 +154,7 @@ export const search = async ({
         q,
         category_general: 'on',
         time_range: timeRange,
-        language,
+        language: searchLanguage,
         format: 'json',
         pageno,
       }),
@@ -168,7 +169,7 @@ export const search = async ({
         const data = await search({
           query,
           timeRange,
-          language,
+          searchLanguage,
           pageno,
           cookie: 'disabled_engines="google__general"; enabled_engines=duckduckgo__general;',
         })
@@ -201,4 +202,26 @@ export const Autocompleter = async (q: string): Promise<Array<string>> => {
     console.error(error)
   }
   return []
+}
+
+const gooSuggestUrl = 'https://suggestqueries.google.com/complete/search?client=toolbar&hl=zh-cn&q='
+export const GoogleAutocompleter = async (q: string): Promise<Array<string>> => {
+  try {
+    const response = await axiosInstance.get<any>(gooSuggestUrl + q, {
+      headers: {
+        Accept: 'text/html,application/xhtml+xml,application/xml;',
+      },
+    })
+    const parser = new DOMParser()
+    const xmlDoc = parser.parseFromString(response.data, 'text/xml')
+    const suggestions = xmlDoc.getElementsByTagName('suggestion')
+    const elements = Array.from(suggestions)
+    const result = elements.map(e => {
+      return e.getAttribute('data') || ''
+    })
+    return result
+  } catch (error) {
+    console.warn(error)
+    return Autocompleter(q)
+  }
 }

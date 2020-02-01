@@ -5,7 +5,7 @@ import throttle from 'lodash/throttle'
 import cs from 'classnames'
 import Highlighter from 'react-highlight-words'
 import Brand from './brand'
-import Language from '../utils/language'
+import Language, { ProgramLanguage } from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import useHotkeys from '../utils/useHotkeys'
 import {
@@ -18,7 +18,7 @@ import {
   GetKeyByName,
   GetKeyByShortkeys,
 } from '../utils/skeys'
-import { EnumObjects, winSearchParams } from '../utils/assist'
+import { StringEnumObjects, IntEnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { SocodeParam, SearchTimeRange, Autocompleter, SocodeResult } from '../services/socode.service'
 import { StorageType } from '../models/storage'
@@ -26,8 +26,9 @@ import { SError } from '../models/search'
 import css from './search.module.scss'
 import Loader1 from './loader/loader1'
 
-const languageOptions = EnumObjects(Language)
-const timeRangeOptions = EnumObjects(SearchTimeRange)
+const languageOptions = StringEnumObjects(Language)
+const programLanguageOptions = IntEnumObjects(ProgramLanguage)
+const timeRangeOptions = StringEnumObjects(SearchTimeRange)
 
 const SearchInput: React.FC = (): JSX.Element => {
   const [displaySubtitle, setDisplaySubtitle] = useState(false)
@@ -53,6 +54,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
   const { language, searchLanguage } = useStoreState<StorageType>(state => state.storage.values)
+  const [porogramLanguage, setPorogramLanguage] = useState(ProgramLanguage.Languages)
 
   const [displayKeys, setDisplayKeys] = useState(false)
   const [currentKey, setCurrentKey] = useState<SKey>(
@@ -91,10 +93,10 @@ const SearchInput: React.FC = (): JSX.Element => {
         setResultAction(null)
         return
       }
-      const param = { query, language: searchLanguage, timeRange, pageno } as SocodeParam
+      const param = { query, searchLanguage, porogramLanguage, timeRange, pageno } as SocodeParam
       await searchAction({ ...param, ...skey })
     },
-    [currentKey, squery, searchLanguage, timeRange, pageno, searchAction, setResultAction]
+    [currentKey, squery, searchLanguage, porogramLanguage, timeRange, pageno, searchAction, setResultAction]
   )
 
   const throttleAutocomplate = useCallback(
@@ -329,6 +331,18 @@ const SearchInput: React.FC = (): JSX.Element => {
               </div>
             )}
 
+            {currentKey.bypglang && (
+              <div className='select is-rounded mgl10'>
+                <select value={porogramLanguage} onChange={e => setPorogramLanguage(parseInt(e.target.value, 10))}>
+                  {programLanguageOptions.map(o => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
             <i className={css.sicon} onClick={() => searchSubmit()} />
           </div>
 
@@ -438,7 +452,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                       {language !== Language.中文 ? (
                         <p>
                           socode.pro is a privacy-respecting, hackable google search by{' '}
-                          <a href='https://github.com/asciimoo/searx' target='_blank' rel="noopener noreferrer">
+                          <a href='https://github.com/asciimoo/searx' target='_blank' rel='noopener noreferrer'>
                             searx
                           </a>
                           . convenient for users who do not have access to google.com (such as Chinese users).
@@ -446,7 +460,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                       ) : (
                         <p>
                           socode.pro 是一个使用
-                          <a href='https://github.com/asciimoo/searx' target='_blank' rel="noopener noreferrer">
+                          <a href='https://github.com/asciimoo/searx' target='_blank' rel='noopener noreferrer'>
                             searx
                           </a>
                           构建的google搜索代理，限定了搜索范围。仅用于给无法访问google.com的用户方便地搜索编程问答信息，请不要用于其它需求场合。

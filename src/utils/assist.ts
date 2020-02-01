@@ -8,12 +8,14 @@ export const sleep = (ms): Promise<void> => {
   return new Promise(r => setTimeout(r, ms))
 }
 
-export const EnumObjects = (enumme): Array<{ label: string; value: any }> => {
-  return (
-    Object.keys(enumme)
-      // .filter(value => !Number.isNaN(Number(value)))
-      .map(key => ({ label: key, value: enumme[key] }))
-  )
+export const StringEnumObjects = (enumme): Array<{ label: string; value: any }> => {
+  return Object.keys(enumme).map(key => ({ label: key, value: enumme[key] }))
+}
+
+export const IntEnumObjects = (enumme): Array<{ label: string; value: any }> => {
+  return Object.keys(enumme)
+    .filter(value => !Number.isNaN(Number(value)))
+    .map(key => ({ label: enumme[key], value: key }))
 }
 
 const { location, history } = window

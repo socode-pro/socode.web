@@ -1,6 +1,7 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy'
 import { Injections } from '../store'
 import { StoreModel } from './index'
+import Language, { ProgramLanguage } from '../utils/language'
 import { SocodeResult, SocodeParam } from '../services/socode.service'
 import { SKey } from '../utils/skeys'
 
@@ -47,8 +48,11 @@ const searchModel: SearchModel = {
     } else {
       actions.setError(null)
       let url = payload.template?.replace('%s', payload.query)
-      if (url && payload.bylang && payload.language) {
-        url = url?.replace('%l', payload.language)
+      if (url && payload.bylang && payload.searchLanguage) {
+        url = url?.replace('%l', payload.searchLanguage)
+      }
+      if (url && payload.bypglang && payload.porogramLanguage) {
+        url = url?.replace('%pl', ProgramLanguage[payload.porogramLanguage])
       }
       if (url) {
         if (getStoreState().storage.values.openNewTab) {
