@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios'
 import qs from 'qs'
-import * as env from '../env'
+import * as global from '../config'
 import Language, { ProgramLanguage } from '../utils/language'
 
 const axiosInstance = axios.create({
@@ -135,7 +135,7 @@ export const search = async ({
   cookie = undefined,
 }: SocodeParam): Promise<SocodeResult | null> => {
   const sites = searchLanguage === Language.中文 ? SitesCN : Sites
-  const q = env.ignoreSites() ? query : `${query} site:${sites.join(' OR site:')}`
+  const q = global.ignoreSites() ? query : `${query} site:${sites.join(' OR site:')}`
   // const q = `${query} -site:${ExcludeSites.join(' AND -site:')}`
 
   let config = {}
@@ -149,7 +149,7 @@ export const search = async ({
 
   try {
     const response = await axiosInstance.post<SocodeResult>(
-      env.host(),
+      global.host(),
       qs.stringify({
         q,
         category_general: 'on',
@@ -191,7 +191,7 @@ export const search = async ({
 
 export const Autocompleter = async (q: string): Promise<Array<string>> => {
   try {
-    const response = await axiosInstance.get<Array<string>>(`${env.host()}/autocompleter`, {
+    const response = await axiosInstance.get<Array<string>>(`${global.host()}/autocompleter`, {
       params: { q },
       // headers: {
       //   Cookie: 'autocomplete=google;',

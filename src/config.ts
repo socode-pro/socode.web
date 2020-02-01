@@ -2,11 +2,11 @@ import * as Joi from 'joi'
 import production from './production'
 import development from './development'
 
-interface EnvVariable {
+interface Variable {
   [key: string]: any
 }
 
-let variable: EnvVariable
+let variable: Variable
 
 export interface ProxyOptions {
   protocol: string
@@ -17,7 +17,7 @@ export interface ProxyOptions {
 }
 
 // https://docs.nestjs.cn/6/techniques?id=%e9%aa%8c%e8%af%81-1
-const validateInput = (vars: EnvVariable): EnvVariable => {
+const validateInput = (vars: Variable): Variable => {
   const varsSchema: Joi.ObjectSchema = Joi.object({
     NODE_ENV: Joi.string()
       .valid(['development', 'production', 'test', 'provision'])
