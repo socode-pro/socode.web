@@ -5,7 +5,7 @@ import Language, { ProgramLanguage } from '../utils/language'
 import { SocodeResult, SocodeParam } from '../services/socode.service'
 import { SKey } from '../utils/skeys'
 
-export interface SError {
+export interface SMError {
   message: string
 }
 
@@ -18,8 +18,8 @@ export interface SearchModel {
 
   search: Thunk<SearchModel, SocodeParam & SKey, Injections, StoreModel>
 
-  error: SError | null
-  setError: Action<SearchModel, SError | null>
+  error: SMError | null
+  setError: Action<SearchModel, SMError | null>
 }
 
 const searchModel: SearchModel = {
@@ -51,7 +51,7 @@ const searchModel: SearchModel = {
       if (url && payload.bylang && payload.searchLanguage) {
         url = url?.replace('%l', payload.searchLanguage)
       }
-      if (url && payload.bypglang && payload.porogramLanguage) {
+      if (url && payload.bypglang && payload.porogramLanguage !== undefined) {
         url = url?.replace('%pl', ProgramLanguage[payload.porogramLanguage])
       }
       if (url) {

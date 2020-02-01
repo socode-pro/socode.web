@@ -45,7 +45,13 @@ export const SearchKeys: { [key: string]: SKey } = {
 
 export const SearchKeysCN: { [key: string]: SKey } = {
   socode: { name: 'socode.pro', shortkeys: 'sc', icon: 'socode.png', bylang: true },
-  github: { name: 'Github', shortkeys: 'gh', icon: 'github.svg', template: 'https://github.com/search?q=%s' },
+  github: {
+    name: 'Github',
+    shortkeys: 'gh',
+    icon: 'github.svg',
+    template: 'https://github.com/search?l=%pl&q=%s',
+    bypglang: true,
+  },
   stackexchange: {
     name: 'StackExchange',
     shortkeys: 'se',

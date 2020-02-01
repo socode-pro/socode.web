@@ -26,7 +26,7 @@ export const navigatorLanguage = (navigator: string): Language => {
 
 // https://githut.info/
 export enum ProgramLanguage {
-  'Languages',
+  'All',
   'JavaScript',
   'Java',
   'Python',

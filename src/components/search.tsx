@@ -20,9 +20,10 @@ import {
 } from '../utils/skeys'
 import { StringEnumObjects, IntEnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
-import { SocodeParam, SearchTimeRange, Autocompleter, SocodeResult } from '../services/socode.service'
+import { SocodeParam, SearchTimeRange, SocodeResult } from '../services/socode.service'
 import { StorageType } from '../models/storage'
-import { SError } from '../models/search'
+import { SMError } from '../models/search'
+import { Suggester, SuggestItem } from '../services/suggest.service'
 import css from './search.module.scss'
 import Loader1 from './loader/loader1'
 
@@ -38,7 +39,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [squery, setSquery] = useState('')
   const [timeRange, setTimeRange] = useState<SearchTimeRange>(SearchTimeRange.Anytime)
   const [pageno, setPageno] = useState(1)
-  const [autocomplate, setAutocomplate] = useState<Array<string>>([])
+  const [suggeste, setSuggeste] = useState<Array<SuggestItem>>([])
   const [acIndex, setAcIndex] = useState(-1)
   const [acDisplay, setAcDisplay] = useState(false)
   const inputEl = useRef<HTMLInputElement & { onsearch: (e: InputEvent) => void }>(null)
@@ -50,11 +51,11 @@ const SearchInput: React.FC = (): JSX.Element => {
   const setResultAction = useStoreActions(actions => actions.search.setResult)
   const result = useStoreState<SocodeResult | null>(state => state.search.result)
   const loading = useStoreState<boolean>(state => state.search.loading)
-  const error = useStoreState<SError | null>(state => state.search.error)
+  const error = useStoreState<SMError | null>(state => state.search.error)
 
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
   const { language, searchLanguage } = useStoreState<StorageType>(state => state.storage.values)
-  const [porogramLanguage, setPorogramLanguage] = useState(ProgramLanguage.Languages)
+  const [porogramLanguage, setPorogramLanguage] = useState(ProgramLanguage.All)
 
   const [displayKeys, setDisplayKeys] = useState(false)
   const [currentKey, setCurrentKey] = useState<SKey>(
@@ -99,25 +100,25 @@ const SearchInput: React.FC = (): JSX.Element => {
     [currentKey, squery, searchLanguage, porogramLanguage, timeRange, pageno, searchAction, setResultAction]
   )
 
-  const throttleAutocomplate = useCallback(
+  const throttleSuggeste = useCallback(
     throttle<(value: any) => Promise<void>>(async value => {
       setAcIndex(-1)
       if (value) {
-        const words = await Autocompleter(value)
-        setAutocomplate(words)
+        const words = await Suggester(value, currentKey.name)
+        setSuggeste(words)
       } else {
-        setAutocomplate([])
+        setSuggeste([])
       }
-    }, 500),
+    }, 800),
     []
   )
 
   const handleQueryChange = useCallback(
     e => {
       setSquery(e.target.value)
-      throttleAutocomplate(e.target.value)
+      throttleSuggeste(e.target.value)
     },
-    [throttleAutocomplate]
+    [throttleSuggeste]
   )
 
   // const handleQueryKeyPress = useCallback((e) => {
@@ -127,7 +128,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const closeResult = useCallback(() => {
     setAcIndex(-1)
-    setAutocomplate([])
+    setSuggeste([])
     setPageno(1)
     searchSubmit('')
     winSearchParams('', currentKey.name)
@@ -136,7 +137,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const handlerSearch = useCallback(
     e => {
       setAcIndex(-1)
-      setAutocomplate([])
+      setSuggeste([])
       setPageno(1)
       searchSubmit(e.target?.value)
       winSearchParams(e.target?.value, currentKey.name)
@@ -171,9 +172,9 @@ const SearchInput: React.FC = (): JSX.Element => {
   useHotkeys(
     'down',
     () => {
-      if (autocomplate.length > acIndex + 1) setAcIndex(acIndex + 1)
+      if (suggeste.length > acIndex + 1) setAcIndex(acIndex + 1)
     },
-    [acIndex, autocomplate],
+    [acIndex, suggeste],
     [css.input]
   )
 
@@ -186,10 +187,10 @@ const SearchInput: React.FC = (): JSX.Element => {
     [css.input]
   )
 
-  const autocomplateClick = useCallback(
+  const suggesteClick = useCallback(
     a => {
       setAcIndex(-1)
-      setAutocomplate([])
+      setSuggeste([])
       setPageno(1)
       searchSubmit(a)
       winSearchParams(a, currentKey.name)
@@ -198,8 +199,8 @@ const SearchInput: React.FC = (): JSX.Element => {
   )
 
   useEffect(() => {
-    if (acIndex >= 0 && autocomplate.length > 0) setSquery(autocomplate[acIndex]) // warn: acIndex must '-1' when autocomplate arr init
-  }, [acIndex, autocomplate])
+    if (acIndex >= 0 && suggeste.length > 0) setSquery(suggeste[acIndex].name) // warn: acIndex must '-1' when autocomplate arr init
+  }, [acIndex, suggeste])
 
   useEffect(() => {
     searchSubmit()
@@ -261,7 +262,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         setSquery('')
         setCurrentKey(key)
         setAcIndex(-1)
-        setAutocomplate([])
+        setSuggeste([])
         setTimeout(() => inputEl.current?.focus(), 0)
       }
     },
@@ -346,16 +347,28 @@ const SearchInput: React.FC = (): JSX.Element => {
             <i className={css.sicon} onClick={() => searchSubmit()} />
           </div>
 
-          <div className={cs(css.autocomplate, 'dropdown', { 'is-active': autocomplate.length && acDisplay })}>
+          <div className={cs(css.suggeste, 'dropdown', { 'is-active': suggeste.length && acDisplay })}>
             <div className='dropdown-menu'>
               <div className='dropdown-content'>
-                {autocomplate.map((a, i) => {
+                {suggeste.map((s, i) => {
+                  if (currentKey.name === 'Github') {
+                    return (
+                      <div
+                        key={s.name}
+                        onClick={() => suggesteClick(s.name)}
+                        className={cs('dropdown-item', css.sgitem, { [css.sgactive]: acIndex === i })}>
+                        <a>{s.name}</a>
+                        <span className={css.stars}>&#9734;{s.stars}</span>
+                        <p>{s.description}</p>
+                      </div>
+                    )
+                  }
                   return (
                     <a
-                      key={a}
-                      onClick={() => autocomplateClick(a)}
+                      key={s.name}
+                      onClick={() => suggesteClick(s.name)}
                       className={cs('dropdown-item', { 'is-active': acIndex === i })}>
-                      {a}
+                      {s.name}
                     </a>
                   )
                 })}

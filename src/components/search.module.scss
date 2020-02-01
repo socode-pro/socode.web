@@ -125,11 +125,23 @@
   }
 }
 
-.autocomplate {
+.suggeste {
   display: block !important;
   margin-left: 110px;
   a {
     @include ms-respond(font-size, 1);
+  }
+  span.stars {
+    margin-left: 20px;
+    color: $nobody;
+  }
+  .sgactive,
+  .sgitem:hover {
+    background: $primary;
+    color: $grey-light;
+    a {
+      color: $white;
+    }
   }
 }
 
