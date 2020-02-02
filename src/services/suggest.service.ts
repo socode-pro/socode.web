@@ -28,7 +28,7 @@ const GithubSuggester = async (query: string): Promise<Array<SuggestItem>> => {
     const res = await aindex.search<SuggestItem>({
       query,
       hitsPerPage: 5,
-      filters: 'watchers>1000',
+      filters: 'watchers>100',
       restrictSearchableAttributes: ['name'],
       attributesToSnippet: ['description:50'],
     })
@@ -51,7 +51,7 @@ export const Suggester = async (q: string, kname: string): Promise<Array<Suggest
     const response = await axios.get<Array<string>>(`${global.host()}/autocompleter`, {
       params: { q },
       headers: {
-        Cookie: 'autocomplete=google;',
+        // Cookie: 'autocomplete=google;',
         headers: { 'Access-Control-Allow-Origin': '*' },
       },
     })

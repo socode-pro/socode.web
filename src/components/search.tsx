@@ -20,9 +20,9 @@ import {
 } from '../utils/skeys'
 import { StringEnumObjects, IntEnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
-import { SocodeParam, SearchTimeRange, SocodeResult } from '../services/socode.service'
+import { SearchTimeRange, SocodeResult } from '../services/socode.service'
 import { StorageType } from '../models/storage'
-import { SMError } from '../models/search'
+import { SMError, SearchParam } from '../models/search'
 import { Suggester, SuggestItem } from '../services/suggest.service'
 import css from './search.module.scss'
 import Loader1 from './loader/loader1'
@@ -40,8 +40,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [timeRange, setTimeRange] = useState<SearchTimeRange>(SearchTimeRange.Anytime)
   const [pageno, setPageno] = useState(1)
   const [suggeste, setSuggeste] = useState<Array<SuggestItem>>([])
-  const [acIndex, setAcIndex] = useState(-1)
-  const [acDisplay, setAcDisplay] = useState(false)
+  const [suggesteIndex, setSuggesteIndex] = useState(-1)
   const inputEl = useRef<HTMLInputElement & { onsearch: (e: InputEvent) => void }>(null)
 
   const slogon = useIntl(Words.ASearchEngineForProgrammers)
@@ -49,6 +48,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const searchAction = useStoreActions(actions => actions.search.search)
   const setResultAction = useStoreActions(actions => actions.search.setResult)
+  const lunchUrlAction = useStoreActions(actions => actions.search.lunchUrl)
   const result = useStoreState<SocodeResult | null>(state => state.search.result)
   const loading = useStoreState<boolean>(state => state.search.loading)
   const error = useStoreState<SMError | null>(state => state.search.error)
@@ -94,7 +94,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         setResultAction(null)
         return
       }
-      const param = { query, searchLanguage, porogramLanguage, timeRange, pageno } as SocodeParam
+      const param = { query, searchLanguage, porogramLanguage, timeRange, pageno } as SearchParam
       await searchAction({ ...param, ...skey })
     },
     [currentKey, squery, searchLanguage, porogramLanguage, timeRange, pageno, searchAction, setResultAction]
@@ -102,7 +102,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const throttleSuggeste = useCallback(
     throttle<(value: any) => Promise<void>>(async value => {
-      setAcIndex(-1)
+      setSuggesteIndex(-1)
       if (value) {
         const words = await Suggester(value, currentKey.name)
         setSuggeste(words)
@@ -110,7 +110,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         setSuggeste([])
       }
     }, 500),
-    []
+    [currentKey]
   )
 
   const handleQueryChange = useCallback(
@@ -127,7 +127,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   // }, [searchSubmit])
 
   const closeResult = useCallback(() => {
-    setAcIndex(-1)
+    setSuggesteIndex(-1)
     setSuggeste([])
     setPageno(1)
     searchSubmit('')
@@ -136,7 +136,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const handlerSearch = useCallback(
     e => {
-      setAcIndex(-1)
+      setSuggesteIndex(-1)
       setSuggeste([])
       setPageno(1)
       searchSubmit(e.target?.value)
@@ -172,35 +172,41 @@ const SearchInput: React.FC = (): JSX.Element => {
   useHotkeys(
     'down',
     () => {
-      if (suggeste.length > acIndex + 1) setAcIndex(acIndex + 1)
+      if (suggeste.length > suggesteIndex + 1) setSuggesteIndex(suggesteIndex + 1)
     },
-    [acIndex, suggeste],
+    [suggesteIndex, suggeste],
     [css.input]
   )
 
   useHotkeys(
     'up',
     () => {
-      if (acIndex >= 0) setAcIndex(acIndex - 1)
+      if (suggesteIndex >= 0) setSuggesteIndex(suggesteIndex - 1)
     },
-    [acIndex],
+    [suggesteIndex],
     [css.input]
   )
 
   const suggesteClick = useCallback(
-    a => {
-      setAcIndex(-1)
+    (a, url?: string) => {
+      console.log(`suggesteClick ${  a}`)
+      setSuggesteIndex(-1)
       setSuggeste([])
       setPageno(1)
-      searchSubmit(a)
-      winSearchParams(a, currentKey.name)
+
+      if (url) {
+        lunchUrlAction({ url, ...currentKey })
+      } else {
+        searchSubmit(a)
+        winSearchParams(a, currentKey.name)
+      }
     },
-    [currentKey.name, searchSubmit]
+    [currentKey, lunchUrlAction, searchSubmit]
   )
 
   useEffect(() => {
-    if (acIndex >= 0 && suggeste.length > 0) setSquery(suggeste[acIndex].name) // warn: acIndex must '-1' when autocomplate arr init
-  }, [acIndex, suggeste])
+    if (suggesteIndex >= 0 && suggeste.length > 0) setSquery(suggeste[suggesteIndex].name) // warn: acIndex must '-1' when autocomplate arr init
+  }, [suggesteIndex, suggeste])
 
   useEffect(() => {
     searchSubmit()
@@ -261,9 +267,10 @@ const SearchInput: React.FC = (): JSX.Element => {
       if (key) {
         setSquery('')
         setCurrentKey(key)
-        setAcIndex(-1)
+        setSuggesteIndex(-1)
         setSuggeste([])
         setTimeout(() => inputEl.current?.focus(), 0)
+        setTimeout(() => setFocus(true), 200)
       }
     },
     [squery],
@@ -293,12 +300,10 @@ const SearchInput: React.FC = (): JSX.Element => {
               autoFocus
               // name="q"
               onBlur={() => {
-                setFocus(false)
-                setTimeout(() => setAcDisplay(false), 200)
+                setTimeout(() => setFocus(false), 100)
               }} // fix autocomplateClick
               onFocus={() => {
                 setFocus(true)
-                setAcDisplay(true)
               }}
               onChange={handleQueryChange}
               ref={inputEl} // https://stackoverflow.com/a/48656310/346701
@@ -348,7 +353,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           </div>
 
           <div
-            className={cs(css.suggeste, 'dropdown', { 'is-active': suggeste.length && acDisplay })}
+            className={cs(css.suggeste, 'dropdown', { 'is-active': suggeste.length && focus })}
             style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
             <div className='dropdown-menu'>
               <div className='dropdown-content'>
@@ -357,10 +362,10 @@ const SearchInput: React.FC = (): JSX.Element => {
                     return (
                       <div
                         key={`${s.owner}/${s.name}`}
-                        onClick={() => suggesteClick(s.name)}
-                        className={cs('dropdown-item', css.sgitem, { [css.sgactive]: acIndex === i })}>
-                        <a>{s.name}</a>
-                        <span className={css.stars}>&#9734; {s.stars}</span>
+                        onClick={() => suggesteClick(s.name, `https://github.com/${s.owner}/${s.name}`)}
+                        className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
+                        <a>{`${s.owner}/${s.name}`}</a>
+                        <span className={css.stars}>&#9733; {s.stars}</span>
                         <p>{s.description}</p>
                       </div>
                     )
@@ -369,7 +374,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                     <a
                       key={s.name}
                       onClick={() => suggesteClick(s.name)}
-                      className={cs('dropdown-item', { 'is-active': acIndex === i })}>
+                      className={cs('dropdown-item', { 'is-active': suggesteIndex === i })}>
                       {s.name}
                     </a>
                   )

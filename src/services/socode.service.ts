@@ -2,6 +2,7 @@ import axios, { AxiosError } from 'axios'
 import qs from 'qs'
 import * as global from '../config'
 import Language, { ProgramLanguage } from '../utils/language'
+import { SearchParam } from '../models/search'
 
 const axiosInstance = axios.create({
   // https://github.com/axios/axios#request-config
@@ -31,15 +32,6 @@ export interface SocodeItem {
   score: 1.0
   category: string
   pretty_url: string
-}
-
-export interface SocodeParam {
-  query: string
-  timeRange?: SearchTimeRange
-  searchLanguage?: Language
-  porogramLanguage?: ProgramLanguage
-  pageno?: number
-  cookie?: string
 }
 
 const SitesCN = [
@@ -133,7 +125,7 @@ export const search = async ({
   searchLanguage = Language.English,
   pageno = 1,
   cookie = undefined,
-}: SocodeParam): Promise<SocodeResult | null> => {
+}: SearchParam): Promise<SocodeResult | null> => {
   const sites = searchLanguage === Language.中文 ? SitesCN : Sites
   const q = global.ignoreSites() ? query : `${query} site:${sites.join(' OR site:')}`
   // const q = `${query} -site:${ExcludeSites.join(' AND -site:')}`

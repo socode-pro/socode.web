@@ -2,11 +2,21 @@ import { Action, action, Thunk, thunk } from 'easy-peasy'
 import { Injections } from '../store'
 import { StoreModel } from './index'
 import Language, { ProgramLanguage } from '../utils/language'
-import { SocodeResult, SocodeParam } from '../services/socode.service'
+import { SocodeResult, SearchTimeRange } from '../services/socode.service'
 import { SKey } from '../utils/skeys'
 
 export interface SMError {
   message: string
+}
+
+export interface SearchParam {
+  query?: string
+  timeRange?: SearchTimeRange
+  searchLanguage?: Language
+  porogramLanguage?: ProgramLanguage
+  pageno?: number
+  cookie?: string
+  url?: string
 }
 
 export interface SearchModel {
@@ -16,10 +26,11 @@ export interface SearchModel {
   loading: boolean
   setLoading: Action<SearchModel, boolean>
 
-  search: Thunk<SearchModel, SocodeParam & SKey, Injections, StoreModel>
-
   error: SMError | null
   setError: Action<SearchModel, SMError | null>
+
+  search: Thunk<SearchModel, SearchParam & SKey, Injections>
+  lunchUrl: Thunk<SearchModel, SearchParam & SKey, Injections, StoreModel>
 }
 
 const searchModel: SearchModel = {
@@ -33,7 +44,12 @@ const searchModel: SearchModel = {
     state.loading = payload
   }),
 
-  search: thunk(async (actions, payload, { injections, getStoreState }) => {
+  error: null,
+  setError: action((state, payload) => {
+    state.error = payload
+  }),
+
+  search: thunk(async (actions, payload, { injections }) => {
     if (payload.name === 'socode') {
       actions.setLoading(true)
       actions.setError(null)
@@ -46,29 +62,33 @@ const searchModel: SearchModel = {
       actions.setResult(result)
       actions.setLoading(false)
     } else {
-      actions.setError(null)
-      let url = payload.template?.replace('%s', payload.query)
-      if (url && payload.bylang && payload.searchLanguage) {
-        url = url?.replace('%l', payload.searchLanguage)
-      }
-      if (url && payload.bypglang && payload.porogramLanguage !== undefined) {
-        url = url?.replace('%pl', ProgramLanguage[payload.porogramLanguage])
-      }
-      if (url) {
-        if (getStoreState().storage.values.openNewTab) {
-          window.open(url, '_blank')?.focus()
-        } else {
-          window.location.href = url
-        }
-      } else {
-        actions.setError({ message: 'query fail' })
-      }
+      actions.lunchUrl(payload)
     }
   }),
 
-  error: null,
-  setError: action((state, payload) => {
-    state.error = payload
+  lunchUrl: thunk((state, payload, { getStoreState }) => {
+    state.error = null
+
+    let { url } = payload
+    if (!url && payload.query) {
+      url = payload.template?.replace('%s', payload.query)
+      if (payload.bylang && payload.searchLanguage) {
+        url = url?.replace('%l', payload.searchLanguage)
+      }
+      if (payload.bypglang && payload.porogramLanguage !== undefined) {
+        url = url?.replace('%pl', ProgramLanguage[payload.porogramLanguage])
+      }
+    }
+
+    if (url) {
+      if (getStoreState().storage.values.openNewTab) {
+        window.open(url, '_blank')?.focus()
+      } else {
+        window.location.href = url
+      }
+    } else {
+      state.error = { message: 'query fail' }
+    }
   }),
 }
 
