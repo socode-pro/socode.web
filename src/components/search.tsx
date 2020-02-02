@@ -5,6 +5,7 @@ import throttle from 'lodash/throttle'
 import cs from 'classnames'
 import Highlighter from 'react-highlight-words'
 import Brand from './brand'
+import CheatSheets from './cheatsheets'
 import Language, { ProgramLanguage } from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import useHotkeys from '../utils/useHotkeys'
@@ -189,7 +190,6 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const suggesteClick = useCallback(
     (a, url?: string) => {
-      console.log(`suggesteClick ${  a}`)
       setSuggesteIndex(-1)
       setSuggeste([])
       setPageno(1)
@@ -391,6 +391,8 @@ const SearchInput: React.FC = (): JSX.Element => {
               <div className={css.skgroup}>{getKeysDom(DocKeys)}</div>
             </div>
           )}
+
+          {currentKey.name === 'CheatSheets' && <CheatSheets query={squery} />}
 
           {loading && <Loader1 type={2} />}
 

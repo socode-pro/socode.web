@@ -28,7 +28,7 @@ const GithubSuggester = async (query: string): Promise<Array<SuggestItem>> => {
     const res = await aindex.search<SuggestItem>({
       query,
       hitsPerPage: 5,
-      filters: 'watchers>100',
+      filters: 'watchers>1000',
       restrictSearchableAttributes: ['name'],
       attributesToSnippet: ['description:50'],
     })

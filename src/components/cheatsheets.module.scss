@@ -1,0 +1,10 @@
+@import '../styles/variable';
+
+.cheatsheets {
+  margin: 1.5em 0 0;
+  opacity: 0.4;
+  &.loaddone {
+    opacity: 1;
+    transition: opacity 100ms linear 100ms;
+  }
+}

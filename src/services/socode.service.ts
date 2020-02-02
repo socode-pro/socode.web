@@ -40,7 +40,7 @@ const SitesCN = [
   'mozilla.*', // 90
   'github.*', // 90
   'digitalocean.*', // 85
-  'microsoft.*', // 80
+  'microsoft.*', // 85
   'dev.to', // 80
   'w3schools.com', // 80
   'infoq.*', // 80
@@ -49,7 +49,6 @@ const SitesCN = [
   'apple.*', // 70
   'ibm.*', // 70
   'javatpoint.*', // 72
-  'geeksforgeeks.*', // 72
   'journaldev.*', // 72
   'bitdefender.*', // 70
   'v2ex.com', // 70
@@ -59,7 +58,6 @@ const SitesCN = [
   'npmjs.com', // 70
   'nuget.org', // 65
   'pypi.org', // 65
-  'cocoacontrols.com', // 65
   'oschina.net', // 60
   'iteye.com', // 60
   'cnblogs.com', // 60
@@ -82,12 +80,14 @@ const Sites = [
   'stackoverflow.*', // 95
   'mozilla.*', // 90
   'github.*', // 90
-  'digitalocean.*', // 85
+  'digitalocean.*', // 88
+  'netlify.*', // 88
   'google.*', // 85
   'youtube.*', // 85
-  'microsoft.*', // 80
+  'microsoft.*', // 85
   'medium.*', // 85
   'dev.to', // 80
+  'reddit.com', // 80
   'w3schools.com', // 80
   'infoq.*', // 80
   'stackexchange.*', // 75
@@ -95,14 +95,12 @@ const Sites = [
   'apple.*', // 70
   'ibm.*', // 70
   'javatpoint.*', // 72
-  'geeksforgeeks.*', // 72
   'journaldev.*', // 72
   'bitdefender.*', // 70
   'mvnrepository.*', // 70
   'npmjs.com', // 70
   'nuget.org', // 65
   'pypi.org', // 65
-  'cocoacontrols.com', // 65
 
   'reactjs.org',
   'vuejs.org',
