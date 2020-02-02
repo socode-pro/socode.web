@@ -7,6 +7,7 @@ export interface SuggestItem {
   stars?: string
   description?: string
   avator?: string
+  owner?: string
   version?: string
 }
 

@@ -60,6 +60,7 @@
     margin: 0 0 0 16px;
     box-shadow: 0 1px 1px rgba($dh-mute, 0.25);
     cursor: pointer;
+    font-family: $font-mono;
     &:active {
       box-shadow: none;
     }
@@ -127,7 +128,6 @@
 
 .suggeste {
   display: block !important;
-  margin-left: 110px;
   a {
     @include ms-respond(font-size, 1);
   }
@@ -138,7 +138,11 @@
   .sgactive,
   .sgitem:hover {
     background: $primary;
-    color: $grey-light;
+    color: $grey-lighter;
+    cursor: pointer;
+    span.stars {
+      color: $white-ter;
+    }
     a {
       color: $white;
     }

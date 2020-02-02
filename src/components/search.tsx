@@ -109,7 +109,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       } else {
         setSuggeste([])
       }
-    }, 800),
+    }, 500),
     []
   )
 
@@ -294,7 +294,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               // name="q"
               onBlur={() => {
                 setFocus(false)
-                setTimeout(() => setAcDisplay(false), 500)
+                setTimeout(() => setAcDisplay(false), 200)
               }} // fix autocomplateClick
               onFocus={() => {
                 setFocus(true)
@@ -347,18 +347,20 @@ const SearchInput: React.FC = (): JSX.Element => {
             <i className={css.sicon} onClick={() => searchSubmit()} />
           </div>
 
-          <div className={cs(css.suggeste, 'dropdown', { 'is-active': suggeste.length && acDisplay })}>
+          <div
+            className={cs(css.suggeste, 'dropdown', { 'is-active': suggeste.length && acDisplay })}
+            style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
             <div className='dropdown-menu'>
               <div className='dropdown-content'>
                 {suggeste.map((s, i) => {
                   if (currentKey.name === 'Github') {
                     return (
                       <div
-                        key={s.name}
+                        key={`${s.owner}/${s.name}`}
                         onClick={() => suggesteClick(s.name)}
                         className={cs('dropdown-item', css.sgitem, { [css.sgactive]: acIndex === i })}>
                         <a>{s.name}</a>
-                        <span className={css.stars}>&#9734;{s.stars}</span>
+                        <span className={css.stars}>&#9734; {s.stars}</span>
                         <p>{s.description}</p>
                       </div>
                     )
@@ -454,7 +456,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             </div>
           )}
 
-          {result === null && currentKey.name === 'socode.pro' && (
+          {result === null && currentKey.name === 'socode' && (
             <div className={css.slogan}>
               <span className={cs({ [css.zh]: language === Language.中文 })}>{slogon}</span>
               <div className={cs('dropdown is-right', css.scdropdown, { 'is-active': displayTips })}>

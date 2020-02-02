@@ -40,11 +40,11 @@ export const SearchKeys: { [key: string]: SKey } = {
     icon: 'stackexchange.png',
     template: 'https://stackexchange.com/search?q=%s',
   },
-  socode: { name: 'socode.pro', shortkeys: 'sc', icon: 'socode.png' },
+  socode: { name: 'socode', shortkeys: 'sc', icon: 'socode.png' },
 }
 
 export const SearchKeysCN: { [key: string]: SKey } = {
-  socode: { name: 'socode.pro', shortkeys: 'sc', icon: 'socode.png', bylang: true },
+  socode: { name: 'socode', shortkeys: 'sc', icon: 'socode.png', bylang: true },
   github: {
     name: 'Github',
     shortkeys: 'gh',

@@ -34,7 +34,7 @@ const searchModel: SearchModel = {
   }),
 
   search: thunk(async (actions, payload, { injections, getStoreState }) => {
-    if (payload.name === 'socode.pro') {
+    if (payload.name === 'socode') {
       actions.setLoading(true)
       actions.setError(null)
       let result: SocodeResult | null = null
