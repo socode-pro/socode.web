@@ -4,7 +4,8 @@ import * as global from '../config'
 
 export interface SuggestItem {
   name: string
-  stars?: string
+  // stars?: string // algolia index issus
+  watchers?: number
   description?: string
   avator?: string
   owner?: string
@@ -28,7 +29,7 @@ const GithubSuggester = async (query: string): Promise<Array<SuggestItem>> => {
     const res = await aindex.search<SuggestItem>({
       query,
       hitsPerPage: 5,
-      filters: 'watchers>1000',
+      filters: 'watchers>100',
       restrictSearchableAttributes: ['name'],
       attributesToSnippet: ['description:50'],
     })
@@ -62,24 +63,24 @@ export const Suggester = async (q: string, kname: string): Promise<Array<Suggest
   return []
 }
 
-const gooSuggestUrl = 'https://suggestqueries.google.com/complete/search?client=toolbar&hl=zh-cn&q='
-export const GoogleSuggester = async (q: string): Promise<Array<string>> => {
-  try {
-    const response = await axios.get<any>(gooSuggestUrl + q, {
-      headers: {
-        Accept: 'text/html,application/xhtml+xml,application/xml;',
-      },
-    })
-    const parser = new DOMParser()
-    const xmlDoc = parser.parseFromString(response.data, 'text/xml')
-    const suggestions = xmlDoc.getElementsByTagName('suggestion')
-    const elements = Array.from(suggestions)
-    const result = elements.map(e => {
-      return e.getAttribute('data') || ''
-    })
-    return result
-  } catch (error) {
-    console.warn(error)
-  }
-  return []
-}
+// const gooSuggestUrl = 'https://suggestqueries.google.com/complete/search?client=toolbar&hl=zh-cn&q='
+// export const GoogleSuggester = async (q: string): Promise<Array<string>> => {
+//   try {
+//     const response = await axios.get<any>(gooSuggestUrl + q, {
+//       headers: {
+//         Accept: 'text/html,application/xhtml+xml,application/xml;',
+//       },
+//     })
+//     const parser = new DOMParser()
+//     const xmlDoc = parser.parseFromString(response.data, 'text/xml')
+//     const suggestions = xmlDoc.getElementsByTagName('suggestion')
+//     const elements = Array.from(suggestions)
+//     const result = elements.map(e => {
+//       return e.getAttribute('data') || ''
+//     })
+//     return result
+//   } catch (error) {
+//     console.warn(error)
+//   }
+//   return []
+// }

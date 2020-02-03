@@ -300,8 +300,8 @@ const SearchInput: React.FC = (): JSX.Element => {
               autoFocus
               // name="q"
               onBlur={() => {
-                setTimeout(() => setFocus(false), 100)
-              }} // fix autocomplateClick
+                setTimeout(() => setFocus(false), 100) // fix autocomplateClick
+              }}
               onFocus={() => {
                 setFocus(true)
               }}
@@ -356,30 +356,42 @@ const SearchInput: React.FC = (): JSX.Element => {
             className={cs(css.suggeste, 'dropdown', { 'is-active': suggeste.length && focus })}
             style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
             <div className='dropdown-menu'>
-              <div className='dropdown-content'>
-                {suggeste.map((s, i) => {
-                  if (currentKey.name === 'Github') {
-                    return (
-                      <div
-                        key={`${s.owner}/${s.name}`}
-                        onClick={() => suggesteClick(s.name, `https://github.com/${s.owner}/${s.name}`)}
-                        className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
-                        <a>{`${s.owner}/${s.name}`}</a>
-                        <span className={css.stars}>&#9733; {s.stars}</span>
-                        <p>{s.description}</p>
-                      </div>
-                    )
-                  }
+            <div className='dropdown-content'>
+              {suggeste.map((s, i) => {
+                if (currentKey.name === 'Github') {
                   return (
-                    <a
-                      key={s.name}
-                      onClick={() => suggesteClick(s.name)}
-                      className={cs('dropdown-item', { 'is-active': suggesteIndex === i })}>
-                      {s.name}
-                    </a>
+                    <div
+                      key={`${s.owner}/${s.name}`}
+                      onClick={() => suggesteClick(s.name, `https://github.com/${s.owner}/${s.name}`)}
+                      className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
+                      <a>{`${s.owner}/${s.name}`}</a>
+                      <span className={css.stars}>&#9733; {s.watchers}</span>
+                      <p>{s.description}</p>
+                    </div>
                   )
-                })}
-              </div>
+                }
+                return (
+                  <a
+                    key={s.name}
+                    onClick={() => suggesteClick(s.name)}
+                    className={cs('dropdown-item', { 'is-active': suggesteIndex === i })}>
+                    {s.name}
+                  </a>
+                )
+              })}
+              {currentKey.name === 'Github' && (
+                <>
+                  <hr className='dropdown-divider' />
+                  <a
+                    href='https://github.algolia.com/'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className={cs(css.algolia)}>
+                    powered by algolia for github
+                  </a>
+                </>
+              )}
+            </div>
             </div>
           </div>
 
