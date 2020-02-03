@@ -13,12 +13,22 @@
   top: 130px;
   margin-bottom: 20px;
   z-index: 8;
+  &.hasfloat {
+    padding-top: 64px;
+  }
 }
 
 .searchInput {
   display: flex;
   height: 64px;
   align-items: center;
+  background: #fff;
+  &.float {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 11;
+  }
   & > .input {
     @include ms-respond(font-size, 2);
     padding: 16px 0;

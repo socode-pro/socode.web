@@ -35,6 +35,7 @@ const timeRangeOptions = StringEnumObjects(SearchTimeRange)
 const SearchInput: React.FC = (): JSX.Element => {
   const [displaySubtitle, setDisplaySubtitle] = useState(false)
   const [displayTips, setDisplayTips] = useState(false)
+  const [isFloat, setIsFloat] = useState(false)
 
   const [focus, setFocus] = useState(false)
   const [squery, setSquery] = useState('')
@@ -63,8 +64,9 @@ const SearchInput: React.FC = (): JSX.Element => {
     language === Language.中文 ? SearchKeysCN.socode : SearchKeys.github
   )
 
+  const useWapperTop = result?.results.length // || currentKey.name === 'CheatSheets'
   const { wapperTop } = useSpring({
-    wapperTop: result?.results.length ? -5 : displaySubtitle ? 150 : 130,
+    wapperTop: useWapperTop ? -5 : displaySubtitle ? 150 : 130,
   })
 
   const searchSubmit = useCallback(
@@ -232,6 +234,23 @@ const SearchInput: React.FC = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    const throttleFloat = throttle<() => void>(() => {
+      // brand height 112
+      if (document.body.scrollTop > 112) {
+        setIsFloat(true)
+      } else {
+        setIsFloat(false)
+      }
+    }, 100)
+
+    document.body.addEventListener('scroll', throttleFloat, false)
+    return () => {
+      document.body.removeEventListener('scroll', throttleFloat)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const getKeysDom = useCallback(
     (Keys: { [key: string]: SKey }) => {
       return Object.entries(Keys).map(([key, value]) => {
@@ -297,11 +316,11 @@ const SearchInput: React.FC = (): JSX.Element => {
       <div className='container'>
         <Brand onDisplaySubtitle={setDisplaySubtitle} />
         <animated.div
-          className={cs(css.searchWapper, { [css.focus]: focus })}
+          className={cs(css.searchWapper, { [css.focus]: focus, [css.hasfloat]: isFloat })}
           style={{
             top: wapperTop,
           }}>
-          <div className={css.searchInput}>
+          <div className={cs(css.searchInput, 'container', { [css.float]: isFloat })}>
             <span className={css.prefix} onClick={() => setDisplayKeys(!displayKeys)}>
               {currentKey.name}
             </span>
