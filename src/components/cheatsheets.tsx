@@ -6,6 +6,8 @@ import { splitwords, permutateString } from '../utils/permutate'
 import { nextUntil } from '../utils/dom'
 import css from './cheatsheets.module.scss'
 
+let cheatSheetsElement: Element | null = null
+
 interface Props {
   query: string
 }
@@ -32,6 +34,11 @@ const CheatSheets: React.FC<Props> = ({ query }: Props): JSX.Element => {
         const words = permutate(data)
 
         el.setAttribute('data-search-index', words.join(' '))
+        const href = el.getAttribute('href')
+        if (href) {
+          el.setAttribute('href', href.replace('./', 'https://devhints.io/'))
+          el.setAttribute('target', '_blank')
+        }
       })
 
       // https://github.com/rstacruz/cheatsheets/blob/master/_js/behaviors/searchable-header.js
@@ -44,7 +51,15 @@ const CheatSheets: React.FC<Props> = ({ query }: Props): JSX.Element => {
           .split(' ')
 
         el.setAttribute('data-search-index', keywords.join(' '))
+        const href = el.getAttribute('href')
+        if (href) {
+          el.setAttribute('href', href.replace('./', 'https://devhints.io/'))
+          el.setAttribute('target', '_blank')
+        }
       })
+
+      const missing = element.querySelector<HTMLElement>('.missing-message')
+      if (missing) missing.style.display = 'none'
     }
   }, [element])
 
@@ -72,12 +87,19 @@ const CheatSheets: React.FC<Props> = ({ query }: Props): JSX.Element => {
   }, [query])
 
   useEffect(() => {
+    if (cheatSheetsElement) {
+      setTimeout(() => setElement(cheatSheetsElement), 0) // setTimeout avoid black box when switching
+      return
+    }
     axios
       .get('https://devhints.io/')
       .then(resp => {
         const doc = new DOMParser().parseFromString(resp.data, 'text/html')
         const el = doc.querySelector('.pages-list')
-        if (el) setElement(el)
+        if (el) {
+          cheatSheetsElement = el
+          setElement(el)
+        }
       })
       .catch(err => {
         if (err.isAxiosError) {
@@ -91,10 +113,17 @@ const CheatSheets: React.FC<Props> = ({ query }: Props): JSX.Element => {
 
   // https://www.reddit.com/r/reactjs/comments/8k49m3/can_i_render_a_dom_element_inside_jsx/dz5cexl/
   return (
-    <div
-      className={cs(css.cheatsheets, { [css.loaddone]: element })}
-      ref={ref => element && ref?.appendChild(element)}
-    />
+    <>
+      <div
+        className={cs(css.cheatsheets, { [css.loaddone]: element })}
+        ref={ref => element && ref?.appendChild(element)}
+      />
+      <p className={cs(css.devhints, { 'dis-none': !element })}>
+        <a href='https://devhints.io/' target='_blank' rel='noopener noreferrer'>
+          powered by devhints
+        </a>
+      </p>
+    </>
   )
 }
 

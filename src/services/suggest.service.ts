@@ -47,6 +47,9 @@ export const Suggester = async (q: string, kname: string): Promise<Array<Suggest
   if (kname === 'Github') {
     return GithubSuggester(q)
   }
+  if (kname === 'CheatSheets') {
+    return []
+  }
 
   try {
     const response = await axios.get<Array<string>>(`${global.host()}/autocompleter`, {

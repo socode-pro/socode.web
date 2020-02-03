@@ -61,7 +61,7 @@ export const SearchKeysCN: { [key: string]: SKey } = {
 }
 
 export const ToolKeys: { [key: string]: SKey } = {
-  cheatsheets: { name: 'CheatSheets', shortkeys: 'cs', icon: 'sheets.svg' }, // selfbuild
+  cheatsheets: { name: 'CheatSheets', shortkeys: 'cs', icon: 'devhints.png' }, // selfbuild
   starhistory: { name: 'Star History', shortkeys: 'sh', icon: 'star.png', template: 'https://star-history.t9t.io/#%s' }, // selfbuild
   _30secondsofcode: {
     name: '30 seconds of code',

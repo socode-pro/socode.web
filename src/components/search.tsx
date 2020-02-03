@@ -232,33 +232,42 @@ const SearchInput: React.FC = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const getKeysDom = useCallback((Keys: { [key: string]: SKey }) => {
-    return Object.entries(Keys).map(([key, value]) => {
-      let styles = { backgroundImage: `url(/keys/${value.icon})` } as object
-      if (value.backgroundSize) {
-        styles = { ...styles, backgroundSize: value.backgroundSize }
-      }
-      if (value.width) {
-        styles = { ...styles, width: value.width }
-      }
-      return (
-        <div
-          key={key}
-          className={css.skey}
-          onClick={() => {
-            setCurrentKey(value)
-            setDisplayKeys(false)
-            winSearchParams('', value.name)
-            inputEl.current?.focus()
-          }}>
-          <div className={cs(css.skname)} style={styles}>
-            {value.hideName ? <>&nbsp;</> : value.name}
+  const getKeysDom = useCallback(
+    (Keys: { [key: string]: SKey }) => {
+      return Object.entries(Keys).map(([key, value]) => {
+        let styles = { backgroundImage: `url(/keys/${value.icon})` } as object
+        if (value.backgroundSize) {
+          styles = { ...styles, backgroundSize: value.backgroundSize }
+        }
+        if (value.width) {
+          styles = { ...styles, width: value.width }
+        }
+        return (
+          <div
+            key={key}
+            className={css.skey}
+            onClick={() => {
+              setCurrentKey(value)
+              setDisplayKeys(false)
+              winSearchParams('', value.name)
+
+              setSuggesteIndex(-1)
+              setSuggeste([])
+              setPageno(1)
+              setResultAction(null)
+
+              inputEl.current?.focus()
+            }}>
+            <div className={cs(css.skname)} style={styles}>
+              {value.hideName ? <>&nbsp;</> : value.name}
+            </div>
+            <div className={css.shortkeys}>{value.shortkeys} +</div>
           </div>
-          <div className={css.shortkeys}>{value.shortkeys} +</div>
-        </div>
-      )
-    })
-  }, [])
+        )
+      })
+    },
+    [setResultAction]
+  )
 
   useHotkeys(
     'tab',
@@ -267,10 +276,16 @@ const SearchInput: React.FC = (): JSX.Element => {
       if (key) {
         setSquery('')
         setCurrentKey(key)
+        setDisplayKeys(false)
+        winSearchParams('', key.name)
+
         setSuggesteIndex(-1)
         setSuggeste([])
-        setTimeout(() => inputEl.current?.focus(), 0)
-        setTimeout(() => setFocus(true), 200)
+        setPageno(1)
+        setResultAction(null)
+
+        setTimeout(() => inputEl.current?.focus(), 0) // tab have to blur
+        setTimeout(() => setFocus(true), 200) // wait input onBlur
       }
     },
     [squery],
@@ -353,45 +368,47 @@ const SearchInput: React.FC = (): JSX.Element => {
           </div>
 
           <div
-            className={cs(css.suggeste, 'dropdown', { 'is-active': suggeste.length && focus })}
+            className={cs(css.suggeste, 'dropdown', {
+              'is-active': suggeste.length && focus && currentKey.name !== 'CheatSheets',
+            })}
             style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
             <div className='dropdown-menu'>
-            <div className='dropdown-content'>
-              {suggeste.map((s, i) => {
-                if (currentKey.name === 'Github') {
+              <div className='dropdown-content'>
+                {suggeste.map((s, i) => {
+                  if (currentKey.name === 'Github') {
+                    return (
+                      <div
+                        key={`${s.owner}/${s.name}`}
+                        onClick={() => suggesteClick(s.name, `https://github.com/${s.owner}/${s.name}`)}
+                        className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
+                        <a>{`${s.owner}/${s.name}`}</a>
+                        <span className={css.stars}>&#9733; {s.watchers}</span>
+                        <p>{s.description}</p>
+                      </div>
+                    )
+                  }
                   return (
-                    <div
-                      key={`${s.owner}/${s.name}`}
-                      onClick={() => suggesteClick(s.name, `https://github.com/${s.owner}/${s.name}`)}
-                      className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
-                      <a>{`${s.owner}/${s.name}`}</a>
-                      <span className={css.stars}>&#9733; {s.watchers}</span>
-                      <p>{s.description}</p>
-                    </div>
+                    <a
+                      key={s.name}
+                      onClick={() => suggesteClick(s.name)}
+                      className={cs('dropdown-item', { 'is-active': suggesteIndex === i })}>
+                      {s.name}
+                    </a>
                   )
-                }
-                return (
-                  <a
-                    key={s.name}
-                    onClick={() => suggesteClick(s.name)}
-                    className={cs('dropdown-item', { 'is-active': suggesteIndex === i })}>
-                    {s.name}
-                  </a>
-                )
-              })}
-              {currentKey.name === 'Github' && (
-                <>
-                  <hr className='dropdown-divider' />
-                  <a
-                    href='https://github.algolia.com/'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className={cs(css.algolia)}>
-                    powered by algolia for github
-                  </a>
-                </>
-              )}
-            </div>
+                })}
+                {currentKey.name === 'Github' && (
+                  <>
+                    <hr className='dropdown-divider' />
+                    <a
+                      href='https://github.algolia.com/'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className={cs(css.algolia)}>
+                      powered by algolia for github
+                    </a>
+                  </>
+                )}
+              </div>
             </div>
           </div>
 
@@ -404,7 +421,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             </div>
           )}
 
-          {currentKey.name === 'CheatSheets' && <CheatSheets query={squery} />}
+          {!displayKeys && currentKey.name === 'CheatSheets' && <CheatSheets query={squery} />}
 
           {loading && <Loader1 type={2} />}
 
