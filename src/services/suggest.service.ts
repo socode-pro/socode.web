@@ -3,19 +3,49 @@ import algoliasearch from 'algoliasearch'
 import * as global from '../config'
 
 export interface SuggestItem {
+  // github
   name: string
-  // stars?: string // algolia index issus
   watchers?: number
   description?: string
   avator?: string
   owner?: string
+
+  // npm
   version?: string
+  publisher?: string
+  highlight?: string
+  homepage?: string
+}
+
+export interface NpmsIOItem {
+  package: {
+    name: string
+    scope: string
+    version: string
+    description: string
+    links: {
+      homepage?: string
+    }
+    publisher: {
+      username: string
+    }
+  }
+  highlight: string
 }
 
 const NpmSuggester = async (q: string): Promise<Array<SuggestItem>> => {
   try {
-    const response = await axios.get<SuggestItem[]>(`https://api.npms.io/v2/search?q=${q}`)
-    return response.data
+    const response = await axios.get<NpmsIOItem[]>(`https://api.npms.io/v2/search/suggestions?size=7&q=${q}`)
+    return response.data.map(d => {
+      return {
+        name: d.package.name,
+        version: d.package.version,
+        description: d.package.description,
+        homepage: d.package.links.homepage,
+        publisher: d.package.publisher.username,
+        highlight: d.highlight,
+      }
+    })
   } catch (error) {
     console.warn(error)
   }

@@ -79,8 +79,8 @@ export const PackageKeys: { [key: string]: SKey } = {
     icon: 'npm.svg',
     backgroundSize: '50%',
     width: 100,
-    template: 'https://npmjs.com/search?q=%s',
-  }, // autocomplate
+    template: 'https://npms.io/search?q=%s',
+  },
   cocoapods: {
     name: 'CocoaPods',
     hideName: true,

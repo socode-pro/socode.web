@@ -406,6 +406,19 @@ const SearchInput: React.FC = (): JSX.Element => {
                       </div>
                     )
                   }
+                  if (currentKey.name === 'npm') {
+                    return (
+                      <div
+                        key={s.name}
+                        onClick={() => suggesteClick(s.name, `https://www.npmjs.com/package/${s.name}`)}
+                        className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
+                        <a dangerouslySetInnerHTML={{ __html: s.highlight || '' }} />
+                        <span className={css.publisher}>{s.publisher}</span>
+                        <span className={css.version}>{s.version}</span>
+                        <p>{s.description}</p>
+                      </div>
+                    )
+                  }
                   return (
                     <a
                       key={s.name}
@@ -424,6 +437,14 @@ const SearchInput: React.FC = (): JSX.Element => {
                       rel='noopener noreferrer'
                       className={cs(css.algolia)}>
                       powered by algolia for github
+                    </a>
+                  </>
+                )}
+                {currentKey.name === 'npm' && (
+                  <>
+                    <hr className='dropdown-divider' />
+                    <a href='https://npms.io/' target='_blank' rel='noopener noreferrer' className={cs(css.npms)}>
+                      powered by npms.io
                     </a>
                   </>
                 )}
