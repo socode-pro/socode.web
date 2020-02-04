@@ -53,7 +53,7 @@ const Brand: React.FC<Props> = ({ onDisplaySubtitle }: Props): JSX.Element => {
       }
     }
 
-    const run = (index: number = 0): void => {
+    const run = (index = 0): void => {
       typingDoc = document.querySelector('span.typing')
       if (!typingDoc) return
 
@@ -91,7 +91,7 @@ const Brand: React.FC<Props> = ({ onDisplaySubtitle }: Props): JSX.Element => {
       <div className={cs(css.brand)}>
         <span>$OCODE</span>.PR
         <animated.i
-          className={cs(css.toggle)}
+          className={cs(css.toggle, 'fa-compass')}
           onClick={onToggle}
           onKeyPress={onToggle}
           style={{

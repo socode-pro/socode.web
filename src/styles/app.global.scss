@@ -2,6 +2,7 @@
 @import 'variable';
 @import 'animate';
 @import 'googlefonts';
+@import 'pages-list';
 
 // https://bulma.io/documentation/customize/with-node-sass/#6-add-your-own-bulma-styles
 $purple: $primary; // #8A4D76;
@@ -42,7 +43,44 @@ $code-padding: 0;
 @import '~bulma-checkradio';
 // ------------------------------------------------------------------------------------
 
-@import 'pages-list';
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+// @import '~@fortawesome/fontawesome-free/scss/brands';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+// plus icons: https://www.iconfont.cn/collections/detail?cid=17211
+
+// https://stackoverflow.com/a/36285419/346701 batter to Official
+.fa-globe {
+  @extend %fa-icon;
+  @extend .fas;
+  @extend .fa-globe;
+}
+.fa-compass {
+  @extend %fa-icon;
+  @extend .far;
+  @extend .fa-compass;
+}
+.fa-search {
+  @extend %fa-icon;
+  @extend .fas;
+  @extend .fa-search;
+}
+.fa-angle-left {
+  @extend %fa-icon;
+  @extend .fas;
+  @extend .fa-angle-double-left;
+}
+.fa-angle-right {
+  @extend %fa-icon;
+  @extend .fas;
+  @extend .fa-angle-double-right;
+}
+.fa-question {
+  @extend %fa-icon;
+  @extend .far;
+  @extend .fa-question-circle;
+}
 
 $hamburger-layer-color: rgba($dh-mute, 0.5);
 $hamburger-active-layer-color: $primary;

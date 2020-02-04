@@ -1,4 +1,4 @@
-import * as Joi from 'joi'
+// import * as Joi from 'joi'
 import production from './production'
 import development from './development'
 
@@ -17,39 +17,39 @@ export interface ProxyOptions {
 }
 
 // https://docs.nestjs.cn/6/techniques?id=%e9%aa%8c%e8%af%81-1
-const validateInput = (vars: Variable): Variable => {
-  const varsSchema: Joi.ObjectSchema = Joi.object({
-    NODE_ENV: Joi.string()
-      .valid(['development', 'production', 'test', 'provision'])
-      .default('development'),
+// const validateInput = (vars: Variable): Variable => {
+//   const varsSchema: Joi.ObjectSchema = Joi.object({
+//     NODE_ENV: Joi.string()
+//       .valid(['development', 'production', 'test', 'provision'])
+//       .default('development'),
 
-    HOST: Joi.string(),
-    IGNORESITES: Joi.boolean()
-      .optional()
-      .default(false),
+//     HOST: Joi.string(),
+//     IGNORESITES: Joi.boolean()
+//       .optional()
+//       .default(false),
 
-    PROXY_PROTOCOL: Joi.string().optional(),
-    PROXY_HOST: Joi.string().optional(),
-    PROXY_PORT: Joi.number().optional(),
-    PROXY_AUTH: Joi.string().optional(),
-    PROXY_URL_REGEX: Joi.string().optional(),
-  })
+//     PROXY_PROTOCOL: Joi.string().optional(),
+//     PROXY_HOST: Joi.string().optional(),
+//     PROXY_PORT: Joi.number().optional(),
+//     PROXY_AUTH: Joi.string().optional(),
+//     PROXY_URL_REGEX: Joi.string().optional(),
+//   })
 
-  const { error, value: validatedVariables } = Joi.validate(vars, varsSchema)
+//   const { error, value: validatedVariables } = Joi.validate(vars, varsSchema)
 
-  if (error) {
-    throw new Error(`Config validation error: ${error.message}`)
-  }
+//   if (error) {
+//     throw new Error(`Config validation error: ${error.message}`)
+//   }
 
-  return validatedVariables
-}
+//   return validatedVariables
+// }
 
 switch (process.env.NODE_ENV || 'development') {
   case 'development':
-    variable = validateInput(development)
+    variable = development // validateInput(development)
     break
   case 'production':
-    variable = validateInput(production)
+    variable = production // validateInput(production)
     break
   default:
     throw new Error('config null')

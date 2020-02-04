@@ -14,7 +14,7 @@ export interface SuggestItem {
 
 const NpmSuggester = async (q: string): Promise<Array<SuggestItem>> => {
   try {
-    const response = await axios.get<SuggestItem[]>(`https://www.npmjs.com/search/suggestions?q=${q}`)
+    const response = await axios.get<SuggestItem[]>(`https://api.npms.io/v2/search?q=${q}`)
     return response.data
   } catch (error) {
     console.warn(error)

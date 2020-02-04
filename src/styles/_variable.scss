@@ -1,15 +1,5 @@
 @charset "utf-8";
 
-// https://ionicons.com https://github.com/rstacruz/ionicons-inline
-// @import '~ionicons-inline/dist/ionicons';
-
-$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
-@import '~@fortawesome/fontawesome-free/scss/fontawesome';
-// @import '~@fortawesome/fontawesome-free/scss/brands';
-@import '~@fortawesome/fontawesome-free/scss/solid';
-@import '~@fortawesome/fontawesome-free/scss/regular';
-// plus icons: https://www.iconfont.cn/collections/detail?cid=17211
-
 // https://github.com/modularscale/modularscale-sass
 @import '~modularscale-sass/stylesheets/modularscale';
 $modularscale: (

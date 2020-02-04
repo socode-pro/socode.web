@@ -1,4 +1,4 @@
-@import "../styles/variable";
+@import '../styles/variable';
 
 .brand {
   margin: 1.5em 0 0;
@@ -17,11 +17,6 @@
   }
 
   .toggle {
-    // https://stackoverflow.com/a/36285419/346701 batter to Official
-    @extend %fa-icon;
-    @extend .far;
-    @extend .fa-compass;
-    // font-size: 2.4rem;
     font-size: 2.3rem;
     position: relative;
     bottom: 2px;
@@ -33,13 +28,13 @@
   min-height: 2.5rem;
   .text {
     text-transform: uppercase;
-    color: rgba(0, 0, 0, .20);
+    color: rgba(0, 0, 0, 0.2);
     line-height: 2.5rem;
     font-size: 2rem;
     font-family: 'Kreon';
     white-space: nowrap;
     & > .adjective {
-      color: $primary
+      color: $primary;
     }
   }
 }

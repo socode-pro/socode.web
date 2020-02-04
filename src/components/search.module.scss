@@ -96,9 +96,6 @@
 
   // Icon
   & > i.sicon {
-    @extend %fa-icon;
-    @extend .fas;
-    @extend .fa-search;
     color: rgba($dh-mute, 0.5);
     font-size: 20px;
     flex: 0 0 64px;
@@ -239,16 +236,6 @@
     display: flex;
     justify-content: flex-end;
     padding-bottom: 15px;
-    .pageNext {
-      @extend %fa-icon;
-      @extend .fas;
-      @extend .fa-angle-double-right;
-    }
-    .pagePrevious {
-      @extend %fa-icon;
-      @extend .fas;
-      @extend .fa-angle-double-left;
-    }
   }
 }
 
@@ -300,9 +287,6 @@ div.closer {
     vertical-align: middle;
   }
   i.scicon {
-    @extend %fa-icon;
-    @extend .far;
-    @extend .fa-question-circle;
     cursor: pointer;
     margin-left: 5px;
   }

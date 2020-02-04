@@ -82,7 +82,7 @@ const Drawer: React.FC = (): JSX.Element => {
                   </select>
                 </div>
                 <span className='icon is-left'>
-                  <i className={css.globe} />
+                  <i className='fa-globe' />
                 </span>
               </div>
             </li>

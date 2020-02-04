@@ -383,7 +383,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               </div>
             )}
 
-            <i className={css.sicon} onClick={() => searchSubmit()} />
+            <i className={cs(css.sicon, 'fa-search')} onClick={() => searchSubmit()} />
           </div>
 
           <div
@@ -478,7 +478,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                           window.scrollTo({ top: 0 })
                         }}>
                         <span className='icon'>
-                          <i className={css.pagePrevious} />
+                          <i className='fa-angle-left' />
                         </span>
                         <span>Previous Page</span>
                       </button>
@@ -494,7 +494,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                       }}>
                       <span>Next Page</span>
                       <span className='icon'>
-                        <i className={css.pageNext} />
+                        <i className='fa-angle-right' />
                       </span>
                     </button>
                   </p>
@@ -515,7 +515,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             <div className={css.slogan}>
               <span className={cs({ [css.zh]: language === Language.中文 })}>{slogon}</span>
               <div className={cs('dropdown is-right', css.scdropdown, { 'is-active': displayTips })}>
-                <i className={css.scicon} onClick={() => setDisplayTips(!displayTips)} />
+                <i className={cs(css.scicon, 'fa-question')} onClick={() => setDisplayTips(!displayTips)} />
                 <div className='dropdown-menu' style={{ width: 300 }}>
                   <div className='dropdown-content'>
                     <div className='dropdown-item'>
