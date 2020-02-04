@@ -9,16 +9,7 @@ import CheatSheets from './cheatsheets'
 import Language, { ProgramLanguage } from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import useHotkeys from '../utils/useHotkeys'
-import {
-  SKey,
-  SearchKeys,
-  SearchKeysCN,
-  PackageKeys,
-  ToolKeys,
-  DocKeys,
-  GetKeyByName,
-  GetKeyByShortkeys,
-} from '../utils/skeys'
+import { SKey, UsageKeys, UsageKeysCN, MoreKeys, MoreKeysCN, GetKeyByName, GetKeyByShortkeys } from '../utils/skeys'
 import { StringEnumObjects, IntEnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { SearchTimeRange, SocodeResult } from '../services/socode.service'
@@ -60,9 +51,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [porogramLanguage, setPorogramLanguage] = useState(ProgramLanguage.All)
 
   const [displayKeys, setDisplayKeys] = useState(false)
-  const [currentKey, setCurrentKey] = useState<SKey>(
-    language === Language.中文 ? SearchKeysCN.socode : SearchKeys.github
-  )
+  const [currentKey, setCurrentKey] = useState<SKey>(language === Language.中文 ? UsageKeysCN.socode : UsageKeys.github)
 
   const useWapperTop = result?.results.length // || currentKey.name === 'CheatSheets'
   const { wapperTop } = useSpring({
@@ -419,6 +408,19 @@ const SearchInput: React.FC = (): JSX.Element => {
                       </div>
                     )
                   }
+                  if (currentKey.name === 'bundlesize') {
+                    return (
+                      <div
+                        key={s.name}
+                        onClick={() => suggesteClick(s.name, `https://bundlephobia.com/result?p=${s.name}`)}
+                        className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
+                        <a dangerouslySetInnerHTML={{ __html: s.highlight || '' }} />
+                        <span className={css.publisher}>{s.publisher}</span>
+                        <span className={css.version}>{s.version}</span>
+                        <p>{s.description}</p>
+                      </div>
+                    )
+                  }
                   return (
                     <a
                       key={s.name}
@@ -448,16 +450,22 @@ const SearchInput: React.FC = (): JSX.Element => {
                     </a>
                   </>
                 )}
+                {currentKey.name === 'bundlesize' && (
+                  <>
+                    <hr className='dropdown-divider' />
+                    <a href='https://bundlephobia.com/' target='_blank' rel='noopener noreferrer' className={cs(css.bundlephobia)}>
+                      powered by bundlephobia.com
+                    </a>
+                  </>
+                )}
               </div>
             </div>
           </div>
 
           {displayKeys && (
             <div className={css.skeys}>
-              <div className={css.skgroup}>{getKeysDom(language === Language.中文 ? SearchKeysCN : SearchKeys)}</div>
-              <div className={css.skgroup}>{getKeysDom(ToolKeys)}</div>
-              <div className={css.skgroup}>{getKeysDom(PackageKeys)}</div>
-              <div className={css.skgroup}>{getKeysDom(DocKeys)}</div>
+              <div className={css.skgroup}>{getKeysDom(language === Language.中文 ? UsageKeysCN : UsageKeys)}</div>
+              <div className={css.skgroup}>{getKeysDom(language === Language.中文 ? MoreKeysCN : MoreKeys)}</div>
             </div>
           )}
 

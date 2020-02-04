@@ -71,7 +71,7 @@ const GithubSuggester = async (query: string): Promise<Array<SuggestItem>> => {
 }
 
 export const Suggester = async (q: string, kname: string): Promise<Array<SuggestItem>> => {
-  if (kname === 'npm') {
+  if (kname === 'npm' || kname === 'bundlesize') {
     return NpmSuggester(q)
   }
   if (kname === 'Github') {
