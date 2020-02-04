@@ -1,7 +1,7 @@
 @import '../styles/variable';
 
 .hamburger {
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   right: 20px;
   outline: none;
@@ -13,7 +13,7 @@
 
 .drawer {
   width: 380px;
-  position: absolute;
+  position: fixed;
   right: 0;
   top: 20px;
   bottom: 20px;
