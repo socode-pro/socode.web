@@ -10,6 +10,11 @@ export interface SKey {
   template?: string
   bylang?: boolean
   bypglang?: boolean
+  docsearch?: {
+    apiKey: string
+    indexName: string
+    algoliaOptions?: object
+  }
 }
 
 export const UsageKeys: { [key: string]: SKey } = {
@@ -36,7 +41,7 @@ export const UsageKeys: { [key: string]: SKey } = {
     backgroundSize: '50%',
     width: 100,
     template: 'https://npms.io/search?q=%s',
-  },
+  }, // todo: inject result
 }
 
 export const UsageKeysCN: { [key: string]: SKey } = {
@@ -81,6 +86,12 @@ export const MoreKeys: { [key: string]: SKey } = {
     icon: 'stackexchange.png',
     template: 'https://stackexchange.com/search?q=%s',
   },
+  caniuse: {
+    name: 'caniuse',
+    shortkeys: 'ciu',
+    icon: 'caniuse.svg',
+    template: 'https://caniuse.com/#search=%s',
+  }, // todo: inject result
   starhistory: { name: 'Star History', shortkeys: 'sh', icon: 'star.png', template: 'https://star-history.t9t.io/#%s' }, // selfbuild
   bundlesize: {
     name: 'bundlesize',
@@ -93,15 +104,7 @@ export const MoreKeys: { [key: string]: SKey } = {
     shortkeys: '3s',
     icon: '30secondsofcode.png',
     template: 'https://www.30secondsofcode.org/?keyphrase=%s',
-  }, // selfbuild
-  cocoapods: {
-    name: 'CocoaPods',
-    hideName: true,
-    shortkeys: 'cc',
-    icon: 'cocoapods.png',
-    width: 120,
-    template: 'https://cocoacontrols.com/search?q=%s',
-  },
+  }, // todo: inject result. selfbuild
   maven: {
     name: 'Maven',
     hideName: true,
@@ -114,6 +117,14 @@ export const MoreKeys: { [key: string]: SKey } = {
   pypi: { name: 'PyPI', shortkeys: 'pp', icon: 'pypi.svg', template: 'https://pypi.org/search/?q=%s' },
   nuget: { name: 'NuGet', shortkeys: 'ng', icon: 'nuget.svg', template: 'https://nuget.org/packages?q=%s' },
   composer: { name: 'Composer', shortkeys: 'cp', icon: 'composer.png', template: 'https://packagist.org/?query=%s' },
+  cocoapods: {
+    name: 'CocoaPods',
+    hideName: true,
+    shortkeys: 'cc',
+    icon: 'cocoapods.png',
+    width: 120,
+    template: 'https://cocoacontrols.com/search?q=%s',
+  },
   rubygems: {
     name: 'RubyGems',
     shortkeys: 'rg',
@@ -130,7 +141,17 @@ export const MoreKeys: { [key: string]: SKey } = {
     width: 130,
     template: 'https://developer.mozilla.org/en-US/search?q=%s',
   },
-  eslint: { name: 'ESLint', shortkeys: 'es', icon: 'eslint.svg', template: 'https://eslint.org/docs/rules/%s' }, // algolia autocomplate
+  eslint: {
+    name: 'ESLint',
+    shortkeys: 'es',
+    icon: 'eslint.svg',
+    template: 'https://eslint.org/docs/rules/%s',
+    docsearch: {
+      apiKey: '891b0e977d96c762a3821e0c00172ac9',
+      indexName: 'eslint',
+      algoliaOptions: { facetFilters: [['tags:docs', 'tags:blog']] },
+    },
+  },
   apple: {
     name: 'Apple Developer',
     shortkeys: 'ap',
@@ -144,7 +165,17 @@ export const MoreKeys: { [key: string]: SKey } = {
     template: 'https://docs.microsoft.com/%l/search/?search=%s',
     bylang: true, // autocomplate
   },
-  react: { name: 'React', shortkeys: 'rect', icon: 'react.svg', template: 'https://reactjs.org/docs/%s', bylang: true }, // algolia autocomplate
+  react: {
+    name: 'React',
+    shortkeys: 'rect',
+    icon: 'react.svg',
+    template: 'https://reactjs.org/docs/%s',
+    bylang: true,
+    docsearch: {
+      apiKey: '36221914cce388c46d0420343e0bb32e',
+      indexName: 'react',
+    },
+  },
   vue: { name: 'Vue', shortkeys: 'vue', icon: 'vue.png', template: 'https://vuejs.org/v2/%s', bylang: true }, // algolia autocomplate
   python: { name: 'Python', shortkeys: 'py', icon: 'python.png', template: 'https://python.org/search/?q=%s' },
   ruby: {
@@ -169,6 +200,12 @@ export const MoreKeysCN: { [key: string]: SKey } = {
     icon: 'stackexchange.png',
     template: 'https://stackexchange.com/search?q=%s',
   },
+  caniuse: {
+    name: 'caniuse',
+    shortkeys: 'ciu',
+    icon: 'caniuse.svg',
+    template: 'https://caniuse.com/#search=%s',
+  }, // todo: inject result
   starhistory: { name: 'Star History', shortkeys: 'sh', icon: 'star.png', template: 'https://star-history.t9t.io/#%s' }, // selfbuild
   bundlesize: {
     name: 'bundlesize',
@@ -181,15 +218,7 @@ export const MoreKeysCN: { [key: string]: SKey } = {
     shortkeys: '3s',
     icon: '30secondsofcode.png',
     template: 'https://www.30secondsofcode.org/?keyphrase=%s',
-  }, // selfbuild
-  cocoapods: {
-    name: 'CocoaPods',
-    hideName: true,
-    shortkeys: 'cc',
-    icon: 'cocoapods.png',
-    width: 120,
-    template: 'https://cocoacontrols.com/search?q=%s',
-  },
+  }, // todo: inject result. selfbuild
   maven: {
     name: 'Maven',
     hideName: true,
@@ -202,6 +231,14 @@ export const MoreKeysCN: { [key: string]: SKey } = {
   pypi: { name: 'PyPI', shortkeys: 'pp', icon: 'pypi.svg', template: 'https://pypi.org/search/?q=%s' },
   nuget: { name: 'NuGet', shortkeys: 'ng', icon: 'nuget.svg', template: 'https://nuget.org/packages?q=%s' },
   composer: { name: 'Composer', shortkeys: 'cp', icon: 'composer.png', template: 'https://packagist.org/?query=%s' },
+  cocoapods: {
+    name: 'CocoaPods',
+    hideName: true,
+    shortkeys: 'cc',
+    icon: 'cocoapods.png',
+    width: 120,
+    template: 'https://cocoacontrols.com/search?q=%s',
+  },
   rubygems: {
     name: 'RubyGems',
     shortkeys: 'rg',
@@ -274,4 +311,16 @@ export const GetKeyByShortkeys = (shortkeys: string): SKey | null => {
   if (r4) return r4
 
   return null
+}
+
+export const DocsearchKeys = (): SKey[] => {
+  const keys: SKey[] = Object.entries(UsageKeys)
+    .filter(([k, v]) => v.docsearch)
+    .map(([k, v]) => v)
+
+  const mkeys: SKey[] = Object.entries(MoreKeys)
+    .filter(([k, v]) => v.docsearch)
+    .map(([k, v]) => v)
+
+  return keys.concat(mkeys)
 }

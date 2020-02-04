@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useSpring, animated } from 'react-spring'
 import { Link } from 'react-router-dom'
 import throttle from 'lodash/throttle'
+import docsearch from 'docsearch.js'
 import cs from 'classnames'
 import Highlighter from 'react-highlight-words'
 import Brand from './brand'
@@ -9,7 +10,16 @@ import CheatSheets from './cheatsheets'
 import Language, { ProgramLanguage } from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import useHotkeys from '../utils/useHotkeys'
-import { SKey, UsageKeys, UsageKeysCN, MoreKeys, MoreKeysCN, GetKeyByName, GetKeyByShortkeys } from '../utils/skeys'
+import {
+  SKey,
+  UsageKeys,
+  UsageKeysCN,
+  MoreKeys,
+  MoreKeysCN,
+  GetKeyByName,
+  GetKeyByShortkeys,
+  DocsearchKeys,
+} from '../utils/skeys'
 import { StringEnumObjects, IntEnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { SearchTimeRange, SocodeResult } from '../services/socode.service'
@@ -240,6 +250,18 @@ const SearchInput: React.FC = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    DocsearchKeys().forEach(k => {
+      docsearch({
+        apiKey: k.docsearch?.apiKey,
+        indexName: k.docsearch?.indexName,
+        inputSelector: `#docsearch_${k.name}`,
+        algoliaOptions: k.docsearch?.algoliaOptions,
+        debug: false,
+      })
+    })
+  }, [])
+
   const getKeysDom = useCallback(
     (Keys: { [key: string]: SKey }) => {
       return Object.entries(Keys).map(([key, value]) => {
@@ -300,6 +322,8 @@ const SearchInput: React.FC = (): JSX.Element => {
     [css.input]
   )
 
+  const isDocsearch = DocsearchKeys().map(k => k.name).includes(currentKey.name)
+
   return (
     <>
       <div className='container'>
@@ -317,7 +341,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
             <input
               type='search'
-              className={css.input}
+              className={cs(css.input, { 'dis-none': isDocsearch })}
               spellCheck={false}
               value={squery}
               autoFocus
@@ -332,6 +356,21 @@ const SearchInput: React.FC = (): JSX.Element => {
               ref={inputEl} // https://stackoverflow.com/a/48656310/346701
               // onKeyPress={handleQueryKeyPress}
             />
+
+            {DocsearchKeys().map(k => {
+              return (
+                <input
+                  key={k.name}
+                  type='search'
+                  className={cs(css.input, { 'dis-none': currentKey.name !== k.name })}
+                  spellCheck={false}
+                  value={squery}
+                  autoFocus
+                  onChange={handleQueryChange}
+                  id={`docsearch_${k.name}`}
+                />
+              )
+            })}
 
             {result !== null && (
               <div className='select is-rounded mgl10'>
@@ -372,7 +411,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               </div>
             )}
 
-            <i className={cs(css.sicon, 'fa-search')} onClick={() => searchSubmit()} />
+            {!isDocsearch && <i className={cs(css.sicon, 'fa-search')} onClick={() => searchSubmit()} />}
           </div>
 
           <div
@@ -453,7 +492,11 @@ const SearchInput: React.FC = (): JSX.Element => {
                 {currentKey.name === 'bundlesize' && (
                   <>
                     <hr className='dropdown-divider' />
-                    <a href='https://bundlephobia.com/' target='_blank' rel='noopener noreferrer' className={cs(css.bundlephobia)}>
+                    <a
+                      href='https://bundlephobia.com/'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className={cs(css.bundlephobia)}>
                       powered by bundlephobia.com
                     </a>
                   </>

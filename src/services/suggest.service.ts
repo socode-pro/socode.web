@@ -1,6 +1,7 @@
 import axios from 'axios'
 import algoliasearch from 'algoliasearch'
 import * as global from '../config'
+import { DocsearchKeys } from '../utils/skeys'
 
 export interface SuggestItem {
   // github
@@ -78,6 +79,13 @@ export const Suggester = async (q: string, kname: string): Promise<Array<Suggest
     return GithubSuggester(q)
   }
   if (kname === 'CheatSheets') {
+    return []
+  }
+  if (
+    DocsearchKeys()
+      .map(k => k.name)
+      .includes(kname)
+  ) {
     return []
   }
 
