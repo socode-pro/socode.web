@@ -44,12 +44,14 @@ const Drawer: React.FC = (): JSX.Element => {
                 <span>to synchronize your settings</span>
               </a>
             </li>
-            {/* <li>
-              <a className={cs(css.navlink, css.spectrum)} href='https://chat.socode.pro'>
-                <h3>Spectrum Chat</h3>
-                <span>the community platform for socode future</span>
+            <li>
+              <a className={cs(css.navlink, css.riot)}
+                target='_blank' rel="noopener noreferrer"
+                href='https://riot.im/app/#/group/+socode:matrix.org'>
+                <h3>Chat</h3>
+                <span>request feature/feedback bug</span>
               </a>
-            </li> */}
+            </li>
             <li>
               <a
                 className={cs(css.navlink, css.chrome)}
