@@ -304,7 +304,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               <div className={cs(css.skname)} style={styles}>
                 {key.hideName ? <>&nbsp;</> : key.name}
               </div>
-              <div className={css.shortkeys}>{key.shortkeys} +</div>
+              <div className={css.shortkeys}>{key.shortkeys} <span>+</span></div>
             </div>
           )
         })
@@ -521,10 +521,10 @@ const SearchInput: React.FC = (): JSX.Element => {
           </div>
 
           {displayKeys && (
-            <div className={css.skeys}>
+            <div className='mgt10'>
               <div className={css.skgroup}>{getKeysDom(UsageKeys)}</div>
-              <div className={css.skgroup}>{getKeysDom(DocsearchKeys)}</div>
-              <div className={css.skgroup}>{getKeysDom(MoreKeys)}</div>
+              <div className={cs(css.skgroup)}>{getKeysDom(DocsearchKeys)}</div>
+              <div className={cs(css.skgroup)}>{getKeysDom(MoreKeys)}</div>
             </div>
           )}
 

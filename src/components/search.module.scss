@@ -193,50 +193,51 @@
   }
 }
 
-.skeys {
-  padding: 10px;
-  .skgroup {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    &:not(:first-child) {
-      border-top: solid 1px $white-ter;
-      padding-top: 10px;
-    }
-    &:not(:last-child) {
-      padding-bottom: 10px;
-    }
+.skgroup {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  &:not(:first-child) {
+    border-top: solid 1px $white-ter;
+    padding-top: 10px;
+  }
+  &:not(:last-child) {
+    padding-bottom: 10px;
   }
   .skey {
     cursor: pointer;
     border-radius: 6px;
-    flex-basis: 50%;
+    flex-basis: 33%;
     display: flex;
     padding: 1em 1em 1em 0.5em;
-    .skname {
-      padding-left: 46px;
-      @include ms-respond(font-size, 1);
-      text-shadow: 0 0 $dh-text;
-      background-position: left 0.5em center;
-      background-size: contain;
-      background-repeat: no-repeat;
-      // &.google {
-      //   background: url(../images/keys/google.png) left 0.5em center/contain no-repeat;
-      // }
-    }
-    .shortkeys {
-      margin-left: 15px;
-      padding-right: 40px;
-      background: url(../images/tab.png) center right 0.5em / contain no-repeat;
-      @include ms-respond(font-size, 1);
-      color: $grey-light;
-      display: none;
-    }
     &:hover {
       background-color: $white-duck;
       .shortkeys {
-        display: block;
+        background: url(../images/tab.png) center right 0.5em / contain no-repeat;
+        span {
+          display: inline;
+        }
       }
+    }
+  }
+  .skname {
+    padding-left: 46px;
+    @include ms-respond(font-size, 1);
+    text-shadow: 0 0 $dh-text;
+    background-position: left 0.5em center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    // &.google {
+    //   background: url(../images/keys/google.png) left 0.5em center/contain no-repeat;
+    // }
+  }
+  .shortkeys {
+    margin-left: 10px;
+    padding-right: 40px;
+    @include ms-respond(font-size, 1);
+    color: $grey-light;
+    span {
+      display: none;
     }
   }
 }

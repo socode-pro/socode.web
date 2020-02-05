@@ -44,8 +44,8 @@ export const UsageKeys: { [key: string]: SKey } = {
     hideName: true,
     shortkeys: 'n',
     icon: 'npm.svg',
-    backgroundSize: '50%',
-    width: 100,
+    backgroundSize: '86%',
+    width: 60,
     template: 'https://npms.io/search?q=%s',
   }, // todo: inject result
 }
@@ -89,8 +89,8 @@ export const MoreKeys: { [key: string]: SKey } = {
     hideName: true,
     shortkeys: 'mv',
     icon: 'maven.png',
-    backgroundSize: '66%',
-    width: 100,
+    backgroundSize: '88%',
+    width: 70,
     template: 'https://mvnrepository.com/search?q=%s',
   },
   pypi: { name: 'PyPI', shortkeys: 'pp', icon: 'pypi.svg', template: 'https://pypi.org/search/?q=%s' },
@@ -101,7 +101,7 @@ export const MoreKeys: { [key: string]: SKey } = {
     hideName: true,
     shortkeys: 'cc',
     icon: 'cocoapods.png',
-    width: 120,
+    width: 110,
     template: 'https://cocoacontrols.com/search?q=%s',
   },
   rubygems: {
@@ -196,7 +196,7 @@ export const DocsearchKeys: { [key: string]: SKey } = {
     shortkeys: 'scl',
     icon: 'scala.png',
     hideName: true,
-    width: 100,
+    width: 70,
     docsearch: {
       apiKey: 'fbc439670f5d4e3730cdcb715c359391',
       indexName: 'scala-lang',
@@ -221,7 +221,7 @@ export const DocsearchKeys: { [key: string]: SKey } = {
     shortkeys: 'bb',
     icon: 'babel.svg',
     hideName: true,
-    width: 80,
+    width: 60,
     docsearch: {
       apiKey: 'd42906b043c5422ea07b44fd49c40a0d',
       indexName: 'babeljs',
@@ -232,7 +232,7 @@ export const DocsearchKeys: { [key: string]: SKey } = {
     shortkeys: 'gd',
     icon: 'gradle.svg',
     hideName: true,
-    width: 120,
+    width: 88,
     docsearch: {
       apiKey: '5eb5540d6bd412c7e6d2c687bf10a395',
       indexName: 'gradle',
@@ -251,7 +251,7 @@ export const DocsearchKeys: { [key: string]: SKey } = {
     shortkeys: 'gb',
     icon: 'gatsby.svg',
     hideName: true,
-    width: 120,
+    width: 108,
     docsearch: {
       apiKey: '71af1f9c4bd947f0252e17051df13f9c',
       indexName: 'gatsbyjs',
@@ -292,7 +292,7 @@ export const DocsearchKeys: { [key: string]: SKey } = {
     shortkeys: 'jq',
     icon: 'jquery.png',
     hideName: true,
-    width: 120,
+    width: 106,
     docsearch: {
       apiKey: '3cfde9aca378c8aab554d5bf1b23489b',
       indexName: 'jquery',
@@ -313,7 +313,7 @@ export const DocsearchKeys: { [key: string]: SKey } = {
     shortkeys: 'eb',
     icon: 'ember.svg',
     hideName: true,
-    width: 100,
+    width: 76,
     docsearch: {
       appId: 'Y1OMR4C7MF',
       apiKey: '5d01c83734dc36754d9e94cbf6f8964d',
