@@ -13,12 +13,12 @@ import useHotkeys from '../utils/useHotkeys'
 import {
   SKey,
   UsageKeys,
-  UsageKeysCN,
   MoreKeys,
-  MoreKeysCN,
+  DocsearchKeys,
   GetKeyByName,
   GetKeyByShortkeys,
-  DocsearchKeys,
+  IsDocsearchKeys,
+  IsAvoidKeys,
 } from '../utils/skeys'
 import { StringEnumObjects, IntEnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
@@ -61,7 +61,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [porogramLanguage, setPorogramLanguage] = useState(ProgramLanguage.All)
 
   const [displayKeys, setDisplayKeys] = useState(false)
-  const [currentKey, setCurrentKey] = useState<SKey>(language === Language.中文 ? UsageKeysCN.socode : UsageKeys.github)
+  const [currentKey, setCurrentKey] = useState<SKey>(language === Language.中文 ? UsageKeys.socode : UsageKeys.github)
 
   const useWapperTop = result?.results.length // || currentKey.name === 'CheatSheets'
   const { wapperTop } = useSpring({
@@ -251,52 +251,65 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    DocsearchKeys().forEach(k => {
+    for (const [n, key] of Object.entries(DocsearchKeys)) {
       docsearch({
-        apiKey: k.docsearch?.apiKey,
-        indexName: k.docsearch?.indexName,
-        inputSelector: `#docsearch_${k.name}`,
-        algoliaOptions: k.docsearch?.algoliaOptions,
+        apiKey: key.docsearch?.apiKey,
+        indexName: key.docsearch?.indexName,
+        inputSelector: `#docsearch_${key.name}`,
+        algoliaOptions: key.docsearch?.algoliaOptions,
+        handleSelected: (input, event, suggestion) => {
+          window.open(suggestion.url, '_blank')?.focus()
+        },
         debug: false,
       })
-    })
+    }
   }, [])
 
   const getKeysDom = useCallback(
     (Keys: { [key: string]: SKey }) => {
-      return Object.entries(Keys).map(([key, value]) => {
-        let styles = { backgroundImage: `url(/keys/${value.icon})` } as object
-        if (value.backgroundSize) {
-          styles = { ...styles, backgroundSize: value.backgroundSize }
-        }
-        if (value.width) {
-          styles = { ...styles, width: value.width }
-        }
-        return (
-          <div
-            key={key}
-            className={css.skey}
-            onClick={() => {
-              setCurrentKey(value)
-              setDisplayKeys(false)
-              winSearchParams('', value.name)
+      return Object.entries(Keys)
+        .filter(([n, key]) => {
+          if (key.availableLang) {
+            return key.availableLang === language
+          }
+          if (key.disableLang) {
+            return key.disableLang !== language
+          }
+          return true
+        })
+        .map(([n, key]) => {
+          let styles = { backgroundImage: `url(/keys/${key.icon})` } as object
+          if (key.backgroundSize) {
+            styles = { ...styles, backgroundSize: key.backgroundSize }
+          }
+          if (key.width) {
+            styles = { ...styles, width: key.width }
+          }
+          return (
+            <div
+              key={n}
+              className={css.skey}
+              onClick={() => {
+                setCurrentKey(key)
+                setDisplayKeys(false)
+                winSearchParams('', key.name)
 
-              setSuggesteIndex(-1)
-              setSuggeste([])
-              setPageno(1)
-              setResultAction(null)
+                setSuggesteIndex(-1)
+                setSuggeste([])
+                setPageno(1)
+                setResultAction(null)
 
-              inputEl.current?.focus()
-            }}>
-            <div className={cs(css.skname)} style={styles}>
-              {value.hideName ? <>&nbsp;</> : value.name}
+                inputEl.current?.focus()
+              }}>
+              <div className={cs(css.skname)} style={styles}>
+                {key.hideName ? <>&nbsp;</> : key.name}
+              </div>
+              <div className={css.shortkeys}>{key.shortkeys} +</div>
             </div>
-            <div className={css.shortkeys}>{value.shortkeys} +</div>
-          </div>
-        )
-      })
+          )
+        })
     },
-    [setResultAction]
+    [language, setResultAction]
   )
 
   useHotkeys(
@@ -322,8 +335,6 @@ const SearchInput: React.FC = (): JSX.Element => {
     [css.input]
   )
 
-  const isDocsearch = DocsearchKeys().map(k => k.name).includes(currentKey.name)
-
   return (
     <>
       <div className='container'>
@@ -341,7 +352,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
             <input
               type='search'
-              className={cs(css.input, { 'dis-none': isDocsearch })}
+              className={cs(css.input, { 'dis-none': IsDocsearchKeys(currentKey.name) })}
               spellCheck={false}
               value={squery}
               autoFocus
@@ -357,18 +368,20 @@ const SearchInput: React.FC = (): JSX.Element => {
               // onKeyPress={handleQueryKeyPress}
             />
 
-            {DocsearchKeys().map(k => {
+            {Object.entries(DocsearchKeys).map(([n, key]) => {
               return (
-                <input
-                  key={k.name}
-                  type='search'
-                  className={cs(css.input, { 'dis-none': currentKey.name !== k.name })}
-                  spellCheck={false}
-                  value={squery}
-                  autoFocus
-                  onChange={handleQueryChange}
-                  id={`docsearch_${k.name}`}
-                />
+                <div className={cs(css.docsearch, { 'dis-none': currentKey.name !== key.name })}>
+                  <input
+                    key={n}
+                    type='search'
+                    className={cs(css.input)}
+                    spellCheck={false}
+                    value={squery}
+                    autoFocus
+                    onChange={handleQueryChange}
+                    id={`docsearch_${key.name}`}
+                  />
+                </div>
               )
             })}
 
@@ -411,12 +424,14 @@ const SearchInput: React.FC = (): JSX.Element => {
               </div>
             )}
 
-            {!isDocsearch && <i className={cs(css.sicon, 'fa-search')} onClick={() => searchSubmit()} />}
+            {!IsDocsearchKeys(currentKey.name) && (
+              <i className={cs(css.sicon, 'fa-search')} onClick={() => searchSubmit()} />
+            )}
           </div>
 
           <div
             className={cs(css.suggeste, 'dropdown', {
-              'is-active': suggeste.length && focus && currentKey.name !== 'CheatSheets',
+              'is-active': suggeste.length && focus && !IsAvoidKeys(currentKey.name),
             })}
             style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
             <div className='dropdown-menu'>
@@ -507,8 +522,9 @@ const SearchInput: React.FC = (): JSX.Element => {
 
           {displayKeys && (
             <div className={css.skeys}>
-              <div className={css.skgroup}>{getKeysDom(language === Language.中文 ? UsageKeysCN : UsageKeys)}</div>
-              <div className={css.skgroup}>{getKeysDom(language === Language.中文 ? MoreKeysCN : MoreKeys)}</div>
+              <div className={css.skgroup}>{getKeysDom(UsageKeys)}</div>
+              <div className={css.skgroup}>{getKeysDom(DocsearchKeys)}</div>
+              <div className={css.skgroup}>{getKeysDom(MoreKeys)}</div>
             </div>
           )}
 

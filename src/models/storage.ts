@@ -44,7 +44,7 @@ const storageModel: StorageModel = {
         let value: any = localStorage.getItem(`socode_${key}`)
         if (value) {
           if (key === 'openNewTab') value = value !== 'false'
-          else if (key === 'darkMode') value = parseInt(value)
+          else if (key === 'darkMode') value = parseInt(value, 10)
           else if (key === 'trending') value = JSON.parse(value)
           state.values = { ...state.values, ...{ [key]: value } }
         }

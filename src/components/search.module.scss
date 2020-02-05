@@ -24,6 +24,7 @@
   align-items: center;
   background: #fff;
   border-radius: 6px;
+  padding: 0 16px;
   &.float {
     position: fixed;
     top: 0;
@@ -67,7 +68,6 @@
     padding: 2px 8px;
     border-radius: 3px;
     background: rgba($dh-body, 0.5);
-    margin: 0 0 0 16px;
     box-shadow: 0 1px 1px rgba($dh-mute, 0.25);
     cursor: pointer;
     font-family: $font-mono;
@@ -98,10 +98,11 @@
   & > i.sicon {
     color: rgba($dh-mute, 0.5);
     font-size: 20px;
-    flex: 0 0 64px;
+    flex: 0 0 32px;
     order: 2;
     align-self: stretch;
     text-align: center;
+    padding-left: 16px;
     line-height: 64px;
     cursor: pointer;
   }
@@ -129,6 +130,16 @@
       line-height: 48px;
       background-size: 24px 24px;
       background-position: center center;
+    }
+  }
+}
+
+.docsearch {
+  flex-grow: 1;
+  :global(.algolia-autocomplete) {
+    width: 100%;
+    & > input[type='search'] {
+      width: 100%;
     }
   }
 }

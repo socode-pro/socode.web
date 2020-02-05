@@ -3,7 +3,7 @@ import { Injections } from '../store'
 import { StoreModel } from './index'
 import Language, { ProgramLanguage } from '../utils/language'
 import { SocodeResult, SearchTimeRange } from '../services/socode.service'
-import { SKey } from '../utils/skeys'
+import { SKey, IsAvoidKeys } from '../utils/skeys'
 
 export interface SMError {
   message: string
@@ -50,6 +50,10 @@ const searchModel: SearchModel = {
   }),
 
   search: thunk(async (actions, payload, { injections }) => {
+    if (IsAvoidKeys(payload.name)) {
+      return
+    }
+
     if (payload.name === 'socode') {
       actions.setLoading(true)
       actions.setError(null)

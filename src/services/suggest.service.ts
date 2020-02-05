@@ -1,7 +1,7 @@
 import axios from 'axios'
 import algoliasearch from 'algoliasearch'
 import * as global from '../config'
-import { DocsearchKeys } from '../utils/skeys'
+import { IsAvoidKeys } from '../utils/skeys'
 
 export interface SuggestItem {
   // github
@@ -71,6 +71,23 @@ const GithubSuggester = async (query: string): Promise<Array<SuggestItem>> => {
   return []
 }
 
+const MicrosoftSuggester = async (query: string): Promise<Array<SuggestItem>> => {
+  try {
+    const response = await axios.get<{ suggestions: Array<string> }>(
+      `https://docs.microsoft.com/api/search/autocomplete?query=${query}`,
+      {
+        headers: {
+          headers: { 'Access-Control-Allow-Origin': '*' },
+        },
+      }
+    )
+    return response.data.suggestions.map(d => ({ name: d }))
+  } catch (error) {
+    console.error(error)
+  }
+  return []
+}
+
 export const Suggester = async (q: string, kname: string): Promise<Array<SuggestItem>> => {
   if (kname === 'npm' || kname === 'bundlesize') {
     return NpmSuggester(q)
@@ -78,14 +95,10 @@ export const Suggester = async (q: string, kname: string): Promise<Array<Suggest
   if (kname === 'Github') {
     return GithubSuggester(q)
   }
-  if (kname === 'CheatSheets') {
-    return []
+  if (kname === 'Microsoft') {
+    return MicrosoftSuggester(q)
   }
-  if (
-    DocsearchKeys()
-      .map(k => k.name)
-      .includes(kname)
-  ) {
+  if (IsAvoidKeys(kname)) {
     return []
   }
 
