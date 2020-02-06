@@ -56,11 +56,11 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   @extend .fas;
   @extend .fa-globe;
 }
-.fa-compass {
-  @extend %fa-icon;
-  @extend .far;
-  @extend .fa-compass;
-}
+// .fa-compass {
+//   @extend %fa-icon;
+//   @extend .far;
+//   @extend .fa-compass;
+// }
 .fa-search {
   @extend %fa-icon;
   @extend .fas;
