@@ -19,7 +19,7 @@ const Brand: React.FC<Props> = ({ onDisplaySubtitle }: Props): JSX.Element => {
 
   const { color, rotate } = useSpring({
     color: displaySubtitle ? '#FA7C91' : titleColor,
-    rotate: displaySubtitle ? 180 : 0,
+    rotate: displaySubtitle ? 90 : 0,
   })
 
   // const [{ xys }, setXys] = useSpring(() => ({
@@ -91,7 +91,7 @@ const Brand: React.FC<Props> = ({ onDisplaySubtitle }: Props): JSX.Element => {
       <div className={cs(css.brand)}>
         <span>$OCODE</span>.PR
         <animated.i
-          className={cs(css.toggle, 'fa-compass')}
+          className={cs(css.toggle)}
           onClick={onToggle}
           onKeyPress={onToggle}
           style={{
