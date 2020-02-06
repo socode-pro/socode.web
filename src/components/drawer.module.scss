@@ -49,7 +49,7 @@
   }
   .slogon {
     font-size: 13px;
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   a.navlink {
@@ -60,11 +60,25 @@
     &.riot {
       background: #fff url(../images/riot.svg) left 1em center/50px 50px no-repeat;
     }
+    &.discord {
+      background: #fff url(../images/discord.svg) left 0.5em center/50px 50px no-repeat;
+    }
     &.chrome {
       background: #fff url(../images/icons8-chrome.svg) left 0.5em center/50px 50px no-repeat;
     }
     &.privacy {
-      background: #fafafa url(../images/icons8-fingerprint-100.png) left 0.5em center/50px 50px no-repeat;
+      background: #fff url(../images/icons8-fingerprint-100.png) left 0.5em center/50px 50px no-repeat;
+    }
+    &.twitter {
+      // background: #fafafa url(/static/media/twitter.2d8eb5e3.svg) left 1.4em center/22px 22px no-repeat;
+      // padding: 1em 1.5em 1em calc(2.8em + 24px);
+      padding: 1em;
+      display: flex;
+      align-items: center;
+      i {
+        color: $primary;
+        margin-right: 10px;
+      }
     }
     &:hover {
       background-color: $white-duck;

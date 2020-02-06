@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback, Dispatch, SetStateAction } from 'react'
-import { useSpring, animated, to } from 'react-spring'
+import React, { useState } from 'react'
+import { useSpring, animated } from 'react-spring'
 import { Link } from 'react-router-dom'
 import cs from 'classnames'
 import Language from '../utils/language'
@@ -44,14 +44,30 @@ const Drawer: React.FC = (): JSX.Element => {
                 <span>to synchronize your settings</span>
               </a>
             </li>
-            <li>
-              <a className={cs(css.navlink, css.riot)}
-                target='_blank' rel="noopener noreferrer"
-                href='https://riot.im/app/#/group/+socode:matrix.org'>
-                <h3>Chat</h3>
-                <span>request feature/feedback bug</span>
-              </a>
-            </li>
+            {language !== Language.中文 && (
+              <li>
+                <a
+                  className={cs(css.navlink, css.discord)}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  href='https://discord.gg/qeBuAR'>
+                  <h3>Discord Chat</h3>
+                  <span>request feature/feedback bug</span>
+                </a>
+              </li>
+            )}
+            {language === Language.中文 && (
+              <li>
+                <a
+                  className={cs(css.navlink, css.riot)}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  href='https://riot.im/app/#/group/+socode:matrix.org'>
+                  <h3>Chat</h3>
+                  <span>request feature/feedback bug</span>
+                </a>
+              </li>
+            )}
             <li>
               <a
                 className={cs(css.navlink, css.chrome)}
@@ -60,11 +76,14 @@ const Drawer: React.FC = (): JSX.Element => {
                 <span>become the start page of your work</span>
               </a>
             </li>
+            <li>
+              <Link to='/privacy' className={cs(css.navlink, css.privacy)}>
+                <h3>{useIntl(Words.PrivacyPolicy)}</h3>
+                <span>we don&apos;t collect or share personal information</span>
+              </Link>
+            </li>
             {/* <li>
               <a>Shortcut Keys</a>
-            </li>
-            <li>
-              <a>Share SOCODE.PRO</a>
             </li>
             <li>
               <a>赞助一杯咖啡，关闭搜索页的广告</a>
@@ -114,29 +133,27 @@ const Drawer: React.FC = (): JSX.Element => {
                   <a>Font Size</a>
                 </li>
               </ul>
-            </li>
-            <li>
-              <a>Open Links in a New Tab</a>
             </li> */}
           </ul>
         </aside>
         <footer className={cs('menu', css.skirt)}>
           <p className='menu-label'>Footer</p>
           <ul className='menu-list'>
-            <li>
-              <Link to='/privacy' className={cs(css.navlink, css.privacy)}>
-                <h3>{useIntl(Words.PrivacyPolicy)}</h3>
-                <span>we don&apos;t collect or share personal information</span>
-              </Link>
-            </li>
             {/* <li>
               <a>投放广告</a>
             </li> */}
-            {/* {language !== Language.中文 && (
+            {language !== Language.中文 && (
               <li>
-                <a href='#'>twitter</a>
+                <a
+                  className={cs(css.navlink, css.twitter)}
+                  href='https://twitter.com/socode7'
+                  target='_blank'
+                  rel='noopener noreferrer'>
+                  <i className='fa-twitter' />
+                  <h3>twitter.com/socode7</h3>
+                </a>
               </li>
-            )} */}
+            )}
             {language === Language.中文 && (
               <li>
                 <a href='http://beian.miit.gov.cn/state/outPortal/loginPortal.action'>苏ICP备18044337号-2</a>
