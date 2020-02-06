@@ -282,6 +282,9 @@ const SearchInput: React.FC = (): JSX.Element => {
           if (key.backgroundSize) {
             styles = { ...styles, backgroundSize: key.backgroundSize }
           }
+          if (key.backgroundPosition) {
+            styles = { ...styles, backgroundPosition: key.backgroundPosition }
+          }
           if (key.width) {
             styles = { ...styles, width: key.width }
           }
@@ -299,12 +302,20 @@ const SearchInput: React.FC = (): JSX.Element => {
                 setPageno(1)
                 setResultAction(null)
 
-                inputEl.current?.focus()
+                if (IsDocsearchKeys(key.name)) {
+                  setTimeout(() => () => {
+                    document?.getElementById(`docsearch_${key.name}`)?.focus()
+                  }, 200)
+                } else {
+                  inputEl.current?.focus()
+                }
               }}>
               <div className={cs(css.skname)} style={styles}>
                 {key.hideName ? <>&nbsp;</> : key.name}
               </div>
-              <div className={css.shortkeys}>{key.shortkeys} <span>+</span></div>
+              <div className={css.shortkeys}>
+                {key.shortkeys} <span>+</span>
+              </div>
             </div>
           )
         })
@@ -370,9 +381,8 @@ const SearchInput: React.FC = (): JSX.Element => {
 
             {Object.entries(DocsearchKeys).map(([n, key]) => {
               return (
-                <div className={cs(css.docsearch, { 'dis-none': currentKey.name !== key.name })}>
+                <div key={n} className={cs(css.docsearch, { 'dis-none': currentKey.name !== key.name })}>
                   <input
-                    key={n}
                     type='search'
                     className={cs(css.input)}
                     spellCheck={false}
@@ -521,10 +531,16 @@ const SearchInput: React.FC = (): JSX.Element => {
           </div>
 
           {displayKeys && (
-            <div className='mgt10'>
+            <div className='mgl10 mgb10'>
               <div className={css.skgroup}>{getKeysDom(UsageKeys)}</div>
-              <div className={cs(css.skgroup)}>{getKeysDom(DocsearchKeys)}</div>
-              <div className={cs(css.skgroup)}>{getKeysDom(MoreKeys)}</div>
+              <div className={cs(css.skgroup)}>
+                <div className={css.kdesc}>DOCUMENT</div>
+                {getKeysDom(DocsearchKeys)}
+              </div>
+              <div className={cs(css.skgroup)}>
+                <div className={css.kdesc}>MORE</div>
+                {getKeysDom(MoreKeys)}
+              </div>
             </div>
           )}
 

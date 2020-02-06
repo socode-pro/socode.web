@@ -7,6 +7,7 @@ export interface SKey {
   shortkeys: string
   icon: string
   backgroundSize?: string
+  backgroundPosition?: string
   width?: number
   template?: string
   availableLang?: Language
@@ -150,16 +151,6 @@ export const MoreKeys: { [key: string]: SKey } = {
 }
 
 export const DocsearchKeys: { [key: string]: SKey } = {
-  eslint: {
-    name: 'ESLint',
-    shortkeys: 'es',
-    icon: 'eslint.svg',
-    docsearch: {
-      apiKey: '891b0e977d96c762a3821e0c00172ac9',
-      indexName: 'eslint',
-      algoliaOptions: { facetFilters: [['tags:docs', 'tags:blog']] },
-    },
-  },
   react: {
     name: 'React',
     shortkeys: 'rect',
@@ -182,6 +173,16 @@ export const DocsearchKeys: { [key: string]: SKey } = {
       algoliaOptions: { facetFilters: ['version:v2'] },
     },
   },
+  eslint: {
+    name: 'ESLint',
+    shortkeys: 'es',
+    icon: 'eslint.svg',
+    docsearch: {
+      apiKey: '891b0e977d96c762a3821e0c00172ac9',
+      indexName: 'eslint',
+      algoliaOptions: { facetFilters: [['tags:docs', 'tags:blog']] },
+    },
+  },
   serverless: {
     name: 'serverless',
     shortkeys: 'sl',
@@ -196,7 +197,7 @@ export const DocsearchKeys: { [key: string]: SKey } = {
     shortkeys: 'scl',
     icon: 'scala.png',
     hideName: true,
-    width: 70,
+    width: 72,
     docsearch: {
       apiKey: 'fbc439670f5d4e3730cdcb715c359391',
       indexName: 'scala-lang',
@@ -222,6 +223,7 @@ export const DocsearchKeys: { [key: string]: SKey } = {
     icon: 'babel.svg',
     hideName: true,
     width: 60,
+    backgroundPosition: 'left 0.2em center',
     docsearch: {
       apiKey: 'd42906b043c5422ea07b44fd49c40a0d',
       indexName: 'babeljs',
@@ -233,6 +235,7 @@ export const DocsearchKeys: { [key: string]: SKey } = {
     icon: 'gradle.svg',
     hideName: true,
     width: 88,
+    backgroundPosition: 'left center',
     docsearch: {
       apiKey: '5eb5540d6bd412c7e6d2c687bf10a395',
       indexName: 'gradle',

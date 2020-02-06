@@ -197,6 +197,7 @@
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
+  position: relative;
   &:not(:first-child) {
     border-top: solid 1px $white-ter;
     padding-top: 10px;
@@ -239,6 +240,14 @@
     span {
       display: none;
     }
+  }
+  .kdesc {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: $white-ter;
+    color: $grey-light;
+    padding: 0 0.5em;
   }
 }
 
