@@ -260,6 +260,9 @@ const SearchInput: React.FC = (): JSX.Element => {
         handleSelected: (input, event, suggestion) => {
           window.open(suggestion.url, '_blank')?.focus()
         },
+        autocompleteOptions: {
+          tabAutocomplete: false,
+        },
         debug: false,
       })
     }
@@ -303,7 +306,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                 setResultAction(null)
 
                 if (IsDocsearchKeys(key.name)) {
-                  setTimeout(() => () => {
+                  setTimeout(() => {
                     document?.getElementById(`docsearch_${key.name}`)?.focus()
                   }, 200)
                 } else {
@@ -338,8 +341,14 @@ const SearchInput: React.FC = (): JSX.Element => {
         setPageno(1)
         setResultAction(null)
 
-        setTimeout(() => inputEl.current?.focus(), 0) // tab have to blur
-        setTimeout(() => setFocus(true), 200) // wait input onBlur
+        if (IsDocsearchKeys(key.name)) {
+          setTimeout(() => {
+            document?.getElementById(`docsearch_${key.name}`)?.focus()
+          }, 200)
+        } else {
+          setTimeout(() => inputEl.current?.focus(), 0) // tab have to blur
+          setTimeout(() => setFocus(true), 200) // wait input onBlur
+        }
       }
     },
     [squery],

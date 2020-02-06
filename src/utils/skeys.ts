@@ -153,7 +153,7 @@ export const MoreKeys: { [key: string]: SKey } = {
 export const DocsearchKeys: { [key: string]: SKey } = {
   react: {
     name: 'React',
-    shortkeys: 'rect',
+    shortkeys: 'ra',
     icon: 'react.svg',
     bylang: true,
     docsearch: {

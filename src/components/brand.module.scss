@@ -5,15 +5,13 @@
   display: inline-block;
   text-transform: uppercase;
   text-decoration: none;
-  // color: rgba(0, 0, 0, .40);
   color: $grey-light;
   line-height: 3.5rem;
   font-size: 3rem;
   font-family: 'Patua One';
   position: relative;
   & > span {
-    // color: rgba(0, 0, 0, .80);
-    color: $dh-text;
+    color: $grey;
   }
 
   .toggle {
