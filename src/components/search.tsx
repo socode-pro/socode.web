@@ -1,7 +1,9 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useSpring, animated } from 'react-spring'
 import { Link } from 'react-router-dom'
+import _ from 'lodash/core'
 import throttle from 'lodash/throttle'
+import without from 'lodash/without'
 import docsearch from 'docsearch.js'
 import cs from 'classnames'
 import Highlighter from 'react-highlight-words'
@@ -10,16 +12,7 @@ import CheatSheets from './cheatsheets'
 import Language, { ProgramLanguage } from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import useHotkeys from '../utils/useHotkeys'
-import {
-  SKey,
-  UsageKeys,
-  MoreKeys,
-  DocsearchKeys,
-  GetKeyByName,
-  GetKeyByShortkeys,
-  IsDocsearchKeys,
-  IsAvoidKeys,
-} from '../utils/skeys'
+import { SKey, Keys, KeyCategory, IsDocsearchKeys, IsAvoidKeys } from '../utils/skeys'
 import { StringEnumObjects, IntEnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { SearchTimeRange, SocodeResult } from '../services/socode.service'
@@ -37,6 +30,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [displaySubtitle, setDisplaySubtitle] = useState(false)
   const [displayTips, setDisplayTips] = useState(false)
   const [isFloat, setIsFloat] = useState(false)
+  const inputEl = useRef<HTMLInputElement & { onsearch: (e: InputEvent) => void }>(null)
 
   const [focus, setFocus] = useState(false)
   const [squery, setSquery] = useState('')
@@ -44,7 +38,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [pageno, setPageno] = useState(1)
   const [suggeste, setSuggeste] = useState<Array<SuggestItem>>([])
   const [suggesteIndex, setSuggesteIndex] = useState(-1)
-  const inputEl = useRef<HTMLInputElement & { onsearch: (e: InputEvent) => void }>(null)
+  const [porogramLanguage, setPorogramLanguage] = useState(ProgramLanguage.All)
 
   const slogon = useIntl(Words.ASearchEngineForProgrammers)
   const privacyPolicy = useIntl(Words.PrivacyPolicy)
@@ -57,11 +51,18 @@ const SearchInput: React.FC = (): JSX.Element => {
   const error = useStoreState<SMError | null>(state => state.search.error)
 
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
-  const { language, searchLanguage } = useStoreState<StorageType>(state => state.storage.values)
-  const [porogramLanguage, setPorogramLanguage] = useState(ProgramLanguage.All)
+  const { language, searchLanguage, usageKeys } = useStoreState<StorageType>(state => state.storage.values)
+  Object.entries(Keys).forEach(([, k]) => {
+    k.userUsage = usageKeys?.includes(k.name)
+  })
+
+  const UsageKeys = Object.entries(Keys).filter(([, k]) => k.category === KeyCategory.Usage || k.userUsage)
+  const DocsearchKeys = Object.entries(Keys).filter(([, k]) => k.docsearch)
+  const DocumentKeys = Object.entries(Keys).filter(([, k]) => k.category === KeyCategory.Docsearch && !k.userUsage)
+  const MoreKeys = Object.entries(Keys).filter(([, k]) => k.category === KeyCategory.More && !k.userUsage)
 
   const [displayKeys, setDisplayKeys] = useState(false)
-  const [currentKey, setCurrentKey] = useState<SKey>(language === Language.中文 ? UsageKeys.socode : UsageKeys.github)
+  const [currentKey, setCurrentKey] = useState<SKey>(language === Language.中文 ? Keys.socode : Keys.github)
 
   const useWapperTop = result?.results.length // || currentKey.name === 'CheatSheets'
   const { wapperTop } = useSpring({
@@ -84,7 +85,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           setSquery(query)
         }
         if (searchParams.has('k')) {
-          const key = GetKeyByName(searchParams.get('k') || '')
+          const key = _.find(Keys, { name: searchParams.get('k') })
           if (key) {
             skey = key
             setCurrentKey(key)
@@ -251,8 +252,9 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    for (const [n, key] of Object.entries(DocsearchKeys)) {
+    for (const [n, key] of DocsearchKeys) {
       docsearch({
+        appId: key.docsearch?.appId,
         apiKey: key.docsearch?.apiKey,
         indexName: key.docsearch?.indexName,
         inputSelector: `#docsearch_${key.name}`,
@@ -266,11 +268,12 @@ const SearchInput: React.FC = (): JSX.Element => {
         debug: false,
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const getKeysDom = useCallback(
-    (Keys: { [key: string]: SKey }) => {
-      return Object.entries(Keys)
+    (keys: [string, SKey][]) => {
+      return keys
         .filter(([n, key]) => {
           if (key.availableLang) {
             return key.availableLang === language
@@ -294,7 +297,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           return (
             <div
               key={n}
-              className={css.skey}
+              className={css.skeybox}
               onClick={() => {
                 setCurrentKey(key)
                 setDisplayKeys(false)
@@ -313,23 +316,38 @@ const SearchInput: React.FC = (): JSX.Element => {
                   inputEl.current?.focus()
                 }
               }}>
-              <div className={cs(css.skname)} style={styles}>
-                {key.hideName ? <>&nbsp;</> : key.name}
+              <div className={css.skey}>
+                <div className={cs(css.skname)} style={styles}>
+                  {key.hideName ? <>&nbsp;</> : key.name}
+                </div>
+                <div className={css.shortkeys}>
+                  {key.shortkeys} <span>+</span>
+                </div>
               </div>
-              <div className={css.shortkeys}>
-                {key.shortkeys} <span>+</span>
-              </div>
+              <i
+                onClick={e => {
+                  e.stopPropagation()
+                  if (key.category === KeyCategory.Usage || key.userUsage) {
+                    setStorage({ usageKeys: without(usageKeys, key.name) })
+                  } else {
+                    setStorage({ usageKeys: usageKeys ? [key.name, ...usageKeys] : [key.name] })
+                  }
+                }}
+                className={cs('fa-thumbtack', css.thumbtack, {
+                  [css.usage]: key.category === KeyCategory.Usage || key.userUsage,
+                })}
+              />
             </div>
           )
         })
     },
-    [language, setResultAction]
+    [language, setResultAction, setStorage, usageKeys]
   )
 
   useHotkeys(
     'tab',
     () => {
-      const key = GetKeyByShortkeys(squery)
+      const key = _.find(Keys, { shortkeys: squery })
       if (key) {
         setSquery('')
         setCurrentKey(key)
@@ -388,7 +406,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               // onKeyPress={handleQueryKeyPress}
             />
 
-            {Object.entries(DocsearchKeys).map(([n, key]) => {
+            {DocsearchKeys.map(([n, key]) => {
               return (
                 <div key={n} className={cs(css.docsearch, { 'dis-none': currentKey.name !== key.name })}>
                   <input
@@ -544,7 +562,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               <div className={css.skgroup}>{getKeysDom(UsageKeys)}</div>
               <div className={cs(css.skgroup)}>
                 <div className={css.kdesc}>DOCUMENT</div>
-                {getKeysDom(DocsearchKeys)}
+                {getKeysDom(DocumentKeys)}
               </div>
               <div className={cs(css.skgroup)}>
                 <div className={css.kdesc}>MORE</div>
@@ -634,7 +652,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                     <div className='dropdown-item'>
                       {language !== Language.中文 ? (
                         <p>
-                          socode.pro is a privacy-respecting, hackable google search by{' '}
+                          socode is a privacy-respecting, hackable google search by{' '}
                           <a href='https://github.com/asciimoo/searx' target='_blank' rel='noopener noreferrer'>
                             searx
                           </a>
@@ -642,7 +660,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                         </p>
                       ) : (
                         <p>
-                          socode.pro 是一个使用
+                          socode 搜索是一个使用
                           <a href='https://github.com/asciimoo/searx' target='_blank' rel='noopener noreferrer'>
                             searx
                           </a>

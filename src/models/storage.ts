@@ -16,9 +16,11 @@ export interface StorageType {
   trending?: TrendingParam
   openNewTab?: boolean
   darkMode?: DarkMode
+  usageKeys?: string[]
 }
 
-const storageKeys = ['language', 'searchEngine', 'starHistoryToken', 'trending', 'openNewTab', 'darkMode']
+const storageKeys = ['language', 'searchEngine', 'starHistoryToken', 'trending', 'openNewTab', 'darkMode', 'usageKeys']
+const jsonParseKeys = ['trending']
 
 export interface StorageModel {
   values: StorageType
@@ -32,6 +34,7 @@ const storageModel: StorageModel = {
     language: navigatorLanguage(navigator.language),
     searchLanguage: navigatorLanguage(navigator.language),
     openNewTab: true,
+    usageKeys: [],
   },
 
   set: action((state, payload) => {
@@ -45,7 +48,8 @@ const storageModel: StorageModel = {
         if (value) {
           if (key === 'openNewTab') value = value !== 'false'
           else if (key === 'darkMode') value = parseInt(value, 10)
-          else if (key === 'trending') value = JSON.parse(value)
+          else if (jsonParseKeys.includes(key)) value = JSON.parse(value)
+          else if (key === 'usageKeys') value = value.split(',')
           state.values = { ...state.values, ...{ [key]: value } }
         }
       })

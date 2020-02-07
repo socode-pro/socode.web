@@ -88,6 +88,28 @@ const MicrosoftSuggester = async (query: string): Promise<Array<SuggestItem>> =>
   return []
 }
 
+// const CaniuseSuggester = async (query: string): Promise<Array<SuggestItem>> => { // CORS
+//   try {
+//     const response = await axios.get<string>(`https://caniuse.com/process/query.php?search=${query}`, {
+//       headers: {
+//         headers: { 'Access-Control-Allow-Origin': '*' },
+//       },
+//     })
+//     const result = response.data.split(',').map(w => {
+//       return (
+//         w
+//           .split('-')
+//           .pop()
+//           ?.replace('_', ' ') || ''
+//       )
+//     })
+//     return result.filter(r => !r).map(d => ({ name: d }))
+//   } catch (error) {
+//     console.error(error)
+//   }
+//   return []
+// }
+
 export const Suggester = async (q: string, kname: string): Promise<Array<SuggestItem>> => {
   if (kname === 'npm' || kname === 'bundlesize') {
     return NpmSuggester(q)
@@ -98,6 +120,9 @@ export const Suggester = async (q: string, kname: string): Promise<Array<Suggest
   if (kname === 'Microsoft') {
     return MicrosoftSuggester(q)
   }
+  // if (kname === 'Can I use') {
+  //   return CaniuseSuggester(q)
+  // }
   if (IsAvoidKeys(kname)) {
     return []
   }
@@ -118,7 +143,7 @@ export const Suggester = async (q: string, kname: string): Promise<Array<Suggest
 }
 
 // const gooSuggestUrl = 'https://suggestqueries.google.com/complete/search?client=toolbar&hl=zh-cn&q='
-// export const GoogleSuggester = async (q: string): Promise<Array<string>> => {
+// export const GoogleSuggester = async (q: string): Promise<Array<string>> => { // CORS
 //   try {
 //     const response = await axios.get<any>(gooSuggestUrl + q, {
 //       headers: {

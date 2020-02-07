@@ -86,6 +86,11 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   @extend .fab;
   @extend .fa-twitter;
 }
+.fa-thumbtack {
+  @extend %fa-icon;
+  @extend .fas;
+  @extend .fa-thumbtack;
+}
 
 $hamburger-layer-color: rgba($dh-mute, 0.5);
 $hamburger-active-layer-color: $primary;
