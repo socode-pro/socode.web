@@ -37,6 +37,7 @@ $code-padding: 0;
 @import '~bulma/sass/components/navbar.sass';
 @import '~bulma/sass/components/dropdown.sass';
 @import '~bulma/sass/components/menu.sass';
+@import '~bulma/sass/components/modal.sass';
 @import '~bulma/sass/layout/hero.sass';
 @import '~bulma/sass/layout/section.sass';
 // @import '~bulma/sass/layout/footer.sass';
@@ -45,7 +46,7 @@ $code-padding: 0;
 
 $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
-@import '~@fortawesome/fontawesome-free/scss/brands';
+// @import '~@fortawesome/fontawesome-free/scss/brands';
 @import '~@fortawesome/fontawesome-free/scss/solid';
 @import '~@fortawesome/fontawesome-free/scss/regular';
 // plus icons: https://www.iconfont.cn/collections/detail?cid=17211
@@ -81,11 +82,11 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   @extend .far;
   @extend .fa-question-circle;
 }
-.fa-twitter {
-  @extend %fa-icon;
-  @extend .fab;
-  @extend .fa-twitter;
-}
+// .fa-twitter {
+//   @extend %fa-icon;
+//   @extend .fab;
+//   @extend .fa-twitter;
+// }
 .fa-thumbtack {
   @extend %fa-icon;
   @extend .fas;

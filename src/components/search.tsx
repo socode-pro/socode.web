@@ -58,7 +58,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const UsageKeys = Object.entries(Keys).filter(([, k]) => k.category === KeyCategory.Usage || k.userUsage)
   const DocsearchKeys = Object.entries(Keys).filter(([, k]) => k.docsearch)
-  const DocumentKeys = Object.entries(Keys).filter(([, k]) => k.category === KeyCategory.Docsearch && !k.userUsage)
+  const DocumentKeys = Object.entries(Keys).filter(([, k]) => k.category === KeyCategory.Document && !k.userUsage)
   const MoreKeys = Object.entries(Keys).filter(([, k]) => k.category === KeyCategory.More && !k.userUsage)
 
   const [displayKeys, setDisplayKeys] = useState(false)
@@ -154,7 +154,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   useHotkeys(
     '`',
     () => {
-      if (inputEl.current !== document.activeElement) {
+      if (document.activeElement?.tagName !== 'INPUT') {
         setDisplayKeys(!displayKeys)
       }
     },
@@ -165,10 +165,14 @@ const SearchInput: React.FC = (): JSX.Element => {
   useHotkeys(
     '/',
     () => {
-      inputEl.current?.focus()
+      if (IsDocsearchKeys(currentKey.name)) {
+        document?.getElementById(`docsearch_${currentKey.name}`)?.focus()
+      } else {
+        inputEl.current?.focus()
+      }
       return false
     },
-    [],
+    [currentKey],
     ['BODY']
   )
 
@@ -324,19 +328,19 @@ const SearchInput: React.FC = (): JSX.Element => {
                   {key.shortkeys} <span>+</span>
                 </div>
               </div>
-              <i
-                onClick={e => {
-                  e.stopPropagation()
-                  if (key.category === KeyCategory.Usage || key.userUsage) {
-                    setStorage({ usageKeys: without(usageKeys, key.name) })
-                  } else {
-                    setStorage({ usageKeys: usageKeys ? [key.name, ...usageKeys] : [key.name] })
-                  }
-                }}
-                className={cs('fa-thumbtack', css.thumbtack, {
-                  [css.usage]: key.category === KeyCategory.Usage || key.userUsage,
-                })}
-              />
+              {key.category !== KeyCategory.Usage && (
+                <i
+                  onClick={e => {
+                    e.stopPropagation()
+                    if (key.category === KeyCategory.Usage || key.userUsage) {
+                      setStorage({ usageKeys: without(usageKeys, key.name) })
+                    } else {
+                      setStorage({ usageKeys: usageKeys ? [key.name, ...usageKeys] : [key.name] })
+                    }
+                  }}
+                  className={cs('fa-thumbtack', css.thumbtack, { [css.usage]: key.userUsage })}
+                />
+              )}
             </div>
           )
         })

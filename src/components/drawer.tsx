@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useSpring, animated } from 'react-spring'
 import { Link } from 'react-router-dom'
 import cs from 'classnames'
+import useHotkeys from '../utils/useHotkeys'
 import Language from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import { StorageType } from '../models/storage'
@@ -15,10 +16,31 @@ const Drawer: React.FC = (): JSX.Element => {
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
   const { language, openNewTab } = useStoreState<StorageType>(state => state.storage.values)
 
+  const [shortcut, setShortcut] = useState(false)
   const [active, setActive] = useState(false)
   const { right } = useSpring({
     right: active ? 0 : 20,
   })
+
+  useHotkeys(
+    'shift+/',
+    () => {
+      if (document.activeElement?.tagName !== 'INPUT') {
+        setShortcut(true)
+      }
+    },
+    [],
+    ['BODY']
+  )
+
+  useHotkeys(
+    'esc',
+    () => {
+      setShortcut(false)
+    },
+    [],
+    ['BODY']
+  )
 
   return (
     <>
@@ -77,15 +99,17 @@ const Drawer: React.FC = (): JSX.Element => {
               </a>
             </li>
             <li>
+              <a className={cs(css.navlink, css.shortcut)} onClick={() => setShortcut(true)}>
+                <h3>Shortcut</h3>
+              </a>
+            </li>
+            <li>
               <Link to='/privacy' className={cs(css.navlink, css.privacy)}>
                 <h3>{useIntl(Words.PrivacyPolicy)}</h3>
                 <span>we don&apos;t collect or share personal information</span>
               </Link>
             </li>
             {/* <li>
-              <a>Shortcut Keys</a>
-            </li>
-            <li>
               <a>赞助一杯咖啡，关闭搜索页的广告</a>
             </li> */}
           </ul>
@@ -149,7 +173,6 @@ const Drawer: React.FC = (): JSX.Element => {
                   href='https://twitter.com/socode7'
                   target='_blank'
                   rel='noopener noreferrer'>
-                  <i className='fa-twitter' />
                   <h3>twitter.com/socode7</h3>
                 </a>
               </li>
@@ -164,7 +187,53 @@ const Drawer: React.FC = (): JSX.Element => {
           <p className={css.principles}>and become a professional mistake maker.</p>
         </footer>
       </div>
-      <div className={cs('mask', { 'dis-none': !active })} onClick={() => setActive(!active)} />
+
+      <div className={cs('modal', { 'is-active': shortcut })}>
+        <div className='modal-background' />
+        <div className='modal-content'>
+          <div className={css.helpSignPart}>
+            <div className={css.hint}>ESC to close</div>
+            <div className={css.title}>Keyboard Shortcuts Help</div>
+            <div>
+              <div className={css.section}>
+                <div className={css.item}>
+                  <span className={css.shortcut}>?</span>
+                  <span className={css.description}>keyboard shortcuts</span>
+                </div>
+              </div>
+              <div className={css.section}>
+                <div className={css.label}>Searching</div>
+                <div className={css.item}>
+                  <span className={css.shortcut}>/</span>
+                  <span className={css.description}>Focus to input</span>
+                </div>
+                <div className={css.item}>
+                  <span className={css.shortcut}>`</span>
+                  <span className={css.description}>Display searchable</span>
+                </div>
+                <div className={css.item}>
+                  <span className={css.shortcut}>&apos;gh&apos;+tab</span>
+                  <span className={css.description}>Switch to Github</span>
+                </div>
+              </div>
+              <div className={css.section}>
+                <div className={css.label}>Lists</div>
+                <div className={css.item}>
+                  <span className={css.shortcut}>j</span>
+                  <span className={css.description}>next page</span>
+                </div>
+                <div className={css.item}>
+                  <span className={css.shortcut}>p</span>
+                  <span className={css.description}>previous page</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button className='modal-close is-large' type='button' aria-label='close' onClick={() => setShortcut(false)} />
+      </div>
+
+      <div className={cs('mask', { 'dis-none': !active })} onClick={() => setActive(false)} />
     </>
   )
 }

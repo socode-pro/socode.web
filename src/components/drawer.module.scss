@@ -69,16 +69,19 @@
     &.privacy {
       background: #fff url(../images/icons8-fingerprint-100.png) left 0.5em center/50px 50px no-repeat;
     }
+    &.shortcut {
+      background: #fff url(../images/icons8-keyboard-100.png) left 0.5em center/50px 50px no-repeat;
+    }
     &.twitter {
-      // background: #fafafa url(/static/media/twitter.2d8eb5e3.svg) left 1.4em center/22px 22px no-repeat;
-      // padding: 1em 1.5em 1em calc(2.8em + 24px);
-      padding: 1em;
-      display: flex;
-      align-items: center;
-      i {
-        color: $primary;
-        margin-right: 10px;
-      }
+      background: #fafafa url(../images/twitter.svg) left 1.4em center/22px 22px no-repeat;
+      padding: 1em 1.5em 1em calc(2em + 22px);
+      // padding: 1em;
+      // display: flex;
+      // align-items: center;
+      // i {
+      //   color: $primary;
+      //   margin-right: 10px;
+      // }
     }
     &:hover {
       background-color: $white-duck;
@@ -93,5 +96,50 @@
 
   .field {
     margin: 20px 0;
+  }
+}
+
+.helpSignPart {
+  background-color: $black-bis;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 13px;
+  line-height: 17px;
+  margin: 0;
+  padding: 20px;
+  width: 300px;
+  z-index: 99;
+  .title {
+    border-bottom: 1px solid $grey-dark;
+    color: $grey;
+    font-weight: 700;
+    margin-bottom: 9px;
+    padding-bottom: 9px;
+  }
+  .hint {
+    color: $grey;
+    float: right;
+    font-size: 10px;
+  }
+  div.section {
+    margin-bottom: 17px;
+    margin-top: 0;
+  }
+  div.section .label {
+    color: $grey;
+    font-weight: normal;
+    margin-bottom: 8px;
+    margin-top: 9px;
+  }
+  .shortcut {
+    color: $tertiary;
+    display: inline-block;
+    font-weight: 700;
+    font-weight: normal;
+    padding-right: 6px;
+    width: 55px;
+  }
+  .description {
+    font-weight: normal;
   }
 }
