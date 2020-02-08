@@ -1,4 +1,6 @@
-import { Action, action } from 'easy-peasy'
+import { Action, action, Thunk, thunk } from 'easy-peasy'
+import axios, { AxiosError } from 'axios'
+import dayjs from 'dayjs'
 import { TrendingParam } from '../services/trending'
 import Language, { navigatorLanguage } from '../utils/language'
 
@@ -27,6 +29,10 @@ export interface StorageModel {
   set: Action<StorageModel, StorageType>
   getAllStorage: Action<StorageModel>
   setStorage: Action<StorageModel, StorageType>
+
+  devhintsHtml: string
+  setDevhintsHtml: Action<StorageModel, string>
+  getDevhintsHtml: Thunk<StorageModel>
 }
 
 const storageModel: StorageModel = {
@@ -66,6 +72,41 @@ const storageModel: StorageModel = {
       }
     } catch (err) {
       console.error(err)
+    }
+  }),
+
+  devhintsHtml: '',
+  setDevhintsHtml: action((state, payload) => {
+    try {
+      localStorage.setItem('devhintsHtml', payload)
+      state.devhintsHtml = payload
+    } catch (err) {
+      console.error(err)
+    }
+  }),
+  getDevhintsHtml: thunk(async (actions, payload) => {
+    try {
+      const time = localStorage.getItem('devhintsTime')
+      if (
+        time &&
+        dayjs(time)
+          .add(7, 'day')
+          .isAfter(dayjs())
+      ) {
+        const devhintsHtml = localStorage.getItem('devhintsHtml')
+        actions.setDevhintsHtml(devhintsHtml || '')
+      } else {
+        const resp = await axios.get('https://devhints.io/')
+        actions.setDevhintsHtml(resp.data)
+        localStorage.setItem('devhintsTime', dayjs().toJSON())
+      }
+    } catch (err) {
+      if (err.isAxiosError) {
+        const e: AxiosError = err
+        console.warn(`status:${e.response?.status} msg:${e.message}`, e)
+      } else {
+        console.error(err)
+      }
     }
   }),
 }

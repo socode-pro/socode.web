@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import axios, { AxiosError } from 'axios'
 import cs from 'classnames'
 import matches from 'dom101/matches'
+import { useStoreActions, useStoreState } from '../utils/hooks'
 import { splitwords, permutateString } from '../utils/permutate'
 import { nextUntil } from '../utils/dom'
 import css from './cheatsheets.module.scss'
@@ -25,6 +25,12 @@ function permutate(data: { slug?: string; category?: string }): string[] {
 
 const CheatSheets: React.FC<Props> = ({ query }: Props): JSX.Element => {
   const [element, setElement] = useState<Element | null>(null)
+
+  const devhintsHtml = useStoreState<string>(state => state.storage.devhintsHtml)
+  const getDevhintsHtml = useStoreActions(actions => actions.storage.getDevhintsHtml)
+  useEffect(() => {
+    getDevhintsHtml()
+  }, [getDevhintsHtml])
 
   useEffect(() => {
     if (element) {
@@ -91,25 +97,13 @@ const CheatSheets: React.FC<Props> = ({ query }: Props): JSX.Element => {
       setTimeout(() => setElement(cheatSheetsElement), 0) // setTimeout avoid black box when switching
       return
     }
-    axios
-      .get('https://devhints.io/')
-      .then(resp => {
-        const doc = new DOMParser().parseFromString(resp.data, 'text/html')
-        const el = doc.querySelector('.pages-list')
-        if (el) {
-          cheatSheetsElement = el
-          setElement(el)
-        }
-      })
-      .catch(err => {
-        if (err.isAxiosError) {
-          const e: AxiosError = err
-          console.warn(`status:${e.response?.status} msg:${e.message}`, e)
-        } else {
-          console.error(err)
-        }
-      })
-  }, [])
+    const doc = new DOMParser().parseFromString(devhintsHtml, 'text/html')
+    const el = doc.querySelector('.pages-list')
+    if (el) {
+      cheatSheetsElement = el
+      setElement(el)
+    }
+  }, [devhintsHtml])
 
   // https://www.reddit.com/r/reactjs/comments/8k49m3/can_i_render_a_dom_element_inside_jsx/dz5cexl/
   return (
