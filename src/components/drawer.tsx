@@ -60,12 +60,12 @@ const Drawer: React.FC = (): JSX.Element => {
         <aside className={cs('menu', css.jacket)}>
           <p className='menu-label'>Aside</p>
           <ul className='menu-list'>
-            <li>
+            {/* <li>
               <a className={cs(css.navlink, css.github)}>
                 <h3>Github OAuth</h3>
                 <span>to synchronize your settings</span>
               </a>
-            </li>
+            </li> */}
             {language !== Language.中文 && (
               <li>
                 <a
@@ -196,33 +196,33 @@ const Drawer: React.FC = (): JSX.Element => {
             <div className={css.title}>Keyboard Shortcuts Help</div>
             <div>
               <div className={css.section}>
-                <div className={css.item}>
+                <div>
                   <span className={css.shortcut}>?</span>
                   <span className={css.description}>keyboard shortcuts</span>
                 </div>
               </div>
               <div className={css.section}>
                 <div className={css.label}>Searching</div>
-                <div className={css.item}>
+                <div>
                   <span className={css.shortcut}>/</span>
                   <span className={css.description}>Focus to input</span>
                 </div>
-                <div className={css.item}>
+                <div>
                   <span className={css.shortcut}>`</span>
                   <span className={css.description}>Display searchable</span>
                 </div>
-                <div className={css.item}>
+                <div>
                   <span className={css.shortcut}>&apos;gh&apos;+tab</span>
                   <span className={css.description}>Switch to Github</span>
                 </div>
               </div>
               <div className={css.section}>
                 <div className={css.label}>Lists</div>
-                <div className={css.item}>
+                <div>
                   <span className={css.shortcut}>j</span>
                   <span className={css.description}>next page</span>
                 </div>
-                <div className={css.item}>
+                <div>
                   <span className={css.shortcut}>p</span>
                   <span className={css.description}>previous page</span>
                 </div>
