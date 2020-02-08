@@ -83,16 +83,16 @@
   }
 
   // Hide prefix in mobiel
-  @media (max-width: 768px) {
-    & > .prefix,
-    & > .sep {
-      display: none;
-    }
+  // @media (max-width: 768px) {
+  //   & > .prefix,
+  //   & > .sep {
+  //     display: none;
+  //   }
 
-    .input {
-      padding-left: 16px;
-    }
-  }
+  //   .input {
+  //     padding-left: 16px;
+  //   }
+  // }
 
   // Icon
   & > i.sicon {
