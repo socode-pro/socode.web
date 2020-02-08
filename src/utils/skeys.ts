@@ -85,6 +85,16 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'babeljs',
     },
   },
+  dayjs: {
+    category: KeyCategory.Document,
+    name: 'dayjs',
+    shortkeys: 'dj',
+    icon: 'dayjs.png',
+    docsearch: {
+      apiKey: '015f468476ca8256cf1c8e8fb6d82cc3',
+      indexName: 'dayjs',
+    },
+  },
   electron: {
     category: KeyCategory.Document,
     name: 'Electron',
