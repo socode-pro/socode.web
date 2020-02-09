@@ -26,8 +26,8 @@ function permutate(data: { slug?: string; category?: string }): string[] {
 const CheatSheets: React.FC<Props> = ({ query }: Props): JSX.Element => {
   const [element, setElement] = useState<Element | null>(null)
 
-  const devhintsHtml = useStoreState<string>(state => state.storage.devhintsHtml)
-  const getDevhintsHtml = useStoreActions(actions => actions.storage.getDevhintsHtml)
+  const devhintsHtml = useStoreState<string>(state => state.devhints.html)
+  const getDevhintsHtml = useStoreActions(actions => actions.devhints.getHtml)
   useEffect(() => {
     getDevhintsHtml()
   }, [getDevhintsHtml])
