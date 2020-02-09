@@ -215,7 +215,7 @@
     align-items: center;
     &:hover {
       background-color: $white-duck;
-      i.thumbtack {
+      i.thumbtack, a.home, a.awesome {
         display: inline;
       }
       .shortkeys {
@@ -252,11 +252,21 @@
   i.thumbtack {
     display: none;
     color: $grey-light;
+    position: relative;
+    top: 1px;
     &:hover {
       color: $primary;
     }
     &.usage {
       transform: rotate(90deg);
+    }
+  }
+  a.home, a.awesome {
+    display: none;
+    color: $grey-light;
+    margin-right: 8px;
+    &:hover {
+      color: $primary;
     }
   }
 

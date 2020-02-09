@@ -92,6 +92,16 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   @extend .fas;
   @extend .fa-thumbtack;
 }
+.fa-home {
+  @extend %fa-icon;
+  @extend .fas;
+  @extend .fa-home;
+}
+.fa-cubes {
+  @extend %fa-icon;
+  @extend .fas;
+  @extend .fa-cubes;
+}
 
 $hamburger-layer-color: rgba($dh-mute, 0.5);
 $hamburger-active-layer-color: $primary;

@@ -328,19 +328,41 @@ const SearchInput: React.FC = (): JSX.Element => {
                   {key.shortkeys} <span>+</span>
                 </div>
               </div>
-              {key.category !== KeyCategory.Usage && (
-                <i
-                  onClick={e => {
-                    e.stopPropagation()
-                    if (key.category === KeyCategory.Usage || key.userUsage) {
-                      setStorage({ usageKeys: without(usageKeys, key.name) })
-                    } else {
-                      setStorage({ usageKeys: usageKeys ? [key.name, ...usageKeys] : [key.name] })
-                    }
-                  }}
-                  className={cs('fa-thumbtack', css.thumbtack, { [css.usage]: key.userUsage })}
-                />
-              )}
+              <div className={css.actions}>
+                {key.homelink && (
+                  <a
+                    href={key.homelink}
+                    onClick={e => e.stopPropagation()}
+                    className={cs('fa-home', css.home)}
+                    aria-label="home"
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  />
+                )}
+                {key.awesome && (
+                  <a
+                    href={key.awesome}
+                    onClick={e => e.stopPropagation()}
+                    className={cs('fa-cubes', css.awesome)}
+                    aria-label="awesome"
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  />
+                )}
+                {key.category !== KeyCategory.Usage && (
+                  <i
+                    onClick={e => {
+                      e.stopPropagation()
+                      if (key.category === KeyCategory.Usage || key.userUsage) {
+                        setStorage({ usageKeys: without(usageKeys, key.name) })
+                      } else {
+                        setStorage({ usageKeys: usageKeys ? [key.name, ...usageKeys] : [key.name] })
+                      }
+                    }}
+                    className={cs('fa-thumbtack', css.thumbtack, { [css.usage]: key.userUsage })}
+                  />
+                )}
+              </div>
             </div>
           )
         })

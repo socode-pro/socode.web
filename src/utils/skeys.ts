@@ -27,7 +27,9 @@ export interface SKey {
     algoliaOptions?: object
     transformData?: (suggestions: any) => any
   }
-  userUsage?: boolean
+  userUsage?: boolean,
+  homelink?: string,
+  awesome?: string,
 }
 
 export const Keys: { [key: string]: SKey } = {
@@ -90,6 +92,7 @@ export const Keys: { [key: string]: SKey } = {
     name: 'bootstrap',
     shortkeys: 'bs',
     icon: 'bootstrap.svg',
+    homelink: 'https://getbootstrap.com',
     docsearch: {
       apiKey: '5990ad008512000bba2cf951ccf0332f',
       indexName: 'bootstrap',
@@ -122,6 +125,8 @@ export const Keys: { [key: string]: SKey } = {
     name: 'Electron',
     shortkeys: 'et',
     icon: 'electron.svg',
+    homelink: 'https://www.electronjs.org',
+    awesome: 'https://github.com/sindresorhus/awesome-electron',
     docsearch: {
       appId: 'L9LD9GHGQJ',
       apiKey: '24e7e99910a15eb5d9d93531e5682370',
@@ -210,6 +215,7 @@ export const Keys: { [key: string]: SKey } = {
     hideName: true,
     width: 88,
     backgroundPosition: 'left center',
+    homelink: 'https://gradle.org',
     docsearch: {
       apiKey: '5eb5540d6bd412c7e6d2c687bf10a395',
       indexName: 'gradle',
@@ -230,6 +236,7 @@ export const Keys: { [key: string]: SKey } = {
     icon: 'grafana.svg',
     hideName: true,
     width: 130,
+    homelink: 'https://grafana.com',
     docsearch: {
       apiKey: '0bd2bd6939038c5ce2c9395732dcf040',
       indexName: 'grafana',
@@ -242,6 +249,8 @@ export const Keys: { [key: string]: SKey } = {
     name: 'graphql',
     shortkeys: 'gq',
     icon: 'graphql.svg',
+    homelink: 'https://graphql.org',
+    awesome: 'https://github.com/chentsulin/awesome-graphql',
     docsearch: {
       apiKey: 'd103541f3e6041148aade2e746ed4d61',
       indexName: 'graphql',
@@ -252,6 +261,7 @@ export const Keys: { [key: string]: SKey } = {
     name: 'JenkinsX',
     shortkeys: 'jk',
     icon: 'jenkinsx.svg',
+    homelink: 'https://jenkins-x.io',
     docsearch: {
       apiKey: '8904bbd3ca621bef472e3de7e0e29532',
       indexName: 'jenkins_x',
@@ -279,6 +289,7 @@ export const Keys: { [key: string]: SKey } = {
     hideName: true,
     width: 100,
     backgroundSize: '90%',
+    homelink: 'https://leancloud.app',
     docsearch: {
       apiKey: '357b777ed18e79673a2c1de3f6c64478',
       indexName: 'leancloud',
@@ -289,6 +300,7 @@ export const Keys: { [key: string]: SKey } = {
     name: 'netlify',
     shortkeys: 'nl',
     icon: 'netlify.svg',
+    homelink: 'https://www.netlify.com',
     docsearch: {
       appId: '4RTNPM1QF9',
       apiKey: '260466eb2466a36278b2fdbcc56ad7ba',
@@ -300,6 +312,7 @@ export const Keys: { [key: string]: SKey } = {
     name: 'nestjs',
     shortkeys: 'ns',
     icon: 'nestjs.svg',
+    homelink: 'https://nestjs.com',
     docsearch: {
       apiKey: '9ea53de1a6911255834352bbbe4d3417',
       indexName: 'nestjs',
@@ -310,6 +323,7 @@ export const Keys: { [key: string]: SKey } = {
     name: 'pipenv',
     shortkeys: 'pe',
     icon: 'pipenv.png',
+    homelink: 'https://pipenv.kennethreitz.org',
     docsearch: {
       apiKey: '0dbb76467f0c180a1344fc46858df17b',
       indexName: 'pipenv',
@@ -322,6 +336,7 @@ export const Keys: { [key: string]: SKey } = {
     icon: 'play.svg',
     hideName: true,
     width: 60,
+    homelink: 'https://www.playframework.com',
     docsearch: {
       apiKey: 'a0b34e68c804cf96e76adcb02d47159b',
       indexName: 'playframework',
@@ -345,6 +360,8 @@ export const Keys: { [key: string]: SKey } = {
     icon: 'pytouch.svg',
     hideName: true,
     width: 116,
+    homelink: 'https://pytorch.org',
+    awesome: 'https://github.com/bharathgs/Awesome-pytorch-list',
     docsearch: {
       apiKey: 'e3b73ac141dff0b0fd27bdae9055bc73',
       indexName: 'pytorch',
@@ -389,6 +406,8 @@ export const Keys: { [key: string]: SKey } = {
     icon: 'scala.png',
     hideName: true,
     width: 72,
+    homelink: 'https://www.scala-lang.org',
+    awesome: 'https://github.com/lauris/awesome-scala',
     docsearch: {
       apiKey: 'fbc439670f5d4e3730cdcb715c359391',
       indexName: 'scala-lang',
@@ -400,6 +419,7 @@ export const Keys: { [key: string]: SKey } = {
     name: 'serverless',
     shortkeys: 'sl',
     icon: 'serverless.svg',
+    homelink: 'https://serverless.com',
     docsearch: {
       apiKey: 'd5a39b712b86965d93534207ef5423df',
       indexName: 'serverless',
@@ -466,6 +486,7 @@ export const Keys: { [key: string]: SKey } = {
     name: 'Apple Developer',
     shortkeys: 'ap',
     icon: 'apple.svg',
+    homelink: 'https://developer.apple.com',
     template: 'https://developer.apple.com/search/?q=%s',
   },
   bundlesize: {
@@ -505,6 +526,17 @@ export const Keys: { [key: string]: SKey } = {
     width: 110,
     template: 'https://cocoacontrols.com/search?q=%s',
   },
+  docker: {
+    category: KeyCategory.More,
+    name: 'Docker',
+    hideName: true,
+    shortkeys: 'dk',
+    icon: 'docker.svg',
+    width: 100,
+    homelink: 'https://docs.docker.com',
+    awesome: 'https://github.com/veggiemonk/awesome-docker',
+    template: 'https://docs.docker.com/search/?q=%s',
+  },
   duckduckgo: {
     category: KeyCategory.More,
     name: 'Duckduckgo',
@@ -514,11 +546,33 @@ export const Keys: { [key: string]: SKey } = {
     bylang: true,
     disableLang: Language.中文,
   },
+  flask: {
+    category: KeyCategory.More,
+    name: 'Flask',
+    shortkeys: 'fl',
+    icon: 'flask.png',
+    homelink: 'https://flask.palletsprojects.com',
+    awesome: 'https://github.com/humiaozuzu/awesome-flask',
+    template: 'https://flask.palletsprojects.com/en/1.1.x/search/?q=%s',
+  },
+  flutter: {
+    category: KeyCategory.More,
+    name: 'Flutter',
+    hideName: true,
+    shortkeys: 'ft',
+    icon: 'flutter.png',
+    width: 110,
+    homelink: 'https://flutter.dev',
+    awesome: 'https://github.com/Solido/awesome-flutter',
+    template: 'https://flutter.dev/search?q=%s',
+  },
   go: {
     category: KeyCategory.More,
     name: 'Go',
     shortkeys: 'go',
     icon: 'golang.png',
+    homelink: 'https://golang.org',
+    awesome: 'https://github.com/avelino/awesome-go',
     template: 'https://golang.org/search?q=%s',
   },
   godoc: {
@@ -537,6 +591,7 @@ export const Keys: { [key: string]: SKey } = {
     hideName: true,
     width: 140,
     bylang: true,
+    homelink: 'https://developers.google.com',
     template: 'https://developers.google.com/s/results?q=%s&hl=%l',
   },
   maven: {
@@ -565,6 +620,7 @@ export const Keys: { [key: string]: SKey } = {
     icon: 'mongodb.svg',
     hideName: true,
     width: 110,
+    homelink: 'https://docs.mongodb.com',
     template: 'https://docs.mongodb.com/?searchProperty=manual&query=%s',
   },
   microsoft: {
@@ -572,6 +628,7 @@ export const Keys: { [key: string]: SKey } = {
     name: 'Microsoft Doc',
     shortkeys: 'ms',
     icon: 'microsoft.png',
+    awesome: 'https://github.com/quozd/awesome-dotnet',
     template: 'https://docs.microsoft.com/%l/search/?search=%s',
     bylang: true,
   },
@@ -594,6 +651,8 @@ export const Keys: { [key: string]: SKey } = {
     name: 'Python',
     shortkeys: 'py',
     icon: 'python.png',
+    homelink: 'https://python.org',
+    awesome: 'https://github.com/vinta/awesome-python',
     template: 'https://python.org/search/?q=%s',
   },
   stackexchange: {
@@ -608,13 +667,27 @@ export const Keys: { [key: string]: SKey } = {
     name: 'Star History',
     shortkeys: 'sh',
     icon: 'star.png',
+    homelink: 'https://star-history.t9t.io',
     template: 'https://star-history.t9t.io/#%s',
   }, // selfbuild
+  swift: {
+    category: KeyCategory.More,
+    name: 'Swift',
+    shortkeys: 'sw',
+    icon: 'swift.svg',
+    hideName: true,
+    width: 95,
+    homelink: 'https://swift.org/',
+    awesome: 'https://github.com/matteocrippa/awesome-swift',
+    template: 'https://google.com/search?q=%s%20site:swift.org',
+  },
   ruby: {
     category: KeyCategory.More,
     name: 'Ruby',
     shortkeys: 'rb',
     icon: 'ruby.png',
+    homelink: 'https://www.ruby-lang.org',
+    awesome: 'https://github.com/markets/awesome-ruby',
     template: 'https://cse.google.com/cse?q=%s&cx=013598269713424429640%3Ag5orptiw95w',
   },
   rubygems: {
@@ -629,6 +702,8 @@ export const Keys: { [key: string]: SKey } = {
     name: 'Rust',
     shortkeys: 'rs',
     icon: 'rust.png',
+    homelink: 'https://rust-lang.org',
+    awesome: 'https://github.com/rust-unofficial/awesome-rust',
     template: 'https://doc.rust-lang.org/alloc/index.html?search=%s',
   },
 }
