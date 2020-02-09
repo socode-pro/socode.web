@@ -218,6 +218,12 @@
       i.thumbtack {
         display: inline;
       }
+      .shortkeys {
+        background: url(../images/tab.png) center right 0.5em / contain no-repeat;
+        span {
+          display: inline;
+        }
+      }
     }
   }
   .skey {
@@ -240,14 +246,6 @@
       color: $grey-light;
       span {
         display: none;
-      }
-    }
-    &:hover {
-      .shortkeys {
-        background: url(../images/tab.png) center right 0.5em / contain no-repeat;
-        span {
-          display: inline;
-        }
       }
     }
   }

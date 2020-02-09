@@ -85,6 +85,16 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'babeljs',
     },
   },
+  bootstrap: {
+    category: KeyCategory.Document,
+    name: 'bootstrap',
+    shortkeys: 'bs',
+    icon: 'bootstrap.svg',
+    docsearch: {
+      apiKey: '5990ad008512000bba2cf951ccf0332f',
+      indexName: 'bootstrap',
+    },
+  },
   dayjs: {
     category: KeyCategory.Document,
     name: 'dayjs',
@@ -208,6 +218,16 @@ export const Keys: { [key: string]: SKey } = {
       appId: '4RTNPM1QF9',
       apiKey: '260466eb2466a36278b2fdbcc56ad7ba',
       indexName: 'docs-manual',
+    },
+  },
+  prettier: {
+    category: KeyCategory.Document,
+    name: 'prettier',
+    shortkeys: 'pt',
+    icon: 'prettier.png',
+    docsearch: {
+      apiKey: '9fcdb2a62af4c47cc5eecf3d5a747818',
+      indexName: 'prettier',
     },
   },
   react: {
