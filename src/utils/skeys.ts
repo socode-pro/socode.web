@@ -105,6 +105,18 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'dayjs',
     },
   },
+  druid: {
+    category: KeyCategory.Document,
+    name: 'druid',
+    shortkeys: 'du',
+    icon: 'druid.png',
+    hideName: true,
+    width: 82,
+    docsearch: {
+      apiKey: '2de99082a9f38e49dfaa059bbe4c901d',
+      indexName: 'apache_druid',
+    },
+  },
   electron: {
     category: KeyCategory.Document,
     name: 'Electron',
@@ -140,6 +152,33 @@ export const Keys: { [key: string]: SKey } = {
       algoliaOptions: { facetFilters: [['tags:docs', 'tags:blog']] },
     },
   },
+  express: {
+    category: KeyCategory.Document,
+    name: 'Express',
+    shortkeys: 'ex',
+    icon: 'expressjs.png',
+    // hideName: true,
+    // width: 80,
+    // backgroundPosition: 'left top -2px',
+    docsearch: {
+      apiKey: '7164e33055faa6ecddefd9e08fc59f5d',
+      indexName: 'expressjs',
+      algoliaOptions: { facetFilters: ['lang:en'] }, // multi lang
+    },
+  },
+  fastify: {
+    category: KeyCategory.Document,
+    name: 'fastify',
+    shortkeys: 'ff',
+    icon: 'fastify.png',
+    hideName: true,
+    width: 96,
+    docsearch: {
+      apiKey: 'f7c62ddab40e653f67a6e15be761d951',
+      indexName: 'fastify',
+      algoliaOptions: { facetFilters: ['version:latest', 'tags:docs'] },
+    },
+  },
   gatsby: {
     category: KeyCategory.Document,
     name: 'Gatsby',
@@ -150,6 +189,17 @@ export const Keys: { [key: string]: SKey } = {
     docsearch: {
       apiKey: '71af1f9c4bd947f0252e17051df13f9c',
       indexName: 'gatsbyjs',
+    },
+  },
+  gulp: {
+    category: KeyCategory.Document,
+    name: 'Gulp',
+    shortkeys: 'gp',
+    icon: 'gulp.svg',
+    backgroundPosition: 'left center',
+    docsearch: {
+      apiKey: 'a6ef919bce0b83de1bcbad1d4ef753f8',
+      indexName: 'gulpjs',
     },
   },
   gradle: {
@@ -197,6 +247,17 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'graphql',
     },
   },
+  jenkinsx: {
+    category: KeyCategory.Document,
+    name: 'JenkinsX',
+    shortkeys: 'jk',
+    icon: 'jenkinsx.svg',
+    docsearch: {
+      apiKey: '8904bbd3ca621bef472e3de7e0e29532',
+      indexName: 'jenkins_x',
+      algoliaOptions: { facetFilters: ['en-us'] },
+    },
+  },
   jquery: {
     category: KeyCategory.Document,
     name: 'jquery',
@@ -207,6 +268,20 @@ export const Keys: { [key: string]: SKey } = {
     docsearch: {
       apiKey: '3cfde9aca378c8aab554d5bf1b23489b',
       indexName: 'jquery',
+    },
+  },
+  leancloud: {
+    category: KeyCategory.Document,
+    name: 'LeanCloud',
+    shortkeys: 'lc',
+    icon: 'leancloud.png',
+    availableLang: Language.中文,
+    hideName: true,
+    width: 100,
+    backgroundSize: '90%',
+    docsearch: {
+      apiKey: '357b777ed18e79673a2c1de3f6c64478',
+      indexName: 'leancloud',
     },
   },
   netlify: {
@@ -220,6 +295,39 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'docs-manual',
     },
   },
+  nestjs: {
+    category: KeyCategory.Document,
+    name: 'nestjs',
+    shortkeys: 'ns',
+    icon: 'nestjs.svg',
+    docsearch: {
+      apiKey: '9ea53de1a6911255834352bbbe4d3417',
+      indexName: 'nestjs',
+    },
+  },
+  pipenv: {
+    category: KeyCategory.Document,
+    name: 'pipenv',
+    shortkeys: 'pe',
+    icon: 'pipenv.png',
+    docsearch: {
+      apiKey: '0dbb76467f0c180a1344fc46858df17b',
+      indexName: 'pipenv',
+    },
+  },
+  play: {
+    category: KeyCategory.Document,
+    name: 'play',
+    shortkeys: 'pl',
+    icon: 'play.svg',
+    hideName: true,
+    width: 60,
+    docsearch: {
+      apiKey: 'a0b34e68c804cf96e76adcb02d47159b',
+      indexName: 'playframework',
+      algoliaOptions: { facetFilters: ['tags: en'] },
+    },
+  },
   prettier: {
     category: KeyCategory.Document,
     name: 'prettier',
@@ -230,6 +338,18 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'prettier',
     },
   },
+  pytouch: {
+    category: KeyCategory.Document,
+    name: 'PyTouch',
+    shortkeys: 'pl',
+    icon: 'pytouch.svg',
+    hideName: true,
+    width: 116,
+    docsearch: {
+      apiKey: 'e3b73ac141dff0b0fd27bdae9055bc73',
+      indexName: 'pytorch',
+    },
+  },
   react: {
     category: KeyCategory.Document,
     name: 'React',
@@ -238,7 +358,28 @@ export const Keys: { [key: string]: SKey } = {
     bylang: true,
     docsearch: {
       apiKey: '36221914cce388c46d0420343e0bb32e',
-      indexName: 'react',
+      indexName: 'react', // multi lang
+    },
+  },
+  reactnative: {
+    category: KeyCategory.Document,
+    name: 'ReactNative',
+    shortkeys: 'ra',
+    icon: 'react.svg',
+    bylang: true,
+    docsearch: {
+      apiKey: '2c98749b4a1e588efec53b2acec13025',
+      indexName: 'react-native-versions',
+    },
+  },
+  sass: {
+    category: KeyCategory.Document,
+    name: 'Sass',
+    shortkeys: 'ss',
+    icon: 'sass.svg',
+    docsearch: {
+      apiKey: 'a409ff5d6a2476083c1a8dd1f8c04ec5',
+      indexName: 'sass-lang',
     },
   },
   scala: {
@@ -264,6 +405,29 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'serverless',
     },
   },
+  taro: {
+    category: KeyCategory.Document,
+    name: 'Taro',
+    shortkeys: 'tr',
+    icon: 'taro.png',
+    availableLang: Language.中文,
+    docsearch: {
+      apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+      indexName: 'taro',
+    },
+  },
+  typescript: {
+    category: KeyCategory.Document,
+    name: 'Typescript',
+    shortkeys: 'ts',
+    icon: 'typescript.svg',
+    hideName: true,
+    width: 116,
+    docsearch: {
+      apiKey: '3c2db2aef0c7ff26e8911267474a9b2c',
+      indexName: 'typescriptlang',
+    },
+  },
   vue: {
     category: KeyCategory.Document,
     name: 'Vue',
@@ -275,7 +439,7 @@ export const Keys: { [key: string]: SKey } = {
       apiKey: '85cc3221c9f23bfbaa4e3913dd7625ea',
       indexName: 'vuejs',
       algoliaOptions: { facetFilters: ['version:v2'] },
-    },
+    }, // multi language
   },
   webpack: {
     category: KeyCategory.Document,
@@ -364,6 +528,17 @@ export const Keys: { [key: string]: SKey } = {
     icon: 'godoc.png',
     template: 'https://godoc.org/?q=%s',
   },
+  googledev: {
+    category: KeyCategory.More,
+    name: 'Google Developer',
+    shortkeys: 'ggd',
+    icon: 'googledev.svg',
+    disableLang: Language.中文,
+    hideName: true,
+    width: 140,
+    bylang: true,
+    template: 'https://developers.google.com/s/results?q=%s&hl=%l',
+  },
   maven: {
     category: KeyCategory.More,
     name: 'Maven',
@@ -382,6 +557,15 @@ export const Keys: { [key: string]: SKey } = {
     icon: 'MDN.svg',
     width: 130,
     template: 'https://developer.mozilla.org/en-US/search?q=%s',
+  },
+  mongodb: {
+    category: KeyCategory.More,
+    name: 'MongoDB',
+    shortkeys: 'mg',
+    icon: 'mongodb.svg',
+    hideName: true,
+    width: 110,
+    template: 'https://docs.mongodb.com/?searchProperty=manual&query=%s',
   },
   microsoft: {
     category: KeyCategory.More,
