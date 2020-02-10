@@ -27,9 +27,9 @@ export interface SKey {
     algoliaOptions?: object
     transformData?: (suggestions: any) => any
   }
-  userUsage?: boolean,
-  homelink?: string,
-  awesome?: string,
+  userUsage?: boolean
+  homelink?: string
+  awesome?: string
 }
 
 export const Keys: { [key: string]: SKey } = {
@@ -373,6 +373,8 @@ export const Keys: { [key: string]: SKey } = {
     shortkeys: 'ra',
     icon: 'react.svg',
     bylang: true,
+    homelink: 'https://reactjs.org',
+    awesome: 'https://github.com/enaqx/awesome-react',
     docsearch: {
       apiKey: '36221914cce388c46d0420343e0bb32e',
       indexName: 'react', // multi lang
@@ -380,10 +382,12 @@ export const Keys: { [key: string]: SKey } = {
   },
   reactnative: {
     category: KeyCategory.Document,
-    name: 'ReactNative',
-    shortkeys: 'ra',
+    name: 'React-Native',
+    shortkeys: 'ran',
     icon: 'react.svg',
     bylang: true,
+    homelink: 'https://facebook.github.io/react-native',
+    awesome: 'https://github.com/jondot/awesome-react-native',
     docsearch: {
       apiKey: '2c98749b4a1e588efec53b2acec13025',
       indexName: 'react-native-versions',
@@ -454,6 +458,8 @@ export const Keys: { [key: string]: SKey } = {
     shortkeys: 'vue',
     icon: 'vue.png',
     bylang: true,
+    homelink: 'https://vuejs.org',
+    awesome: 'https://github.com/vuejs/awesome-vue',
     docsearch: {
       appId: 'BH4D9OD16A',
       apiKey: '85cc3221c9f23bfbaa4e3913dd7625ea',
@@ -481,6 +487,17 @@ export const Keys: { [key: string]: SKey } = {
     icon: '30secondsofcode.png',
     template: 'https://www.30secondsofcode.org/?keyphrase=%s',
   }, // todo: inject result. selfbuild
+  android: {
+    category: KeyCategory.More,
+    name: 'Android',
+    shortkeys: 'ad',
+    icon: 'android.svg',
+    hideName: true,
+    width: 110,
+    homelink: 'https://developer.android.com',
+    awesome: 'https://github.com/JStumpp/awesome-android',
+    template: 'https://developer.android.com/s/results?q=%s',
+  },
   apple: {
     category: KeyCategory.More,
     name: 'Apple Developer',
@@ -578,7 +595,7 @@ export const Keys: { [key: string]: SKey } = {
   godoc: {
     category: KeyCategory.More,
     name: 'GoDoc',
-    shortkeys: 'gd',
+    shortkeys: 'god',
     icon: 'godoc.png',
     template: 'https://godoc.org/?q=%s',
   },
@@ -593,6 +610,14 @@ export const Keys: { [key: string]: SKey } = {
     bylang: true,
     homelink: 'https://developers.google.com',
     template: 'https://developers.google.com/s/results?q=%s&hl=%l',
+  },
+  java: {
+    category: KeyCategory.More,
+    name: 'Java',
+    shortkeys: 'j',
+    icon: 'java.png',
+    awesome: 'https://github.com/akullpp/awesome-java',
+    template: 'https://docs.oracle.com/apps/search/search.jsp?category=java&q=%s',
   },
   maven: {
     category: KeyCategory.More,
@@ -631,6 +656,18 @@ export const Keys: { [key: string]: SKey } = {
     awesome: 'https://github.com/quozd/awesome-dotnet',
     template: 'https://docs.microsoft.com/%l/search/?search=%s',
     bylang: true,
+  },
+  nodejs: {
+    category: KeyCategory.More,
+    name: 'Node.js',
+    shortkeys: 'nd',
+    icon: 'nodejs.svg',
+    // hideName: true,
+    // width: 50,
+    backgroundPosition: 'left center',
+    homelink: 'https://nodejs.org',
+    awesome: 'https://github.com/sindresorhus/awesome-nodejs',
+    template: 'https://google.com/search?q=%s%20site:nodejs.org',
   },
   nuget: {
     category: KeyCategory.More,
