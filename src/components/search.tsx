@@ -52,7 +52,9 @@ const SearchInput: React.FC = (): JSX.Element => {
   const error = useStoreState<SMError | null>(state => state.search.error)
 
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
-  const { language, searchLanguage, usageKeys, displayAwesome } = useStoreState<StorageType>(state => state.storage.values)
+  const { language, searchLanguage, usageKeys, displayAwesome } = useStoreState<StorageType>(
+    state => state.storage.values
+  )
   Object.entries(Keys).forEach(([, k]) => {
     k.userUsage = usageKeys?.includes(k.name)
   })
@@ -329,7 +331,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                   {key.shortkeys} <span>+</span>
                 </div>
               </div>
-              <div className={css.actions}>
+              <div>
                 {key.homelink && (
                   <a
                     href={key.homelink}
@@ -599,7 +601,9 @@ const SearchInput: React.FC = (): JSX.Element => {
           )}
 
           {!displayKeys && currentKey.name === 'CheatSheets' && <CheatSheets query={squery} />}
-          {!displayKeys && displayAwesome && currentKey.awesome && <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} />}
+          {!displayKeys && displayAwesome && currentKey.awesome && (
+            <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} />
+          )}
 
           {loading && <Loader1 type={2} />}
 
