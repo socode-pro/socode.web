@@ -210,33 +210,33 @@ const Drawer: React.FC = (): JSX.Element => {
               <div className={css.section}>
                 <div>
                   <span className={css.shortcut}>?</span>
-                  <span className={css.description}>keyboard shortcuts</span>
+                  <span className={css.description}>{useIntl(Words.OpenKeyboardShortcuts)}</span>
                 </div>
               </div>
               <div className={css.section}>
                 <div className={css.label}>Searching</div>
                 <div>
                   <span className={css.shortcut}>/</span>
-                  <span className={css.description}>Focus to input</span>
+                  <span className={css.description}>{useIntl(Words.FocusToInput)}</span>
                 </div>
                 <div>
                   <span className={css.shortcut}>`</span>
-                  <span className={css.description}>Display searchable</span>
+                  <span className={css.description}>{useIntl(Words.DisplaySearchable)}</span>
                 </div>
                 <div>
                   <span className={css.shortcut}>&apos;gh&apos;+tab</span>
-                  <span className={css.description}>Switch to Github</span>
+                  <span className={css.description}>{useIntl(Words.SwitchToGithub)}</span>
                 </div>
               </div>
               <div className={css.section}>
                 <div className={css.label}>Lists</div>
                 <div>
                   <span className={css.shortcut}>j</span>
-                  <span className={css.description}>next page</span>
+                  <span className={css.description}>{useIntl(Words.NextPage)}</span>
                 </div>
                 <div>
                   <span className={css.shortcut}>p</span>
-                  <span className={css.description}>previous page</span>
+                  <span className={css.description}>{useIntl(Words.PreviousPage)}</span>
                 </div>
               </div>
             </div>

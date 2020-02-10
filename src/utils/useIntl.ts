@@ -9,13 +9,12 @@ export enum Words {
   OpenNewTab = 'Open search page in a new tab',
   DisplayAwesome = 'Display Awesome',
   PrivacyPolicy = 'Privacy Policy',
-  PrivacyPolicySlogon = "We don't collect or share personal information. That's our privacy policy in a nutshell.",
-  PrivacyPolicyST = 'About Search',
-  PrivacyPolicySS = 'socode.pro is a privacy-respecting, hackable google search by searx. convenient for users who do not have access to google.com (such as Chinese users).',
-  PrivacyPolicyS0 = 'Compared to using google.com. There are these differences in privacy protection:',
-  PrivacyPolicyS1 = 'No private data will be sent to the google server.',
-  PrivacyPolicyS2 = 'Do not forward any content from third-party services through advertising.',
-  PrivacyPolicyS3 = "The process of clicking to enter the target page no longer collects data through the google redirect service. (it's also faster😄)",
+  OpenKeyboardShortcuts = 'Open keyboard shortcuts help',
+  FocusToInput = 'Focus to input',
+  DisplaySearchable = 'Display searchable',
+  SwitchToGithub = 'Switch to Github',
+  NextPage = 'Next page',
+  PreviousPage = 'Previous page',
 }
 
 const useIntl = (words: Words): string => {
@@ -40,28 +39,23 @@ const useIntl = (words: Words): string => {
         case Words.PrivacyPolicy:
           setContent('隐私政策')
           break
-        case Words.PrivacyPolicySlogon:
-          setContent('我们不收集或共享个人信息。简而言之，这就是我们的隐私政策。')
+        case Words.OpenKeyboardShortcuts:
+          setContent('打开快捷键帮助')
           break
-        case Words.PrivacyPolicyST:
-          setContent('关于搜索')
+        case Words.FocusToInput:
+          setContent('聚焦到输入框')
           break
-        case Words.PrivacyPolicySS:
-          setContent(
-            'socode.pro 是一个使用searx构建的google搜索代理，限定了搜索范围。仅用于给无法访问google.com的用户方便地搜索编程问答信息，请不要用于其它需求场合。'
-          )
+        case Words.DisplaySearchable:
+          setContent('显示可搜索项目')
           break
-        case Words.PrivacyPolicyS0:
-          setContent('相比于使用google.com。在隐私保护方面有这些区别：')
+        case Words.SwitchToGithub:
+          setContent('切换至 Github')
           break
-        case Words.PrivacyPolicyS1:
-          setContent('不会有任何私人数据发送给google服务器。')
+        case Words.NextPage:
+          setContent('下一页')
           break
-        case Words.PrivacyPolicyS2:
-          setContent('不通过广告转发来自第三方服务的任何内容。')
-          break
-        case Words.PrivacyPolicyS3:
-          setContent('点击进入目标页的过程不再经过google重定向服务收集数据。（这样速度也更快😄）')
+        case Words.PreviousPage:
+          setContent('上一页')
           break
         default:
           break
