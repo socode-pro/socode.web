@@ -13,12 +13,13 @@ const devhintsModel: DevhintsModel = {
   setHtml: action((state, payload) => {
     try {
       localStorage.setItem('devhintsHtml', payload)
+      localStorage.setItem('devhintsTime', dayjs().toJSON())
       state.html = payload
     } catch (err) {
       console.error(err)
     }
   }),
-  getHtml: thunk(async (actions, payload) => {
+  getHtml: thunk(async actions => {
     try {
       const time = localStorage.getItem('devhintsTime')
       if (
@@ -28,12 +29,13 @@ const devhintsModel: DevhintsModel = {
           .isAfter(dayjs())
       ) {
         const devhintsHtml = localStorage.getItem('devhintsHtml')
-        actions.setHtml(devhintsHtml || '')
-      } else {
-        const resp = await axios.get('https://devhints.io/')
-        actions.setHtml(resp.data)
-        localStorage.setItem('devhintsTime', dayjs().toJSON())
+        if (devhintsHtml) {
+          actions.setHtml(devhintsHtml || '')
+          return
+        }
       }
+      const resp = await axios.get('https://devhints.io/')
+      actions.setHtml(resp.data)
     } catch (err) {
       if (err.isAxiosError) {
         const e: AxiosError = err

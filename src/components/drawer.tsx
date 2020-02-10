@@ -14,7 +14,7 @@ const languageOptions = StringEnumObjects(Language)
 
 const Drawer: React.FC = (): JSX.Element => {
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
-  const { language, openNewTab } = useStoreState<StorageType>(state => state.storage.values)
+  const { language, openNewTab, displayAwesome } = useStoreState<StorageType>(state => state.storage.values)
 
   const [shortcut, setShortcut] = useState(false)
   const [active, setActive] = useState(false)
@@ -141,6 +141,18 @@ const Drawer: React.FC = (): JSX.Element => {
                   onChange={e => setStorage({ openNewTab: e.target.checked })}
                 />
                 <label htmlFor='opennewtab'>{useIntl(Words.OpenNewTab)}</label>
+              </div>
+            </li>
+            <li>
+              <div className={css.field}>
+                <input
+                  className='is-checkradio is-circle'
+                  id='displayawesome'
+                  type='checkbox'
+                  checked={displayAwesome}
+                  onChange={e => setStorage({ displayAwesome: e.target.checked })}
+                />
+                <label htmlFor='displayawesome'>{useIntl(Words.DisplayAwesome)}</label>
               </div>
             </li>
 

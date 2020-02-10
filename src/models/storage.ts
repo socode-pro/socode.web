@@ -19,10 +19,21 @@ export interface StorageType {
   openNewTab?: boolean
   darkMode?: DarkMode
   usageKeys?: string[]
+  displayAwesome?: boolean
 }
 
-const storageKeys = ['language', 'searchEngine', 'starHistoryToken', 'trending', 'openNewTab', 'darkMode', 'usageKeys']
+const storageKeys = [
+  'language',
+  'searchEngine',
+  'starHistoryToken',
+  'trending',
+  'openNewTab',
+  'darkMode',
+  'usageKeys',
+  'displayAwesome',
+]
 const jsonParseKeys = ['trending']
+const booleanParseKeys = ['openNewTab', 'displayAwesome']
 
 export interface StorageModel {
   values: StorageType
@@ -36,6 +47,7 @@ const storageModel: StorageModel = {
     language: navigatorLanguage(navigator.language),
     searchLanguage: navigatorLanguage(navigator.language),
     openNewTab: true,
+    displayAwesome: true,
     usageKeys: [],
   },
 
@@ -48,7 +60,7 @@ const storageModel: StorageModel = {
       storageKeys.forEach(key => {
         let value: any = localStorage.getItem(`socode_${key}`)
         if (value) {
-          if (key === 'openNewTab') value = value !== 'false'
+          if (booleanParseKeys.includes(key)) value = value !== 'false'
           else if (key === 'darkMode') value = parseInt(value, 10)
           else if (jsonParseKeys.includes(key)) value = JSON.parse(value)
           else if (key === 'usageKeys') value = value.split(',')
@@ -62,9 +74,9 @@ const storageModel: StorageModel = {
 
   setStorage: action((state, payload) => {
     try {
-      for (const [key, value] of Object.entries(payload)) {
-        localStorage.setItem(`socode_${key}`, value)
-        state.values = { ...state.values, ...{ [key]: value } }
+      for (const [name, value] of Object.entries(payload)) {
+        localStorage.setItem(`socode_${name}`, value)
+        state.values = { ...state.values, ...{ [name]: value } }
       }
     } catch (err) {
       console.error(err)

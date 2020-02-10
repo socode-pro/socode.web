@@ -9,6 +9,7 @@ import cs from 'classnames'
 import Highlighter from 'react-highlight-words'
 import Brand from './brand'
 import CheatSheets from './cheatsheets'
+import Awesome from './awesome'
 import Language, { ProgramLanguage } from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import useHotkeys from '../utils/useHotkeys'
@@ -51,7 +52,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const error = useStoreState<SMError | null>(state => state.search.error)
 
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
-  const { language, searchLanguage, usageKeys } = useStoreState<StorageType>(state => state.storage.values)
+  const { language, searchLanguage, usageKeys, displayAwesome } = useStoreState<StorageType>(state => state.storage.values)
   Object.entries(Keys).forEach(([, k]) => {
     k.userUsage = usageKeys?.includes(k.name)
   })
@@ -166,7 +167,7 @@ const SearchInput: React.FC = (): JSX.Element => {
     '/',
     () => {
       if (IsDocsearchKeys(currentKey.name)) {
-        document?.getElementById(`docsearch_${currentKey.name}`)?.focus()
+        document?.getElementById(`docsearch_${currentKey.shortkeys}`)?.focus()
       } else {
         inputEl.current?.focus()
       }
@@ -261,7 +262,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         appId: key.docsearch?.appId,
         apiKey: key.docsearch?.apiKey,
         indexName: key.docsearch?.indexName,
-        inputSelector: `#docsearch_${key.name}`,
+        inputSelector: `#docsearch_${key.shortkeys}`,
         algoliaOptions: key.docsearch?.algoliaOptions,
         handleSelected: (input, event, suggestion) => {
           window.open(suggestion.url, '_blank')?.focus()
@@ -314,7 +315,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
                 if (IsDocsearchKeys(key.name)) {
                   setTimeout(() => {
-                    document?.getElementById(`docsearch_${key.name}`)?.focus()
+                    document?.getElementById(`docsearch_${key.shortkeys}`)?.focus()
                   }, 200)
                 } else {
                   inputEl.current?.focus()
@@ -334,17 +335,17 @@ const SearchInput: React.FC = (): JSX.Element => {
                     href={key.homelink}
                     onClick={e => e.stopPropagation()}
                     className={cs('fa-home', css.home)}
-                    aria-label="home"
+                    aria-label='home'
                     target='_blank'
                     rel='noopener noreferrer'
                   />
                 )}
                 {key.awesome && (
                   <a
-                    href={key.awesome}
+                    href={`https://github.com/${key.awesome}`}
                     onClick={e => e.stopPropagation()}
                     className={cs('fa-cubes', css.awesome)}
-                    aria-label="awesome"
+                    aria-label='awesome'
                     target='_blank'
                     rel='noopener noreferrer'
                   />
@@ -387,7 +388,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
         if (IsDocsearchKeys(key.name)) {
           setTimeout(() => {
-            document?.getElementById(`docsearch_${key.name}`)?.focus()
+            document?.getElementById(`docsearch_${key.shortkeys}`)?.focus()
           }, 200)
         } else {
           setTimeout(() => inputEl.current?.focus(), 0) // tab have to blur
@@ -442,7 +443,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                     value={squery}
                     autoFocus
                     onChange={handleQueryChange}
-                    id={`docsearch_${key.name}`}
+                    id={`docsearch_${key.shortkeys}`}
                   />
                 </div>
               )
@@ -598,6 +599,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           )}
 
           {!displayKeys && currentKey.name === 'CheatSheets' && <CheatSheets query={squery} />}
+          {!displayKeys && displayAwesome && currentKey.awesome && <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} />}
 
           {loading && <Loader1 type={2} />}
 

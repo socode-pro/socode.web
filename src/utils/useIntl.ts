@@ -6,7 +6,8 @@ import { StorageType } from '../models/storage'
 export enum Words {
   ASearchEngineForProgrammers = 'A search engine for programmers',
   ProgrammersStartPage = "Programmer's start page",
-  OpenNewTab = 'Open page in a new tab',
+  OpenNewTab = 'Open search page in a new tab',
+  DisplayAwesome = 'Display Awesome',
   PrivacyPolicy = 'Privacy Policy',
   PrivacyPolicySlogon = "We don't collect or share personal information. That's our privacy policy in a nutshell.",
   PrivacyPolicyST = 'About Search',
@@ -28,7 +29,10 @@ const useIntl = (words: Words): string => {
           setContent('给程序员用的问答搜索')
           break
         case Words.OpenNewTab:
-          setContent('在新窗口打开页面')
+          setContent('在新窗口打开搜索页面')
+          break
+        case Words.DisplayAwesome:
+          setContent('自动显示 Awesome')
           break
         case Words.ProgrammersStartPage:
           setContent('程序员的起始页')

@@ -1,0 +1,16 @@
+@import '../styles/variable';
+
+:global(.markdown-body) {
+  margin: 15px;
+  h1 {
+    font-size: 1.5em;
+  }
+}
+
+p.powered {
+  margin: 1rem 15px;
+  text-align: right;
+  a {
+    font-size: 12px;
+  }
+}
