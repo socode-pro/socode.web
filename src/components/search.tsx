@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useSpring, animated } from 'react-spring'
 import { Link } from 'react-router-dom'
 import _ from 'lodash/core'
-import throttle from 'lodash/throttle'
+import debounce from 'lodash/debounce'
 import without from 'lodash/without'
 import docsearch from 'docsearch.js'
 import cs from 'classnames'
@@ -37,7 +37,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [squery, setSquery] = useState('')
   const [timeRange, setTimeRange] = useState<SearchTimeRange>(SearchTimeRange.Anytime)
   const [pageno, setPageno] = useState(1)
-  const [suggeste, setSuggeste] = useState<Array<SuggestItem>>([])
+  const [suggeste, setSuggeste] = useState<{ words: Array<SuggestItem>; key: string } | null>(null)
   const [suggesteIndex, setSuggesteIndex] = useState(-1)
   const [porogramLanguage, setPorogramLanguage] = useState(ProgramLanguage.All)
 
@@ -106,14 +106,14 @@ const SearchInput: React.FC = (): JSX.Element => {
     [currentKey, squery, searchLanguage, porogramLanguage, timeRange, pageno, searchAction, setResultAction]
   )
 
-  const throttleSuggeste = useCallback(
-    throttle<(value: any) => Promise<void>>(async value => {
+  const debounceSuggeste = useCallback(
+    debounce<(value: any) => Promise<void>>(async value => {
       setSuggesteIndex(-1)
       if (value) {
         const words = await Suggester(value, currentKey.name)
-        setSuggeste(words)
+        setSuggeste({ words, key: currentKey.name })
       } else {
-        setSuggeste([])
+        setSuggeste(null)
       }
     }, 500),
     [currentKey]
@@ -121,10 +121,11 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const handleQueryChange = useCallback(
     e => {
+      debounceSuggeste?.cancel()
       setSquery(e.target.value)
-      throttleSuggeste(e.target.value)
+      debounceSuggeste(e.target.value)
     },
-    [throttleSuggeste]
+    [debounceSuggeste]
   )
 
   // const handleQueryKeyPress = useCallback((e) => {
@@ -134,7 +135,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const closeResult = useCallback(() => {
     setSuggesteIndex(-1)
-    setSuggeste([])
+    setSuggeste(null)
     setPageno(1)
     searchSubmit('')
     winSearchParams('', currentKey.name)
@@ -143,7 +144,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const handlerSearch = useCallback(
     e => {
       setSuggesteIndex(-1)
-      setSuggeste([])
+      setSuggeste(null)
       setPageno(1)
       searchSubmit(e.target?.value)
       winSearchParams(e.target?.value, currentKey.name)
@@ -182,7 +183,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   useHotkeys(
     'down',
     () => {
-      if (suggeste.length > suggesteIndex + 1) setSuggesteIndex(suggesteIndex + 1)
+      if (suggeste && suggeste.words.length > suggesteIndex + 1) setSuggesteIndex(suggesteIndex + 1)
     },
     [suggesteIndex, suggeste],
     [css.input]
@@ -200,7 +201,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const suggesteClick = useCallback(
     (a, url?: string) => {
       setSuggesteIndex(-1)
-      setSuggeste([])
+      setSuggeste(null)
       setPageno(1)
 
       if (url) {
@@ -214,7 +215,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   )
 
   useEffect(() => {
-    if (suggesteIndex >= 0 && suggeste.length > 0) setSquery(suggeste[suggesteIndex].name) // warn: acIndex must '-1' when autocomplate arr init
+    if (suggesteIndex >= 0 && suggeste && suggeste?.words.length > 0) setSquery(suggeste.words[suggesteIndex].name) // warn: acIndex must '-1' when autocomplate arr init
   }, [suggesteIndex, suggeste])
 
   useEffect(() => {
@@ -242,18 +243,18 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    const throttleFloat = throttle<() => void>(() => {
+    const debounceFloat = debounce<() => void>(() => {
       // brand height 112
       if (document.body.scrollTop > 112) {
         setIsFloat(true)
       } else {
         setIsFloat(false)
       }
-    }, 100)
+    }, 200)
 
-    document.body.addEventListener('scroll', throttleFloat, false)
+    document.body.addEventListener('scroll', debounceFloat, false)
     return () => {
-      document.body.removeEventListener('scroll', throttleFloat)
+      document.body.removeEventListener('scroll', debounceFloat)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -311,7 +312,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                 winSearchParams('', key.name)
 
                 setSuggesteIndex(-1)
-                setSuggeste([])
+                setSuggeste(null)
                 setPageno(1)
                 setResultAction(null)
 
@@ -384,7 +385,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         winSearchParams('', key.name)
 
         setSuggesteIndex(-1)
-        setSuggeste([])
+        setSuggeste(null)
         setPageno(1)
         setResultAction(null)
 
@@ -497,59 +498,65 @@ const SearchInput: React.FC = (): JSX.Element => {
 
           <div
             className={cs(css.suggeste, 'dropdown', {
-              'is-active': suggeste.length && focus && !IsAvoidKeys(currentKey.name),
+              'is-active':
+                suggeste &&
+                suggeste.words.length &&
+                suggeste.key === currentKey.name &&
+                focus &&
+                !IsAvoidKeys(currentKey.name),
             })}
             style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
             <div className='dropdown-menu'>
               <div className='dropdown-content'>
-                {suggeste.map((s, i) => {
-                  if (currentKey.name === 'Github') {
+                {suggeste &&
+                  suggeste.words.map((s, i) => {
+                    if (currentKey.name === 'Github') {
+                      return (
+                        <div
+                          key={`${s.owner}/${s.name}`}
+                          onClick={() => suggesteClick(s.name, `https://github.com/${s.owner}/${s.name}`)}
+                          className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
+                          <a>{`${s.owner}/${s.name}`}</a>
+                          <span className={css.stars}>&#9733; {s.watchers}</span>
+                          <p>{s.description}</p>
+                        </div>
+                      )
+                    }
+                    if (currentKey.name === 'npm') {
+                      return (
+                        <div
+                          key={s.name}
+                          onClick={() => suggesteClick(s.name, `https://www.npmjs.com/package/${s.name}`)}
+                          className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
+                          <a dangerouslySetInnerHTML={{ __html: s.highlight || '' }} />
+                          <span className={css.publisher}>{s.publisher}</span>
+                          <span className={css.version}>{s.version}</span>
+                          <p>{s.description}</p>
+                        </div>
+                      )
+                    }
+                    if (currentKey.name === 'bundlesize') {
+                      return (
+                        <div
+                          key={s.name}
+                          onClick={() => suggesteClick(s.name, `https://bundlephobia.com/result?p=${s.name}`)}
+                          className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
+                          <a dangerouslySetInnerHTML={{ __html: s.highlight || '' }} />
+                          <span className={css.publisher}>{s.publisher}</span>
+                          <span className={css.version}>{s.version}</span>
+                          <p>{s.description}</p>
+                        </div>
+                      )
+                    }
                     return (
-                      <div
-                        key={`${s.owner}/${s.name}`}
-                        onClick={() => suggesteClick(s.name, `https://github.com/${s.owner}/${s.name}`)}
-                        className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
-                        <a>{`${s.owner}/${s.name}`}</a>
-                        <span className={css.stars}>&#9733; {s.watchers}</span>
-                        <p>{s.description}</p>
-                      </div>
-                    )
-                  }
-                  if (currentKey.name === 'npm') {
-                    return (
-                      <div
+                      <a
                         key={s.name}
-                        onClick={() => suggesteClick(s.name, `https://www.npmjs.com/package/${s.name}`)}
-                        className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
-                        <a dangerouslySetInnerHTML={{ __html: s.highlight || '' }} />
-                        <span className={css.publisher}>{s.publisher}</span>
-                        <span className={css.version}>{s.version}</span>
-                        <p>{s.description}</p>
-                      </div>
+                        onClick={() => suggesteClick(s.name)}
+                        className={cs('dropdown-item', { 'is-active': suggesteIndex === i })}>
+                        {s.name}
+                      </a>
                     )
-                  }
-                  if (currentKey.name === 'bundlesize') {
-                    return (
-                      <div
-                        key={s.name}
-                        onClick={() => suggesteClick(s.name, `https://bundlephobia.com/result?p=${s.name}`)}
-                        className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
-                        <a dangerouslySetInnerHTML={{ __html: s.highlight || '' }} />
-                        <span className={css.publisher}>{s.publisher}</span>
-                        <span className={css.version}>{s.version}</span>
-                        <p>{s.description}</p>
-                      </div>
-                    )
-                  }
-                  return (
-                    <a
-                      key={s.name}
-                      onClick={() => suggesteClick(s.name)}
-                      className={cs('dropdown-item', { 'is-active': suggesteIndex === i })}>
-                      {s.name}
-                    </a>
-                  )
-                })}
+                  })}
                 {currentKey.name === 'Github' && (
                   <>
                     <hr className='dropdown-divider' />
