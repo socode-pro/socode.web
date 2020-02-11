@@ -3,6 +3,7 @@ import { useSpring, animated } from 'react-spring'
 import { Link } from 'react-router-dom'
 import _ from 'lodash/core'
 import debounce from 'lodash/debounce'
+import throttle from 'lodash/throttle'
 import without from 'lodash/without'
 import docsearch from 'docsearch.js'
 import cs from 'classnames'
@@ -243,18 +244,18 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    const debounceFloat = debounce<() => void>(() => {
+    const throttleFloat = throttle<() => void>(() => {
       // brand height 112
       if (document.body.scrollTop > 112) {
         setIsFloat(true)
       } else {
         setIsFloat(false)
       }
-    }, 200)
+    }, 100)
 
-    document.body.addEventListener('scroll', debounceFloat, false)
+    document.body.addEventListener('scroll', throttleFloat, false)
     return () => {
-      document.body.removeEventListener('scroll', debounceFloat)
+      document.body.removeEventListener('scroll', throttleFloat)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -413,7 +414,9 @@ const SearchInput: React.FC = (): JSX.Element => {
             top: wapperTop,
           }}>
           <div className={cs(css.searchInput, 'container', { [css.float]: isFloat })}>
-            <span className={css.prefix} onClick={() => setDisplayKeys(!displayKeys)}>
+            <span
+              className={cs(css.prefix, { [css.displayKeys]: displayKeys })}
+              onClick={() => setDisplayKeys(!displayKeys)}>
               {currentKey.name}
             </span>
             <span className={css.sep}>$</span>
