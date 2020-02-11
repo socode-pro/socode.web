@@ -76,9 +76,7 @@ const MicrosoftSuggester = async (query: string): Promise<Array<SuggestItem>> =>
     const response = await axios.get<{ suggestions: Array<string> }>(
       `https://docs.microsoft.com/api/search/autocomplete?query=${query}`,
       {
-        headers: {
-          headers: { 'Access-Control-Allow-Origin': '*' },
-        },
+        headers: { 'Access-Control-Allow-Origin': '*' },
       }
     )
     return response.data.suggestions.map(d => ({ name: d }))
@@ -92,7 +90,7 @@ const MicrosoftSuggester = async (query: string): Promise<Array<SuggestItem>> =>
 //   try {
 //     const response = await axios.get<string>(`https://caniuse.com/process/query.php?search=${query}`, {
 //       headers: {
-//         headers: { 'Access-Control-Allow-Origin': '*' },
+//         'Access-Control-Allow-Origin': '*'
 //       },
 //     })
 //     const result = response.data.split(',').map(w => {
@@ -132,7 +130,7 @@ export const Suggester = async (q: string, kname: string): Promise<Array<Suggest
       params: { q },
       headers: {
         // Cookie: 'autocomplete=google;',
-        headers: { 'Access-Control-Allow-Origin': '*' },
+        'Access-Control-Allow-Origin': '*',
       },
     })
     return response.data.map(d => ({ name: d }))

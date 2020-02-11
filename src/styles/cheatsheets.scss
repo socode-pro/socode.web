@@ -2,6 +2,7 @@
 $dh-mute3: adjust-color($dh-mute, $lightness: 16%);
 $dark-line-color: rgba($dh-mute, 0.2);
 
+// https://github.com/rstacruz/cheatsheets/blob/master/_sass/2017/components/pages-list.scss
 .pages-list {
   & {
     display: flex;

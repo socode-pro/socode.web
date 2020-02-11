@@ -620,6 +620,19 @@ export const Keys: { [key: string]: SKey } = {
     awesome: 'akullpp/awesome-java',
     template: 'https://docs.oracle.com/apps/search/search.jsp?category=java&q=%s',
   },
+  jscoach: {
+    category: KeyCategory.More,
+    name: 'JS.coach',
+    shortkeys: 'jc',
+    icon: 'jscoach.svg',
+    template: 'https://js.coach/?search=%s',
+  },
+  // learnxiny: {
+  //   category: KeyCategory.More,
+  //   name: 'Learn X in Y minutes',
+  //   shortkeys: 'xy',
+  //   icon: 'learnxiny.png',
+  // },
   maven: {
     category: KeyCategory.More,
     name: 'Maven',

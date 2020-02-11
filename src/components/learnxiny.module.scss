@@ -1,0 +1,18 @@
+@import '../styles/variable';
+
+.learnxiny {
+  opacity: 0.4;
+  &.loaddone {
+    opacity: 1;
+    transition: opacity 100ms linear 100ms;
+  }
+}
+
+p.powered {
+  margin: 0 20px 1rem;
+  a {
+    background: url(/keys/devhints.png) left center/contain no-repeat;
+    padding-left: 20px;
+    font-size: 12px;
+  }
+}

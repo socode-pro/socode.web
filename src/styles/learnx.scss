@@ -1,0 +1,58 @@
+/* line 84, /opt/learnxinyminutes/source/css/screen.css.sass */
+th.name {
+  width: 50%;
+}
+
+/* line 87, /opt/learnxinyminutes/source/css/screen.css.sass */
+th.lang {
+  width: 50%;
+}
+
+/* line 90, /opt/learnxinyminutes/source/css/screen.css.sass */
+td.name a {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+/* line 94, /opt/learnxinyminutes/source/css/screen.css.sass */
+td.lang a {
+  background: #eee;
+  border-bottom: 2px solid #ddd;
+  border-radius: 3px;
+  padding: 0 5px;
+  text-decoration: none;
+}
+/* line 100, /opt/learnxinyminutes/source/css/screen.css.sass */
+td.lang a:hover {
+  background: #f5f5f5;
+}
+/* line 102, /opt/learnxinyminutes/source/css/screen.css.sass */
+td.lang a.selected {
+  background: #ff9;
+}
+
+@media all and (max-width: 620px) {
+  /* line 114, /opt/learnxinyminutes/source/css/screen.css.sass */
+  th.name {
+    display: block;
+    width: 100%;
+  }
+
+  /* line 118, /opt/learnxinyminutes/source/css/screen.css.sass */
+  th.lang {
+    display: none;
+  }
+
+  /* line 121, /opt/learnxinyminutes/source/css/screen.css.sass */
+  td.name {
+    display: block;
+    font-size: 16pt;
+    line-height: 24pt;
+  }
+
+  /* line 126, /opt/learnxinyminutes/source/css/screen.css.sass */
+  td.lang {
+    display: block;
+    text-align: right;
+  }
+}
