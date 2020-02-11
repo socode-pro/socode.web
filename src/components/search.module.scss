@@ -215,7 +215,9 @@
     align-items: center;
     &:hover {
       background-color: $white-duck;
-      i.thumbtack, a.home, a.awesome {
+      i.thumbtack,
+      a.home,
+      a.awesome {
         display: inline;
       }
       .shortkeys {
@@ -261,7 +263,8 @@
       transform: rotate(90deg);
     }
   }
-  a.home, a.awesome {
+  a.home,
+  a.awesome {
     display: none;
     color: $grey-light;
     margin-right: 8px;
@@ -360,6 +363,14 @@ div.closer {
     cursor: pointer;
     margin-left: 5px;
   }
+}
+
+:global(.algolia-autocomplete.algolia-autocomplete-right .ds-dropdown-menu) {
+  right: inherit !important;
+  left: 0 !important;
+}
+:global(.algolia-autocomplete.algolia-autocomplete-right .ds-dropdown-menu:before) {
+  left: 48px;
 }
 
 // @media (prefers-color-scheme: dark) {

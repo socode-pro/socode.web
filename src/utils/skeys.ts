@@ -89,7 +89,7 @@ export const Keys: { [key: string]: SKey } = {
   },
   bootstrap: {
     category: KeyCategory.Document,
-    name: 'bootstrap',
+    name: 'Bootstrap',
     shortkeys: 'bs',
     icon: 'bootstrap.svg',
     homelink: 'https://getbootstrap.com',
@@ -120,32 +120,33 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'apache_druid',
     },
   },
-  electron: {
-    category: KeyCategory.Document,
-    name: 'Electron',
-    shortkeys: 'et',
-    icon: 'electron.svg',
-    homelink: 'https://www.electronjs.org',
-    awesome: 'sindresorhus/awesome-electron',
-    docsearch: {
-      appId: 'L9LD9GHGQJ',
-      apiKey: '24e7e99910a15eb5d9d93531e5682370',
-      indexName: 'apis', // and tutorials,packages,apps
-    },
-  },
-  ember: {
-    category: KeyCategory.Document,
-    name: 'Ember',
-    shortkeys: 'eb',
-    icon: 'ember.svg',
-    hideName: true,
-    width: 76,
-    docsearch: {
-      // appId: 'Y1OMR4C7MF',
-      apiKey: '5d01c83734dc36754d9e94cbf6f8964d',
-      indexName: 'ember-guides',
-    },
-  },
+  // https://github.com/algolia/docsearch/issues/184
+  // electron: { // self build index
+  //   category: KeyCategory.Document,
+  //   name: 'Electron',
+  //   shortkeys: 'et',
+  //   icon: 'electron.svg',
+  //   homelink: 'https://www.electronjs.org',
+  //   awesome: 'sindresorhus/awesome-electron',
+  //   docsearch: {
+  //     appId: 'L9LD9GHGQJ',
+  //     apiKey: '24e7e99910a15eb5d9d93531e5682370',
+  //     indexName: 'apis', // and tutorials,packages,apps
+  //   },
+  // },
+  // ember: { // self build index
+  //   category: KeyCategory.Document,
+  //   name: 'Ember',
+  //   shortkeys: 'eb',
+  //   icon: 'ember.svg',
+  //   hideName: true,
+  //   width: 76,
+  //   docsearch: {
+  //     appId: 'Y1OMR4C7MF',
+  //     apiKey: '5d01c83734dc36754d9e94cbf6f8964d',
+  //     indexName: 'ember-guides',
+  //   },
+  // },
   eslint: {
     category: KeyCategory.Document,
     name: 'ESLint',
@@ -258,7 +259,7 @@ export const Keys: { [key: string]: SKey } = {
   },
   jenkinsx: {
     category: KeyCategory.Document,
-    name: 'JenkinsX',
+    name: 'Jenkins X',
     shortkeys: 'jk',
     icon: 'jenkinsx.svg',
     homelink: 'https://jenkins-x.io',
@@ -346,7 +347,7 @@ export const Keys: { [key: string]: SKey } = {
   prettier: {
     category: KeyCategory.Document,
     name: 'prettier',
-    shortkeys: 'pt',
+    shortkeys: 'pr',
     icon: 'prettier.png',
     docsearch: {
       apiKey: '9fcdb2a62af4c47cc5eecf3d5a747818',
@@ -356,7 +357,7 @@ export const Keys: { [key: string]: SKey } = {
   pytouch: {
     category: KeyCategory.Document,
     name: 'PyTouch',
-    shortkeys: 'pl',
+    shortkeys: 'pt',
     icon: 'pytouch.svg',
     hideName: true,
     width: 116,
@@ -382,7 +383,7 @@ export const Keys: { [key: string]: SKey } = {
   },
   reactnative: {
     category: KeyCategory.Document,
-    name: 'React-Native',
+    name: 'React Native',
     shortkeys: 'ran',
     icon: 'react.svg',
     bylang: true,

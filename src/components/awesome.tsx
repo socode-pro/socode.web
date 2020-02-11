@@ -27,12 +27,12 @@ const Awesome: React.FC<Props> = ({ name, awesome }: Props): JSX.Element => {
   // https://www.re[markdown]it.com/r/reactjs/comments/8k49m3/can_i_render_a_dom_element_inside_jsx/dz5cexl/
   return (
     <>
+      {markup && <div className='markdown-body' dangerouslySetInnerHTML={{ __html: markup }} />}
       <p className={cs(css.powered, { 'dis-none': !markup })}>
         <a href={`https://github.com/${awesome}`} target='_blank' rel='noopener noreferrer'>
           powered by {awesome}
         </a>
       </p>
-      {markup && <div className='markdown-body' dangerouslySetInnerHTML={{ __html: markup }} />}
     </>
   )
 }
