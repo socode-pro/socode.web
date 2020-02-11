@@ -208,11 +208,22 @@
   .skeybox {
     cursor: pointer;
     border-radius: 6px;
-    flex-basis: 33%;
     display: flex;
     padding: 1em 1em 1em 0.5em;
     justify-content: space-between;
     align-items: center;
+    flex-basis: 100%;
+    @media (min-width: 768px) {
+      & {
+        flex-basis: 50%;
+      }
+    }
+    @media (min-width: 1024px) {
+      & {
+        flex-basis: 33%;
+      }
+    }
+
     &:hover {
       background-color: $white-duck;
       i.thumbtack,
