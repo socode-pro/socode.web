@@ -20,6 +20,7 @@ export interface StorageType {
   darkMode?: DarkMode
   usageKeys?: string[]
   displayAwesome?: boolean
+  displayMoreKeys?: boolean
 }
 
 const storageKeys = [
@@ -31,9 +32,10 @@ const storageKeys = [
   'darkMode',
   'usageKeys',
   'displayAwesome',
+  'displayMoreKeys',
 ]
 const jsonParseKeys = ['trending']
-const booleanParseKeys = ['openNewTab', 'displayAwesome']
+const booleanParseKeys = ['openNewTab', 'displayAwesome', 'displayMoreKeys']
 
 export interface StorageModel {
   values: StorageType

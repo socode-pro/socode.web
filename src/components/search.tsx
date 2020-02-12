@@ -53,7 +53,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const error = useStoreState<SMError | null>(state => state.search.error)
 
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
-  const { language, searchLanguage, usageKeys, displayAwesome } = useStoreState<StorageType>(
+  const { language, searchLanguage, usageKeys, displayAwesome, displayMoreKeys } = useStoreState<StorageType>(
     state => state.storage.values
   )
   Object.entries(Keys).forEach(([, k]) => {
@@ -597,16 +597,34 @@ const SearchInput: React.FC = (): JSX.Element => {
           </div>
 
           {displayKeys && (
-            <div className='mgl10 mgb10'>
+            <div className='mgl10 mgb10 mgr10'>
               <div className={css.skgroup}>{getKeysDom(UsageKeys)}</div>
               <div className={cs(css.skgroup)}>
-                <div className={css.kdesc}>DOCUMENT</div>
+                <div className={css.kdesc}>DOCSEARCH</div>
                 {getKeysDom(DocumentKeys)}
               </div>
-              <div className={cs(css.skgroup)}>
-                <div className={css.kdesc}>MORE</div>
-                {getKeysDom(MoreKeys)}
-              </div>
+              {displayMoreKeys && (
+                <div className={cs(css.skgroup)}>
+                  <div className={css.kdesc}>MORE</div>
+                  {getKeysDom(MoreKeys)}
+                </div>
+              )}
+              {!displayMoreKeys && (
+                <button
+                  type='button'
+                  className='button is-text w100'
+                  onClick={() => setStorage({ displayMoreKeys: true })}>
+                  More
+                </button>
+              )}
+              {displayMoreKeys && (
+                <button
+                  type='button'
+                  className='button is-text w100'
+                  onClick={() => setStorage({ displayMoreKeys: false })}>
+                  Less
+                </button>
+              )}
             </div>
           )}
 

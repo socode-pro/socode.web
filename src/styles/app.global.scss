@@ -103,6 +103,16 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   @extend .fas;
   @extend .fa-cubes;
 }
+// .fa-up {
+//   @extend %fa-icon;
+//   @extend .fas;
+//   @extend .fa-angle-up;
+// }
+// .fa-down {
+//   @extend %fa-icon;
+//   @extend .fas;
+//   @extend .fa-angle-down;
+// }
 
 $hamburger-layer-color: rgba($dh-mute, 0.5);
 $hamburger-active-layer-color: $primary;

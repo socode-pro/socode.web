@@ -225,7 +225,7 @@
     }
     @media (min-width: 1024px) {
       & {
-        flex-basis: 33%;
+        flex-basis: 33.333%;
       }
     }
 
@@ -234,7 +234,7 @@
       i.thumbtack,
       a.home,
       a.awesome {
-        display: inline;
+        display: inline-block;
       }
       .shortkeys {
         background: url(../images/tab.png) center right 0.5em / contain no-repeat;
