@@ -23,6 +23,15 @@ const Drawer: React.FC = (): JSX.Element => {
   })
 
   useHotkeys(
+    'f2',
+    () => {
+      setActive(!active)
+    },
+    [active],
+    ['BODY']
+  )
+
+  useHotkeys(
     'shift+/',
     () => {
       if (document.activeElement?.tagName !== 'INPUT') {
@@ -74,19 +83,19 @@ const Drawer: React.FC = (): JSX.Element => {
                   rel='noopener noreferrer'
                   href='https://discord.gg/qeBuAR'>
                   <h3>Discord Chat</h3>
-                  <span>request feature/feedback bug</span>
+                  <span>recommend feature/feedback bug</span>
                 </a>
               </li>
             )}
             {language === Language.中文 && (
               <li>
                 <a
-                  className={cs(css.navlink, css.riot)}
+                  className={cs(css.navlink, css.qq)}
                   target='_blank'
                   rel='noopener noreferrer'
-                  href='https://riot.im/app/#/group/+socode:matrix.org'>
+                  href='//shang.qq.com/wpa/qunwpa?idkey=3d2b1144846dfa498110b161de4267459888c26c67d509265bb88b4405b57e02'>
                   <h3>Chat</h3>
-                  <span>request feature/feedback bug</span>
+                  <span>recommend feature/feedback bug</span>
                 </a>
               </li>
             )}
@@ -100,7 +109,7 @@ const Drawer: React.FC = (): JSX.Element => {
             </li>
             <li>
               <a className={cs(css.navlink, css.shortcut)} onClick={() => setShortcut(true)}>
-                <h3>Shortcut</h3>
+                <h3>{useIntl(Words.Shortcut)}</h3>
               </a>
             </li>
             <li>

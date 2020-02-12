@@ -9,6 +9,7 @@ export enum Words {
   OpenNewTab = 'Open search page in a new tab',
   DisplayAwesome = 'Display Awesome',
   PrivacyPolicy = 'Privacy Policy',
+  Shortcut = 'Shortcut',
   OpenKeyboardShortcuts = 'Open keyboard shortcuts help',
   FocusToInput = 'Focus to input',
   DisplaySearchable = 'Display searchable',
@@ -38,6 +39,9 @@ const useIntl = (words: Words): string => {
           break
         case Words.PrivacyPolicy:
           setContent('隐私政策')
+          break
+        case Words.Shortcut:
+          setContent('快捷键')
           break
         case Words.OpenKeyboardShortcuts:
           setContent('打开快捷键帮助')

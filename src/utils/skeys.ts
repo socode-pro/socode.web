@@ -56,6 +56,7 @@ export const Keys: { [key: string]: SKey } = {
     icon: 'google.png',
     template: 'https://google.com/search?q=%s&hl=%l',
     bylang: true,
+    disableLang: Language.中文,
   },
   cheatsheets: {
     category: KeyCategory.Usage,
