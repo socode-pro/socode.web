@@ -75,7 +75,7 @@ const Drawer: React.FC = (): JSX.Element => {
                 <span>to synchronize your settings</span>
               </a>
             </li> */}
-            {language !== Language.中文 && (
+            {language !== Language.中文_简体 && (
               <li>
                 <a
                   className={cs(css.navlink, css.discord)}
@@ -87,7 +87,7 @@ const Drawer: React.FC = (): JSX.Element => {
                 </a>
               </li>
             )}
-            {language === Language.中文 && (
+            {language === Language.中文_简体 && (
               <li>
                 <a
                   className={cs(css.navlink, css.qq)}
@@ -187,7 +187,7 @@ const Drawer: React.FC = (): JSX.Element => {
             {/* <li>
               <a>投放广告</a>
             </li> */}
-            {language !== Language.中文 && (
+            {language !== Language.中文_简体 && (
               <li>
                 <a
                   className={cs(css.navlink, css.twitter)}
@@ -198,7 +198,7 @@ const Drawer: React.FC = (): JSX.Element => {
                 </a>
               </li>
             )}
-            {language === Language.中文 && (
+            {language === Language.中文_简体 && (
               <li>
                 <a href='http://beian.miit.gov.cn/state/outPortal/loginPortal.action'>苏ICP备18044337号-2</a>
               </li>

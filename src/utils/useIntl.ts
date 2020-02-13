@@ -23,7 +23,7 @@ const useIntl = (words: Words): string => {
   const { language } = useStoreState<StorageType>(state => state.storage.values)
 
   useEffect(() => {
-    if (language === Language.中文) {
+    if (language === Language.中文_简体) {
       switch (words) {
         case Words.ASearchEngineForProgrammers:
           setContent('给程序员用的问答搜索')

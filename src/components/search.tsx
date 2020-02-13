@@ -66,7 +66,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const MoreKeys = Object.entries(Keys).filter(([, k]) => k.category === KeyCategory.More && !k.userUsage)
 
   const [displayKeys, setDisplayKeys] = useState(false)
-  const [currentKey, setCurrentKey] = useState<SKey>(language === Language.中文 ? Keys.socode : Keys.github)
+  const [currentKey, setCurrentKey] = useState<SKey>(language === Language.中文_简体 ? Keys.socode : Keys.github)
 
   const useWapperTop = result?.results.length // || currentKey.name === 'CheatSheets'
   const { wapperTop } = useSpring({
@@ -704,13 +704,13 @@ const SearchInput: React.FC = (): JSX.Element => {
 
           {result === null && currentKey.name === 'socode' && (
             <div className={css.slogan}>
-              <span className={cs({ [css.zh]: language === Language.中文 })}>{slogon}</span>
+              <span className={cs({ [css.zh]: language === Language.中文_简体 })}>{slogon}</span>
               <div className={cs('dropdown is-right', css.scdropdown, { 'is-active': displayTips })}>
                 <i className={cs(css.scicon, 'fa-question')} onClick={() => setDisplayTips(!displayTips)} />
                 <div className='dropdown-menu' style={{ width: 300 }}>
                   <div className='dropdown-content'>
                     <div className='dropdown-item'>
-                      {language !== Language.中文 ? (
+                      {language !== Language.中文_简体 ? (
                         <p>
                           socode is a privacy-respecting, hackable google search by{' '}
                           <a href='https://github.com/asciimoo/searx' target='_blank' rel='noopener noreferrer'>
