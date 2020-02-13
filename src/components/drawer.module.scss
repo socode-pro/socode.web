@@ -106,23 +106,20 @@
   background-color: $black-bis;
   border-radius: 4px;
   color: #fff;
-  font-size: 13px;
   line-height: 17px;
   margin: 0;
   padding: 20px;
-  width: 300px;
   z-index: 99;
   .title {
     border-bottom: 1px solid $grey-dark;
     color: $grey;
     font-weight: 700;
-    margin-bottom: 9px;
-    padding-bottom: 9px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
   }
   .hint {
     color: $grey;
     float: right;
-    font-size: 10px;
   }
   div.section {
     margin-bottom: 17px;
@@ -132,7 +129,7 @@
     color: $grey;
     font-weight: normal;
     margin-bottom: 8px;
-    margin-top: 9px;
+    margin-top: 10px;
   }
   .shortcut {
     color: $tertiary;
@@ -140,7 +137,8 @@
     font-weight: 700;
     font-weight: normal;
     padding-right: 6px;
-    width: 55px;
+    width: 80px;
+    font-family: $font-mono;
   }
   .description {
     font-weight: normal;

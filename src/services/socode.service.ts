@@ -126,7 +126,9 @@ export const search = async ({
   pageno = 1,
   cookie = undefined,
 }: SearchParam): Promise<SocodeResult | null> => {
-  const sites = searchLanguage === Language.中文_简体 ? SitesCN : Sites
+  const sites = SitesCN
+  // const sites = searchLanguage === Language.中文_简体 ? SitesCN : Sites
+
   const q = global.ignoreSites() ? query : `${query} site:${sites.join(' OR site:')}`
   // const q = `${query} -site:${ExcludeSites.join(' AND -site:')}`
 

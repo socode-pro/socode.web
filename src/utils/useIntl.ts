@@ -11,6 +11,7 @@ export enum Words {
   PrivacyPolicy = 'Privacy Policy',
   Shortcut = 'Shortcut',
   OpenKeyboardShortcuts = 'Open keyboard shortcuts help',
+  ToggleMenuButton = 'Toggle menu button',
   FocusToInput = 'Focus to input',
   DisplaySearchable = 'Display searchable',
   SwitchToGithub = 'Switch to Github',
@@ -45,6 +46,9 @@ const useIntl = (words: Words): string => {
           break
         case Words.OpenKeyboardShortcuts:
           setContent('打开快捷键帮助')
+          break
+        case Words.ToggleMenuButton:
+          setContent('点击菜单栏')
           break
         case Words.FocusToInput:
           setContent('聚焦到输入框')

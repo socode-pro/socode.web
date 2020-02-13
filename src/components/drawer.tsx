@@ -210,7 +210,7 @@ const Drawer: React.FC = (): JSX.Element => {
       </div>
 
       <div className={cs('modal', { 'is-active': shortcut })}>
-        <div className='modal-background' />
+        <div className='modal-background' onClick={() => setShortcut(false)} />
         <div className='modal-content'>
           <div className={css.helpSignPart}>
             <div className={css.hint}>ESC to close</div>
@@ -220,6 +220,10 @@ const Drawer: React.FC = (): JSX.Element => {
                 <div>
                   <span className={css.shortcut}>?</span>
                   <span className={css.description}>{useIntl(Words.OpenKeyboardShortcuts)}</span>
+                </div>
+                <div>
+                  <span className={css.shortcut}>f2</span>
+                  <span className={css.description}>{useIntl(Words.ToggleMenuButton)}</span>
                 </div>
               </div>
               <div className={css.section}>
