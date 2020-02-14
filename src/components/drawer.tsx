@@ -3,14 +3,14 @@ import { useSpring, animated } from 'react-spring'
 import { Link } from 'react-router-dom'
 import cs from 'classnames'
 import useHotkeys from '../utils/useHotkeys'
-import Language from '../utils/language'
+import Language, { InterfaceLanguage } from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import { StorageType } from '../models/storage'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { StringEnumObjects } from '../utils/assist'
 import css from './drawer.module.scss'
 
-const languageOptions = StringEnumObjects(Language)
+const languageOptions = StringEnumObjects(InterfaceLanguage)
 
 const Drawer: React.FC = (): JSX.Element => {
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
@@ -81,7 +81,7 @@ const Drawer: React.FC = (): JSX.Element => {
                   className={cs(css.navlink, css.discord)}
                   target='_blank'
                   rel='noopener noreferrer'
-                  href='https://discord.gg/qeBuAR'>
+                  href='https://discord.gg/QeuD8Ma'>
                   <h3>Discord Chat</h3>
                   <span>recommend feature/feedback bug</span>
                 </a>
@@ -241,7 +241,7 @@ const Drawer: React.FC = (): JSX.Element => {
                   <span className={css.description}>{useIntl(Words.SwitchToGithub)}</span>
                 </div>
               </div>
-              <div className={css.section}>
+              {/* <div className={css.section}>
                 <div className={css.label}>Lists</div>
                 <div>
                   <span className={css.shortcut}>j</span>
@@ -251,7 +251,7 @@ const Drawer: React.FC = (): JSX.Element => {
                   <span className={css.shortcut}>p</span>
                   <span className={css.description}>{useIntl(Words.PreviousPage)}</span>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
