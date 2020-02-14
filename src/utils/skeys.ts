@@ -277,6 +277,7 @@ export const Keys: { [key: string]: SKey } = {
     icon: 'jquery.png',
     hideName: true,
     width: 106,
+    homelink: 'https://jquery.com/',
     docsearch: {
       apiKey: '3cfde9aca378c8aab554d5bf1b23489b',
       indexName: 'jquery',

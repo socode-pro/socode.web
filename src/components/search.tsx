@@ -455,6 +455,27 @@ const SearchInput: React.FC = (): JSX.Element => {
               )
             })}
 
+            {currentKey.homelink && (
+              <a
+                href={currentKey.homelink}
+                onClick={e => e.stopPropagation()}
+                className={cs('fa-home', css.home)}
+                aria-label='home'
+                target='_blank'
+                rel='noopener noreferrer'
+              />
+            )}
+            {currentKey.awesome && (
+              <a
+                href={`https://github.com/${currentKey.awesome}`}
+                onClick={e => e.stopPropagation()}
+                className={cs('fa-cubes', css.awesome)}
+                aria-label='awesome'
+                target='_blank'
+                rel='noopener noreferrer'
+              />
+            )}
+
             {result !== null && (
               <div className='select is-rounded mgl10'>
                 {/* https://www.typescriptlang.org/docs/handbook/jsx.html#the-as-operator */}

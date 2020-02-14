@@ -229,6 +229,24 @@
       }
     }
 
+    i.thumbtack {
+      display: none;
+      color: $grey-light;
+      position: relative;
+      top: 1px;
+      &:hover {
+        color: $primary;
+      }
+      &.usage {
+        transform: rotate(90deg);
+      }
+    }
+
+    a.home,
+    a.awesome {
+      display: none;
+    }
+
     &:hover {
       background-color: $white-duck;
       i.thumbtack,
@@ -267,27 +285,6 @@
       }
     }
   }
-  i.thumbtack {
-    display: none;
-    color: $grey-light;
-    position: relative;
-    top: 1px;
-    &:hover {
-      color: $primary;
-    }
-    &.usage {
-      transform: rotate(90deg);
-    }
-  }
-  a.home,
-  a.awesome {
-    display: none;
-    color: $grey-light;
-    margin-right: 8px;
-    &:hover {
-      color: $primary;
-    }
-  }
 
   .kdesc {
     position: absolute;
@@ -296,6 +293,16 @@
     background-color: $white-ter;
     color: $grey-light;
     padding: 0 0.5em;
+  }
+}
+
+a.home,
+a.awesome {
+  @include ms-respond(font-size, 1);
+  color: $grey-light;
+  margin-right: 8px;
+  &:hover {
+    color: $primary;
   }
 }
 
