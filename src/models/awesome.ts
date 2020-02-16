@@ -39,8 +39,8 @@ const awesomeModel: AwesomeModel = {
       actions.setMarkdown({ name: payload.name, markdown: resp.data })
     } catch (err) {
       if (err.isAxiosError) {
-        const e: AxiosError = err
-        if (e.response?.status === 404) {
+        const erra: AxiosError = err
+        if (erra.response?.status === 404) {
           try {
             const resp = await axios.get(`https://raw.githubusercontent.com/${payload.awesome}/master/README.md`)
             actions.setMarkdown({ name: payload.name, markdown: resp.data })

@@ -20,6 +20,7 @@ export interface SKey {
   disableLang?: Language
   bylang?: boolean
   bypglang?: boolean
+  devdocs?: string
   docsearch?: {
     appId?: string
     apiKey: string
@@ -615,10 +616,17 @@ export const Keys: { [key: string]: SKey } = {
   java: {
     category: KeyCategory.More,
     name: 'Java',
-    shortkeys: 'j',
+    shortkeys: 'jv',
     icon: 'java.png',
     awesome: 'akullpp/awesome-java',
     template: 'https://docs.oracle.com/apps/search/search.jsp?category=java&q=%s',
+  },
+  javascript: {
+    category: KeyCategory.More,
+    name: 'Javascript',
+    shortkeys: 'js',
+    icon: 'javascript.svg',
+    devdocs: 'javascript',
   },
   jscoach: {
     category: KeyCategory.More,
@@ -643,15 +651,15 @@ export const Keys: { [key: string]: SKey } = {
     width: 70,
     template: 'https://mvnrepository.com/search?q=%s',
   },
-  mdn: {
-    category: KeyCategory.More,
-    name: 'MDN',
-    hideName: true,
-    shortkeys: 'mdn',
-    icon: 'MDN.svg',
-    width: 130,
-    template: 'https://developer.mozilla.org/en-US/search?q=%s',
-  },
+  // mdn: {
+  //   category: KeyCategory.More,
+  //   name: 'MDN',
+  //   hideName: true,
+  //   shortkeys: 'mdn',
+  //   icon: 'MDN.svg',
+  //   width: 130,
+  //   template: 'https://developer.mozilla.org/en-US/search?q=%s',
+  // },
   mongodb: {
     category: KeyCategory.More,
     name: 'MongoDB',
