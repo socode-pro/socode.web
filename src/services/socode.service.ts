@@ -2,7 +2,6 @@ import axios, { AxiosError } from 'axios'
 import qs from 'qs'
 import * as global from '../config'
 import Language, { ProgramLanguage } from '../utils/language'
-import { SearchParam } from '../models/search'
 
 const axiosInstance = axios.create({
   // https://github.com/axios/axios#request-config
@@ -16,6 +15,16 @@ export enum SearchTimeRange {
   Week = 'week',
   Month = 'month',
   Year = 'year',
+}
+
+export interface SearchParam {
+  query?: string
+  timeRange?: SearchTimeRange
+  searchLanguage?: Language
+  porogramLanguage?: ProgramLanguage
+  pageno?: number
+  cookie?: string
+  url?: string
 }
 
 export interface SocodeResult {

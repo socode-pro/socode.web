@@ -1,10 +1,12 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy'
 import Fuse from 'fuse.js'
-import keyBy from 'lodash/keyBy'
-import { getMetas, getDocIndex, DevDocMeta, DevDocIndex, DevDocEntrie } from '../services/devdocs'
+import dayjs from 'dayjs'
+import groupBy from 'lodash/groupBy'
+import { Injections } from '../store'
+import { DevDocMeta, DevDocIndex, DevDocEntrie } from '../services/devdocs.service'
 
 export interface DocResults {
-  [index: string]: DevDocEntrie
+  [index: string]: Array<DevDocEntrie>
 }
 
 const fuseOptions: Fuse.FuseOptions<DevDocEntrie> = {
@@ -13,18 +15,26 @@ const fuseOptions: Fuse.FuseOptions<DevDocEntrie> = {
 
 export interface DevdocsModel {
   metas: DevDocMeta[]
-  setMetas: Action<DevdocsModel, DevDocMeta[]>
+  setMetas: Action<DevdocsModel, { metas: DevDocMeta[]; setTime?: boolean }>
+  initial: Thunk<DevdocsModel, null, Injections>
 
   indexs: {
     [key: string]: DevDocIndex
   }
-  setIndexs: Action<DevdocsModel, { slug: string; index: DevDocIndex }>
+  setIndexs: Action<DevdocsModel, { slug: string; index: DevDocIndex; setTime?: boolean }>
+  initialIndex: Thunk<DevdocsModel, string>
 
   results: DocResults
-  setResults: Action<DevdocsModel, { slug: string; query: string }>
+  search: Action<DevdocsModel, { slug: string; query: string }>
 
-  Initial: Thunk<DevdocsModel>
-  getDocIndex: Thunk<DevdocsModel, DevDocMeta>
+  expandings: { [index: string]: boolean }
+  expand: Action<DevdocsModel, string>
+
+  docs: { [index: string]: string }
+  setDocs: Action<DevdocsModel, { slug: string; path: string; doc: string }>
+  currentDocKey: string
+  setCurrentDocKey: Action<DevdocsModel, string>
+  selectDoc: Thunk<DevdocsModel, { slug: string; path: string }>
 }
 
 const devdocsModel: DevdocsModel = {
@@ -32,7 +42,34 @@ const devdocsModel: DevdocsModel = {
   setMetas: action((state, payload) => {
     try {
       localStorage.setItem('devdoc_metas', JSON.stringify(payload))
-      state.metas = payload
+      state.metas = payload.metas
+      if (payload.setTime) {
+        localStorage.setItem('devdoc_metas_time', dayjs().toJSON())
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }),
+  initial: thunk(async (actions, payload, { injections }) => {
+    try {
+      const time = localStorage.getItem('devdoc_metas_time')
+      if (
+        time &&
+        dayjs(time)
+          .add(4, 'hour')
+          .isAfter(dayjs())
+      ) {
+        const metasString = localStorage.getItem('devdoc_metas')
+        if (metasString) {
+          actions.setMetas({ metas: JSON.parse(metasString) })
+          return
+        }
+      }
+
+      const metas = await injections.devdocsService.getMetas()
+      if (metas !== null) {
+        actions.setMetas({ metas, setTime: true })
+      }
     } catch (err) {
       console.error(err)
     }
@@ -43,27 +80,74 @@ const devdocsModel: DevdocsModel = {
     try {
       localStorage.setItem(`devdoc_${payload.slug}`, JSON.stringify(payload.index))
       state.indexs = { ...state.indexs, [payload.slug]: payload.index }
+      if (payload.setTime) {
+        localStorage.setItem(`devdoc_${payload.slug}_time`, dayjs().toJSON())
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }),
+  initialIndex: thunk(async (actions, payload, { injections, getState }) => {
+    if (getState().indexs[payload]) return
+
+    try {
+      const meta = getState().metas.find(m => m.name === payload)
+      if (!meta) {
+        throw new Error('meta null')
+      }
+
+      const time = localStorage.getItem(`devdoc_${meta.slug}_time`)
+      if (time && meta.mtime <= parseInt(time, 10)) {
+        const indexString = localStorage.getItem(`devdoc_${meta.slug}`)
+        if (indexString) {
+          actions.setIndexs({ slug: meta.slug, index: JSON.parse(indexString) })
+          return
+        }
+      }
+
+      const index = await injections.devdocsService.getDocIndex(payload)
+      if (index !== null) {
+        actions.setIndexs({ slug: meta.slug, index, setTime: true })
+      }
     } catch (err) {
       console.error(err)
     }
   }),
 
   results: {},
-  setResults: action((state, payload) => {
+  search: action((state, payload) => {
     const index = state.indexs[payload.slug]
     const fuse = new Fuse(index.entries, fuseOptions)
     const items = fuse.search<DevDocEntrie, false, false>(payload.query)
-    const results = keyBy(items, 'type')
+    const results = groupBy(items, 'type')
     state.results = results
   }),
 
-  Initial: thunk(async actions => {
-    const metas = await getMetas()
-    if (metas !== null) actions.setMetas(metas)
+  expandings: {},
+  expand: action((state, payload) => {
+    state.expandings[payload] = !state.expandings[payload]
+    // state.expandings = { ...state.expandings }
   }),
-  getDocIndex: thunk(async (actions, payload) => {
-    const index = await getDocIndex(payload)
-    if (index !== null) actions.setIndexs({ slug: payload.slug, index })
+
+  docs: {},
+  setDocs: action((state, payload) => {
+    const dockey = `${payload.slug}_${payload.path}`
+    state.docs[dockey] = payload.doc
+  }),
+  currentDocKey: '',
+  setCurrentDocKey: action((state, payload) => {
+    state.currentDocKey = payload
+  }),
+  selectDoc: thunk(async (actions, payload, { injections, getState }) => {
+    const dockey = `${payload.slug}_${payload.path}`
+    actions.setCurrentDocKey(dockey)
+
+    if (getState().docs[dockey]) return
+
+    const doc = await injections.devdocsService.getDoc(payload)
+    if (doc !== null) {
+      actions.setDocs({ ...payload, doc })
+    }
   }),
 }
 

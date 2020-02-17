@@ -1,0 +1,8 @@
+.typegroup {
+  padding: 10px;
+  &.expanding {
+    .childrens {
+      display: block;
+    }
+  }
+}

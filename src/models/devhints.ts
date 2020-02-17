@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 
 export interface DevhintsModel {
   html: string
-  setHtml: Action<DevhintsModel, string>
+  setHtml: Action<DevhintsModel, { html: string; setTime?: boolean }>
   getHtml: Thunk<DevhintsModel>
 }
 
@@ -12,9 +12,11 @@ const devhintsModel: DevhintsModel = {
   html: '',
   setHtml: action((state, payload) => {
     try {
-      localStorage.setItem('devhintsHtml', payload)
-      localStorage.setItem('devhintsTime', dayjs().toJSON())
-      state.html = payload
+      localStorage.setItem('devhintsHtml', payload.html)
+      state.html = payload.html
+      if (payload.setTime) {
+        localStorage.setItem('devhintsTime', dayjs().toJSON())
+      }
     } catch (err) {
       console.error(err)
     }
@@ -30,12 +32,12 @@ const devhintsModel: DevhintsModel = {
       ) {
         const devhintsHtml = localStorage.getItem('devhintsHtml')
         if (devhintsHtml) {
-          actions.setHtml(devhintsHtml || '')
+          actions.setHtml({ html: devhintsHtml || '' })
           return
         }
       }
       const resp = await axios.get('https://devhints.io/')
-      actions.setHtml(resp.data)
+      actions.setHtml({ html: resp.data, setTime: true })
     } catch (err) {
       if (err.isAxiosError) {
         const e: AxiosError = err

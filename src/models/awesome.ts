@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 
 export interface AwesomeModel {
   markdown: string
-  setMarkdown: Action<AwesomeModel, { name: string; markdown: string }>
+  setMarkdown: Action<AwesomeModel, { name: string; markdown: string; setTime?: boolean }>
   getMarkdown: Thunk<AwesomeModel, { name: string; awesome: string }>
 }
 
@@ -13,8 +13,10 @@ const awesomeModel: AwesomeModel = {
   setMarkdown: action((state, payload) => {
     try {
       localStorage.setItem(`markdown_${payload.name}`, payload.markdown)
-      localStorage.setItem(`markdown_${payload.name}_time`, dayjs().toJSON())
       state.markdown = payload.markdown
+      if (payload.setTime) {
+        localStorage.setItem(`markdown_${payload.name}_time`, dayjs().toJSON())
+      }
     } catch (err) {
       console.error(err)
     }
@@ -36,14 +38,14 @@ const awesomeModel: AwesomeModel = {
       }
 
       const resp = await axios.get(`https://raw.githubusercontent.com/${payload.awesome}/master/readme.md`)
-      actions.setMarkdown({ name: payload.name, markdown: resp.data })
+      actions.setMarkdown({ name: payload.name, markdown: resp.data, setTime: true })
     } catch (err) {
       if (err.isAxiosError) {
         const erra: AxiosError = err
         if (erra.response?.status === 404) {
           try {
             const resp = await axios.get(`https://raw.githubusercontent.com/${payload.awesome}/master/README.md`)
-            actions.setMarkdown({ name: payload.name, markdown: resp.data })
+            actions.setMarkdown({ name: payload.name, markdown: resp.data, setTime: true })
           } catch (e) {
             console.error(`retry:${e}`)
           }

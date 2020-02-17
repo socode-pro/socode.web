@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 import * as global from '../config'
 
 export interface DevDocMeta {

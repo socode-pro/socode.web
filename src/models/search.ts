@@ -1,22 +1,12 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy'
 import { Injections } from '../store'
 import { StoreModel } from './index'
-import Language, { ProgramLanguage } from '../utils/language'
-import { SocodeResult, SearchTimeRange } from '../services/socode.service'
+import { ProgramLanguage } from '../utils/language'
+import { SocodeResult, SearchParam } from '../services/socode.service'
 import { SKey, IsAvoidKeys } from '../utils/skeys'
 
 export interface SMError {
   message: string
-}
-
-export interface SearchParam {
-  query?: string
-  timeRange?: SearchTimeRange
-  searchLanguage?: Language
-  porogramLanguage?: ProgramLanguage
-  pageno?: number
-  cookie?: string
-  url?: string
 }
 
 export interface SearchModel {
