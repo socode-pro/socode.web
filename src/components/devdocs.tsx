@@ -29,15 +29,22 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
   }, [search, query, slug])
 
   return (
-    <div className='columns'>
-      <div className='column is-one-quarter'>
+    <div className={cs('columns', css.devdocs)}>
+      <div className={cs('column is-one-quarter', css.menus)}>
         {Object.entries(results).map(([t, entrie]) => {
           return (
             <div key={t} className={cs(css.typegroup, { [css.expanding]: expandings[t] })}>
-              <span onClick={() => expend(t)}>{t}</span>
+              <span className={css.typename} onClick={() => expend(t)}>
+                <i className='fa-menus' />
+                {t}
+              </span>
               <div className={css.childrens}>
                 {entrie.map(e => {
-                  return <a onClick={() => selectDoc({ slug, path: e.path })}>{e.name}</a>
+                  return (
+                    <a className={css.item} onClick={() => selectDoc({ slug, path: e.path })}>
+                      {e.name}
+                    </a>
+                  )
                 })}
               </div>
             </div>

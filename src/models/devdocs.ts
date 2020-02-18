@@ -16,7 +16,7 @@ const fuseOptions: Fuse.FuseOptions<DevDocEntrie> = {
 export interface DevdocsModel {
   metas: DevDocMeta[]
   setMetas: Action<DevdocsModel, { metas: DevDocMeta[]; setTime?: boolean }>
-  initial: Thunk<DevdocsModel, null, Injections>
+  initial: Thunk<DevdocsModel, void, Injections>
 
   indexs: {
     [key: string]: DevDocIndex
@@ -117,8 +117,11 @@ const devdocsModel: DevdocsModel = {
   results: {},
   search: action((state, payload) => {
     const index = state.indexs[payload.slug]
-    const fuse = new Fuse(index.entries, fuseOptions)
-    const items = fuse.search<DevDocEntrie, false, false>(payload.query)
+    let items = index.entries
+    if (payload.query) {
+      const fuse = new Fuse(index.entries, fuseOptions)
+      items = fuse.search<DevDocEntrie, false, false>(payload.query)
+    }
     const results = groupBy(items, 'type')
     state.results = results
   }),

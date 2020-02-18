@@ -1,5 +1,5 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy'
-import axios, { AxiosError } from 'axios'
+import ky from 'ky'
 import dayjs from 'dayjs'
 
 export interface AwesomeModel {
@@ -37,21 +37,18 @@ const awesomeModel: AwesomeModel = {
         }
       }
 
-      const resp = await axios.get(`https://raw.githubusercontent.com/${payload.awesome}/master/readme.md`)
-      actions.setMarkdown({ name: payload.name, markdown: resp.data, setTime: true })
+      const markdown = await ky.get(`https://raw.githubusercontent.com/${payload.awesome}/master/readme.md`).text()
+      actions.setMarkdown({ name: payload.name, markdown, setTime: true })
     } catch (err) {
-      if (err.isAxiosError) {
-        const erra: AxiosError = err
-        if (erra.response?.status === 404) {
-          try {
-            const resp = await axios.get(`https://raw.githubusercontent.com/${payload.awesome}/master/README.md`)
-            actions.setMarkdown({ name: payload.name, markdown: resp.data, setTime: true })
-          } catch (e) {
-            console.error(`retry:${e}`)
-          }
+      if (err.response?.status === 404) {
+        try {
+          const markdown = await ky.get(`https://raw.githubusercontent.com/${payload.awesome}/master/README.md`).text()
+          actions.setMarkdown({ name: payload.name, markdown, setTime: true })
+        } catch (e) {
+          console.error('AwesomeModel.getMarkdown.retry', e)
         }
       } else {
-        console.error(err)
+        console.warn('AwesomeModel.getMarkdown', err)
       }
     }
   }),

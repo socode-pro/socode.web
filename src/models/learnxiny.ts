@@ -1,5 +1,5 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy'
-import axios, { AxiosError } from 'axios'
+import ky from 'ky'
 import dayjs from 'dayjs'
 
 export interface LearnxinyModel {
@@ -34,21 +34,20 @@ const learnxinyModel: LearnxinyModel = {
           return
         }
       }
-      const resp = await axios.get('https://learnxinyminutes.com/', {
-        headers: {
-          Accept: '*/*',
-          Host: 'learnxinyminutes.com',
-          'Access-Control-Allow-Origin': '*',
-        },
-      })
-      actions.setHtml(resp.data)
+      const data = await ky
+        .get('https://learnxinyminutes.com/', {
+          hooks: {
+            beforeRequest: [
+              request => {
+                request.headers.set('Accept', '*/*')
+              },
+            ],
+          },
+        })
+        .text()
+      actions.setHtml(data)
     } catch (err) {
-      if (err.isAxiosError) {
-        const e: AxiosError = err
-        console.warn(`status:${e.response?.status} msg:${e.message}`, e)
-      } else {
-        console.error(err)
-      }
+      console.warn('learnxinyModel.getHtml:', err)
     }
   }),
 }

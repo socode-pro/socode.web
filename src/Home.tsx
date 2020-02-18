@@ -7,12 +7,12 @@ import './styles/app.global.scss'
 
 const Home: React.FC = () => {
   const storageGetAll = useStoreActions(actions => actions.storage.getAllStorage)
-  const devdocsInitial = useStoreActions(actions => actions.devdocs.initial)
+  const initial = useStoreActions(actions => actions.devdocs.initial)
 
   useEffect(() => {
     storageGetAll()
-    devdocsInitial()
-  }, [devdocsInitial, storageGetAll])
+    initial()
+  }, [initial, storageGetAll])
 
   return (
     <>

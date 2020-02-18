@@ -1,5 +1,5 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy'
-import axios, { AxiosError } from 'axios'
+import ky from 'ky'
 import dayjs from 'dayjs'
 
 export interface DevhintsModel {
@@ -36,15 +36,10 @@ const devhintsModel: DevhintsModel = {
           return
         }
       }
-      const resp = await axios.get('https://devhints.io/')
-      actions.setHtml({ html: resp.data, setTime: true })
+      const html = await ky.get('https://devhints.io/').text()
+      actions.setHtml({ html, setTime: true })
     } catch (err) {
-      if (err.isAxiosError) {
-        const e: AxiosError = err
-        console.warn(`status:${e.response?.status} msg:${e.message}`, e)
-      } else {
-        console.error(err)
-      }
+      console.warn('DevhintsModel.getHtml:', err)
     }
   }),
 }

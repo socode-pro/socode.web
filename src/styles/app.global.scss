@@ -105,6 +105,11 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   @extend .fas;
   @extend .fa-cubes;
 }
+.fa-menus {
+  @extend %fa-icon;
+  @extend .fas;
+  @extend .fa-angle-right;
+}
 // .fa-up {
 //   @extend %fa-icon;
 //   @extend .fas;

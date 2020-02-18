@@ -1,6 +1,4 @@
-import { Action, action, Thunk, thunk } from 'easy-peasy'
-import axios, { AxiosError } from 'axios'
-import dayjs from 'dayjs'
+import { Action, action } from 'easy-peasy'
 import { TrendingParam } from '../services/trending'
 import Language, { navigatorLanguage } from '../utils/language'
 

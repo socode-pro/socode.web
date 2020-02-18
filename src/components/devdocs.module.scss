@@ -1,5 +1,25 @@
+@import '../styles/variable';
+
+.devdocs {
+  padding: 10px;
+}
+
+.menus {
+  margin-right: 10px;
+}
+
 .typegroup {
   padding: 10px;
+  .typename {
+    @include ms-respond(font-size, 1);
+  }
+  .childrens {
+    display: none;
+    a.item {
+      margin-left: 24px;
+    }
+  }
+
   &.expanding {
     .childrens {
       display: block;

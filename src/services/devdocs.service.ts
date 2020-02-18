@@ -1,5 +1,14 @@
-import axios from 'axios'
-import * as global from '../config'
+import ky from 'ky'
+import * as config from '../config'
+
+const api = ky.extend({
+  retry: {
+    limit: 2,
+    methods: ['get'],
+    statusCodes: [413],
+  },
+  timeout: 5000,
+})
 
 export interface DevDocMeta {
   name: string
@@ -26,30 +35,30 @@ export interface DevDocIndex {
 
 export const getMetas = async (): Promise<DevDocMeta[] | null> => {
   try {
-    const resp = await axios.get<DevDocMeta[]>(`${global.dochost()}/docs.json`)
-    return resp.data
+    const resp = await api.get(`${config.dochost()}/docs.json`)
+    return resp.json()
   } catch (error) {
-    console.error(error)
+    console.error('fetch:', error)
   }
   return null
 }
 
 export const getDocIndex = async ({ slug, mtime }: DevDocMeta): Promise<DevDocIndex | null> => {
   try {
-    const resp = await axios.get<DevDocIndex>(`${global.dochost()}/${slug}/index.json?${mtime}`)
-    return resp.data
+    const resp = await api.get(`${config.dochost()}/${slug}/index.json?${mtime}`)
+    return resp.json()
   } catch (error) {
-    console.error(error)
+    console.error('fetch:', error)
   }
   return null
 }
 
 export const getDoc = async ({ slug, mtime, path }): Promise<string | null> => {
   try {
-    const resp = await axios.get<string>(`${global.dochost()}/${slug}/${path}.html?${mtime}`)
-    return resp.data
+    const resp = await api.get(`${config.dochost()}/${slug}/${path}.html?${mtime}`)
+    return resp.json()
   } catch (error) {
-    console.error(error)
+    console.error('fetch:', error)
   }
   return null
 }
