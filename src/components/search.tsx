@@ -35,7 +35,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [isFloat, setIsFloat] = useState(false)
   const inputEl = useRef<HTMLInputElement & { onsearch: (e: InputEvent) => void }>(null)
 
-  const [focus, setFocus] = useState(false)
+  const [focus, setFocus] = useState(true)
   const [squery, setSquery] = useState('')
   const [timeRange, setTimeRange] = useState<SearchTimeRange>(SearchTimeRange.Anytime)
   const [pageno, setPageno] = useState(1)
@@ -654,9 +654,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           {!displayKeys && displayAwesome && currentKey.awesome && (
             <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} />
           )}
-          {!displayKeys && currentKey.devdocs && (
-            <Devdocs slug={currentKey.devdocs} query={squery} />
-          )}
+          {!displayKeys && currentKey.devdocs && <Devdocs slug={currentKey.devdocs} query={squery} />}
 
           {loading && <Loader1 type={2} />}
 

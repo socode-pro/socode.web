@@ -774,8 +774,15 @@ export const IsDocsearchKeys = (name: string): boolean => {
     .includes(name)
 }
 
+export const IsDevdocsKeys = (name: string): boolean => {
+  return Object.entries(Keys)
+    .filter(([, k]) => k.devdocs)
+    .map(([, k]) => k.name)
+    .includes(name)
+}
+
 export const IsAvoidKeys = (name: string): boolean => {
-  return IsDocsearchKeys(name) || name === 'CheatSheets'
+  return IsDocsearchKeys(name) || IsDevdocsKeys(name) || name === 'CheatSheets'
 }
 
 // export const GetKeyByName = (name: string): SKey | null => {

@@ -16,6 +16,7 @@
   .childrens {
     display: none;
     a.item {
+      display: block;
       margin-left: 24px;
     }
   }
@@ -25,4 +26,8 @@
       display: block;
     }
   }
+}
+
+.document {
+  padding: 10px;
 }

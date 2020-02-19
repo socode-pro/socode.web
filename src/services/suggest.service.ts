@@ -61,14 +61,14 @@ const algolia = algoliasearch('TLCDTR8BIO', '686cce2f5dd3c38130b303e1c842c3e3')
 const aindex = algolia.initIndex('repositories')
 const GithubSuggester = async (query: string): Promise<Array<SuggestItem>> => {
   try {
-    const res = await aindex.search<SuggestItem>({
+    const res = await aindex.search<SuggestItem>(query, {
       query,
       hitsPerPage: 5,
       filters: 'watchers>100',
       restrictSearchableAttributes: ['name'],
       attributesToSnippet: ['description:50'],
     })
-    return res.hits
+    return [...res.hits] // fix typescript check issus
   } catch (error) {
     console.warn(error)
   }

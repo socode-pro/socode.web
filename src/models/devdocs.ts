@@ -7,6 +7,8 @@ import { DevDocMeta, DevDocEntrie } from '../services/devdocs.service'
 
 const fuseOptions: Fuse.FuseOptions<DevDocEntrie> = {
   keys: ['name'],
+  threshold: 0.3,
+  maxPatternLength: 16,
 }
 
 export interface DevdocsModel {
@@ -147,12 +149,19 @@ const devdocsModel: DevdocsModel = {
   selectDoc: thunk(async (actions, payload, { injections, getState }) => {
     const dockey = `${payload.slug}_${payload.path}`
     actions.setCurrentDocKey(dockey)
-
     if (getState().docs[dockey]) return
 
-    const doc = await injections.devdocsService.getDoc(payload)
-    if (doc !== null) {
-      actions.setDocs({ ...payload, doc })
+    try {
+      const meta = getState().metas.find(m => m.slug === payload.slug)
+      if (!meta) {
+        throw new Error('meta null')
+      }
+      const doc = await injections.devdocsService.getDoc({ mtime: meta.mtime, ...payload })
+      if (doc !== null) {
+        actions.setDocs({ ...payload, doc })
+      }
+    } catch (err) {
+      console.error(err)
     }
   }),
 }

@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import cs from 'classnames'
+import debounce from 'lodash/debounce'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { DevDocEntrie } from '../services/devdocs.service'
 import css from './devdocs.module.scss'
@@ -29,9 +30,16 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialIndex, slug])
 
+  const debounceSearch = useCallback(
+    debounce<() => Promise<void>>(async () => {
+      search({ slug, query })
+    }, 500),
+    [slug, query, search]
+  )
+
   useEffect(() => {
-    search({ slug, query })
-  }, [search, query, slug])
+    debounceSearch()
+  }, [debounceSearch])
 
   return (
     <div className={cs('columns', css.devdocs)}>
@@ -58,7 +66,7 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
       </div>
       <div className='column'>
         {docs[currentDocKey] && (
-          <div className='markdown-body' dangerouslySetInnerHTML={{ __html: docs[currentDocKey] }} />
+          <div className={css.document} dangerouslySetInnerHTML={{ __html: docs[currentDocKey] }} />
         )}
       </div>
     </div>
