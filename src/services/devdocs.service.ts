@@ -24,7 +24,7 @@ export interface DevDocEntrie {
   type: string
 }
 
-export interface DevDocIndex {
+interface DevDocIndex {
   entries: Array<DevDocEntrie>
   types: Array<{
     name: string

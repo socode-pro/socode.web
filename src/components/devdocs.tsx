@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import cs from 'classnames'
-import { DocResults } from '../models/devdocs'
 import { useStoreActions, useStoreState } from '../utils/hooks'
+import { DevDocEntrie } from '../services/devdocs.service'
 import css from './devdocs.module.scss'
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
-  const results = useStoreState<DocResults>(state => state.devdocs.results)
+  const results = useStoreState<{ [type: string]: Array<DevDocEntrie> }>(state => state.devdocs.results)
   const expandings = useStoreState<{ [index: string]: boolean }>(state => state.devdocs.expandings)
   const docs = useStoreState<{ [index: string]: string }>(state => state.devdocs.docs)
   const currentDocKey = useStoreState<string>(state => state.devdocs.currentDocKey)
@@ -21,7 +21,12 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
   const selectDoc = useStoreActions(actions => actions.devdocs.selectDoc)
 
   useEffect(() => {
-    initialIndex(slug)
+    const initial = async (): Promise<void> => {
+      await initialIndex(slug)
+      await search({ slug, query })
+    }
+    initial()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialIndex, slug])
 
   useEffect(() => {
@@ -41,7 +46,7 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
               <div className={css.childrens}>
                 {entrie.map(e => {
                   return (
-                    <a className={css.item} onClick={() => selectDoc({ slug, path: e.path })}>
+                    <a key={e.path} className={css.item} onClick={() => selectDoc({ slug, path: e.path })}>
                       {e.name}
                     </a>
                   )

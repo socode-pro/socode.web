@@ -3,11 +3,7 @@ import Fuse from 'fuse.js'
 import dayjs from 'dayjs'
 import groupBy from 'lodash/groupBy'
 import { Injections } from '../store'
-import { DevDocMeta, DevDocIndex, DevDocEntrie } from '../services/devdocs.service'
-
-export interface DocResults {
-  [index: string]: Array<DevDocEntrie>
-}
+import { DevDocMeta, DevDocEntrie } from '../services/devdocs.service'
 
 const fuseOptions: Fuse.FuseOptions<DevDocEntrie> = {
   keys: ['name'],
@@ -16,15 +12,17 @@ const fuseOptions: Fuse.FuseOptions<DevDocEntrie> = {
 export interface DevdocsModel {
   metas: DevDocMeta[]
   setMetas: Action<DevdocsModel, { metas: DevDocMeta[]; setTime?: boolean }>
-  initial: Thunk<DevdocsModel, void, Injections>
+  initialMetas: Thunk<DevdocsModel, void, Injections>
 
   indexs: {
-    [key: string]: DevDocIndex
+    [slug: string]: Array<DevDocEntrie>
   }
-  setIndexs: Action<DevdocsModel, { slug: string; index: DevDocIndex; setTime?: boolean }>
+  setIndexs: Action<DevdocsModel, { slug: string; index: Array<DevDocEntrie>; setTime?: boolean }>
   initialIndex: Thunk<DevdocsModel, string>
 
-  results: DocResults
+  results: {
+    [type: string]: Array<DevDocEntrie>
+  }
   search: Action<DevdocsModel, { slug: string; query: string }>
 
   expandings: { [index: string]: boolean }
@@ -41,7 +39,7 @@ const devdocsModel: DevdocsModel = {
   metas: [],
   setMetas: action((state, payload) => {
     try {
-      localStorage.setItem('devdoc_metas', JSON.stringify(payload))
+      localStorage.setItem('devdoc_metas', JSON.stringify(payload.metas))
       state.metas = payload.metas
       if (payload.setTime) {
         localStorage.setItem('devdoc_metas_time', dayjs().toJSON())
@@ -50,7 +48,7 @@ const devdocsModel: DevdocsModel = {
       console.error(err)
     }
   }),
-  initial: thunk(async (actions, payload, { injections }) => {
+  initialMetas: thunk(async (actions, payload, { injections }) => {
     try {
       const time = localStorage.getItem('devdoc_metas_time')
       if (
@@ -79,7 +77,7 @@ const devdocsModel: DevdocsModel = {
   setIndexs: action((state, payload) => {
     try {
       localStorage.setItem(`devdoc_${payload.slug}`, JSON.stringify(payload.index))
-      state.indexs = { ...state.indexs, [payload.slug]: payload.index }
+      state.indexs[payload.slug] = payload.index
       if (payload.setTime) {
         localStorage.setItem(`devdoc_${payload.slug}_time`, dayjs().toJSON())
       }
@@ -91,9 +89,13 @@ const devdocsModel: DevdocsModel = {
     if (getState().indexs[payload]) return
 
     try {
-      const meta = getState().metas.find(m => m.name === payload)
+      let meta = getState().metas.find(m => m.slug === payload)
       if (!meta) {
-        throw new Error('meta null')
+        await actions.initialMetas()
+        meta = getState().metas.find(m => m.slug === payload)
+        if (!meta) {
+          throw new Error('meta null')
+        }
       }
 
       const time = localStorage.getItem(`devdoc_${meta.slug}_time`)
@@ -105,9 +107,9 @@ const devdocsModel: DevdocsModel = {
         }
       }
 
-      const index = await injections.devdocsService.getDocIndex(payload)
-      if (index !== null) {
-        actions.setIndexs({ slug: meta.slug, index, setTime: true })
+      const json = await injections.devdocsService.getDocIndex(meta)
+      if (json !== null) {
+        actions.setIndexs({ slug: meta.slug, index: json.entries, setTime: true })
       }
     } catch (err) {
       console.error(err)
@@ -117,13 +119,14 @@ const devdocsModel: DevdocsModel = {
   results: {},
   search: action((state, payload) => {
     const index = state.indexs[payload.slug]
-    let items = index.entries
+    if (!index) return
+
+    let items = index
     if (payload.query) {
-      const fuse = new Fuse(index.entries, fuseOptions)
+      const fuse = new Fuse(items, fuseOptions)
       items = fuse.search<DevDocEntrie, false, false>(payload.query)
     }
-    const results = groupBy(items, 'type')
-    state.results = results
+    state.results = groupBy(items, 'type')
   }),
 
   expandings: {},
