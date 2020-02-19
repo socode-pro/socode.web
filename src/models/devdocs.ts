@@ -27,23 +27,24 @@ export interface DevdocsModel {
   }
   search: Action<DevdocsModel, { slug: string; query: string }>
 
-  expandings: { [index: string]: boolean }
-  expand: Action<DevdocsModel, string>
+  expandings: { [type: string]: boolean }
+  toggleExpanding: Action<DevdocsModel, string>
+  expand: Action<DevdocsModel, { slug: string; path: string }>
 
   docs: { [index: string]: string }
   setDocs: Action<DevdocsModel, { slug: string; path: string; doc: string }>
-  currentDocKey: string
-  setCurrentDocKey: Action<DevdocsModel, string>
+  currentPath: string
+  setCurrentPath: Action<DevdocsModel, string>
   selectDoc: Thunk<DevdocsModel, { slug: string; path: string }>
 }
 
 const devdocsModel: DevdocsModel = {
   metas: [],
-  setMetas: action((state, payload) => {
+  setMetas: action((state, { metas, setTime }) => {
     try {
-      localStorage.setItem('devdoc_metas', JSON.stringify(payload.metas))
-      state.metas = payload.metas
-      if (payload.setTime) {
+      localStorage.setItem('devdoc_metas', JSON.stringify(metas))
+      state.metas = metas
+      if (setTime) {
         localStorage.setItem('devdoc_metas_time', dayjs().toJSON())
       }
     } catch (err) {
@@ -76,25 +77,25 @@ const devdocsModel: DevdocsModel = {
   }),
 
   indexs: {},
-  setIndexs: action((state, payload) => {
+  setIndexs: action((state, { slug, index, setTime }) => {
     try {
-      localStorage.setItem(`devdoc_${payload.slug}`, JSON.stringify(payload.index))
-      state.indexs[payload.slug] = payload.index
-      if (payload.setTime) {
-        localStorage.setItem(`devdoc_${payload.slug}_time`, dayjs().toJSON())
+      localStorage.setItem(`devdoc_${slug}`, JSON.stringify(index))
+      state.indexs[slug] = index
+      if (setTime) {
+        localStorage.setItem(`devdoc_${slug}_time`, dayjs().toJSON())
       }
     } catch (err) {
       console.error(err)
     }
   }),
-  initialIndex: thunk(async (actions, payload, { injections, getState }) => {
-    if (getState().indexs[payload]) return
+  initialIndex: thunk(async (actions, slug, { injections, getState }) => {
+    if (getState().indexs[slug]) return
 
     try {
-      let meta = getState().metas.find(m => m.slug === payload)
+      let meta = getState().metas.find(m => m.slug === slug)
       if (!meta) {
         await actions.initialMetas()
-        meta = getState().metas.find(m => m.slug === payload)
+        meta = getState().metas.find(m => m.slug === slug)
         if (!meta) {
           throw new Error('meta null')
         }
@@ -119,36 +120,43 @@ const devdocsModel: DevdocsModel = {
   }),
 
   results: {},
-  search: action((state, payload) => {
-    const index = state.indexs[payload.slug]
+  search: action((state, { slug, query }) => {
+    const index = state.indexs[slug]
     if (!index) return
 
     let items = index
-    if (payload.query) {
+    if (query) {
       const fuse = new Fuse(items, fuseOptions)
-      items = fuse.search<DevDocEntrie, false, false>(payload.query)
+      items = fuse.search<DevDocEntrie, false, false>(query)
     }
     state.results = groupBy(items, 'type')
   }),
 
   expandings: {},
-  expand: action((state, payload) => {
-    state.expandings[payload] = !state.expandings[payload]
-    // state.expandings = { ...state.expandings }
+  toggleExpanding: action((state, type) => {
+    state.expandings[type] = !state.expandings[type]
+  }),
+  expand: action((state, { slug, path }) => {
+    const index = state.indexs[slug]
+    if (!index) return
+
+    const item = index.find(i => i.path === path)
+    if (item) {
+      state.expandings[item.type] = true
+    }
   }),
 
   docs: {},
-  setDocs: action((state, payload) => {
-    const dockey = `${payload.slug}_${payload.path}`
-    state.docs[dockey] = payload.doc
+  setDocs: action((state, { slug, path, doc }) => {
+    state.docs[`${slug}_${path}`] = doc
   }),
-  currentDocKey: '',
-  setCurrentDocKey: action((state, payload) => {
-    state.currentDocKey = payload
+  currentPath: '',
+  setCurrentPath: action((state, path) => {
+    state.currentPath = path
   }),
   selectDoc: thunk(async (actions, payload, { injections, getState }) => {
     const dockey = `${payload.slug}_${payload.path}`
-    actions.setCurrentDocKey(dockey)
+    actions.setCurrentPath(payload.path)
     if (getState().docs[dockey]) return
 
     try {

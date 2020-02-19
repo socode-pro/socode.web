@@ -1,27 +1,36 @@
 @import '../styles/variable';
 
-.devdocs {
-  padding: 10px;
-}
-
-.menus {
-  margin-right: 10px;
-}
-
 .typegroup {
-  padding: 10px;
   .typename {
+    padding: 2px 0;
     @include ms-respond(font-size, 1);
+    cursor: pointer;
+    &:hover {
+      background-color: $white-duck;
+    }
+  }
+  i.icon {
+    margin: 0 10px;
+    transition: transform 0.25s ease;
   }
   .childrens {
     display: none;
     a.item {
       display: block;
-      margin-left: 24px;
+      margin-left: 21px;
+      padding: 2px 8px;
+      border-radius: 2px;
+      &.current {
+        background-color: $primary;
+        color: $white;
+      }
     }
   }
 
   &.expanding {
+    i.icon {
+      transform: rotate(90deg);
+    }
     .childrens {
       display: block;
     }

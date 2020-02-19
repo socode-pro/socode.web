@@ -140,7 +140,7 @@ const SearchInput: React.FC = (): JSX.Element => {
     setSuggeste(null)
     setPageno(1)
     searchSubmit('')
-    winSearchParams('', currentKey.name)
+    winSearchParams({ keyname: currentKey.name, query: '' })
   }, [currentKey.name, searchSubmit])
 
   const handlerSearch = useCallback(
@@ -149,7 +149,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       setSuggeste(null)
       setPageno(1)
       searchSubmit(e.target?.value)
-      winSearchParams(e.target?.value, currentKey.name)
+      winSearchParams({ keyname: currentKey.name, query: e.target?.value })
       e.target?.blur()
     },
     [currentKey.name, searchSubmit]
@@ -210,7 +210,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         lunchUrlAction({ url, ...currentKey })
       } else {
         searchSubmit(a)
-        winSearchParams(a, currentKey.name)
+        winSearchParams({ keyname: currentKey.name, query: a })
       }
     },
     [currentKey, lunchUrlAction, searchSubmit]
@@ -311,7 +311,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               onClick={() => {
                 setCurrentKey(key)
                 setDisplayKeys(false)
-                winSearchParams('', key.name)
+                winSearchParams({ keyname: key.name, query: '' })
 
                 setSuggesteIndex(-1)
                 setSuggeste(null)
@@ -384,7 +384,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         setSquery('')
         setCurrentKey(key)
         setDisplayKeys(false)
-        winSearchParams('', key.name)
+        winSearchParams({ keyname: key.name, query: '' })
 
         setSuggesteIndex(-1)
         setSuggeste(null)

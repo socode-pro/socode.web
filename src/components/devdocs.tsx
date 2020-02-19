@@ -3,6 +3,7 @@ import cs from 'classnames'
 import debounce from 'lodash/debounce'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { DevDocEntrie } from '../services/devdocs.service'
+import { winSearchParams } from '../utils/assist'
 import css from './devdocs.module.scss'
 
 interface Props {
@@ -14,17 +15,28 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
   const results = useStoreState<{ [type: string]: Array<DevDocEntrie> }>(state => state.devdocs.results)
   const expandings = useStoreState<{ [index: string]: boolean }>(state => state.devdocs.expandings)
   const docs = useStoreState<{ [index: string]: string }>(state => state.devdocs.docs)
-  const currentDocKey = useStoreState<string>(state => state.devdocs.currentDocKey)
+  const currentPath = useStoreState<string>(state => state.devdocs.currentPath)
 
   const initialIndex = useStoreActions(actions => actions.devdocs.initialIndex)
   const search = useStoreActions(actions => actions.devdocs.search)
-  const expend = useStoreActions(actions => actions.devdocs.expand)
+  const toggleExpanding = useStoreActions(actions => actions.devdocs.toggleExpanding)
+  const expand = useStoreActions(actions => actions.devdocs.expand)
   const selectDoc = useStoreActions(actions => actions.devdocs.selectDoc)
+
+  const popstateSelect = useCallback(async () => {
+    const searchParams = new URLSearchParams(window.location.search)
+    const path = searchParams.get('devdocs')
+    if (path) {
+      await selectDoc({ slug, path })
+      expand({ slug, path })
+    }
+  }, [expand, selectDoc, slug])
 
   useEffect(() => {
     const initial = async (): Promise<void> => {
       await initialIndex(slug)
       await search({ slug, query })
+      await popstateSelect()
     }
     initial()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -38,23 +50,45 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
   )
 
   useEffect(() => {
+    debounceSearch?.cancel()
     debounceSearch()
   }, [debounceSearch])
 
+  const selectDocCallback = useCallback(
+    path => {
+      winSearchParams({ devdocs: path })
+      selectDoc({ slug, path })
+    },
+    [selectDoc, slug]
+  )
+
+  useEffect(() => {
+    window.addEventListener('popstate', popstateSelect)
+    return () => {
+      window.removeEventListener('popstate', popstateSelect)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
-    <div className={cs('columns', css.devdocs)}>
-      <div className={cs('column is-one-quarter', css.menus)}>
+    <div className={cs('columns', 'container')}>
+      <div className={cs('column', 'is-one-quarter')}>
         {Object.entries(results).map(([t, entrie]) => {
           return (
             <div key={t} className={cs(css.typegroup, { [css.expanding]: expandings[t] })}>
-              <span className={css.typename} onClick={() => expend(t)}>
-                <i className='fa-menus' />
+              <div className={css.typename} onClick={() => toggleExpanding(t)}>
+                <i className={cs('fa-menus', css.icon)} />
                 {t}
-              </span>
+              </div>
               <div className={css.childrens}>
                 {entrie.map(e => {
                   return (
-                    <a key={e.path} className={css.item} onClick={() => selectDoc({ slug, path: e.path })}>
+                    <a
+                      key={e.path}
+                      className={cs(css.item, { [css.current]: currentPath === e.path })}
+                      onClick={() => {
+                        selectDocCallback(e.path)
+                      }}>
                       {e.name}
                     </a>
                   )
@@ -65,8 +99,11 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
         })}
       </div>
       <div className='column'>
-        {docs[currentDocKey] && (
-          <div className={css.document} dangerouslySetInnerHTML={{ __html: docs[currentDocKey] }} />
+        {docs[`${slug}_${currentPath}`] && (
+          <div
+            className={cs(css.document, '_page')}
+            dangerouslySetInnerHTML={{ __html: docs[`${slug}_${currentPath}`] }}
+          />
         )}
       </div>
     </div>
