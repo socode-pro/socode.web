@@ -37,6 +37,14 @@
   }
 }
 
+.floatbox {
+  &.float {
+    position: fixed;
+    top: 66px;
+    z-index: 11;
+  }
+}
+
 .document {
   padding: 10px;
 }

@@ -1,5 +1,6 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import cs from 'classnames'
+import throttle from 'lodash/throttle'
 import debounce from 'lodash/debounce'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { DevDocEntrie } from '../services/devdocs.service'
@@ -22,6 +23,8 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
   const toggleExpanding = useStoreActions(actions => actions.devdocs.toggleExpanding)
   const expand = useStoreActions(actions => actions.devdocs.expand)
   const selectDoc = useStoreActions(actions => actions.devdocs.selectDoc)
+
+  const [isFloat, setIsFloat] = useState(false)
 
   const popstateSelect = useCallback(async () => {
     const searchParams = new URLSearchParams(window.location.search)
@@ -70,33 +73,51 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    const throttleFloat = throttle<() => void>(() => {
+      if (document.body.scrollTop > 112) {
+        setIsFloat(true)
+      } else {
+        setIsFloat(false)
+      }
+    }, 50)
+
+    document.body.addEventListener('scroll', throttleFloat, false)
+    return () => {
+      document.body.removeEventListener('scroll', throttleFloat)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <div className={cs('columns', 'container')}>
       <div className={cs('column', 'is-one-quarter')}>
-        {Object.entries(results).map(([t, entrie]) => {
-          return (
-            <div key={t} className={cs(css.typegroup, { [css.expanding]: expandings[t] })}>
-              <div className={css.typename} onClick={() => toggleExpanding(t)}>
-                <i className={cs('fa-menus', css.icon)} />
-                {t}
+        <div className={cs(css.floatbox, { [css.float]: isFloat })}>
+          {Object.entries(results).map(([t, entrie]) => {
+            return (
+              <div key={t} className={cs(css.typegroup, { [css.expanding]: expandings[t] })}>
+                <div className={css.typename} onClick={() => toggleExpanding(t)}>
+                  <i className={cs('fa-menus', css.icon)} />
+                  {t}
+                </div>
+                <div className={css.childrens}>
+                  {entrie.map(e => {
+                    return (
+                      <a
+                        key={e.path}
+                        className={cs(css.item, { [css.current]: currentPath === e.path })}
+                        onClick={() => {
+                          selectDocCallback(e.path)
+                        }}>
+                        {e.name}
+                      </a>
+                    )
+                  })}
+                </div>
               </div>
-              <div className={css.childrens}>
-                {entrie.map(e => {
-                  return (
-                    <a
-                      key={e.path}
-                      className={cs(css.item, { [css.current]: currentPath === e.path })}
-                      onClick={() => {
-                        selectDocCallback(e.path)
-                      }}>
-                      {e.name}
-                    </a>
-                  )
-                })}
-              </div>
-            </div>
-          )
-        })}
+            )
+          })}
+        </div>
       </div>
       <div className='column'>
         {docs[`${slug}_${currentPath}`] && (

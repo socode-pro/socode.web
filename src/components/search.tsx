@@ -252,7 +252,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       } else {
         setIsFloat(false)
       }
-    }, 100)
+    }, 50)
 
     document.body.addEventListener('scroll', throttleFloat, false)
     return () => {
