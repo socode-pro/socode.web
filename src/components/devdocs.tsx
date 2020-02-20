@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { DevDocEntrie } from '../services/devdocs.service'
 import { winSearchParams } from '../utils/assist'
+import Loader1 from './loader/loader1'
 import css from './devdocs.module.scss'
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
+  const loading = useStoreState<boolean>(state => state.devdocs.loading)
   const results = useStoreState<{ [type: string]: Array<DevDocEntrie> }>(state => state.devdocs.results)
   const expandings = useStoreState<{ [index: string]: boolean }>(state => state.devdocs.expandings)
   const docs = useStoreState<{ [index: string]: string }>(state => state.devdocs.docs)
@@ -88,6 +90,10 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  if (loading) {
+    return <Loader1 type={2} />
+  }
 
   return (
     <div className={cs('columns', 'container')}>

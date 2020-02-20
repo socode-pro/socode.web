@@ -7,10 +7,12 @@ import './styles/app.global.scss'
 
 const Home: React.FC = () => {
   const storageGetAll = useStoreActions(actions => actions.storage.getAllStorage)
+  const initialMetas = useStoreActions(actions => actions.devdocs.initialMetas)
 
   useEffect(() => {
     storageGetAll()
-  }, [storageGetAll])
+    initialMetas()
+  }, [storageGetAll, initialMetas])
 
   return (
     <>

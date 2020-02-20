@@ -12,6 +12,9 @@ const fuseOptions: Fuse.FuseOptions<DevDocEntrie> = {
 }
 
 export interface DevdocsModel {
+  loading: boolean,
+  setLoading: Action<DevdocsModel, boolean>
+
   metas: DevDocMeta[]
   setMetas: Action<DevdocsModel, { metas: DevDocMeta[]; setTime?: boolean }>
   initialMetas: Thunk<DevdocsModel, void, Injections>
@@ -39,6 +42,11 @@ export interface DevdocsModel {
 }
 
 const devdocsModel: DevdocsModel = {
+  loading: false,
+  setLoading: action((state, payload) => {
+    state.loading = payload
+  }),
+
   metas: [],
   setMetas: action((state, { metas, setTime }) => {
     try {
@@ -90,6 +98,7 @@ const devdocsModel: DevdocsModel = {
   }),
   initialIndex: thunk(async (actions, slug, { injections, getState }) => {
     if (getState().indexs[slug]) return
+    actions.setLoading(true)
 
     try {
       let meta = getState().metas.find(m => m.slug === slug)
@@ -106,6 +115,7 @@ const devdocsModel: DevdocsModel = {
         const indexString = localStorage.getItem(`devdoc_${meta.slug}`)
         if (indexString) {
           actions.setIndexs({ slug: meta.slug, index: JSON.parse(indexString) })
+          actions.setLoading(false)
           return
         }
       }
@@ -117,6 +127,7 @@ const devdocsModel: DevdocsModel = {
     } catch (err) {
       console.error(err)
     }
+    actions.setLoading(false)
   }),
 
   results: {},

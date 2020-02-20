@@ -15,7 +15,7 @@ import Devdocs from './devdocs'
 import Language, { ProgramLanguage } from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import useHotkeys from '../utils/useHotkeys'
-import { SKey, Keys, KeyCategory, IsDocsearchKeys, IsAvoidKeys } from '../utils/skeys'
+import { SKey, Keys, KeyCategory, IsDocsearchKeys, IsDevdocsKeys, IsAvoidKeys } from '../utils/skeys'
 import { StringEnumObjects, IntEnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { SearchTimeRange, SocodeResult, SearchParam } from '../services/socode.service'
@@ -516,107 +516,106 @@ const SearchInput: React.FC = (): JSX.Element => {
               </div>
             )}
 
-            {!IsDocsearchKeys(currentKey.name) && (
+            {!IsDocsearchKeys(currentKey.name) && !IsDevdocsKeys(currentKey.name) && (
               <i className={cs(css.sicon, 'fa-search')} onClick={() => searchSubmit()} />
             )}
           </div>
 
-          <div
-            className={cs(css.suggeste, 'dropdown', {
-              'is-active':
-                suggeste &&
-                suggeste.words.length &&
-                suggeste.key === currentKey.name &&
-                focus &&
-                !IsAvoidKeys(currentKey.name),
-            })}
-            style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
-            <div className='dropdown-menu'>
-              <div className='dropdown-content'>
-                {suggeste &&
-                  suggeste.words.map((s, i) => {
-                    if (currentKey.name === 'Github') {
-                      return (
-                        <div
-                          key={`${s.owner}/${s.name}`}
-                          onClick={() => suggesteClick(s.name, `https://github.com/${s.owner}/${s.name}`)}
-                          className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
-                          <a>{`${s.owner}/${s.name}`}</a>
-                          <span className={css.stars}>&#9733; {s.watchers}</span>
-                          <p>{s.description}</p>
-                        </div>
-                      )
-                    }
-                    if (currentKey.name === 'npm') {
-                      return (
-                        <div
-                          key={s.name}
-                          onClick={() => suggesteClick(s.name, `https://www.npmjs.com/package/${s.name}`)}
-                          className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
-                          <a dangerouslySetInnerHTML={{ __html: s.highlight || '' }} />
-                          <span className={css.publisher}>{s.publisher}</span>
-                          <span className={css.version}>{s.version}</span>
-                          <p>{s.description}</p>
-                        </div>
-                      )
-                    }
-                    if (currentKey.name === 'bundlesize') {
-                      return (
-                        <div
-                          key={s.name}
-                          onClick={() => suggesteClick(s.name, `https://bundlephobia.com/result?p=${s.name}`)}
-                          className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
-                          <a dangerouslySetInnerHTML={{ __html: s.highlight || '' }} />
-                          <span className={css.publisher}>{s.publisher}</span>
-                          <span className={css.version}>{s.version}</span>
-                          <p>{s.description}</p>
-                        </div>
-                      )
-                    }
-                    return (
-                      <a
-                        key={s.name}
-                        onClick={() => suggesteClick(s.name)}
-                        className={cs('dropdown-item', { 'is-active': suggesteIndex === i })}>
-                        {s.name}
-                      </a>
-                    )
-                  })}
-                {currentKey.name === 'Github' && (
-                  <>
-                    <hr className='dropdown-divider' />
-                    <a
-                      href='https://github.algolia.com/'
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className={cs(css.algolia)}>
-                      powered by algolia for github
-                    </a>
-                  </>
-                )}
-                {currentKey.name === 'npm' && (
-                  <>
-                    <hr className='dropdown-divider' />
-                    <a href='https://npms.io/' target='_blank' rel='noopener noreferrer' className={cs(css.npms)}>
-                      powered by npms.io
-                    </a>
-                  </>
-                )}
-                {currentKey.name === 'bundlesize' && (
-                  <>
-                    <hr className='dropdown-divider' />
-                    <a
-                      href='https://bundlephobia.com/'
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className={cs(css.bundlephobia)}>
-                      powered by bundlephobia.com
-                    </a>
-                  </>
-                )}
+          {focus &&
+            suggeste !== null &&
+            suggeste.words.length > 0 &&
+            suggeste.key === currentKey.name &&
+            !IsAvoidKeys(currentKey.name) && (
+              <div
+                className={cs(css.suggeste, 'dropdown is-active')}
+                style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
+                <div className='dropdown-menu'>
+                  <div className='dropdown-content'>
+                    {suggeste &&
+                      suggeste.words.map((s, i) => {
+                        if (currentKey.name === 'Github') {
+                          return (
+                            <div
+                              key={`${s.owner}/${s.name}`}
+                              onClick={() => suggesteClick(s.name, `https://github.com/${s.owner}/${s.name}`)}
+                              className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
+                              <a>{`${s.owner}/${s.name}`}</a>
+                              <span className={css.stars}>&#9733; {s.watchers}</span>
+                              <p>{s.description}</p>
+                            </div>
+                          )
+                        }
+                        if (currentKey.name === 'npm') {
+                          return (
+                            <div
+                              key={s.name}
+                              onClick={() => suggesteClick(s.name, `https://www.npmjs.com/package/${s.name}`)}
+                              className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
+                              <a dangerouslySetInnerHTML={{ __html: s.highlight || '' }} />
+                              <span className={css.publisher}>{s.publisher}</span>
+                              <span className={css.version}>{s.version}</span>
+                              <p>{s.description}</p>
+                            </div>
+                          )
+                        }
+                        if (currentKey.name === 'bundlesize') {
+                          return (
+                            <div
+                              key={s.name}
+                              onClick={() => suggesteClick(s.name, `https://bundlephobia.com/result?p=${s.name}`)}
+                              className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
+                              <a dangerouslySetInnerHTML={{ __html: s.highlight || '' }} />
+                              <span className={css.publisher}>{s.publisher}</span>
+                              <span className={css.version}>{s.version}</span>
+                              <p>{s.description}</p>
+                            </div>
+                          )
+                        }
+                        return (
+                          <a
+                            key={s.name}
+                            onClick={() => suggesteClick(s.name)}
+                            className={cs('dropdown-item', { 'is-active': suggesteIndex === i })}>
+                            {s.name}
+                          </a>
+                        )
+                      })}
+                    {currentKey.name === 'Github' && (
+                      <>
+                        <hr className='dropdown-divider' />
+                        <a
+                          href='https://github.algolia.com/'
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className={cs(css.algolia)}>
+                          powered by algolia for github
+                        </a>
+                      </>
+                    )}
+                    {currentKey.name === 'npm' && (
+                      <>
+                        <hr className='dropdown-divider' />
+                        <a href='https://npms.io/' target='_blank' rel='noopener noreferrer' className={cs(css.npms)}>
+                          powered by npms.io
+                        </a>
+                      </>
+                    )}
+                    {currentKey.name === 'bundlesize' && (
+                      <>
+                        <hr className='dropdown-divider' />
+                        <a
+                          href='https://bundlephobia.com/'
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className={cs(css.bundlephobia)}>
+                          powered by bundlephobia.com
+                        </a>
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            )}
 
           {displayKeys && (
             <div className='mgl10 mgb10 mgr10'>
