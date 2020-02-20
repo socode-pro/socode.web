@@ -6,13 +6,13 @@ import ExtArrow from './components/extarrow'
 import './styles/app.global.scss'
 
 const Home: React.FC = () => {
-  const storageGetAll = useStoreActions(actions => actions.storage.getAllStorage)
+  const initialStorage = useStoreActions(actions => actions.storage.initialStorage)
   const initialMetas = useStoreActions(actions => actions.devdocs.initialMetas)
 
   useEffect(() => {
-    storageGetAll()
+    initialStorage()
     initialMetas()
-  }, [storageGetAll, initialMetas])
+  }, [initialStorage, initialMetas])
 
   return (
     <>

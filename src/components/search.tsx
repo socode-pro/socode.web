@@ -15,7 +15,7 @@ import Devdocs from './devdocs'
 import Language, { ProgramLanguage } from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import useHotkeys from '../utils/useHotkeys'
-import { SKey, Keys, KeyCategory, IsDocsearchKeys, IsDevdocsKeys, IsAvoidKeys } from '../utils/skeys'
+import { SKey, Keys, IsDocsearchKeys, IsDevdocsKeys, IsAvoidKeys } from '../utils/skeys'
 import { StringEnumObjects, IntEnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { SearchTimeRange, SocodeResult, SearchParam } from '../services/socode.service'
@@ -54,17 +54,17 @@ const SearchInput: React.FC = (): JSX.Element => {
   const error = useStoreState<SMError | null>(state => state.search.error)
 
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
-  const { language, searchLanguage, usageKeys, displayAwesome, displayMoreKeys } = useStoreState<StorageType>(
+  const { language, searchLanguage, pinKeys, displayAwesome, displayMoreKeys } = useStoreState<StorageType>(
     state => state.storage.values
   )
   Object.entries(Keys).forEach(([, k]) => {
-    k.userUsage = usageKeys?.includes(k.name)
+    k.pin = pinKeys?.includes(k.name)
   })
 
-  const UsageKeys = Object.entries(Keys).filter(([, k]) => k.category === KeyCategory.Usage || k.userUsage)
+  const PinKeys = Object.entries(Keys).filter(([, k]) => k.pin)
+  const UsageKeys = Object.entries(Keys).filter(([, k], i) => !k.pin && k.usage)
+  const MoreKeys = Object.entries(Keys).filter(([, k], i) => !k.pin && !k.usage)
   const DocsearchKeys = Object.entries(Keys).filter(([, k]) => k.docsearch)
-  const DocumentKeys = Object.entries(Keys).filter(([, k]) => k.category === KeyCategory.Document && !k.userUsage)
-  const MoreKeys = Object.entries(Keys).filter(([, k]) => k.category === KeyCategory.More && !k.userUsage)
 
   const [displayKeys, setDisplayKeys] = useState(false)
   const [currentKey, setCurrentKey] = useState<SKey>(language === Language.中文_简体 ? Keys.socode : Keys.github)
@@ -355,25 +355,23 @@ const SearchInput: React.FC = (): JSX.Element => {
                     rel='noopener noreferrer'
                   />
                 )}
-                {key.category !== KeyCategory.Usage && (
-                  <i
-                    onClick={e => {
-                      e.stopPropagation()
-                      if (key.category === KeyCategory.Usage || key.userUsage) {
-                        setStorage({ usageKeys: without(usageKeys, key.name) })
-                      } else {
-                        setStorage({ usageKeys: usageKeys ? [key.name, ...usageKeys] : [key.name] })
-                      }
-                    }}
-                    className={cs('fa-thumbtack', css.thumbtack, { [css.usage]: key.userUsage })}
-                  />
-                )}
+                <i
+                  onClick={e => {
+                    e.stopPropagation()
+                    if (key.pin) {
+                      setStorage({ pinKeys: without(pinKeys, key.name) })
+                    } else {
+                      setStorage({ pinKeys: pinKeys ? [key.name, ...pinKeys] : [key.name] })
+                    }
+                  }}
+                  className={cs('fa-thumbtack', css.thumbtack, { [css.usage]: key.pin })}
+                />
               </div>
             </div>
           )
         })
     },
-    [language, setResultAction, setStorage, usageKeys]
+    [language, setResultAction, setStorage, pinKeys]
   )
 
   useHotkeys(
@@ -619,10 +617,10 @@ const SearchInput: React.FC = (): JSX.Element => {
 
           {displayKeys && (
             <div className='mgl10 mgb10 mgr10'>
-              <div className={css.skgroup}>{getKeysDom(UsageKeys)}</div>
+              <div className={css.skgroup}>{getKeysDom(PinKeys)}</div>
               <div className={cs(css.skgroup)}>
-                <div className={css.kdesc}>DOCSEARCH</div>
-                {getKeysDom(DocumentKeys)}
+                <div className={css.kdesc}>USAGEING</div>
+                {getKeysDom(UsageKeys)}
               </div>
               {displayMoreKeys && (
                 <div className={cs(css.skgroup)}>
