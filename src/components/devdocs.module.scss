@@ -1,6 +1,7 @@
 @import '../styles/variable';
 
 .typegroup {
+  font-family: $font-mono;
   .typename {
     padding: 2px 0;
     @include ms-respond(font-size, 1);
@@ -13,16 +14,24 @@
     margin: 0 10px;
     transition: transform 0.25s ease;
   }
-  .childrens {
+  ul.childrens {
     display: none;
     a.item {
       display: block;
-      margin-left: 21px;
-      padding: 2px 8px;
-      border-radius: 2px;
-      &.current {
-        background-color: $primary;
-        color: $white;
+      &:hover {
+        span {
+          background-color: $white-duck;
+        }
+      }
+      span {
+        display: inline-block;
+        margin-left: 21px;
+        padding: 2px 8px;
+        border-radius: 2px;
+        &.current {
+          background-color: $primary;
+          color: $white;
+        }
       }
     }
   }
@@ -38,6 +47,7 @@
 }
 
 .floatbox {
+  width: auto;
   &.float {
     position: fixed;
     top: 66px;

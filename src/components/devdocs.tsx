@@ -106,20 +106,23 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
                   <i className={cs('fa-menus', css.icon)} />
                   {t}
                 </div>
-                <div className={css.childrens}>
+                <ul className={css.childrens}>
                   {entrie.map(e => {
                     return (
-                      <a
-                        key={e.path}
-                        className={cs(css.item, { [css.current]: currentPath === e.path })}
-                        onClick={() => {
-                          selectDocCallback(e.path)
-                        }}>
-                        {e.name}
-                      </a>
+                      <li>
+                        <a
+                          className={css.item}
+                          onClick={() => {
+                            selectDocCallback(e.path)
+                          }}>
+                          <span key={e.path} className={cs({ [css.current]: currentPath === e.path })}>
+                            {e.name}
+                          </span>
+                        </a>
+                      </li>
                     )
                   })}
-                </div>
+                </ul>
               </div>
             )
           })}

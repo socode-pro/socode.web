@@ -436,7 +436,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
             <input
               type='search'
-              className={cs(css.input, { 'dis-none': IsDocsearchKeys(currentKey.code) })}
+              className={cs(css.input, { 'dis-none': IsDocsearchKeys(currentKey.code) && !displayKeys })}
               spellCheck={false}
               value={displayKeys ? kquery : squery}
               autoFocus
@@ -448,14 +448,16 @@ const SearchInput: React.FC = (): JSX.Element => {
                 setFocus(true)
               }}
               onChange={handleQueryChange}
-              placeholder={displayKeys ? 'filter searching' : ''}
+              placeholder={displayKeys ? 'filter keys' : ''}
               ref={inputEl} // https://stackoverflow.com/a/48656310/346701
               // onKeyPress={handleQueryKeyPress}
             />
 
             {DocsearchKeys.map(key => {
               return (
-                <div key={key.code} className={cs(css.docsearch, { 'dis-none': currentKey.name !== key.name })}>
+                <div
+                  key={key.code}
+                  className={cs(css.docsearch, { 'dis-none': currentKey.name !== key.name || displayKeys })}>
                   <input
                     type='search'
                     className={cs(css.input)}
