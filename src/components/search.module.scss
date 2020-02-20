@@ -151,6 +151,7 @@
 
 .suggeste {
   display: block !important;
+  top: -15px;
   a {
     @include ms-respond(font-size, 1);
   }
@@ -363,28 +364,6 @@ div.closer {
   & > a {
     margin-top: 20px;
     margin-left: 10px;
-  }
-}
-
-.slogan {
-  position: absolute;
-  bottom: -35px;
-  width: 100%;
-  text-align: center;
-  word-spacing: 0.5em;
-  color: $dh-mute;
-  font-family: 'Bree Serif', sans-serif;
-  // font-family: "Kreon", sans-serif;
-  // font-family: "Patua One", sans-serif;
-  span.zh {
-    letter-spacing: 1em;
-  }
-  .scdropdown {
-    vertical-align: middle;
-  }
-  i.scicon {
-    cursor: pointer;
-    margin-left: 5px;
   }
 }
 

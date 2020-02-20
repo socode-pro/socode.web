@@ -1,6 +1,7 @@
 import Language from './language'
 
 export interface SKey {
+  code: string
   name: string
   pin?: boolean
   usage?: boolean
@@ -27,14 +28,16 @@ export interface SKey {
   }
 }
 
-export const Keys: { [key: string]: SKey } = {
-  _30secondsofcode: {
+export const Keys: SKey[] = [
+  {
+    code: '_30seconds',
     name: '30 seconds of code',
     shortkeys: '3s',
     icon: '30secondsofcode.png',
     template: 'https://www.30secondsofcode.org/?keyphrase=%s',
   }, // todo: inject result. selfbuild
-  android: {
+  {
+    code: 'android',
     name: 'Android',
     shortkeys: 'ad',
     icon: 'android.svg',
@@ -42,15 +45,17 @@ export const Keys: { [key: string]: SKey } = {
     awesome: 'JStumpp/awesome-android',
     template: 'https://developer.android.com/s/results?q=%s',
   },
-  apple: {
+  {
+    code: 'apple',
     name: 'Apple Developer',
     shortkeys: 'ap',
     icon: 'apple.svg',
     homelink: 'https://developer.apple.com',
     template: 'https://developer.apple.com/search/?q=%s',
   },
-  babel: {
-    name: 'babel',
+  {
+    code: 'babel',
+    name: 'Babel',
     shortkeys: 'bb',
     icon: 'babel.svg',
     hideName: true,
@@ -61,7 +66,8 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'babeljs',
     },
   },
-  bootstrap: {
+  {
+    code: 'bootstrap',
     name: 'Bootstrap',
     shortkeys: 'bs',
     icon: 'bootstrap.svg',
@@ -71,31 +77,30 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'bootstrap',
     },
   },
-  bundlephobia: {
+  {
+    code: 'bundlephobia',
     name: 'Bundlephobia',
     shortkeys: 'bp',
     icon: 'bundlephobia.svg',
     template: 'https://bundlephobia.com/result?p=%s',
   },
-  caniuse: {
+  {
+    code: 'caniuse',
     name: 'Can I use',
     shortkeys: 'ciu',
     icon: 'caniuse.svg',
     template: 'https://caniuse.com/#search=%s',
   }, // todo: inject result
-  cargo: {
-    name: 'cargo',
-    shortkeys: 'cg',
-    icon: 'Cargo.png',
-    template: 'https://crates.io/search?q=%s',
-  },
-  composer: {
+  { code: 'cargo', name: 'cargo', shortkeys: 'cg', icon: 'Cargo.png', template: 'https://crates.io/search?q=%s' },
+  {
+    code: 'composer',
     name: 'Composer',
     shortkeys: 'cp',
     icon: 'composer.png',
     template: 'https://packagist.org/?query=%s',
   },
-  cocoapods: {
+  {
+    code: 'cocoapods',
     name: 'CocoaPods',
     hideName: true,
     shortkeys: 'cc',
@@ -103,13 +108,9 @@ export const Keys: { [key: string]: SKey } = {
     width: 110,
     template: 'https://cocoacontrols.com/search?q=%s',
   },
-  cheatsheets: {
-    name: 'CheatSheets',
-    shortkeys: 'cs',
-    icon: 'devhints.png',
-    usage: true,
-  },
-  dayjs: {
+  { code: 'cheatsheets', name: 'CheatSheets', shortkeys: 'cs', icon: 'devhints.png', usage: true },
+  {
+    code: 'dayjs',
     name: 'dayjs',
     shortkeys: 'dj',
     icon: 'dayjs.png',
@@ -118,7 +119,8 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'dayjs',
     },
   },
-  druid: {
+  {
+    code: 'druid',
     name: 'druid',
     shortkeys: 'du',
     icon: 'druid.png',
@@ -129,7 +131,8 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'apache_druid',
     },
   },
-  docker: {
+  {
+    code: 'docker',
     name: 'Docker',
     hideName: true,
     shortkeys: 'dk',
@@ -139,7 +142,8 @@ export const Keys: { [key: string]: SKey } = {
     awesome: 'veggiemonk/awesome-docker',
     template: 'https://docs.docker.com/search/?q=%s',
   },
-  duckduckgo: {
+  {
+    code: 'duckduckgo',
     name: 'Duckduckgo',
     shortkeys: 'dd',
     icon: 'duckduckgo.svg',
@@ -172,7 +176,8 @@ export const Keys: { [key: string]: SKey } = {
   //     indexName: 'ember-guides',
   //   },
   // },
-  eslint: {
+  {
+    code: 'eslint',
     name: 'ESLint',
     shortkeys: 'es',
     icon: 'eslint.svg',
@@ -182,7 +187,8 @@ export const Keys: { [key: string]: SKey } = {
       algoliaOptions: { facetFilters: [['tags:docs', 'tags:blog']] },
     },
   },
-  express: {
+  {
+    code: 'express',
     name: 'Express',
     shortkeys: 'ex',
     icon: 'expressjs.png',
@@ -195,7 +201,8 @@ export const Keys: { [key: string]: SKey } = {
       algoliaOptions: { facetFilters: ['lang:en'] }, // multi lang
     },
   },
-  fastify: {
+  {
+    code: 'fastify',
     name: 'fastify',
     shortkeys: 'ff',
     icon: 'fastify.png',
@@ -207,7 +214,8 @@ export const Keys: { [key: string]: SKey } = {
       algoliaOptions: { facetFilters: ['version:latest', 'tags:docs'] },
     },
   },
-  flask: {
+  {
+    code: 'flask',
     name: 'Flask',
     shortkeys: 'fl',
     icon: 'flask.png',
@@ -215,7 +223,8 @@ export const Keys: { [key: string]: SKey } = {
     awesome: 'humiaozuzu/awesome-flask',
     template: 'https://flask.palletsprojects.com/en/1.1.x/search/?q=%s',
   },
-  flutter: {
+  {
+    code: 'flutter',
     name: 'Flutter',
     hideName: true,
     shortkeys: 'ft',
@@ -225,7 +234,8 @@ export const Keys: { [key: string]: SKey } = {
     awesome: 'Solido/awesome-flutter',
     template: 'https://flutter.dev/search?q=%s',
   },
-  gatsby: {
+  {
+    code: 'gatsby',
     name: 'Gatsby',
     shortkeys: 'gb',
     icon: 'gatsby.svg',
@@ -236,7 +246,8 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'gatsbyjs',
     },
   },
-  github: {
+  {
+    code: 'github',
     name: 'Github',
     shortkeys: 'gh',
     icon: 'github.svg',
@@ -244,7 +255,8 @@ export const Keys: { [key: string]: SKey } = {
     bypglang: true,
     usage: true,
   },
-  go: {
+  {
+    code: 'go',
     name: 'Go',
     shortkeys: 'go',
     icon: 'golang.png',
@@ -252,13 +264,9 @@ export const Keys: { [key: string]: SKey } = {
     awesome: 'avelino/awesome-go',
     template: 'https://golang.org/search?q=%s',
   },
-  godoc: {
-    name: 'GoDoc',
-    shortkeys: 'god',
-    icon: 'godoc.png',
-    template: 'https://godoc.org/?q=%s',
-  },
-  googledev: {
+  { code: 'godoc', name: 'GoDoc', shortkeys: 'god', icon: 'godoc.png', template: 'https://godoc.org/?q=%s' },
+  {
+    code: 'googledev',
     name: 'Google Developers',
     shortkeys: 'ggd',
     icon: 'googledev.svg',
@@ -269,7 +277,8 @@ export const Keys: { [key: string]: SKey } = {
     homelink: 'https://developers.google.com',
     template: 'https://developers.google.com/s/results?q=%s&hl=%l',
   },
-  google: {
+  {
+    code: 'google',
     name: 'Google',
     shortkeys: 'g',
     icon: 'google.png',
@@ -278,7 +287,8 @@ export const Keys: { [key: string]: SKey } = {
     disableLang: Language.中文_简体,
     usage: true,
   },
-  gradle: {
+  {
+    code: 'gradle',
     name: 'Gradle',
     shortkeys: 'gd',
     icon: 'gradle.svg',
@@ -299,7 +309,8 @@ export const Keys: { [key: string]: SKey } = {
       },
     },
   },
-  grafana: {
+  {
+    code: 'grafana',
     name: 'grafana',
     shortkeys: 'gf',
     icon: 'grafana.svg',
@@ -313,7 +324,8 @@ export const Keys: { [key: string]: SKey } = {
       // https://grafana.com/docs/grafana/latest/
     },
   },
-  graphql: {
+  {
+    code: 'graphql',
     name: 'graphql',
     shortkeys: 'gq',
     icon: 'graphql.svg',
@@ -324,7 +336,8 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'graphql',
     },
   },
-  gulp: {
+  {
+    code: 'gulp',
     name: 'Gulp',
     shortkeys: 'gp',
     icon: 'gulp.svg',
@@ -334,21 +347,24 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'gulpjs',
     },
   },
-  java: {
+  {
+    code: 'java',
     name: 'Java',
     shortkeys: 'jv',
     icon: 'java.png',
     awesome: 'akullpp/awesome-java',
     template: 'https://docs.oracle.com/apps/search/search.jsp?category=java&q=%s',
   },
-  javascript: {
+  {
+    code: 'javascript',
     name: 'Javascript',
     shortkeys: 'js',
     usage: true,
     icon: 'javascript.svg',
     devdocs: 'javascript',
   },
-  jenkinsx: {
+  {
+    code: 'jenkinsx',
     name: 'Jenkins X',
     shortkeys: 'jk',
     icon: 'jenkinsx.svg',
@@ -359,7 +375,8 @@ export const Keys: { [key: string]: SKey } = {
       algoliaOptions: { facetFilters: ['en-us'] },
     },
   },
-  jquery: {
+  {
+    code: 'jquery',
     name: 'jquery',
     shortkeys: 'jq',
     icon: 'jquery.png',
@@ -371,7 +388,8 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'jquery',
     },
   },
-  jscoach: {
+  {
+    code: 'jscoach',
     name: 'JS.coach',
     shortkeys: 'jc',
     usage: true,
@@ -383,7 +401,8 @@ export const Keys: { [key: string]: SKey } = {
   //   shortkeys: 'xy',
   //   icon: 'learnxiny.png',
   // },
-  leancloud: {
+  {
+    code: 'leancloud',
     name: 'LeanCloud',
     shortkeys: 'lc',
     icon: 'leancloud.png',
@@ -397,7 +416,8 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'leancloud',
     },
   },
-  maven: {
+  {
+    code: 'maven',
     name: 'Maven',
     hideName: true,
     shortkeys: 'mv',
@@ -414,7 +434,8 @@ export const Keys: { [key: string]: SKey } = {
   //   width: 130,
   //   template: 'https://developer.mozilla.org/en-US/search?q=%s',
   // },
-  mongodb: {
+  {
+    code: 'mongodb',
     name: 'MongoDB',
     shortkeys: 'mg',
     icon: 'mongodb.svg',
@@ -423,7 +444,8 @@ export const Keys: { [key: string]: SKey } = {
     homelink: 'https://docs.mongodb.com',
     template: 'https://docs.mongodb.com/?searchProperty=manual&query=%s',
   },
-  microsoft: {
+  {
+    code: 'microsoft',
     name: 'Microsoft Doc',
     shortkeys: 'ms',
     icon: 'microsoft.png',
@@ -431,7 +453,8 @@ export const Keys: { [key: string]: SKey } = {
     template: 'https://docs.microsoft.com/%l/search/?search=%s',
     bylang: true,
   },
-  netlify: {
+  {
+    code: 'netlify',
     name: 'netlify',
     shortkeys: 'nl',
     icon: 'netlify.svg',
@@ -442,7 +465,8 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'docs-manual',
     },
   },
-  nestjs: {
+  {
+    code: 'nestjs',
     name: 'nestjs',
     shortkeys: 'ns',
     icon: 'nestjs.svg',
@@ -452,7 +476,8 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'nestjs',
     },
   },
-  nodejs: {
+  {
+    code: 'nodejs',
     name: 'Node.js',
     shortkeys: 'nd',
     icon: 'nodejs.svg',
@@ -463,7 +488,8 @@ export const Keys: { [key: string]: SKey } = {
     awesome: 'sindresorhus/awesome-nodejs',
     template: 'https://google.com/search?q=%s%20site:nodejs.org',
   },
-  npm: {
+  {
+    code: 'npm',
     name: 'npm',
     hideName: true,
     shortkeys: 'n',
@@ -473,13 +499,9 @@ export const Keys: { [key: string]: SKey } = {
     template: 'https://npms.io/search?q=%s',
     usage: true,
   }, // todo: inject result
-  nuget: {
-    name: 'NuGet',
-    shortkeys: 'ng',
-    icon: 'nuget.svg',
-    template: 'https://nuget.org/packages?q=%s',
-  },
-  pipenv: {
+  { code: 'nuget', name: 'NuGet', shortkeys: 'ng', icon: 'nuget.svg', template: 'https://nuget.org/packages?q=%s' },
+  {
+    code: 'pipenv',
     name: 'pipenv',
     shortkeys: 'pe',
     icon: 'pipenv.png',
@@ -489,7 +511,8 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'pipenv',
     },
   },
-  play: {
+  {
+    code: 'play',
     name: 'play',
     shortkeys: 'pl',
     icon: 'play.svg',
@@ -502,7 +525,8 @@ export const Keys: { [key: string]: SKey } = {
       algoliaOptions: { facetFilters: ['tags: en'] },
     },
   },
-  prettier: {
+  {
+    code: 'prettier',
     name: 'prettier',
     shortkeys: 'pr',
     icon: 'prettier.png',
@@ -511,7 +535,8 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'prettier',
     },
   },
-  pytouch: {
+  {
+    code: 'pytouch',
     name: 'PyTouch',
     shortkeys: 'pt',
     icon: 'pytouch.svg',
@@ -524,13 +549,9 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'pytorch',
     },
   },
-  pypi: {
-    name: 'PyPI',
-    shortkeys: 'pp',
-    icon: 'pypi.svg',
-    template: 'https://pypi.org/search/?q=%s',
-  },
-  python: {
+  { code: 'pypi', name: 'PyPI', shortkeys: 'pp', icon: 'pypi.svg', template: 'https://pypi.org/search/?q=%s' },
+  {
+    code: 'python',
     name: 'Python',
     shortkeys: 'py',
     icon: 'python.png',
@@ -538,7 +559,8 @@ export const Keys: { [key: string]: SKey } = {
     awesome: 'vinta/awesome-python',
     template: 'https://python.org/search/?q=%s',
   },
-  react: {
+  {
+    code: 'react',
     name: 'React',
     shortkeys: 'ra',
     usage: true,
@@ -551,7 +573,8 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'react', // multi lang
     },
   },
-  reactnative: {
+  {
+    code: 'reactnative',
     name: 'React Native',
     shortkeys: 'ran',
     icon: 'react.svg',
@@ -563,7 +586,8 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'react-native-versions',
     },
   },
-  ruby: {
+  {
+    code: 'ruby',
     name: 'Ruby',
     shortkeys: 'rb',
     icon: 'ruby.png',
@@ -571,13 +595,15 @@ export const Keys: { [key: string]: SKey } = {
     awesome: 'markets/awesome-ruby',
     template: 'https://cse.google.com/cse?q=%s&cx=013598269713424429640%3Ag5orptiw95w',
   },
-  rubygems: {
+  {
+    code: 'rubygems',
     name: 'RubyGems',
     shortkeys: 'rg',
     icon: 'rubygems.jpg',
     template: 'https://rubygems.org/search?query=%s',
   },
-  rust: {
+  {
+    code: 'rust',
     name: 'Rust',
     shortkeys: 'rs',
     icon: 'rust.png',
@@ -585,7 +611,8 @@ export const Keys: { [key: string]: SKey } = {
     awesome: 'rust-unofficial/awesome-rust',
     template: 'https://doc.rust-lang.org/alloc/index.html?search=%s',
   },
-  sass: {
+  {
+    code: 'sass',
     name: 'Sass',
     shortkeys: 'ss',
     icon: 'sass.svg',
@@ -594,7 +621,8 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'sass-lang',
     },
   },
-  scala: {
+  {
+    code: 'scala',
     name: 'scala',
     shortkeys: 'scl',
     icon: 'scala.png',
@@ -608,7 +636,8 @@ export const Keys: { [key: string]: SKey } = {
       algoliaOptions: { facetFilters: ['language:en'] },
     },
   },
-  serverless: {
+  {
+    code: 'serverless',
     name: 'serverless',
     shortkeys: 'sl',
     icon: 'serverless.svg',
@@ -618,7 +647,8 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'serverless',
     },
   },
-  socode: {
+  {
+    code: 'socode',
     name: 'socode',
     shortkeys: 'sc',
     icon: 'socode.png',
@@ -626,13 +656,15 @@ export const Keys: { [key: string]: SKey } = {
     availableLang: Language.中文_简体,
     usage: true,
   },
-  stackexchange: {
+  {
+    code: 'stackexchange',
     name: 'StackExchange',
     shortkeys: 'se',
     icon: 'stackexchange.png',
     template: 'https://stackexchange.com/search?q=%s',
   },
-  starhistory: {
+  {
+    code: 'starhistory',
     name: 'StarHistory',
     shortkeys: 'sh',
     usage: true,
@@ -640,7 +672,8 @@ export const Keys: { [key: string]: SKey } = {
     homelink: 'https://star-history.t9t.io',
     template: 'https://star-history.t9t.io/#%s',
   }, // selfbuild
-  swift: {
+  {
+    code: 'swift',
     name: 'Swift',
     shortkeys: 'sw',
     icon: 'swift.svg',
@@ -650,7 +683,8 @@ export const Keys: { [key: string]: SKey } = {
     awesome: 'matteocrippa/awesome-swift',
     template: 'https://google.com/search?q=%s%20site:swift.org',
   },
-  taro: {
+  {
+    code: 'taro',
     name: 'Taro',
     shortkeys: 'tr',
     icon: 'taro.png',
@@ -660,7 +694,8 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'taro',
     },
   },
-  typescript: {
+  {
+    code: 'typescript',
     name: 'Typescript',
     shortkeys: 'ts',
     icon: 'typescript.svg',
@@ -671,7 +706,8 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'typescriptlang',
     },
   },
-  vue: {
+  {
+    code: 'vue',
     name: 'Vue',
     shortkeys: 'vue',
     usage: true,
@@ -686,8 +722,9 @@ export const Keys: { [key: string]: SKey } = {
       algoliaOptions: { facetFilters: ['version:v2'] },
     }, // multi language
   },
-  webpack: {
-    name: 'webpack',
+  {
+    code: 'webpack',
+    name: 'Webpack',
     shortkeys: 'wp',
     icon: 'webpack.svg',
     hideName: true,
@@ -697,24 +734,22 @@ export const Keys: { [key: string]: SKey } = {
       indexName: 'webpack-js-org',
     },
   },
+]
+
+export const IsDocsearchKeys = (code: string): boolean => {
+  return Keys.filter(k => k.docsearch)
+    .map(k => k.code)
+    .includes(code)
 }
 
-export const IsDocsearchKeys = (name: string): boolean => {
-  return Object.entries(Keys)
-    .filter(([, k]) => k.docsearch)
-    .map(([, k]) => k.name)
-    .includes(name)
+export const IsDevdocsKeys = (code: string): boolean => {
+  return Keys.filter(k => k.devdocs)
+    .map(k => k.code)
+    .includes(code)
 }
 
-export const IsDevdocsKeys = (name: string): boolean => {
-  return Object.entries(Keys)
-    .filter(([, k]) => k.devdocs)
-    .map(([, k]) => k.name)
-    .includes(name)
-}
-
-export const IsAvoidKeys = (name: string): boolean => {
-  return IsDocsearchKeys(name) || IsDevdocsKeys(name) || name === 'CheatSheets'
+export const IsAvoidKeys = (code: string): boolean => {
+  return IsDocsearchKeys(code) || IsDevdocsKeys(code) || code === 'cheatsheets'
 }
 
 // export const GetKeyByName = (name: string): SKey | null => {
