@@ -1,20 +1,29 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy'
-import axios, { AxiosError } from 'axios'
+import ky from 'ky'
 import dayjs from 'dayjs'
 
 export interface DevhintsModel {
+  loading: boolean
+  setLoading: Action<DevhintsModel, boolean>
   html: string
-  setHtml: Action<DevhintsModel, string>
+  setHtml: Action<DevhintsModel, { html: string; setTime?: boolean }>
   getHtml: Thunk<DevhintsModel>
 }
 
 const devhintsModel: DevhintsModel = {
+  loading: false,
+  setLoading: action((state, payload) => {
+    state.loading = payload
+  }),
+
   html: '',
   setHtml: action((state, payload) => {
     try {
-      localStorage.setItem('devhintsHtml', payload)
-      localStorage.setItem('devhintsTime', dayjs().toJSON())
-      state.html = payload
+      localStorage.setItem('devhintsHtml', payload.html)
+      state.html = payload.html
+      if (payload.setTime) {
+        localStorage.setItem('devhintsTime', dayjs().toJSON())
+      }
     } catch (err) {
       console.error(err)
     }
@@ -30,20 +39,18 @@ const devhintsModel: DevhintsModel = {
       ) {
         const devhintsHtml = localStorage.getItem('devhintsHtml')
         if (devhintsHtml) {
-          actions.setHtml(devhintsHtml || '')
+          actions.setHtml({ html: devhintsHtml || '' })
           return
         }
       }
-      const resp = await axios.get('https://devhints.io/')
-      actions.setHtml(resp.data)
+
+      actions.setLoading(true)
+      const html = await ky.get('https://devhints.io/').text()
+      actions.setHtml({ html, setTime: true })
     } catch (err) {
-      if (err.isAxiosError) {
-        const e: AxiosError = err
-        console.warn(`status:${e.response?.status} msg:${e.message}`, e)
-      } else {
-        console.error(err)
-      }
+      console.warn('DevhintsModel.getHtml:', err)
     }
+    actions.setLoading(false)
   }),
 }
 

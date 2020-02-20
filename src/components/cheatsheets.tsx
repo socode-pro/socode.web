@@ -4,6 +4,7 @@ import matches from 'dom101/matches'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { splitwords, permutateString } from '../utils/permutate'
 import { nextUntil } from '../utils/dom'
+import Loader1 from './loader/loader1'
 import css from './cheatsheets.module.scss'
 
 let cheatSheetsElement: Element | null = null
@@ -26,6 +27,7 @@ function permutate(data: { slug?: string; category?: string }): string[] {
 const CheatSheets: React.FC<Props> = ({ query }: Props): JSX.Element => {
   const [element, setElement] = useState<Element | null>(null)
 
+  const loading = useStoreState<boolean>(state => state.devhints.loading)
   const devhintsHtml = useStoreState<string>(state => state.devhints.html)
   const getDevhintsHtml = useStoreActions(actions => actions.devhints.getHtml)
   useEffect(() => {
@@ -104,6 +106,10 @@ const CheatSheets: React.FC<Props> = ({ query }: Props): JSX.Element => {
       setElement(el)
     }
   }, [devhintsHtml])
+
+  if (loading) {
+    return <Loader1 type={2} />
+  }
 
   // https://www.reddit.com/r/reactjs/comments/8k49m3/can_i_render_a_dom_element_inside_jsx/dz5cexl/
   return (

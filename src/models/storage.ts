@@ -1,6 +1,4 @@
-import { Action, action, Thunk, thunk } from 'easy-peasy'
-import axios, { AxiosError } from 'axios'
-import dayjs from 'dayjs'
+import { Action, action } from 'easy-peasy'
 import { TrendingParam } from '../services/trending'
 import Language, { navigatorLanguage } from '../utils/language'
 
@@ -18,7 +16,7 @@ export interface StorageType {
   trending?: TrendingParam
   openNewTab?: boolean
   darkMode?: DarkMode
-  usageKeys?: string[]
+  pinKeys?: string[]
   displayAwesome?: boolean
   displayMoreKeys?: boolean
 }
@@ -30,7 +28,7 @@ const storageKeys = [
   'trending',
   'openNewTab',
   'darkMode',
-  'usageKeys',
+  'pinKeys',
   'displayAwesome',
   'displayMoreKeys',
 ]
@@ -40,7 +38,8 @@ const booleanParseKeys = ['openNewTab', 'displayAwesome', 'displayMoreKeys']
 export interface StorageModel {
   values: StorageType
   set: Action<StorageModel, StorageType>
-  getAllStorage: Action<StorageModel>
+
+  initialStorage: Action<StorageModel>
   setStorage: Action<StorageModel, StorageType>
 }
 
@@ -50,14 +49,14 @@ const storageModel: StorageModel = {
     searchLanguage: navigatorLanguage(navigator.language),
     openNewTab: true,
     displayAwesome: true,
-    usageKeys: [],
+    pinKeys: [],
   },
 
   set: action((state, payload) => {
     state.values = { ...state.values, ...payload }
   }),
 
-  getAllStorage: action(state => {
+  initialStorage: action(state => {
     try {
       storageKeys.forEach(key => {
         let value: any = localStorage.getItem(`socode_${key}`)
@@ -65,7 +64,7 @@ const storageModel: StorageModel = {
           if (booleanParseKeys.includes(key)) value = value !== 'false'
           else if (key === 'darkMode') value = parseInt(value, 10)
           else if (jsonParseKeys.includes(key)) value = JSON.parse(value)
-          else if (key === 'usageKeys') value = value.split(',')
+          else if (key === 'pinKeys') value = value.split(',')
           state.values = { ...state.values, ...{ [key]: value } }
         }
       })

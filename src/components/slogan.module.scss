@@ -1,0 +1,23 @@
+@import '../styles/variable';
+
+.slogan {
+  position: absolute;
+  bottom: -35px;
+  width: 100%;
+  text-align: center;
+  word-spacing: 0.5em;
+  color: $dh-mute;
+  font-family: 'Bree Serif', sans-serif;
+  // font-family: "Kreon", sans-serif;
+  // font-family: "Patua One", sans-serif;
+  span.zh {
+    letter-spacing: 1em;
+  }
+  .scdropdown {
+    vertical-align: middle;
+  }
+  i.scicon {
+    cursor: pointer;
+    margin-left: 5px;
+  }
+}

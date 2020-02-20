@@ -89,7 +89,8 @@ const Brand: React.FC<Props> = ({ onDisplaySubtitle }: Props): JSX.Element => {
   return (
     <>
       <div className={cs(css.brand)}>
-        <span>$OCODE</span>.PR
+        <a href='/'>$OCODE</a>
+        .PR
         <animated.i
           className={cs(css.toggle)}
           onClick={onToggle}

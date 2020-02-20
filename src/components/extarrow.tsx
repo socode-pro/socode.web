@@ -1,10 +1,5 @@
-import React, { useState, useEffect, useCallback, Dispatch, SetStateAction } from 'react'
-import { useSpring, animated, to } from 'react-spring'
+import React from 'react'
 import cs from 'classnames'
-import Language from '../utils/language'
-import useIntl, { Words } from '../utils/useIntl'
-import { StorageType } from '../models/storage'
-import { useStoreActions, useStoreState } from '../utils/hooks'
 import css from './extarrow.module.scss'
 
 const ExtArrow: React.FC = (): JSX.Element => {

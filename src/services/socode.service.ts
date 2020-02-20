@@ -1,13 +1,9 @@
-import axios, { AxiosError } from 'axios'
-import qs from 'qs'
-import * as global from '../config'
+import ky from 'ky'
+import * as config from '../config'
 import Language, { ProgramLanguage } from '../utils/language'
-import { SearchParam } from '../models/search'
 
-const axiosInstance = axios.create({
-  // https://github.com/axios/axios#request-config
+const api = ky.extend({
   timeout: 5000,
-  headers: { 'Access-Control-Allow-Origin': '*' },
 })
 
 export enum SearchTimeRange {
@@ -16,6 +12,16 @@ export enum SearchTimeRange {
   Week = 'week',
   Month = 'month',
   Year = 'year',
+}
+
+export interface SearchParam {
+  query?: string
+  timeRange?: SearchTimeRange
+  searchLanguage?: Language
+  porogramLanguage?: ProgramLanguage
+  pageno?: number
+  cookie?: string
+  url?: string
 }
 
 export interface SocodeResult {
@@ -129,56 +135,52 @@ export const search = async ({
   const sites = SitesCN
   // const sites = searchLanguage === Language.中文_简体 ? SitesCN : Sites
 
-  const q = global.ignoreSites() ? query : `${query} site:${sites.join(' OR site:')}`
+  const q = config.ignoreSites() ? query : `${query} site:${sites.join(' OR site:')}`
   // const q = `${query} -site:${ExcludeSites.join(' AND -site:')}`
 
-  let config = {}
+  let apiconfig = {}
   if (cookie) {
-    config = {
-      headers: {
-        Cookie: cookie,
+    apiconfig = {
+      hooks: {
+        beforeRequest: [
+          request => {
+            request.headers.set('Cookie', cookie)
+          },
+        ],
       },
     }
   }
 
   try {
-    const response = await axiosInstance.post<SocodeResult>(
-      global.host(),
-      qs.stringify({
-        q,
-        category_general: 'on',
-        time_range: timeRange,
-        language: searchLanguage,
-        format: 'json',
-        pageno,
-      }),
-      config
-    )
+    const sparams = new URLSearchParams()
+    sparams.set('q', q || '')
+    sparams.set('category_general', 'on')
+    sparams.set('time_range', timeRange)
+    sparams.set('language', searchLanguage)
+    sparams.set('format', 'json')
+    sparams.set('pageno', pageno.toString())
 
-    if (response.data.unresponsive_engines.length) {
-      const unresponsive = JSON.stringify(response.data.unresponsive_engines)
+    const data = await api.post(config.host(), { body: sparams, ...apiconfig }).json<SocodeResult>()
+
+    if (data.unresponsive_engines.length) {
+      const unresponsive = JSON.stringify(data.unresponsive_engines)
       console.warn(`unresponsive:${unresponsive}`)
 
       if (unresponsive.includes('CAPTCHA required')) {
-        const data = await search({
+        const data2 = await search({
           query,
           timeRange,
           searchLanguage,
           pageno,
           cookie: 'disabled_engines="google__general"; enabled_engines=duckduckgo__general;',
         })
-        return data
+        return data2
       }
     }
 
-    return response.data
-  } catch (error) {
-    if (error.isAxiosError) {
-      const e: AxiosError = error
-      console.warn(`status:${e.response?.status} msg:${e.message}`, e)
-      throw e
-    }
-    console.error(error)
+    return data
+  } catch (err) {
+    console.error('search:', err)
   }
   return null
 }

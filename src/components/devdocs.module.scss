@@ -1,0 +1,60 @@
+@import '../styles/variable';
+
+.typegroup {
+  font-family: $font-mono;
+  .typename {
+    padding: 2px 0;
+    @include ms-respond(font-size, 1);
+    cursor: pointer;
+    &:hover {
+      background-color: $white-duck;
+    }
+  }
+  i.icon {
+    margin: 0 10px;
+    transition: transform 0.25s ease;
+  }
+  ul.childrens {
+    display: none;
+    a.item {
+      display: block;
+      &:hover {
+        span {
+          background-color: $white-duck;
+        }
+      }
+      span {
+        display: inline-block;
+        margin-left: 21px;
+        padding: 2px 8px;
+        border-radius: 2px;
+        &.current {
+          background-color: $primary;
+          color: $white;
+        }
+      }
+    }
+  }
+
+  &.expanding {
+    i.icon {
+      transform: rotate(90deg);
+    }
+    .childrens {
+      display: block;
+    }
+  }
+}
+
+.floatbox {
+  width: auto;
+  &.float {
+    position: fixed;
+    top: 66px;
+    z-index: 11;
+  }
+}
+
+.document {
+  padding: 10px;
+}
