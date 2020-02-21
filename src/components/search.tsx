@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useSpring, animated } from 'react-spring'
 import Fuse from 'fuse.js'
 import debounce from 'lodash/debounce'
-import throttle from 'lodash/throttle'
 import without from 'lodash/without'
 import docsearch from 'docsearch.js'
 import cs from 'classnames'
@@ -259,18 +258,18 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    const throttleFloat = throttle<() => void>(() => {
+    const debounceFloat = debounce<() => void>(() => {
       // searchWapper top: 130
       if (document.body.scrollTop > 130) {
         setIsFloat(true)
       } else {
         setIsFloat(false)
       }
-    }, 50)
+    }, 100)
 
-    document.body.addEventListener('scroll', throttleFloat, false)
+    document.body.addEventListener('scroll', debounceFloat, false)
     return () => {
-      document.body.removeEventListener('scroll', throttleFloat)
+      document.body.removeEventListener('scroll', debounceFloat)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import cs from 'classnames'
-import throttle from 'lodash/throttle'
 import debounce from 'lodash/debounce'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { DevDocEntrie } from '../services/devdocs.service'
@@ -77,17 +76,17 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    const throttleFloat = throttle<() => void>(() => {
+    const debounceFloat = debounce<() => void>(() => {
       if (document.body.scrollTop > 130) {
         setIsFloat(true)
       } else {
         setIsFloat(false)
       }
-    }, 50)
+    }, 100)
 
-    document.body.addEventListener('scroll', throttleFloat, false)
+    document.body.addEventListener('scroll', debounceFloat, false)
     return () => {
-      document.body.removeEventListener('scroll', throttleFloat)
+      document.body.removeEventListener('scroll', debounceFloat)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
