@@ -47,7 +47,7 @@
 }
 
 .floatbox {
-  width: auto;
+  max-width: 315px;
   &.float {
     position: fixed;
     top: 66px;

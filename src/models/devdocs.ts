@@ -12,8 +12,11 @@ const fuseOptions: Fuse.FuseOptions<DevDocEntrie> = {
 }
 
 export interface DevdocsModel {
-  loading: boolean,
+  loading: boolean
   setLoading: Action<DevdocsModel, boolean>
+
+  docLoading: boolean
+  setDocLoading: Action<DevdocsModel, boolean>
 
   metas: DevDocMeta[]
   setMetas: Action<DevdocsModel, { metas: DevDocMeta[]; setTime?: boolean }>
@@ -45,6 +48,10 @@ const devdocsModel: DevdocsModel = {
   loading: false,
   setLoading: action((state, payload) => {
     state.loading = payload
+  }),
+  docLoading: false,
+  setDocLoading: action((state, payload) => {
+    state.docLoading = payload
   }),
 
   metas: [],
@@ -175,6 +182,7 @@ const devdocsModel: DevdocsModel = {
       if (!meta) {
         throw new Error('meta null')
       }
+      actions.setDocLoading(true)
       const doc = await injections.devdocsService.getDoc({ mtime: meta.mtime, ...payload })
       if (doc !== null) {
         actions.setDocs({ ...payload, doc })
@@ -182,6 +190,7 @@ const devdocsModel: DevdocsModel = {
     } catch (err) {
       console.error(err)
     }
+    actions.setDocLoading(false)
   }),
 }
 

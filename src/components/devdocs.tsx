@@ -15,6 +15,7 @@ interface Props {
 
 const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
   const loading = useStoreState<boolean>(state => state.devdocs.loading)
+  const docLoading = useStoreState<boolean>(state => state.devdocs.docLoading)
   const results = useStoreState<{ [type: string]: Array<DevDocEntrie> }>(state => state.devdocs.results)
   const expandings = useStoreState<{ [index: string]: boolean }>(state => state.devdocs.expandings)
   const docs = useStoreState<{ [index: string]: string }>(state => state.devdocs.docs)
@@ -129,6 +130,7 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
         </div>
       </div>
       <div className='column'>
+        {docLoading && <Loader1 type={1} />}
         {docs[`${slug}_${currentPath}`] && (
           <div
             className={cs(css.document, '_page')}

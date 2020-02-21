@@ -448,7 +448,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                 setFocus(true)
               }}
               onChange={handleQueryChange}
-              placeholder={displayKeys ? 'filter keys' : ''}
+              placeholder={displayKeys ? 'filter...' : ''}
               ref={inputEl} // https://stackoverflow.com/a/48656310/346701
               // onKeyPress={handleQueryKeyPress}
             />
