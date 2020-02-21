@@ -89,14 +89,19 @@
       //   margin-right: 10px;
       // }
     }
+    h3 {
+      @include underline($dh-mute);
+    }
     &:hover {
       background-color: $white-duck;
       h3 {
-        text-decoration: underline;
+        @include underline-hover();
       }
     }
     span {
+      display: block;
       color: $nobody;
+      margin-top: 4px;
     }
   }
 

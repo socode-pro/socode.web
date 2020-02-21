@@ -105,7 +105,7 @@ const Drawer: React.FC = (): JSX.Element => {
                 className={cs(css.navlink, css.chrome)}
                 href='https://chrome.google.com/webstore/detail/socode/hlkgijncpebndijijbcakkcefmpniacd'>
                 <h3>Browser Extension</h3>
-                <span>become the start page of your work</span>
+                <span>become the new tab of your browser</span>
               </a>
             </li>
             <li>
@@ -116,7 +116,7 @@ const Drawer: React.FC = (): JSX.Element => {
             <li>
               <Link to='/privacy' className={cs(css.navlink, css.privacy)}>
                 <h3>{useIntl(Words.PrivacyPolicy)}</h3>
-                <span>we don&apos;t collect or share personal information</span>
+                <span>we don&apos;t collect personal information</span>
               </Link>
             </li>
             {/* <li>

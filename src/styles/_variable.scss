@@ -147,3 +147,29 @@ $shadow_ionic_focus_invert: 0 6px 12px 0 rgba(255, 255, 255, 0.1), 0 1px 3px 0 r
     background-color: #f0f0f0;
   }
 }
+
+@mixin underline($color) {
+  position: relative;
+  display: inline-block;
+  &:after {
+    color: $color;
+    content: '';
+    opacity: 0;
+    transform: translateY(3px) scaleY(0);
+    transition: transform 250ms, opacity 250ms;
+    transform-origin: center left;
+  }
+}
+
+@mixin underline-hover() {
+  &:after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 2px;
+    background: currentColor;
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}

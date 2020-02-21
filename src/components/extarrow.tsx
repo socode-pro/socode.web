@@ -9,7 +9,7 @@ const ExtArrow: React.FC = (): JSX.Element => {
         className={cs(css.arrow)}
         href='https://chrome.google.com/webstore/detail/socode/hlkgijncpebndijijbcakkcefmpniacd'>
         <h3>Browser Extension</h3>
-        <span>become the start page of your work</span>
+        <span>become the new tab of your browser</span>
       </a>
     </div>
   )
