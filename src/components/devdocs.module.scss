@@ -59,5 +59,7 @@
 }
 
 .document {
-  padding: 10px;
+  &.float {
+    min-height: 2000px;
+  }
 }

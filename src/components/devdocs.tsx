@@ -129,13 +129,10 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
           })}
         </div>
       </div>
-      <div className='column'>
+      <div className={cs('column', css.document, { [css.float]: isFloat })}>
         {docLoading && <Loader1 type={1} />}
         {docs[`${slug}_${currentPath}`] && (
-          <div
-            className={cs(css.document, '_page')}
-            dangerouslySetInnerHTML={{ __html: docs[`${slug}_${currentPath}`] }}
-          />
+          <div className={cs('_page', 'pd10')} dangerouslySetInnerHTML={{ __html: docs[`${slug}_${currentPath}`] }} />
         )}
       </div>
     </div>
