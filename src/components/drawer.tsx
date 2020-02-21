@@ -90,10 +90,11 @@ const Drawer: React.FC = (): JSX.Element => {
             {language === Language.中文_简体 && (
               <li>
                 <a
-                  className={cs(css.navlink, css.qq)}
+                  className={cs(css.navlink, css.feishu)}
                   target='_blank'
                   rel='noopener noreferrer'
-                  href='//shang.qq.com/wpa/qunwpa?idkey=3d2b1144846dfa498110b161de4267459888c26c67d509265bb88b4405b57e02'>
+                  href='https://go.feishu.cn/GNjRYF/'>
+                  {/* href='//shang.qq.com/wpa/qunwpa?idkey=3d2b1144846dfa498110b161de4267459888c26c67d509265bb88b4405b57e02'> */}
                   <h3>Chat</h3>
                   <span>recommend feature/feedback bug</span>
                 </a>

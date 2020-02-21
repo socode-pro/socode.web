@@ -57,14 +57,17 @@
     &.github {
       background: #fff url(../images/icons8-github.svg) left 0.5em center/50px 50px no-repeat;
     }
-    &.riot {
-      background: #fff url(../images/riot.svg) left 1em center/50px 50px no-repeat;
-    }
+    // &.riot {
+    //   background: #fff url(../images/riot.svg) left 1em center/50px 50px no-repeat;
+    // }
+    // &.qq {
+    //   background: #fff url(../images/qq.svg) left 0.5em center/50px 50px no-repeat;
+    // }
     &.discord {
       background: #fff url(../images/discord.svg) left 0.5em center/50px 50px no-repeat;
     }
-    &.qq {
-      background: #fff url(../images/qq.svg) left 0.5em center/50px 50px no-repeat;
+    &.feishu {
+      background: #fff url(../images/feishu.svg) left 0.7em center/40px 40px no-repeat;
     }
     &.chrome {
       background: #fff url(../images/icons8-chrome.svg) left 0.5em center/50px 50px no-repeat;
@@ -76,8 +79,8 @@
       background: #fff url(../images/icons8-keyboard-100.png) left 0.5em center/50px 50px no-repeat;
     }
     &.twitter {
-      background: #fafafa url(../images/twitter.svg) left 1.4em center/22px 22px no-repeat;
-      padding: 1em 1.5em 1em calc(2em + 22px);
+      background: #fafafa url(../images/twitter.svg) left 0.9em center/22px 22px no-repeat;
+      padding: 1em 1.5em 1em calc(1.5em + 22px);
       // padding: 1em;
       // display: flex;
       // align-items: center;
