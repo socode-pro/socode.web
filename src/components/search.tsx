@@ -260,8 +260,8 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     const throttleFloat = throttle<() => void>(() => {
-      // brand height 112
-      if (document.body.scrollTop > 112) {
+      // searchWapper top: 130
+      if (document.body.scrollTop > 130) {
         setIsFloat(true)
       } else {
         setIsFloat(false)

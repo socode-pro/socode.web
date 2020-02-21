@@ -593,6 +593,7 @@ export const Keys: SKey[] = [
   {
     code: 'markdown',
     name: 'Markdown',
+    usage: true,
     shortkeys: 'md',
     icon: 'markdown.svg',
     backgroundPosition: 'left center',
@@ -836,6 +837,7 @@ export const Keys: SKey[] = [
   {
     code: 'redis',
     name: 'Redis',
+    usage: true,
     shortkeys: 'rd',
     icon: 'redis.svg',
     devdocs: 'redis',

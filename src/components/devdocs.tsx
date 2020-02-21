@@ -78,7 +78,7 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
 
   useEffect(() => {
     const throttleFloat = throttle<() => void>(() => {
-      if (document.body.scrollTop > 112) {
+      if (document.body.scrollTop > 130) {
         setIsFloat(true)
       } else {
         setIsFloat(false)
