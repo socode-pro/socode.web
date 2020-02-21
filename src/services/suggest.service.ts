@@ -105,20 +105,20 @@ const MicrosoftSuggester = async (query: string): Promise<Array<SuggestItem>> =>
 //   return []
 // }
 
-export const Suggester = async (q: string, kname: string): Promise<Array<SuggestItem>> => {
-  if (kname === 'npm' || kname === 'bundlesize') {
+export const Suggester = async (q: string, code: string): Promise<Array<SuggestItem>> => {
+  if (code === 'npm' || code === 'bundlephobia') {
     return NpmSuggester(q)
   }
-  if (kname === 'Github') {
+  if (code === 'github') {
     return GithubSuggester(q)
   }
-  if (kname === 'Microsoft') {
+  if (code === 'microsoft') {
     return MicrosoftSuggester(q)
   }
   // if (kname === 'Can I use') {
   //   return CaniuseSuggester(q)
   // }
-  if (IsAvoidKeys(kname)) {
+  if (IsAvoidKeys(code)) {
     return []
   }
 

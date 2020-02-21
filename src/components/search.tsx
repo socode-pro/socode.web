@@ -67,7 +67,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   }
 
   keys.forEach(k => {
-    k.pin = pinKeys?.includes(k.name)
+    k.pin = pinKeys?.includes(k.code)
   })
 
   const PinKeys = keys.filter(k => k.pin)
@@ -76,10 +76,10 @@ const SearchInput: React.FC = (): JSX.Element => {
   const DocsearchKeys = keys.filter(k => k.docsearch)
 
   const initKey =
-    language === Language.中文_简体 ? keys.find(k => k.name === 'github') : keys.find(k => k.name === 'socode')
+    language === Language.中文_简体 ? keys.find(k => k.code === 'github') : keys.find(k => k.code === 'socode')
   const [currentKey, setCurrentKey] = useState<SKey>(initKey || keys[0])
 
-  const useWapperTop = result?.results.length // || currentKey.name === 'CheatSheets'
+  const useWapperTop = result?.results.length // || currentKey.code === 'cheatSheets'
   const { wapperTop } = useSpring({
     wapperTop: useWapperTop ? -5 : displaySubtitle ? 150 : 130,
   })
@@ -122,8 +122,8 @@ const SearchInput: React.FC = (): JSX.Element => {
     debounce<(value: any) => Promise<void>>(async value => {
       setSuggesteIndex(-1)
       if (value) {
-        const words = await Suggester(value, currentKey.name)
-        setSuggeste({ words, key: currentKey.name })
+        const words = await Suggester(value, currentKey.code)
+        setSuggeste({ words, key: currentKey.code })
       } else {
         setSuggeste(null)
       }
@@ -155,7 +155,7 @@ const SearchInput: React.FC = (): JSX.Element => {
     setPageno(1)
     searchSubmit('')
     winSearchParams({ keyname: currentKey.code, query: '' })
-  }, [currentKey.name, searchSubmit])
+  }, [currentKey.code, searchSubmit])
 
   const handlerSearch = useCallback(
     e => {
@@ -166,7 +166,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       winSearchParams({ keyname: currentKey.code, query: e.target?.value })
       e.target?.blur()
     },
-    [currentKey.name, searchSubmit]
+    [currentKey.code, searchSubmit]
   )
 
   if (inputEl.current !== null) inputEl.current.onsearch = handlerSearch
@@ -373,9 +373,9 @@ const SearchInput: React.FC = (): JSX.Element => {
                   onClick={e => {
                     e.stopPropagation()
                     if (key.pin) {
-                      setStorage({ pinKeys: without(pinKeys, key.name) })
+                      setStorage({ pinKeys: without(pinKeys, key.code) })
                     } else {
-                      setStorage({ pinKeys: pinKeys ? [key.name, ...pinKeys] : [key.name] })
+                      setStorage({ pinKeys: pinKeys ? [key.code, ...pinKeys] : [key.code] })
                     }
                   }}
                   className={cs('fa-thumbtack', css.thumbtack, { [css.usage]: key.pin })}
@@ -457,7 +457,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               return (
                 <div
                   key={key.code}
-                  className={cs(css.docsearch, { 'dis-none': currentKey.name !== key.name || displayKeys })}>
+                  className={cs(css.docsearch, { 'dis-none': currentKey.code !== key.code || displayKeys })}>
                   <input
                     type='search'
                     className={cs(css.input)}
@@ -539,8 +539,8 @@ const SearchInput: React.FC = (): JSX.Element => {
           {focus &&
             suggeste !== null &&
             suggeste.words.length > 0 &&
-            suggeste.key === currentKey.name &&
-            !IsAvoidKeys(currentKey.name) && (
+            suggeste.key === currentKey.code &&
+            !IsAvoidKeys(currentKey.code) && (
               <div
                 className={cs(css.suggeste, 'dropdown is-active')}
                 style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
@@ -548,7 +548,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                   <div className='dropdown-content'>
                     {suggeste &&
                       suggeste.words.map((s, i) => {
-                        if (currentKey.name === 'Github') {
+                        if (currentKey.code === 'github') {
                           return (
                             <div
                               key={`${s.owner}/${s.name}`}
@@ -560,7 +560,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                             </div>
                           )
                         }
-                        if (currentKey.name === 'npm') {
+                        if (currentKey.code === 'npm') {
                           return (
                             <div
                               key={s.name}
@@ -573,7 +573,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                             </div>
                           )
                         }
-                        if (currentKey.name === 'bundlesize') {
+                        if (currentKey.code === 'bundlephobia') {
                           return (
                             <div
                               key={s.name}
@@ -595,7 +595,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                           </a>
                         )
                       })}
-                    {currentKey.name === 'Github' && (
+                    {currentKey.code === 'github' && (
                       <>
                         <hr className='dropdown-divider' />
                         <a
@@ -607,7 +607,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                         </a>
                       </>
                     )}
-                    {currentKey.name === 'npm' && (
+                    {currentKey.code === 'npm' && (
                       <>
                         <hr className='dropdown-divider' />
                         <a href='https://npms.io/' target='_blank' rel='noopener noreferrer' className={cs(css.npms)}>
@@ -615,7 +615,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                         </a>
                       </>
                     )}
-                    {currentKey.name === 'bundlesize' && (
+                    {currentKey.code === 'bundlephobia' && (
                       <>
                         <hr className='dropdown-divider' />
                         <a
@@ -664,7 +664,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             </div>
           )}
 
-          {!displayKeys && currentKey.name === 'CheatSheets' && <CheatSheets query={squery} />}
+          {!displayKeys && currentKey.code === 'cheatsheets' && <CheatSheets query={squery} />}
           {!displayKeys && displayAwesome && currentKey.awesome && (
             <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} />
           )}

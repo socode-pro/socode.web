@@ -40,11 +40,11 @@ const searchModel: SearchModel = {
   }),
 
   search: thunk(async (actions, payload, { injections }) => {
-    if (IsAvoidKeys(payload.name)) {
+    if (IsAvoidKeys(payload.code)) {
       return
     }
 
-    if (payload.name === 'socode') {
+    if (payload.code === 'socode') {
       actions.setLoading(true)
       actions.setError(null)
       let result: SocodeResult | null = null
