@@ -599,6 +599,14 @@ export const Keys: SKey[] = [
     devdocs: 'markdown',
   },
   {
+    code: 'mariadb',
+    name: 'MariaDB',
+    usage: true,
+    shortkeys: 'mdb',
+    icon: 'mariadb.svg',
+    devdocs: 'mariadb',
+  },
+  {
     code: 'maven',
     name: 'Maven',
     hideName: true,
