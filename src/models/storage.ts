@@ -48,7 +48,7 @@ const storageModel: StorageModel = {
     language: navigatorLanguage(navigator.language),
     searchLanguage: navigatorLanguage(navigator.language),
     openNewTab: true,
-    displayAwesome: true,
+    displayAwesome: false,
     pinKeys: [],
   },
 

@@ -665,7 +665,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           )}
 
           {!displayKeys && currentKey.code === 'cheatsheets' && <CheatSheets query={squery} />}
-          {!displayKeys && displayAwesome && currentKey.awesome && (
+          {!displayKeys && displayAwesome && currentKey.awesome && !currentKey.devdocs && (
             <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} />
           )}
           {!displayKeys && currentKey.devdocs && <Devdocs slug={currentKey.devdocs} query={squery} />}
