@@ -16,6 +16,11 @@
   &.hasfloat {
     padding-top: 64px;
   }
+
+  *::-webkit-scrollbar-track {
+    background: $white;
+    border: 1px solid $white;
+  }
 }
 
 .searchInput {
