@@ -719,7 +719,7 @@ export const Keys: SKey[] = [
     code: 'npm',
     name: 'npm',
     hideName: true,
-    shortkeys: 'n',
+    shortkeys: 'npm',
     icon: 'npm.svg',
     backgroundSize: '86%',
     width: 60,
