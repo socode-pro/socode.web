@@ -118,7 +118,7 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
               <ul className={css.childrens}>
                 {entrie.map(e => {
                   return (
-                    <li key={e.path}>
+                    <li key={e.name + e.path}>
                       <a
                         title={e.name}
                         className={cs(css.item, { [css.current]: currentPath === e.path })}

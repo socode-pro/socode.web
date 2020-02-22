@@ -83,6 +83,7 @@ export const Keys: SKey[] = [
     hideName: true,
     width: 60,
     backgroundPosition: 'left 0.2em center',
+    devdocs: 'babel',
     docsearch: {
       apiKey: 'd42906b043c5422ea07b44fd49c40a0d',
       indexName: 'babeljs',
@@ -94,6 +95,7 @@ export const Keys: SKey[] = [
     shortkeys: 'bs',
     icon: 'bootstrap.svg',
     homelink: 'https://getbootstrap.com',
+    devdocs: 'bootstrap@4',
     docsearch: {
       apiKey: '5990ad008512000bba2cf951ccf0332f',
       indexName: 'bootstrap',
@@ -267,6 +269,7 @@ export const Keys: SKey[] = [
     name: 'ESLint',
     shortkeys: 'es',
     icon: 'eslint.svg',
+    devdocs: 'eslint',
     docsearch: {
       apiKey: '891b0e977d96c762a3821e0c00172ac9',
       indexName: 'eslint',
@@ -289,6 +292,7 @@ export const Keys: SKey[] = [
     // hideName: true,
     // width: 80,
     // backgroundPosition: 'left top -2px',
+    devdocs: 'express',
     docsearch: {
       apiKey: '7164e33055faa6ecddefd9e08fc59f5d',
       indexName: 'expressjs',
@@ -513,6 +517,7 @@ export const Keys: SKey[] = [
     hideName: true,
     width: 106,
     homelink: 'https://jquery.com/',
+    devdocs: 'jquery_core',
     docsearch: {
       apiKey: '3cfde9aca378c8aab554d5bf1b23489b',
       indexName: 'jquery',
@@ -834,19 +839,21 @@ export const Keys: SKey[] = [
     bylang: true,
     homelink: 'https://reactjs.org',
     awesome: 'enaqx/awesome-react',
+    devdocs: 'react',
     docsearch: {
       apiKey: '36221914cce388c46d0420343e0bb32e',
       indexName: 'react', // multi lang
     },
   },
   {
-    code: 'reactnative',
+    code: 'react_native',
     name: 'React Native',
     shortkeys: 'ran',
     icon: 'react.svg',
     bylang: true,
     homelink: 'https://facebook.github.io/react-native',
     awesome: 'jondot/awesome-react-native',
+    devdocs: 'react_native',
     docsearch: {
       apiKey: '2c98749b4a1e588efec53b2acec13025',
       indexName: 'react-native-versions',
@@ -903,6 +910,7 @@ export const Keys: SKey[] = [
     name: 'Sass',
     shortkeys: 'ss',
     icon: 'sass.svg',
+    devdocs: 'sass',
     docsearch: {
       apiKey: 'a409ff5d6a2476083c1a8dd1f8c04ec5',
       indexName: 'sass-lang',
@@ -917,6 +925,7 @@ export const Keys: SKey[] = [
     width: 72,
     homelink: 'https://www.scala-lang.org',
     awesome: 'lauris/awesome-scala',
+    devdocs: 'scala~2.13_library',
     docsearch: {
       apiKey: 'fbc439670f5d4e3730cdcb715c359391',
       indexName: 'scala-lang',
@@ -1004,6 +1013,7 @@ export const Keys: SKey[] = [
     icon: 'typescript.svg',
     hideName: true,
     width: 116,
+    devdocs: 'typescript',
     docsearch: {
       apiKey: '3c2db2aef0c7ff26e8911267474a9b2c',
       indexName: 'typescriptlang',
@@ -1018,6 +1028,7 @@ export const Keys: SKey[] = [
     bylang: true,
     homelink: 'https://vuejs.org',
     awesome: 'vuejs/awesome-vue',
+    devdocs: 'vue@2',
     docsearch: {
       appId: 'BH4D9OD16A',
       apiKey: '85cc3221c9f23bfbaa4e3913dd7625ea',
@@ -1032,6 +1043,7 @@ export const Keys: SKey[] = [
     icon: 'webpack.svg',
     hideName: true,
     width: 100,
+    devdocs: 'webpack@',
     docsearch: {
       apiKey: 'fac401d1a5f68bc41f01fb6261661490',
       indexName: 'webpack-js-org',

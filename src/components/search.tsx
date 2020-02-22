@@ -74,7 +74,6 @@ const SearchInput: React.FC = (): JSX.Element => {
   const PinKeys = keys.filter(k => k.pin)
   const UsageKeys = keys.filter(k => !k.pin && k.usage)
   const MoreKeys = keys.filter(k => !k.pin && !k.usage)
-  const DocsearchKeys = keys.filter(k => k.docsearch)
 
   const initKey =
     language === Language.中文_简体 ? keys.find(k => k.code === 'github') : keys.find(k => k.code === 'socode')
@@ -272,13 +271,13 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [debounceFloat])
 
   useEffect(() => {
-    for (const key of DocsearchKeys) {
+    if (!displayKeys && currentKey.docsearch) {
       docsearch({
-        appId: key.docsearch?.appId,
-        apiKey: key.docsearch?.apiKey,
-        indexName: key.docsearch?.indexName,
-        inputSelector: `#docsearch_${key.code}`,
-        algoliaOptions: key.docsearch?.algoliaOptions,
+        appId: currentKey.docsearch.appId,
+        apiKey: currentKey.docsearch.apiKey,
+        indexName: currentKey.docsearch.indexName,
+        inputSelector: `#docsearch_${currentKey.code}`,
+        algoliaOptions: currentKey.docsearch.algoliaOptions,
         handleSelected: (input, event, suggestion) => {
           window.open(suggestion.url, '_blank')?.focus()
         },
@@ -288,8 +287,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         debug: false,
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [currentKey, displayKeys])
 
   const getKeysDom = useCallback(
     (gkeys: SKey[]) => {
@@ -431,42 +429,41 @@ const SearchInput: React.FC = (): JSX.Element => {
             </span>
             <span className={css.sep}>$</span>
 
-            <input
-              type='search'
-              className={cs(css.input, { 'dis-none': IsDocsearchKeys(currentKey.code) && !displayKeys })}
-              spellCheck={false}
-              value={displayKeys ? kquery : squery}
-              autoFocus
-              // name="q"
-              onBlur={() => {
-                setTimeout(() => setFocus(false), 100) // fix autocomplateClick
-              }}
-              onFocus={() => {
-                setFocus(true)
-              }}
-              onChange={handleQueryChange}
-              placeholder={displayKeys ? 'filter...' : ''}
-              ref={inputEl} // https://stackoverflow.com/a/48656310/346701
-              // onKeyPress={handleQueryKeyPress}
-            />
+            {!displayKeys && (
+              <input
+                type='search'
+                className={cs(css.input)}
+                spellCheck={false}
+                value={displayKeys ? kquery : squery}
+                autoFocus
+                // name="q"
+                onBlur={() => {
+                  setTimeout(() => setFocus(false), 100) // fix autocomplateClick
+                }}
+                onFocus={() => {
+                  setFocus(true)
+                }}
+                onChange={handleQueryChange}
+                placeholder={
+                  displayKeys ? 'filter...' : IsDevdocsKeys(currentKey.code) ? 'reference document filter' : ''
+                }
+                ref={inputEl} // https://stackoverflow.com/a/48656310/346701
+                // onKeyPress={handleQueryKeyPress}
+              />
+            )}
 
-            {DocsearchKeys.map(key => {
-              return (
-                <div
-                  key={key.code}
-                  className={cs(css.docsearch, { 'dis-none': currentKey.code !== key.code || displayKeys })}>
-                  <input
-                    type='search'
-                    className={cs(css.input)}
-                    spellCheck={false}
-                    value={squery}
-                    autoFocus
-                    onChange={handleQueryChange}
-                    id={`docsearch_${key.code}`}
-                  />
-                </div>
-              )
-            })}
+            {!displayKeys && currentKey.docsearch && (
+              <div key={currentKey.code} className={cs(css.docsearch)}>
+                <input
+                  type='search'
+                  placeholder='document search'
+                  className={cs(css.input)}
+                  spellCheck={false}
+                  autoFocus
+                  id={`docsearch_${currentKey.code}`}
+                />
+              </div>
+            )}
 
             {!displayKeys && currentKey.homelink && (
               <a
