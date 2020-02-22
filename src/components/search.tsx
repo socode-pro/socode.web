@@ -387,7 +387,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   useHotkeys(
     'tab',
     () => {
-      const key = Keys.find(k => k.shortkeys === squery)
+      const key = Keys.find(k => k.shortkeys === (displayKeys ? kquery : squery))
       if (key) {
         setSquery('')
         setCurrentKey(key)
@@ -410,7 +410,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         }
       }
     },
-    [squery],
+    [squery, kquery],
     [css.input]
   )
 

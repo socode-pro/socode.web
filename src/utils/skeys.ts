@@ -457,6 +457,13 @@ export const Keys: SKey[] = [
     devdocs: 'haskell~8',
   },
   {
+    code: 'hex',
+    name: 'hex',
+    shortkeys: 'hex',
+    icon: 'hex.png',
+    template: 'https://hex.pm/packages?search=%s',
+  },
+  {
     code: 'html',
     name: 'HTML',
     shortkeys: 'html',
@@ -623,6 +630,17 @@ export const Keys: SKey[] = [
     shortkeys: 'mt',
     icon: 'meteor.svg',
     devdocs: 'meteor~1.5',
+  },
+  {
+    code: 'material',
+    name: 'Material-UI',
+    shortkeys: 'mu',
+    icon: 'material.svg',
+    docsearch: {
+      appId: 'BH4D9OD16A',
+      apiKey: '1d8534f83b9b0cfea8f16498d19fbcab',
+      indexName: 'material-ui',
+    },
   },
   // mdn: {
   //     //   name: 'MDN',
