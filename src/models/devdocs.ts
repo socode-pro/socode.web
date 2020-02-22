@@ -3,6 +3,7 @@ import Fuse from 'fuse.js'
 import dayjs from 'dayjs'
 import groupBy from 'lodash/groupBy'
 import { Injections } from '../store'
+import { StoreModel } from './index'
 import { DevDocMeta, DevDocEntrie } from '../services/devdocs.service'
 
 const fuseOptions: Fuse.FuseOptions<DevDocEntrie> = {
@@ -26,7 +27,7 @@ export interface DevdocsModel {
     [slug: string]: Array<DevDocEntrie>
   }
   setIndexs: Action<DevdocsModel, { slug: string; index: Array<DevDocEntrie>; setTime?: boolean }>
-  initialIndex: Thunk<DevdocsModel, string>
+  initialIndex: Thunk<DevdocsModel, string, Injections, StoreModel>
 
   results: {
     [type: string]: Array<DevDocEntrie>
@@ -103,10 +104,13 @@ const devdocsModel: DevdocsModel = {
       console.error(err)
     }
   }),
-  initialIndex: thunk(async (actions, slug, { injections, getState }) => {
-    if (getState().indexs[slug]) return
-    actions.setLoading(true)
+  initialIndex: thunk(async (actions, slug, { injections, getState, getStoreActions }) => {
+    if (getState().indexs[slug]) {
+      // getStoreActions().search.setExpandView(true)
+      return
+    }
 
+    actions.setLoading(true)
     try {
       let meta = getState().metas.find(m => m.slug === slug)
       if (!meta) {
@@ -123,6 +127,7 @@ const devdocsModel: DevdocsModel = {
         if (indexString) {
           actions.setIndexs({ slug: meta.slug, index: JSON.parse(indexString) })
           actions.setLoading(false)
+          // getStoreActions().search.setExpandView(true)
           return
         }
       }
@@ -130,9 +135,10 @@ const devdocsModel: DevdocsModel = {
       const json = await injections.devdocsService.getDocIndex(meta)
       if (json !== null) {
         actions.setIndexs({ slug: meta.slug, index: json.entries, setTime: true })
+        // getStoreActions().search.setExpandView(true)
       }
     } catch (err) {
-      console.error(err)
+      console.error('devdocsModel.initialIndex', err)
     }
     actions.setLoading(false)
   }),
@@ -188,7 +194,7 @@ const devdocsModel: DevdocsModel = {
         actions.setDocs({ ...payload, doc })
       }
     } catch (err) {
-      console.error(err)
+      console.error('devdocsModel.selectDoc', err)
     }
     actions.setDocLoading(false)
   }),

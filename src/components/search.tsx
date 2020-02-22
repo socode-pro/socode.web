@@ -34,7 +34,6 @@ const programLanguageOptions = IntEnumObjects(ProgramLanguage)
 const timeRangeOptions = StringEnumObjects(SearchTimeRange)
 
 const SearchInput: React.FC = (): JSX.Element => {
-  const [displaySubtitle, setDisplaySubtitle] = useState(false)
   const [isFloat, setIsFloat] = useState(false)
   const inputEl = useRef<HTMLInputElement & { onsearch: (e: InputEvent) => void }>(null)
 
@@ -48,12 +47,15 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [porogramLanguage, setPorogramLanguage] = useState(ProgramLanguage.All)
   const [displayKeys, setDisplayKeys] = useState(false)
 
+  const wapperTop = useStoreState<number>(state => state.search.wapperTop)
+  const loading = useStoreState<boolean>(state => state.search.loading)
+  const error = useStoreState<SMError | null>(state => state.search.error)
+
+  const setExpandView = useStoreActions(actions => actions.search.setExpandView)
   const result = useStoreState<SocodeResult | null>(state => state.search.result)
   const searchAction = useStoreActions(actions => actions.search.search)
   const setResultAction = useStoreActions(actions => actions.search.setResult)
   const lunchUrlAction = useStoreActions(actions => actions.search.lunchUrl)
-  const loading = useStoreState<boolean>(state => state.search.loading)
-  const error = useStoreState<SMError | null>(state => state.search.error)
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
   const { language, searchLanguage, pinKeys, displayAwesome, displayMoreKeys } = useStoreState<StorageType>(
     state => state.storage.values
@@ -77,11 +79,9 @@ const SearchInput: React.FC = (): JSX.Element => {
   const initKey =
     language === Language.中文_简体 ? keys.find(k => k.code === 'github') : keys.find(k => k.code === 'socode')
   const [currentKey, setCurrentKey] = useState<SKey>(initKey || keys[0])
+  setExpandView(!!currentKey.devdocs)
 
-  const useWapperTop = result?.results.length // || currentKey.code === 'cheatSheets'
-  const { wapperTop } = useSpring({
-    wapperTop: useWapperTop ? -5 : displaySubtitle ? 150 : 130,
-  })
+  const spring = useSpring({ wapperTop })
 
   const searchSubmit = useCallback(
     async (q?: string) => {
@@ -257,22 +257,19 @@ const SearchInput: React.FC = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
-    const debounceFloat = debounce<() => void>(() => {
-      // searchWapper top: 130
-      if (document.body.scrollTop > 130) {
-        setIsFloat(true)
-      } else {
-        setIsFloat(false)
-      }
-    }, 100)
+  const debounceFloat = useCallback(
+    debounce<() => void>(() => {
+      setIsFloat(document.body.scrollTop > wapperTop + 20)
+    }, 100),
+    [wapperTop]
+  )
 
+  useEffect(() => {
     document.body.addEventListener('scroll', debounceFloat, false)
     return () => {
       document.body.removeEventListener('scroll', debounceFloat)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [debounceFloat])
 
   useEffect(() => {
     for (const key of DocsearchKeys) {
@@ -399,6 +396,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
         setSuggesteIndex(-1)
         setSuggeste(null)
+
         setPageno(1)
         setResultAction(null)
 
@@ -419,11 +417,11 @@ const SearchInput: React.FC = (): JSX.Element => {
   return (
     <>
       <div className='container'>
-        <Brand onDisplaySubtitle={setDisplaySubtitle} />
+        <Brand />
         <animated.div
           className={cs(css.searchWapper, { [css.focus]: focus, [css.hasfloat]: isFloat })}
           style={{
-            top: wapperTop,
+            top: spring.wapperTop,
           }}>
           <div className={cs(css.searchInput, 'container', { [css.float]: isFloat })}>
             <span
@@ -669,8 +667,6 @@ const SearchInput: React.FC = (): JSX.Element => {
           )}
           {!displayKeys && currentKey.devdocs && <Devdocs slug={currentKey.devdocs} query={squery} />}
 
-          {loading && <Loader1 type={2} />}
-
           {error !== null && <div className={css.error}>{error instanceof String ? error : error.message}</div>}
 
           {result !== null && (
@@ -731,6 +727,8 @@ const SearchInput: React.FC = (): JSX.Element => {
               {result.results.length === 0 && <div className={css.notFound} />}
             </div>
           )}
+
+          {loading && <Loader1 type={2} />}
 
           {result !== null && (
             <div className={css.closer} onClick={closeResult}>

@@ -26,8 +26,6 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
   const expand = useStoreActions(actions => actions.devdocs.expand)
   const selectDoc = useStoreActions(actions => actions.devdocs.selectDoc)
 
-  const [isFloat, setIsFloat] = useState(false)
-
   const popstateSelect = useCallback(async () => {
     const searchParams = new URLSearchParams(window.location.search)
     const path = searchParams.get('devdocs')
@@ -75,60 +73,40 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
-    const debounceFloat = debounce<() => void>(() => {
-      if (document.body.scrollTop > 130) {
-        setIsFloat(true)
-      } else {
-        setIsFloat(false)
-      }
-    }, 100)
-
-    document.body.addEventListener('scroll', debounceFloat, false)
-    return () => {
-      document.body.removeEventListener('scroll', debounceFloat)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   if (loading) {
     return <Loader1 type={2} />
   }
 
   return (
     <div className={cs('columns', 'container')}>
-      <div className={cs('column', 'is-one-quarter')}>
-        <div className={cs(css.floatbox, { [css.float]: isFloat })}>
-          {Object.entries(results).map(([t, entrie]) => {
-            return (
-              <div key={t} className={cs(css.typegroup, { [css.expanding]: expandings[t] })}>
-                <div className={css.typename} onClick={() => toggleExpanding(t)}>
-                  <i className={cs('fa-menus', css.icon)} />
-                  {t}
-                </div>
-                <ul className={css.childrens}>
-                  {entrie.map(e => {
-                    return (
-                      <li>
-                        <a
-                          className={css.item}
-                          onClick={() => {
-                            selectDocCallback(e.path)
-                          }}>
-                          <span key={e.path} className={cs({ [css.current]: currentPath === e.path })}>
-                            {e.name}
-                          </span>
-                        </a>
-                      </li>
-                    )
-                  })}
-                </ul>
+      <div className={cs('column', 'is-one-quarter', css.menubox)}>
+        {Object.entries(results).map(([t, entrie]) => {
+          return (
+            <div key={t} className={cs(css.typegroup, { [css.expanding]: expandings[t] })}>
+              <div className={css.typename} onClick={() => toggleExpanding(t)}>
+                <i className={cs('fa-menus', css.icon)} />
+                {t}
               </div>
-            )
-          })}
-        </div>
+              <ul className={css.childrens}>
+                {entrie.map(e => {
+                  return (
+                    <li key={e.path}>
+                      <a
+                        className={css.item}
+                        onClick={() => {
+                          selectDocCallback(e.path)
+                        }}>
+                        <span className={cs({ [css.current]: currentPath === e.path })}>{e.name}</span>
+                      </a>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          )
+        })}
       </div>
-      <div className={cs('column', css.document, { [css.float]: isFloat })}>
+      <div className={cs('column', css.document)}>
         {docLoading && <Loader1 type={1} />}
         {docs[`${slug}_${currentPath}`] && (
           <div className={cs('_page', 'pd10')} dangerouslySetInnerHTML={{ __html: docs[`${slug}_${currentPath}`] }} />

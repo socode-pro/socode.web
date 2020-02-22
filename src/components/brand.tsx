@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useCallback, Dispatch, SetStateAction } from 'react'
 import { useSpring, animated, to } from 'react-spring'
-// import { useMediaPredicate } from 'react-media-hook'
 import cs from 'classnames'
+import { useStoreActions, useStoreState } from '../utils/hooks'
+// import { useMediaPredicate } from 'react-media-hook'
 import css from './brand.module.scss'
 
 const words = ['learning', 'communication', 'searching']
 
-interface Props {
-  onDisplaySubtitle?: Dispatch<SetStateAction<boolean>>
-}
+// interface Props {
+//   onDisplaySubtitle?: Dispatch<SetStateAction<boolean>>
+// }
 
-const Brand: React.FC<Props> = ({ onDisplaySubtitle }: Props): JSX.Element => {
-  const [displaySubtitle, setDisplaySubtitle] = useState(false)
+const Brand: React.FC = (): JSX.Element => {
+  const displaySubtitle = useStoreState<boolean>(state => state.search.displaySubtitle)
+  const setDisplaySubtitle = useStoreActions(actions => actions.search.setDisplaySubtitle)
+
   const [activeSubtitle, setActiveSubtitle] = useState(false)
   // const dark = useMediaPredicate('(prefers-color-scheme: dark)')
   // const titleColor = dark? 'rgba(153, 136, 119, 0.5)': 'rgba(102, 119, 136, 0.5)'
@@ -83,8 +86,8 @@ const Brand: React.FC<Props> = ({ onDisplaySubtitle }: Props): JSX.Element => {
     }
 
     setDisplaySubtitle(!displaySubtitle)
-    onDisplaySubtitle && onDisplaySubtitle(!displaySubtitle)
-  }, [activeSubtitle, displaySubtitle, onDisplaySubtitle])
+    // onDisplaySubtitle && onDisplaySubtitle(!displaySubtitle)
+  }, [activeSubtitle, displaySubtitle, setDisplaySubtitle])
 
   return (
     <>

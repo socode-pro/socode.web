@@ -1,4 +1,4 @@
-import { Action, action, Thunk, thunk } from 'easy-peasy'
+import { Action, action, Thunk, thunk, Computed, computed } from 'easy-peasy'
 import { Injections } from '../store'
 import { StoreModel } from './index'
 import { ProgramLanguage } from '../utils/language'
@@ -10,6 +10,14 @@ export interface SMError {
 }
 
 export interface SearchModel {
+  expandView: boolean
+  setExpandView: Action<SearchModel, boolean>
+
+  displaySubtitle: boolean
+  setDisplaySubtitle: Action<SearchModel, boolean>
+
+  wapperTop: Computed<SearchModel, number>
+
   result: SocodeResult | null
   setResult: Action<SearchModel, SocodeResult | null>
 
@@ -24,10 +32,24 @@ export interface SearchModel {
 }
 
 const searchModel: SearchModel = {
+  expandView: false,
+  setExpandView: action((state, payload) => {
+    state.expandView = payload
+  }),
+
+  displaySubtitle: false,
+  setDisplaySubtitle: action((state, payload) => {
+    state.displaySubtitle = payload
+  }),
+
   result: null,
   setResult: action((state, payload) => {
     state.result = payload
   }),
+
+  wapperTop: computed(state =>
+    state.expandView || (state.result?.results.length || 0) > 0 ? -5 : state.displaySubtitle ? 150 : 130
+  ),
 
   loading: false,
   setLoading: action((state, payload) => {
