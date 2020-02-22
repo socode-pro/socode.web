@@ -16,22 +16,28 @@
   }
   ul.childrens {
     display: none;
-    a.item {
-      display: block;
+    li {
+      cursor: pointer;
+      height: 22px; // Caused a.item overflow: hidden
       &:hover {
-        span {
+        a.item:not(.current) {
           background-color: $white-duck;
         }
       }
-      span {
-        display: inline-block;
-        margin-left: 21px;
-        padding: 2px 8px;
-        border-radius: 2px;
-        &.current {
-          background-color: $primary;
-          color: $white;
-        }
+    }
+    a.item {
+      display: inline-block;
+      margin-left: 21px;
+      padding: 0 8px;
+      border-radius: 2px;
+
+      max-width: 100%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      &.current {
+        background-color: $primary;
+        color: $white;
       }
     }
   }

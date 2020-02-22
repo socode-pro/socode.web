@@ -73,6 +73,29 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    if (docs[`${slug}_${currentPath}`]) {
+      const atags = document.querySelectorAll('.devdocs_main a[href]')
+      atags.forEach(tag => {
+        const href = tag.getAttribute('href')
+        if (href && !href.startsWith('http') && !href.startsWith('/?')) {
+          const hrefs = currentPath.split('/')
+          if (href.startsWith('../')) {
+            hrefs[hrefs.length - 2] = href.replace('../', '')
+            hrefs.pop()
+          } else {
+            hrefs[hrefs.length - 1] = href
+          }
+          const nhref = hrefs.join('/')
+
+          const searchParams = new URLSearchParams(window.location.search)
+          searchParams.set('devdocs', nhref)
+          tag.setAttribute('href', `/?${searchParams.toString()}`)
+        }
+      })
+    }
+  }, [docs, slug, currentPath])
+
   if (loading) {
     return <Loader1 type={2} />
   }
@@ -92,11 +115,12 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
                   return (
                     <li key={e.path}>
                       <a
-                        className={css.item}
+                        title={e.name}
+                        className={cs(css.item, { [css.current]: currentPath === e.path })}
                         onClick={() => {
                           selectDocCallback(e.path)
                         }}>
-                        <span className={cs({ [css.current]: currentPath === e.path })}>{e.name}</span>
+                        {e.name}
                       </a>
                     </li>
                   )
@@ -109,7 +133,10 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
       <div className={cs('column', css.document)}>
         {docLoading && <Loader1 type={1} />}
         {docs[`${slug}_${currentPath}`] && (
-          <div className={cs('_page', 'pd10')} dangerouslySetInnerHTML={{ __html: docs[`${slug}_${currentPath}`] }} />
+          <div
+            className={cs('devdocs_main', '_page', 'pd10')}
+            dangerouslySetInnerHTML={{ __html: docs[`${slug}_${currentPath}`] }}
+          />
         )}
       </div>
     </div>
