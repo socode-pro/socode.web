@@ -55,7 +55,7 @@ export const getDocIndex = async ({ slug, mtime }: DevDocMeta): Promise<DevDocIn
 
 export const getDoc = async ({ slug, mtime, path }): Promise<string | null> => {
   try {
-    const resp = await api.get(`${config.dochost()}/${slug}/${path}.html?${mtime}`)
+    const resp = await api.get(`${config.dochost()}/${slug}/${path.split('#')[0]}.html?${mtime}`)
     return resp.text()
   } catch (error) {
     console.error('fetch:', error)

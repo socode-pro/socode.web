@@ -74,26 +74,31 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    if (docs[`${slug}_${currentPath}`]) {
-      const atags = document.querySelectorAll('.devdocs_main a[href]')
-      atags.forEach(tag => {
-        const href = tag.getAttribute('href')
-        if (href && !href.startsWith('http') && !href.startsWith('/?')) {
-          const hrefs = currentPath.split('/')
-          if (href.startsWith('../')) {
-            hrefs[hrefs.length - 2] = href.replace('../', '')
-            hrefs.pop()
-          } else {
-            hrefs[hrefs.length - 1] = href
-          }
-          const nhref = hrefs.join('/')
+    if (docs[`${slug}_${currentPath}`]) return
 
-          const searchParams = new URLSearchParams(window.location.search)
-          searchParams.set('devdocs', nhref)
-          tag.setAttribute('href', `/?${searchParams.toString()}`)
-        }
-      })
+    if (currentPath.includes('#')) {
+      const anchor = document.getElementById(currentPath.split('#')[1])
+      if (anchor) anchor.scrollIntoView(true)
     }
+
+    const atags = document.querySelectorAll('.devdocs_main a[href]')
+    atags.forEach(tag => {
+      const href = tag.getAttribute('href')
+      if (href && !href.startsWith('http') && !href.startsWith('/?') && !href.startsWith('#')) {
+        const hrefs = currentPath.split('/')
+        if (href.startsWith('../')) {
+          hrefs[hrefs.length - 2] = href.replace('../', '')
+          hrefs.pop()
+        } else {
+          hrefs[hrefs.length - 1] = href
+        }
+        const nhref = hrefs.join('/')
+
+        const searchParams = new URLSearchParams(window.location.search)
+        searchParams.set('devdocs', nhref)
+        tag.setAttribute('href', `/?${searchParams.toString()}`)
+      }
+    })
   }, [docs, slug, currentPath])
 
   if (loading) {
