@@ -258,6 +258,7 @@ export const Keys: SKey[] = [
   {
     code: 'duckduckgo',
     name: 'Duckduckgo',
+    usage: true,
     shortkeys: 'dd',
     icon: 'duckduckgo.svg',
     template: 'https://duckduckgo.com/?q=%s',
@@ -399,6 +400,7 @@ export const Keys: SKey[] = [
   {
     code: 'git',
     name: 'git',
+    usage: true,
     shortkeys: 'git',
     icon: 'git.svg',
     devdocs: 'git',
