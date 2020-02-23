@@ -10,6 +10,9 @@ enum Language {
   Deutsche = 'de',
   français = 'fr',
   Italiano = 'it',
+  한국어 = 'ko',
+  العربية = 'ar',
+  Polski = 'pl',
 }
 
 export enum InterfaceLanguage {

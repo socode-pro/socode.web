@@ -11,7 +11,8 @@ export enum DarkMode {
 export interface StorageType {
   language?: Language
   searchLanguage?: Language
-  searchEngine?: string
+  docLanguage?: Language
+  searchKey?: string
   starHistoryToken?: string
   trending?: TrendingParam
   openNewTab?: boolean
@@ -23,7 +24,9 @@ export interface StorageType {
 
 const storageKeys = [
   'language',
-  'searchEngine',
+  'searchLanguage',
+  'docLanguage',
+  'searchKey',
   'starHistoryToken',
   'trending',
   'openNewTab',
@@ -47,6 +50,7 @@ const storageModel: StorageModel = {
   values: {
     language: navigatorLanguage(navigator.language),
     searchLanguage: navigatorLanguage(navigator.language),
+    docLanguage: navigatorLanguage(navigator.language),
     openNewTab: true,
     displayAwesome: false,
     pinKeys: [],

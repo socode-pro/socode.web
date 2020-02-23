@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react'
 import { useSpring, animated } from 'react-spring'
 import Fuse from 'fuse.js'
 import debounce from 'lodash/debounce'
@@ -58,16 +58,33 @@ const SearchInput: React.FC = (): JSX.Element => {
   const setResultAction = useStoreActions(actions => actions.search.setResult)
   const lunchUrlAction = useStoreActions(actions => actions.search.lunchUrl)
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
-  const { language, searchLanguage, pinKeys, displayAwesome, displayMoreKeys } = useStoreState<StorageType>(
+  const { language, searchLanguage, docLanguage, pinKeys, displayAwesome, displayMoreKeys } = useStoreState<StorageType>(
     state => state.storage.values
   )
 
-  let keys = Keys
-  if (displayKeys && kquery) {
-    const fuse = new Fuse(keys, fuseOptions)
-    keys = fuse.search<SKey, false, false>(kquery)
+  const initKey = useMemo(
+    () => (language === Language.中文_简体 ? Keys.find(k => k.code === 'socode') : Keys.find(k => k.code === 'github')),
+    [language]
+  )
+  const [currentKey, setCurrentKey] = useState<SKey>(initKey || Keys[0])
+  const dsConfig = useMemo(() => {
+    if (currentKey.docsearch) {
+      const target = currentKey.docsearch.find(k => k.lang === docLanguage)
+      if (target) return target
+      return currentKey.docsearch[0]
+    }
+    return null
+  }, [currentKey, docLanguage])
+
+  // to refresh input dom, until uninstall api: https://github.com/algolia/docsearch/issues/927
+  const [docsearchHack, setDocsearchHack] = useState(true)
+
+  if (!currentKey.devdocs) {
+    setExpandView(false)
   }
 
+  // keys list ----------------------------------
+  const [keys, setKeys] = useState(Keys)
   keys.forEach(k => {
     k.pin = pinKeys?.includes(k.code)
   })
@@ -76,12 +93,14 @@ const SearchInput: React.FC = (): JSX.Element => {
   const UsageKeys = keys.filter(k => !k.pin && k.usage)
   const MoreKeys = keys.filter(k => !k.pin && !k.usage)
 
-  const initKey =
-    language === Language.中文_简体 ? keys.find(k => k.code === 'github') : keys.find(k => k.code === 'socode')
-  const [currentKey, setCurrentKey] = useState<SKey>(initKey || keys[0])
-  if (!currentKey.devdocs) {
-    setExpandView(false)
-  }
+  useEffect(() => {
+    if (kquery) {
+      const fuse = new Fuse(Keys, fuseOptions)
+      const ks = fuse.search<SKey, false, false>(kquery)
+      setKeys(ks)
+    }
+  }, [kquery])
+  // --------------------------------------------
 
   const spring = useSpring({ wapperTop })
 
@@ -274,13 +293,13 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [debounceFloat])
 
   useEffect(() => {
-    if (!displayKeys && currentKey.docsearch) {
+    if (!displayKeys && dsConfig && docsearchHack) {
       docsearch({
-        appId: currentKey.docsearch.appId,
-        apiKey: currentKey.docsearch.apiKey,
-        indexName: currentKey.docsearch.indexName,
-        inputSelector: `#docsearch_${currentKey.code}`,
-        algoliaOptions: currentKey.docsearch.algoliaOptions,
+        appId: dsConfig.appId,
+        apiKey: dsConfig.apiKey,
+        indexName: dsConfig.indexName,
+        inputSelector: `#docsearch_${currentKey.code}_${dsConfig.lang}`,
+        algoliaOptions: { ...dsConfig.algoliaOptions, hitsPerPage: 10 },
         handleSelected: (input, event, suggestion) => {
           window.open(suggestion.url, '_blank')?.focus()
         },
@@ -290,7 +309,8 @@ const SearchInput: React.FC = (): JSX.Element => {
         debug: false,
       })
     }
-  }, [currentKey, displayKeys])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayKeys, currentKey.code, docsearchHack])
 
   const getKeysDom = useCallback(
     (gkeys: SKey[]) => {
@@ -427,14 +447,12 @@ const SearchInput: React.FC = (): JSX.Element => {
             top: spring.wapperTop,
           }}>
           <div className={cs(css.searchInput, 'container', { [css.float]: isFloat })}>
-            <span
-              className={cs(css.prefix, { [css.displayKeys]: displayKeys })}
-              onClick={() => setDisplayKeys(!displayKeys)}>
+            <span className={cs(css.prefix, { [css.displayKeys]: displayKeys })} onClick={() => setDisplayKeys(!displayKeys)}>
               {currentKey.name}
             </span>
             <span className={css.sep}>$</span>
 
-            {!displayKeys && (
+            {(displayKeys || currentKey.devdocs || currentKey.template || currentKey.code === 'socode') && (
               <input
                 type='search'
                 className={cs(css.input, 'with_suggeste')}
@@ -455,7 +473,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               />
             )}
 
-            {!displayKeys && currentKey.docsearch && (
+            {!displayKeys && dsConfig && docsearchHack && (
               <div key={currentKey.code} className={cs(css.docsearch)}>
                 <input
                   type='search'
@@ -465,8 +483,26 @@ const SearchInput: React.FC = (): JSX.Element => {
                   autoFocus
                   value={dquery}
                   onChange={e => setDquery(e.target.value)}
-                  id={`docsearch_${currentKey.code}`}
+                  id={`docsearch_${currentKey.code}_${dsConfig.lang}`}
                 />
+              </div>
+            )}
+
+            {!displayKeys && currentKey.docsearch && currentKey.docsearch.length > 1 && (
+              <div className='select is-rounded mgr10'>
+                <select
+                  value={docLanguage}
+                  onChange={async e => {
+                    setDocsearchHack(false)
+                    await setStorage({ docLanguage: e.target.value as Language })
+                    setDocsearchHack(true)
+                  }}>
+                  {currentKey.docsearch.map(d => (
+                    <option key={d.lang} value={d.lang}>
+                      {Object.keys(Language).filter(e => Language[e] === d.lang)}
+                    </option>
+                  ))}
+                </select>
               </div>
             )}
 
@@ -506,9 +542,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
             {!displayKeys && currentKey.bylang && (
               <div className='select is-rounded mgl10'>
-                <select
-                  value={searchLanguage}
-                  onChange={e => setStorage({ searchLanguage: e.target.value as Language })}>
+                <select value={searchLanguage} onChange={e => setStorage({ searchLanguage: e.target.value as Language })}>
                   {languageOptions.map(o => (
                     <option key={o.value} value={o.value}>
                       {o.label}
@@ -540,9 +574,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             suggeste.words.length > 0 &&
             suggeste.key === currentKey.code &&
             !IsAvoidKeys(currentKey.code) && (
-              <div
-                className={cs(css.suggeste, 'dropdown is-active')}
-                style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
+              <div className={cs(css.suggeste, 'dropdown is-active')} style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
                 <div className='dropdown-menu'>
                   <div className='dropdown-content'>
                     {suggeste &&
@@ -645,18 +677,12 @@ const SearchInput: React.FC = (): JSX.Element => {
                 </div>
               )}
               {!displayMoreKeys && (
-                <button
-                  type='button'
-                  className='button is-text w100'
-                  onClick={() => setStorage({ displayMoreKeys: true })}>
+                <button type='button' className='button is-text w100' onClick={() => setStorage({ displayMoreKeys: true })}>
                   More
                 </button>
               )}
               {displayMoreKeys && (
-                <button
-                  type='button'
-                  className='button is-text w100'
-                  onClick={() => setStorage({ displayMoreKeys: false })}>
+                <button type='button' className='button is-text w100' onClick={() => setStorage({ displayMoreKeys: false })}>
                   Less
                 </button>
               )}
@@ -741,12 +767,12 @@ const SearchInput: React.FC = (): JSX.Element => {
           {result === null && currentKey.name === 'socode' && <Slogan />}
         </animated.div>
       </div>
-      <div
+      {/* <div
         className={cs('mask', { 'dis-none': !displayKeys })}
         onClick={() => {
           setDisplayKeys(false)
         }}
-      />
+      /> */}
     </>
   )
 }

@@ -19,13 +19,14 @@ export interface SKey {
   homelink?: string
   awesome?: string
   devdocs?: string
-  docsearch?: {
+  docsearch?: ReadonlyArray<{
     appId?: string
     apiKey: string
     indexName: string
     algoliaOptions?: object
     transformData?: (suggestions: any) => any
-  }
+    lang: Language
+  }>
 }
 
 export const Keys: SKey[] = [
@@ -51,6 +52,8 @@ export const Keys: SKey[] = [
     usage: true,
     shortkeys: 'ng',
     icon: 'angular.svg',
+    homelink: 'https://angular.io',
+    awesome: 'PatrickJS/awesome-angular',
     devdocs: 'angular',
   },
   {
@@ -76,6 +79,17 @@ export const Keys: SKey[] = [
     template: 'https://developer.apple.com/search/?q=%s',
   },
   {
+    code: 'aws',
+    name: 'AWS',
+    shortkeys: 'aws',
+    icon: 'aws.svg',
+    hideName: true,
+    width: 80,
+    homelink: 'https://aws.amazon.com',
+    awesome: 'donnemartin/awesome-aws',
+    template: 'https://aws.amazon.com/search/?searchQuery=%s',
+  },
+  {
     code: 'babel',
     name: 'Babel',
     shortkeys: 'bb',
@@ -83,11 +97,15 @@ export const Keys: SKey[] = [
     hideName: true,
     width: 60,
     backgroundPosition: 'left 0.2em center',
+    homelink: 'https://babeljs.io',
     devdocs: 'babel',
-    docsearch: {
-      apiKey: 'd42906b043c5422ea07b44fd49c40a0d',
-      indexName: 'babeljs',
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: 'd42906b043c5422ea07b44fd49c40a0d',
+        indexName: 'babeljs',
+      },
+    ],
   },
   {
     code: 'bootstrap',
@@ -96,10 +114,13 @@ export const Keys: SKey[] = [
     icon: 'bootstrap.svg',
     homelink: 'https://getbootstrap.com',
     devdocs: 'bootstrap@4',
-    docsearch: {
-      apiKey: '5990ad008512000bba2cf951ccf0332f',
-      indexName: 'bootstrap',
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '5990ad008512000bba2cf951ccf0332f',
+        indexName: 'bootstrap',
+      },
+    ],
   },
   {
     code: 'bundlephobia',
@@ -135,6 +156,8 @@ export const Keys: SKey[] = [
     name: 'Clojure',
     shortkeys: 'cj',
     icon: 'clojure.svg',
+    homelink: 'https://clojure.org',
+    awesome: 'razum2um/awesome-clojure',
     devdocs: 'clojure~1.10',
   },
   {
@@ -159,6 +182,8 @@ export const Keys: SKey[] = [
     name: 'Crystal',
     shortkeys: 'crs',
     icon: 'crystal.svg',
+    homelink: 'https://crystal-lang.org',
+    awesome: 'veelenga/awesome-crystal',
     devdocs: 'crystal~0.31',
   },
   {
@@ -174,6 +199,8 @@ export const Keys: SKey[] = [
     name: 'Dart',
     shortkeys: 'dt',
     icon: 'dart.svg',
+    homelink: 'https://dart.dev',
+    awesome: 'yissachar/awesome-dart',
     devdocs: 'dart~2',
   },
   {
@@ -181,10 +208,13 @@ export const Keys: SKey[] = [
     name: 'dayjs',
     shortkeys: 'day',
     icon: 'dayjs.png',
-    docsearch: {
-      apiKey: '015f468476ca8256cf1c8e8fb6d82cc3',
-      indexName: 'dayjs',
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '015f468476ca8256cf1c8e8fb6d82cc3',
+        indexName: 'dayjs',
+      },
+    ],
   },
   {
     code: 'django',
@@ -192,6 +222,8 @@ export const Keys: SKey[] = [
     shortkeys: 'dj',
     hideName: true,
     width: 100,
+    homelink: 'https://www.djangoproject.com',
+    awesome: 'wsvincent/awesome-django',
     icon: 'django.svg',
     devdocs: 'django~3.0',
   },
@@ -202,10 +234,14 @@ export const Keys: SKey[] = [
     icon: 'druid.png',
     hideName: true,
     width: 82,
-    docsearch: {
-      apiKey: '2de99082a9f38e49dfaa059bbe4c901d',
-      indexName: 'apache_druid',
-    },
+    homelink: 'https://druid.apache.org',
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '2de99082a9f38e49dfaa059bbe4c901d',
+        indexName: 'apache_druid',
+      },
+    ],
   },
   {
     code: 'docker',
@@ -248,6 +284,7 @@ export const Keys: SKey[] = [
     shortkeys: 'ex',
     icon: 'elixir.png',
     homelink: 'https://elixir-lang.org/',
+    awesome: 'h4cc/awesome-elixir',
     devdocs: 'elixir~1.9',
   },
   {
@@ -257,6 +294,7 @@ export const Keys: SKey[] = [
     icon: 'ember.svg',
     hideName: true,
     width: 76,
+    homelink: 'https://www.emberjs.com',
     devdocs: 'ember',
     // docsearch: { // self build
     //   appId: 'Y1OMR4C7MF',
@@ -269,35 +307,40 @@ export const Keys: SKey[] = [
     name: 'ESLint',
     shortkeys: 'es',
     icon: 'eslint.svg',
+    homelink: 'https://eslint.org',
     devdocs: 'eslint',
-    docsearch: {
-      apiKey: '891b0e977d96c762a3821e0c00172ac9',
-      indexName: 'eslint',
-      algoliaOptions: { facetFilters: [['tags:docs', 'tags:blog']] },
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '891b0e977d96c762a3821e0c00172ac9',
+        indexName: 'eslint',
+        algoliaOptions: { facetFilters: [['tags:docs', 'tags:blog']] },
+      },
+    ],
   },
   {
     code: 'erlang',
     name: 'Erlang',
     shortkeys: 'el',
     icon: 'erlang.png',
-    homelink: 'https://www.erlang.org/',
+    homelink: 'https://www.erlang.org',
     devdocs: 'erlang~21',
   },
   {
     code: 'express',
     name: 'Express',
-    shortkeys: 'ex',
+    shortkeys: 'ep',
     icon: 'expressjs.png',
-    // hideName: true,
-    // width: 80,
-    // backgroundPosition: 'left top -2px',
+    homelink: 'https://expressjs.com',
     devdocs: 'express',
-    docsearch: {
-      apiKey: '7164e33055faa6ecddefd9e08fc59f5d',
-      indexName: 'expressjs',
-      algoliaOptions: { facetFilters: ['lang:en'] }, // multi lang
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '7164e33055faa6ecddefd9e08fc59f5d',
+        indexName: 'expressjs',
+        algoliaOptions: { facetFilters: ['lang:en'] }, // fake multi lang
+      },
+    ],
   },
   {
     code: 'fastify',
@@ -306,11 +349,15 @@ export const Keys: SKey[] = [
     icon: 'fastify.png',
     hideName: true,
     width: 96,
-    docsearch: {
-      apiKey: 'f7c62ddab40e653f67a6e15be761d951',
-      indexName: 'fastify',
-      algoliaOptions: { facetFilters: ['version:latest', 'tags:docs'] },
-    },
+    homelink: 'https://www.fastify.io',
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: 'f7c62ddab40e653f67a6e15be761d951',
+        indexName: 'fastify',
+        algoliaOptions: { facetFilters: ['version:latest', 'tags:docs'] },
+      },
+    ],
   },
   {
     code: 'flask',
@@ -339,10 +386,15 @@ export const Keys: SKey[] = [
     icon: 'gatsby.svg',
     hideName: true,
     width: 108,
-    docsearch: {
-      apiKey: '71af1f9c4bd947f0252e17051df13f9c',
-      indexName: 'gatsbyjs',
-    },
+    homelink: 'https://www.gatsbyjs.org',
+    awesome: 'prayash/awesome-gatsby',
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '71af1f9c4bd947f0252e17051df13f9c',
+        indexName: 'gatsbyjs',
+      },
+    ],
   },
   {
     code: 'git',
@@ -402,18 +454,22 @@ export const Keys: SKey[] = [
     width: 88,
     backgroundPosition: 'left center',
     homelink: 'https://gradle.org',
-    docsearch: {
-      apiKey: '5eb5540d6bd412c7e6d2c687bf10a395',
-      indexName: 'gradle',
-      transformData: suggestions => {
-        return suggestions.map(suggestion => {
-          if (suggestion.anchor.substring(0, 10) === 'org.gradle') {
-            suggestion.hierarchy.lvl0 = 'DSL Reference'
-          }
-          return suggestion
-        })
+    awesome: 'ksoichiro/awesome-gradle',
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '5eb5540d6bd412c7e6d2c687bf10a395',
+        indexName: 'gradle',
+        transformData: suggestions => {
+          return suggestions.map(suggestion => {
+            if (suggestion.anchor.substring(0, 10) === 'org.gradle') {
+              suggestion.hierarchy.lvl0 = 'DSL Reference'
+            }
+            return suggestion
+          })
+        },
       },
-    },
+    ],
   },
   {
     code: 'grafana',
@@ -423,12 +479,15 @@ export const Keys: SKey[] = [
     hideName: true,
     width: 130,
     homelink: 'https://grafana.com',
-    docsearch: {
-      apiKey: '0bd2bd6939038c5ce2c9395732dcf040',
-      indexName: 'grafana',
-      // start_urls: ['https://grafana.com/docs/grafana/latest/'],
-      // https://grafana.com/docs/grafana/latest/
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '0bd2bd6939038c5ce2c9395732dcf040',
+        indexName: 'grafana',
+        // start_urls: ['https://grafana.com/docs/grafana/latest/'],
+        // https://grafana.com/docs/grafana/latest/
+      },
+    ],
   },
   {
     code: 'graphql',
@@ -437,10 +496,13 @@ export const Keys: SKey[] = [
     icon: 'graphql.svg',
     homelink: 'https://graphql.org',
     awesome: 'chentsulin/awesome-graphql',
-    docsearch: {
-      apiKey: 'd103541f3e6041148aade2e746ed4d61',
-      indexName: 'graphql',
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: 'd103541f3e6041148aade2e746ed4d61',
+        indexName: 'graphql',
+      },
+    ],
   },
   {
     code: 'gulp',
@@ -448,16 +510,21 @@ export const Keys: SKey[] = [
     shortkeys: 'gp',
     icon: 'gulp.svg',
     backgroundPosition: 'left center',
-    docsearch: {
-      apiKey: 'a6ef919bce0b83de1bcbad1d4ef753f8',
-      indexName: 'gulpjs',
-    },
+    homelink: 'https://gulpjs.com',
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: 'a6ef919bce0b83de1bcbad1d4ef753f8',
+        indexName: 'gulpjs',
+      },
+    ],
   },
   {
     code: 'haskell',
     name: 'Haskell',
     shortkeys: 'hs',
     icon: 'haskell.svg',
+    homelink: 'https://www.haskell.org',
     devdocs: 'haskell~8',
   },
   {
@@ -479,6 +546,7 @@ export const Keys: SKey[] = [
     name: 'InfluxDB',
     shortkeys: 'id',
     icon: 'influxdata.svg',
+    homelink: 'https://www.influxdata.com',
     devdocs: 'influxdata',
   },
   {
@@ -495,6 +563,7 @@ export const Keys: SKey[] = [
     shortkeys: 'js',
     usage: true,
     icon: 'javascript.svg',
+    awesome: 'sorrycc/awesome-javascript',
     devdocs: 'javascript',
   },
   {
@@ -503,11 +572,14 @@ export const Keys: SKey[] = [
     shortkeys: 'jk',
     icon: 'jenkinsx.svg',
     homelink: 'https://jenkins-x.io',
-    docsearch: {
-      apiKey: '8904bbd3ca621bef472e3de7e0e29532',
-      indexName: 'jenkins_x',
-      algoliaOptions: { facetFilters: ['en-us'] },
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '8904bbd3ca621bef472e3de7e0e29532',
+        indexName: 'jenkins_x',
+        algoliaOptions: { facetFilters: ['en-us'] },
+      },
+    ],
   },
   {
     code: 'jquery',
@@ -518,10 +590,13 @@ export const Keys: SKey[] = [
     width: 106,
     homelink: 'https://jquery.com/',
     devdocs: 'jquery_core',
-    docsearch: {
-      apiKey: '3cfde9aca378c8aab554d5bf1b23489b',
-      indexName: 'jquery',
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '3cfde9aca378c8aab554d5bf1b23489b',
+        indexName: 'jquery',
+      },
+    ],
   },
   {
     code: 'jscoach',
@@ -538,6 +613,8 @@ export const Keys: SKey[] = [
     width: 80,
     shortkeys: 'koa',
     icon: 'koa.svg',
+    homelink: 'https://koajs.com',
+    awesome: 'ellerbrock/awesome-koa',
     devdocs: 'koa',
   },
   {
@@ -545,6 +622,8 @@ export const Keys: SKey[] = [
     name: 'Kotlin',
     shortkeys: 'kl',
     icon: 'kotlin.svg',
+    homelink: 'https://kotlinlang.org',
+    awesome: 'KotlinBy/awesome-kotlin',
     devdocs: 'kotlin',
     // docsearch: {
     //   appId: '7961PKYRXV',
@@ -562,7 +641,10 @@ export const Keys: SKey[] = [
     name: 'Laravel',
     shortkeys: 'lr',
     icon: 'laravel.svg',
+    homelink: 'https://laravel.com',
+    awesome: 'chiraggude/awesome-laravel',
     devdocs: 'laravel~5.7',
+    // self build algolia
   },
   {
     code: 'leancloud',
@@ -574,10 +656,13 @@ export const Keys: SKey[] = [
     width: 100,
     backgroundSize: '90%',
     homelink: 'https://leancloud.app',
-    docsearch: {
-      apiKey: '357b777ed18e79673a2c1de3f6c64478',
-      indexName: 'leancloud',
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '357b777ed18e79673a2c1de3f6c64478',
+        indexName: 'leancloud',
+      },
+    ],
   },
   {
     code: 'less',
@@ -586,6 +671,7 @@ export const Keys: SKey[] = [
     width: 80,
     shortkeys: 'ls',
     icon: 'less.svg',
+    homelink: 'http://lesscss.org',
     devdocs: 'less',
   },
   {
@@ -593,6 +679,7 @@ export const Keys: SKey[] = [
     name: 'lodash',
     shortkeys: 'ld',
     icon: 'lodash.svg',
+    homelink: 'https://lodash.com',
     devdocs: 'lodash~4',
   },
   {
@@ -600,6 +687,7 @@ export const Keys: SKey[] = [
     name: 'lua',
     shortkeys: 'lua',
     icon: 'lua.svg',
+    homelink: 'https://www.lua.org',
     devdocs: 'lua~5.3',
   },
   {
@@ -617,11 +705,12 @@ export const Keys: SKey[] = [
     usage: true,
     shortkeys: 'mdb',
     icon: 'mariadb.svg',
+    homelink: 'https://mariadb.org',
     devdocs: 'mariadb',
   },
   {
     code: 'maven',
-    name: 'Maven',
+    name: 'Maven Repository',
     hideName: true,
     shortkeys: 'mv',
     icon: 'maven.png',
@@ -634,6 +723,7 @@ export const Keys: SKey[] = [
     name: 'Meteor',
     shortkeys: 'mt',
     icon: 'meteor.svg',
+    homelink: 'https://www.meteor.com',
     devdocs: 'meteor~1.5',
   },
   {
@@ -641,20 +731,16 @@ export const Keys: SKey[] = [
     name: 'Material-UI',
     shortkeys: 'mu',
     icon: 'material.svg',
-    docsearch: {
-      appId: 'BH4D9OD16A',
-      apiKey: '1d8534f83b9b0cfea8f16498d19fbcab',
-      indexName: 'material-ui',
-    },
+    homelink: 'https://material-ui.com',
+    docsearch: [
+      {
+        lang: Language.English,
+        appId: 'BH4D9OD16A',
+        apiKey: '1d8534f83b9b0cfea8f16498d19fbcab',
+        indexName: 'material-ui',
+      },
+    ],
   },
-  // mdn: {
-  //     //   name: 'MDN',
-  //   hideName: true,
-  //   shortkeys: 'mdn',
-  //   icon: 'MDN.svg',
-  //   width: 130,
-  //   template: 'https://developer.mozilla.org/en-US/search?q=%s',
-  // },
   {
     code: 'mongodb',
     name: 'MongoDB',
@@ -663,6 +749,7 @@ export const Keys: SKey[] = [
     hideName: true,
     width: 110,
     homelink: 'https://docs.mongodb.com',
+    awesome: 'ramnes/awesome-mongodb',
     template: 'https://docs.mongodb.com/?searchProperty=manual&query=%s',
   },
   {
@@ -680,11 +767,14 @@ export const Keys: SKey[] = [
     shortkeys: 'nl',
     icon: 'netlify.svg',
     homelink: 'https://www.netlify.com',
-    docsearch: {
-      appId: '4RTNPM1QF9',
-      apiKey: '260466eb2466a36278b2fdbcc56ad7ba',
-      indexName: 'docs-manual',
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        appId: '4RTNPM1QF9',
+        apiKey: '260466eb2466a36278b2fdbcc56ad7ba',
+        indexName: 'docs-manual',
+      },
+    ],
   },
   {
     code: 'nestjs',
@@ -692,10 +782,14 @@ export const Keys: SKey[] = [
     shortkeys: 'ns',
     icon: 'nestjs.svg',
     homelink: 'https://nestjs.com',
-    docsearch: {
-      apiKey: '9ea53de1a6911255834352bbbe4d3417',
-      indexName: 'nestjs',
-    },
+    awesome: 'juliandavidmr/awesome-nestjs',
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '9ea53de1a6911255834352bbbe4d3417',
+        indexName: 'nestjs',
+      },
+    ],
   },
   {
     code: 'nginx',
@@ -705,6 +799,7 @@ export const Keys: SKey[] = [
     backgroundSize: '86%',
     shortkeys: 'nx',
     icon: 'nginx.svg',
+    homelink: 'https://www.nginx.com',
     devdocs: 'nginx',
   },
   {
@@ -712,8 +807,6 @@ export const Keys: SKey[] = [
     name: 'Node.js',
     shortkeys: 'nd',
     icon: 'nodejs.svg',
-    // hideName: true,
-    // width: 50,
     backgroundPosition: 'left center',
     homelink: 'https://nodejs.org',
     awesome: 'sindresorhus/awesome-nodejs',
@@ -728,6 +821,7 @@ export const Keys: SKey[] = [
     icon: 'npm.svg',
     backgroundSize: '86%',
     width: 60,
+    homelink: 'https://www.npmjs.com',
     template: 'https://npms.io/search?q=%s',
     usage: true,
   }, // todo: inject result
@@ -737,6 +831,7 @@ export const Keys: SKey[] = [
     name: 'Perl',
     shortkeys: 'pl',
     icon: 'perl.svg',
+    homelink: 'https://www.perl.org',
     devdocs: 'perl~5.26',
   },
   {
@@ -745,16 +840,20 @@ export const Keys: SKey[] = [
     shortkeys: 'pe',
     icon: 'pipenv.png',
     homelink: 'https://pipenv.kennethreitz.org',
-    docsearch: {
-      apiKey: '0dbb76467f0c180a1344fc46858df17b',
-      indexName: 'pipenv',
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '0dbb76467f0c180a1344fc46858df17b',
+        indexName: 'pipenv',
+      },
+    ],
   },
   {
     code: 'phoenix',
     name: 'Phoenix',
     shortkeys: 'px',
     icon: 'phoenix.svg',
+    homelink: 'http://www.phoenixframework.org/',
     devdocs: 'phoenix',
   },
   {
@@ -764,6 +863,7 @@ export const Keys: SKey[] = [
     width: 80,
     shortkeys: 'php',
     icon: 'php.svg',
+    homelink: 'https://www.php.net',
     awesome: 'ziadoz/awesome-php',
     devdocs: 'php',
   },
@@ -775,17 +875,22 @@ export const Keys: SKey[] = [
     hideName: true,
     width: 60,
     homelink: 'https://www.playframework.com',
-    docsearch: {
-      apiKey: 'a0b34e68c804cf96e76adcb02d47159b',
-      indexName: 'playframework',
-      algoliaOptions: { facetFilters: ['tags: en'] },
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: 'a0b34e68c804cf96e76adcb02d47159b',
+        indexName: 'playframework',
+        algoliaOptions: { facetFilters: ['tags: en'] },
+      },
+    ],
   },
   {
     code: 'postgresql',
     name: 'PostgreSQL',
     shortkeys: 'pg',
     icon: 'postgresql.svg',
+    homelink: 'https://www.postgresql.org',
+    awesome: 'dhamaniasad/awesome-postgres',
     devdocs: 'postgresql~12',
   },
   {
@@ -793,16 +898,22 @@ export const Keys: SKey[] = [
     name: 'prettier',
     shortkeys: 'pr',
     icon: 'prettier.png',
-    docsearch: {
-      apiKey: '9fcdb2a62af4c47cc5eecf3d5a747818',
-      indexName: 'prettier',
-    },
+    homelink: 'https://prettier.io',
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '9fcdb2a62af4c47cc5eecf3d5a747818',
+        indexName: 'prettier',
+      },
+    ],
   },
   {
     code: 'puppeteer',
     name: 'Puppeteer',
     shortkeys: 'pp',
     icon: 'puppeteer.svg',
+    homelink: 'https://pptr.dev',
+    awesome: 'transitive-bullshit/awesome-puppeteer',
     devdocs: 'puppeteer',
   },
   {
@@ -824,10 +935,13 @@ export const Keys: SKey[] = [
     width: 116,
     homelink: 'https://pytorch.org',
     awesome: 'bharathgs/Awesome-pytorch-list',
-    docsearch: {
-      apiKey: 'e3b73ac141dff0b0fd27bdae9055bc73',
-      indexName: 'pytorch',
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: 'e3b73ac141dff0b0fd27bdae9055bc73',
+        indexName: 'pytorch',
+      },
+    ],
   },
   { code: 'pypi', name: 'PyPI', shortkeys: 'pp', icon: 'pypi.svg', template: 'https://pypi.org/search/?q=%s' },
   {
@@ -836,14 +950,66 @@ export const Keys: SKey[] = [
     shortkeys: 'ra',
     usage: true,
     icon: 'react.svg',
-    bylang: true,
     homelink: 'https://reactjs.org',
     awesome: 'enaqx/awesome-react',
     devdocs: 'react',
-    docsearch: {
-      apiKey: '36221914cce388c46d0420343e0bb32e',
-      indexName: 'react', // multi lang
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '36221914cce388c46d0420343e0bb32e',
+        indexName: 'react',
+      },
+      {
+        lang: Language.中文_简体,
+        apiKey: '72499aaa151dba0828babe727c7b86ee',
+        indexName: 'reactjs_zh-hans',
+      },
+      {
+        lang: Language.Português,
+        apiKey: 'c87837f14775a7c3e2226c3a9e75a7e3',
+        indexName: 'reactjs_pt-br',
+      },
+      {
+        lang: Language.日本語,
+        apiKey: '0a814a89e0c31ab1d55d440f967517b4',
+        indexName: 'reactjs_ja',
+      },
+      {
+        lang: Language.русский,
+        apiKey: 'dc8fe7f1f08bb0814a56d2ba8c1ea871',
+        indexName: 'reactjs_ru',
+      },
+      {
+        lang: Language.Español,
+        apiKey: 'c768ab92aabcfa2883092851022a378b',
+        indexName: 'reactjs_es',
+      },
+      {
+        lang: Language.français,
+        apiKey: '30595603d779427c7cede78a212e435b',
+        indexName: 'reactjs_fr',
+      },
+      {
+        lang: Language.Italiano,
+        apiKey: '9b7d68e6dea8533a9582f0e8087e0b6d',
+        indexName: 'reactjs_it',
+      },
+      {
+        lang: Language.한국어,
+        apiKey: '61afa0daa482db2154b69c27d642f815',
+        indexName: 'reactjs_ko',
+      },
+      {
+        lang: Language.العربية,
+        apiKey: '8cdefb44db3f046e4954b1310456c271',
+        indexName: 'reactjs_ar',
+      },
+      {
+        lang: Language.Polski,
+        apiKey: '810e1f53c2483bf56839cdda229ffb29',
+        indexName: 'reactjs_pl',
+      },
+    ],
   },
   {
     code: 'react_native',
@@ -854,10 +1020,13 @@ export const Keys: SKey[] = [
     homelink: 'https://facebook.github.io/react-native',
     awesome: 'jondot/awesome-react-native',
     devdocs: 'react_native',
-    docsearch: {
-      apiKey: '2c98749b4a1e588efec53b2acec13025',
-      indexName: 'react-native-versions',
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '2c98749b4a1e588efec53b2acec13025',
+        indexName: 'react-native-versions',
+      },
+    ],
   },
   {
     code: 'redis',
@@ -865,6 +1034,7 @@ export const Keys: SKey[] = [
     usage: true,
     shortkeys: 'rd',
     icon: 'redis.svg',
+    homelink: 'https://redis.io',
     devdocs: 'redis',
   },
   {
@@ -911,10 +1081,13 @@ export const Keys: SKey[] = [
     shortkeys: 'ss',
     icon: 'sass.svg',
     devdocs: 'sass',
-    docsearch: {
-      apiKey: 'a409ff5d6a2476083c1a8dd1f8c04ec5',
-      indexName: 'sass-lang',
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: 'a409ff5d6a2476083c1a8dd1f8c04ec5',
+        indexName: 'sass-lang',
+      },
+    ],
   },
   {
     code: 'scala',
@@ -926,11 +1099,14 @@ export const Keys: SKey[] = [
     homelink: 'https://www.scala-lang.org',
     awesome: 'lauris/awesome-scala',
     devdocs: 'scala~2.13_library',
-    docsearch: {
-      apiKey: 'fbc439670f5d4e3730cdcb715c359391',
-      indexName: 'scala-lang',
-      algoliaOptions: { facetFilters: ['language:en'] },
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: 'fbc439670f5d4e3730cdcb715c359391',
+        indexName: 'scala-lang',
+        algoliaOptions: { facetFilters: ['language:en'] },
+      },
+    ],
   },
   {
     code: 'serverless',
@@ -938,10 +1114,14 @@ export const Keys: SKey[] = [
     shortkeys: 'sl',
     icon: 'serverless.svg',
     homelink: 'https://serverless.com',
-    docsearch: {
-      apiKey: 'd5a39b712b86965d93534207ef5423df',
-      indexName: 'serverless',
-    },
+    awesome: 'anaibol/awesome-serverless',
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: 'd5a39b712b86965d93534207ef5423df',
+        indexName: 'serverless',
+      },
+    ],
   },
   {
     code: 'socode',
@@ -959,11 +1139,13 @@ export const Keys: SKey[] = [
     width: 80,
     shortkeys: 'sql',
     icon: 'sqlite.svg',
+    homelink: 'https://www.sqlite.org',
     devdocs: 'sqlite',
   },
   {
     code: 'stackexchange',
     name: 'StackExchange',
+    usage: true,
     shortkeys: 'se',
     icon: 'stackexchange.png',
     template: 'https://stackexchange.com/search?q=%s',
@@ -994,16 +1176,22 @@ export const Keys: SKey[] = [
     shortkeys: 'tr',
     icon: 'taro.png',
     availableLang: Language.中文_简体,
-    docsearch: {
-      apiKey: '57b9948bff42bc0dbc6c219556fbae35',
-      indexName: 'taro',
-    },
+    homelink: 'https://taro-docs.jd.com',
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '57b9948bff42bc0dbc6c219556fbae35',
+        indexName: 'taro',
+      },
+    ],
   },
   {
     code: 'tensorflow_python',
     name: 'Tensorflow Python',
     shortkeys: 'tf',
     icon: 'tensorflow.svg',
+    homelink: 'https://www.tensorflow.org',
+    awesome: 'jtoy/awesome-tensorflow',
     devdocs: 'tensorflow~python',
   },
   {
@@ -1013,11 +1201,16 @@ export const Keys: SKey[] = [
     icon: 'typescript.svg',
     hideName: true,
     width: 116,
+    homelink: 'https://www.typescriptlang.org',
+    awesome: 'dzharii/awesome-typescript',
     devdocs: 'typescript',
-    docsearch: {
-      apiKey: '3c2db2aef0c7ff26e8911267474a9b2c',
-      indexName: 'typescriptlang',
-    },
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '3c2db2aef0c7ff26e8911267474a9b2c',
+        indexName: 'typescriptlang',
+      },
+    ],
   },
   {
     code: 'vue',
@@ -1025,16 +1218,45 @@ export const Keys: SKey[] = [
     shortkeys: 'vue',
     usage: true,
     icon: 'vue.png',
-    bylang: true,
     homelink: 'https://vuejs.org',
     awesome: 'vuejs/awesome-vue',
-    devdocs: 'vue@2',
-    docsearch: {
-      appId: 'BH4D9OD16A',
-      apiKey: '85cc3221c9f23bfbaa4e3913dd7625ea',
-      indexName: 'vuejs',
-      algoliaOptions: { facetFilters: ['version:v2'] },
-    }, // multi language
+    devdocs: 'vue~2',
+    docsearch: [
+      {
+        appId: 'BH4D9OD16A',
+        apiKey: '85cc3221c9f23bfbaa4e3913dd7625ea',
+        indexName: 'vuejs',
+        algoliaOptions: { facetFilters: ['version:v2'] },
+        lang: Language.English,
+      },
+      {
+        appId: 'BH4D9OD16A',
+        apiKey: '5638280abff9d207417bb03be05f0b25',
+        indexName: 'vuejs_cn2',
+        algoliaOptions: { facetFilters: ['version:v2'] },
+        lang: Language.中文_简体,
+      },
+      {
+        appId: 'BH4D9OD16A',
+        apiKey: '0a75952972806d9ad07e387d08e9cc4c',
+        indexName: 'vuejs_jp',
+        algoliaOptions: { facetFilters: ['version:v2'] },
+        lang: Language.日本語,
+      },
+      {
+        appId: 'BH4D9OD16A',
+        apiKey: 'c6f9366f6f7fe057ee3e01747b603d9f',
+        indexName: 'vuejs_ru',
+        algoliaOptions: { facetFilters: ['version:v2'] },
+        lang: Language.русский,
+      },
+      {
+        appId: 'BH4D9OD16A',
+        apiKey: 'fd19a0f4b0ab402d2b6f9f95e9003e3b',
+        indexName: 'vuejs-es',
+        lang: Language.Español,
+      },
+    ],
   },
   {
     code: 'webpack',
@@ -1044,16 +1266,22 @@ export const Keys: SKey[] = [
     hideName: true,
     width: 100,
     devdocs: 'webpack@',
-    docsearch: {
-      apiKey: 'fac401d1a5f68bc41f01fb6261661490',
-      indexName: 'webpack-js-org',
-    },
+    homelink: 'https://webpack.js.org',
+    awesome: 'webpack-contrib/awesome-webpack',
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: 'fac401d1a5f68bc41f01fb6261661490',
+        indexName: 'webpack-js-org',
+      },
+    ],
   },
   {
     code: 'yarn',
     name: 'yarn',
     shortkeys: 'yr',
     icon: 'yarn.svg',
+    homelink: 'https://yarnpkg.com',
     devdocs: 'yarn',
   },
 ]
