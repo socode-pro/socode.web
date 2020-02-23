@@ -58,10 +58,12 @@ const SearchInput: React.FC = (): JSX.Element => {
   const setResultAction = useStoreActions(actions => actions.search.setResult)
   const lunchUrlAction = useStoreActions(actions => actions.search.lunchUrl)
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
-  const { language, searchLanguage, docLanguage, pinKeys, displayAwesome, displayMoreKeys } = useStoreState<StorageType>(
-    state => state.storage.values
-  )
+  const storageInitialed = useStoreState<boolean>(state => state.storage.initialed)
+  const { language, searchLanguage, docLanguage, searchKey, pinKeys, displayAwesome, displayMoreKeys } = useStoreState<
+    StorageType
+  >(state => state.storage.values)
 
+  // currentKey ----------------------------------
   const initKey = useMemo(
     () => (language === Language.中文_简体 ? Keys.find(k => k.code === 'socode') : Keys.find(k => k.code === 'github')),
     [language]
@@ -76,12 +78,28 @@ const SearchInput: React.FC = (): JSX.Element => {
     return null
   }, [currentKey, docLanguage])
 
-  // to refresh input dom, until uninstall api: https://github.com/algolia/docsearch/issues/927
-  const [docsearchHack, setDocsearchHack] = useState(true)
+  useEffect(() => {
+    if (storageInitialed) {
+      const params = new URLSearchParams(window.location.search)
+      if (!params.has('k')) {
+        setCurrentKey(Keys.find(k => k.code === searchKey) || currentKey)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storageInitialed])
+
+  useEffect(() => {
+    if (storageInitialed) setStorage({ searchKey: currentKey.code })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentKey, setStorage])
 
   if (!currentKey.devdocs) {
     setExpandView(false)
   }
+  // --------------------------------------------
+
+  // to refresh input dom, until uninstall api: https://github.com/algolia/docsearch/issues/927
+  const [docsearchHack, setDocsearchHack] = useState(true)
 
   // keys list ----------------------------------
   const [keys, setKeys] = useState(Keys)
@@ -98,6 +116,8 @@ const SearchInput: React.FC = (): JSX.Element => {
       const fuse = new Fuse(Keys, fuseOptions)
       const ks = fuse.search<SKey, false, false>(kquery)
       setKeys(ks)
+    } else {
+      setKeys(Keys)
     }
   }, [kquery])
   // --------------------------------------------
@@ -433,7 +453,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         }
       }
     },
-    [squery, kquery],
+    [squery, kquery, dquery],
     [css.input]
   )
 

@@ -39,6 +39,7 @@ const jsonParseKeys = ['trending']
 const booleanParseKeys = ['openNewTab', 'displayAwesome', 'displayMoreKeys']
 
 export interface StorageModel {
+  initialed: boolean
   values: StorageType
   set: Action<StorageModel, StorageType>
 
@@ -47,6 +48,7 @@ export interface StorageModel {
 }
 
 const storageModel: StorageModel = {
+  initialed: false,
   values: {
     language: navigatorLanguage(navigator.language),
     searchLanguage: navigatorLanguage(navigator.language),
@@ -75,6 +77,7 @@ const storageModel: StorageModel = {
     } catch (err) {
       console.error(err)
     }
+    state.initialed = true
   }),
 
   setStorage: action((state, payload) => {
