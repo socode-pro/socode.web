@@ -40,6 +40,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [focus, setFocus] = useState(true)
   const [squery, setSquery] = useState('')
   const [kquery, setKquery] = useState('')
+  const [dquery, setDquery] = useState('')
   const [pageno, setPageno] = useState(1)
   const [timeRange, setTimeRange] = useState<SearchTimeRange>(SearchTimeRange.Anytime)
   const [suggeste, setSuggeste] = useState<{ words: Array<SuggestItem>; key: string } | null>(null)
@@ -78,7 +79,9 @@ const SearchInput: React.FC = (): JSX.Element => {
   const initKey =
     language === Language.中文_简体 ? keys.find(k => k.code === 'github') : keys.find(k => k.code === 'socode')
   const [currentKey, setCurrentKey] = useState<SKey>(initKey || keys[0])
-  setExpandView(!!currentKey.devdocs)
+  if (!currentKey.devdocs) {
+    setExpandView(false)
+  }
 
   const spring = useSpring({ wapperTop })
 
@@ -200,7 +203,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       if (suggeste && suggeste.words.length > suggesteIndex + 1) setSuggesteIndex(suggesteIndex + 1)
     },
     [suggesteIndex, suggeste],
-    [css.input]
+    ['with_suggeste']
   )
 
   useHotkeys(
@@ -209,7 +212,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       if (suggesteIndex >= 0) setSuggesteIndex(suggesteIndex - 1)
     },
     [suggesteIndex],
-    [css.input]
+    ['with_suggeste']
   )
 
   const suggesteClick = useCallback(
@@ -385,7 +388,9 @@ const SearchInput: React.FC = (): JSX.Element => {
   useHotkeys(
     'tab',
     () => {
-      const key = Keys.find(k => k.shortkeys === (displayKeys ? kquery : squery))
+      const key = displayKeys
+        ? Keys.find(k => k.shortkeys === kquery)
+        : Keys.find(k => k.shortkeys === squery || k.shortkeys === dquery)
       if (key) {
         setSquery('')
         setCurrentKey(key)
@@ -432,7 +437,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             {!displayKeys && (
               <input
                 type='search'
-                className={cs(css.input)}
+                className={cs(css.input, 'with_suggeste')}
                 spellCheck={false}
                 value={displayKeys ? kquery : squery}
                 autoFocus
@@ -444,9 +449,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                   setFocus(true)
                 }}
                 onChange={handleQueryChange}
-                placeholder={
-                  displayKeys ? 'filter...' : IsDevdocsKeys(currentKey.code) ? 'reference document filter' : ''
-                }
+                placeholder={displayKeys ? 'filter...' : IsDevdocsKeys(currentKey.code) ? 'menu search...' : ''}
                 ref={inputEl} // https://stackoverflow.com/a/48656310/346701
                 // onKeyPress={handleQueryKeyPress}
               />
@@ -456,10 +459,12 @@ const SearchInput: React.FC = (): JSX.Element => {
               <div key={currentKey.code} className={cs(css.docsearch)}>
                 <input
                   type='search'
-                  placeholder='document search'
+                  placeholder='document search...'
                   className={cs(css.input)}
                   spellCheck={false}
                   autoFocus
+                  value={dquery}
+                  onChange={e => setDquery(e.target.value)}
                   id={`docsearch_${currentKey.code}`}
                 />
               </div>

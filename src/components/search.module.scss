@@ -39,6 +39,7 @@
   .input {
     @include ms-respond(font-size, 2);
     padding: 16px 0;
+    margin-right: 10px;
     height: 64px;
     background: transparent;
     border: 0;
@@ -146,6 +147,7 @@
 
 .docsearch {
   flex-grow: 1;
+  margin-right: 10px;
   :global(.algolia-autocomplete) {
     width: 100%;
     & > input[type='search'] {

@@ -106,7 +106,7 @@ const devdocsModel: DevdocsModel = {
   }),
   initialIndex: thunk(async (actions, slug, { injections, getState, getStoreActions }) => {
     if (getState().indexs[slug]) {
-      // getStoreActions().search.setExpandView(true)
+      getStoreActions().search.setExpandView(true)
       return
     }
 
@@ -127,7 +127,7 @@ const devdocsModel: DevdocsModel = {
         if (indexString) {
           actions.setIndexs({ slug: meta.slug, index: JSON.parse(indexString) })
           actions.setLoading(false)
-          // getStoreActions().search.setExpandView(true)
+          getStoreActions().search.setExpandView(true)
           return
         }
       }
@@ -135,7 +135,7 @@ const devdocsModel: DevdocsModel = {
       const json = await injections.devdocsService.getDocIndex(meta)
       if (json !== null) {
         actions.setIndexs({ slug: meta.slug, index: json.entries, setTime: true })
-        // getStoreActions().search.setExpandView(true)
+        getStoreActions().search.setExpandView(true)
       }
     } catch (err) {
       console.error('devdocsModel.initialIndex', err)
