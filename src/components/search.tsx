@@ -433,6 +433,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         : Keys.find(k => k.shortkeys === squery || k.shortkeys === dquery)
       if (key) {
         setSquery('')
+        setKquery('')
         setCurrentKey(key)
         setDisplayKeys(false)
         winSearchParams({ keyname: key.code, query: '' })
@@ -472,7 +473,11 @@ const SearchInput: React.FC = (): JSX.Element => {
             </span>
             <span className={css.sep}>$</span>
 
-            {(displayKeys || currentKey.devdocs || currentKey.template || currentKey.code === 'socode') && (
+            {(displayKeys ||
+              currentKey.devdocs ||
+              currentKey.template ||
+              currentKey.code === 'socode' ||
+              currentKey.code === 'cheatsheets') && (
               <input
                 type='search'
                 className={cs(css.input, 'with_suggeste')}
