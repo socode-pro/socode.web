@@ -74,7 +74,7 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    if (docs[`${slug}_${currentPath}`]) return
+    if (!docs[`${slug}_${currentPath}`]) return
 
     if (currentPath.includes('#')) {
       const anchor = document.getElementById(currentPath.split('#')[1])
