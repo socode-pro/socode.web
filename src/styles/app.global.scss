@@ -110,6 +110,11 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   @extend .fas;
   @extend .fa-angle-right;
 }
+.fa-devdocs {
+  @extend %fa-icon;
+  @extend .far;
+  @extend .fa-list-alt;
+}
 // .fa-up {
 //   @extend %fa-icon;
 //   @extend .fas;

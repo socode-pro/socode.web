@@ -113,7 +113,7 @@ export const Keys: SKey[] = [
     shortkeys: 'bs',
     icon: 'bootstrap.svg',
     homelink: 'https://getbootstrap.com',
-    devdocs: 'bootstrap@4',
+    devdocs: 'bootstrap~4',
     docsearch: [
       {
         lang: Language.English,
@@ -1267,7 +1267,7 @@ export const Keys: SKey[] = [
     icon: 'webpack.svg',
     hideName: true,
     width: 100,
-    devdocs: 'webpack@',
+    devdocs: 'webpack',
     homelink: 'https://webpack.js.org',
     awesome: 'webpack-contrib/awesome-webpack',
     docsearch: [

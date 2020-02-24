@@ -375,8 +375,18 @@ const SearchInput: React.FC = (): JSX.Element => {
                   <a
                     href={key.homelink}
                     onClick={e => e.stopPropagation()}
-                    className={cs('fa-home', css.home)}
+                    className={cs('fa-home', css.kicon)}
                     aria-label='home'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  />
+                )}
+                {key.devdocs && (
+                  <a
+                    href={`https://devdocs.io/${key.devdocs}`}
+                    onClick={e => e.stopPropagation()}
+                    className={cs('fa-devdocs', css.kicon)}
+                    aria-label='awesome'
                     target='_blank'
                     rel='noopener noreferrer'
                   />
@@ -385,7 +395,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                   <a
                     href={`https://github.com/${key.awesome}`}
                     onClick={e => e.stopPropagation()}
-                    className={cs('fa-cubes', css.awesome)}
+                    className={cs('fa-cubes', css.kicon)}
                     aria-label='awesome'
                     target='_blank'
                     rel='noopener noreferrer'
@@ -520,8 +530,18 @@ const SearchInput: React.FC = (): JSX.Element => {
               <a
                 href={currentKey.homelink}
                 onClick={e => e.stopPropagation()}
-                className={cs('fa-home', css.home)}
+                className={cs('fa-home', css.kicon)}
                 aria-label='home'
+                target='_blank'
+                rel='noopener noreferrer'
+              />
+            )}
+            {!displayKeys && currentKey.devdocs && (
+              <a
+                href={`https://devdocs.io/${currentKey.devdocs}`}
+                onClick={e => e.stopPropagation()}
+                className={cs('fa-devdocs', css.kicon)}
+                aria-label='devdocs'
                 target='_blank'
                 rel='noopener noreferrer'
               />
@@ -530,7 +550,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               <a
                 href={`https://github.com/${currentKey.awesome}`}
                 onClick={e => e.stopPropagation()}
-                className={cs('fa-cubes', css.awesome)}
+                className={cs('fa-cubes', css.kicon)}
                 aria-label='awesome'
                 target='_blank'
                 rel='noopener noreferrer'
@@ -676,11 +696,13 @@ const SearchInput: React.FC = (): JSX.Element => {
           {displayKeys && (
             <div className='mgl10 mgb10 mgr10'>
               <div className={css.skgroup}>{getKeysDom(PinKeys)}</div>
-              <div className={cs(css.skgroup)}>
-                <div className={css.kdesc}>USAGING</div>
-                {getKeysDom(UsageKeys)}
-              </div>
-              {displayMoreKeys && (
+              {UsageKeys.length > 0 && (
+                <div className={cs(css.skgroup)}>
+                  <div className={css.kdesc}>USAGING</div>
+                  {getKeysDom(UsageKeys)}
+                </div>
+              )}
+              {displayMoreKeys && MoreKeys.length > 0 && (
                 <div className={cs(css.skgroup)}>
                   <div className={css.kdesc}>MORE</div>
                   {getKeysDom(MoreKeys)}

@@ -48,7 +48,7 @@ const searchModel: SearchModel = {
   }),
 
   wapperTop: computed(state =>
-    state.expandView || (state.result?.results.length || 0) > 0 ? -5 : state.displaySubtitle ? 150 : 130
+    state.expandView || (state.result?.results.length || 0) > 0 ? -6 : state.displaySubtitle ? 150 : 130
   ),
 
   loading: false,
