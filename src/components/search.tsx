@@ -317,6 +317,34 @@ const SearchInput: React.FC = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayKeys, currentKey.code, docsearchHack])
 
+  useEffect(() => {
+    setTimeout(() => inputEl.current?.focus(), 0)
+  }, [displayKeys])
+
+  const changeKey = useCallback(
+    (key: SKey) => {
+      setSquery('')
+      setKquery('')
+      setCurrentKey(key)
+      setDisplayKeys(false)
+      winSearchParams({ keyname: key.code, query: '' })
+
+      setSuggesteIndex(-1)
+      setSuggeste(null)
+      setPageno(1)
+      setResultAction(null)
+
+      if (IsDocsearchKeys(key.code)) {
+        setTimeout(() => {
+          document?.getElementById(`docsearch_${key.code}`)?.focus()
+        }, 200)
+      } else {
+        inputEl.current?.focus()
+      }
+    },
+    [setResultAction]
+  )
+
   const getKeysDom = useCallback(
     (gkeys: SKey[]) => {
       return gkeys
@@ -341,27 +369,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             styles = { ...styles, width: key.width }
           }
           return (
-            <div
-              key={key.code}
-              className={css.skeybox}
-              onClick={() => {
-                setCurrentKey(key)
-                setDisplayKeys(false)
-                winSearchParams({ keyname: key.code, query: '' })
-
-                setSuggesteIndex(-1)
-                setSuggeste(null)
-                setPageno(1)
-                setResultAction(null)
-
-                if (IsDocsearchKeys(key.code)) {
-                  setTimeout(() => {
-                    document?.getElementById(`docsearch_${key.code}`)?.focus()
-                  }, 200)
-                } else {
-                  inputEl.current?.focus()
-                }
-              }}>
+            <div key={key.code} className={css.skeybox} onClick={() => changeKey(key)}>
               <div className={css.skey}>
                 <div className={cs(css.skname)} style={styles}>
                   {key.hideName ? <>&nbsp;</> : key.name}
@@ -417,7 +425,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           )
         })
     },
-    [language, setResultAction, setStorage, pinKeys]
+    [language, changeKey, setStorage, pinKeys]
   )
 
   useHotkeys(
@@ -427,26 +435,9 @@ const SearchInput: React.FC = (): JSX.Element => {
         ? Keys.find(k => k.shortkeys === kquery)
         : Keys.find(k => k.shortkeys === squery || k.shortkeys === dquery)
       if (key) {
-        setSquery('')
-        setKquery('')
-        setCurrentKey(key)
-        setDisplayKeys(false)
-        winSearchParams({ keyname: key.code, query: '' })
-
-        setSuggesteIndex(-1)
-        setSuggeste(null)
-
-        setPageno(1)
-        setResultAction(null)
-
-        if (IsDocsearchKeys(key.code)) {
-          setTimeout(() => {
-            document?.getElementById(`docsearch_${key.code}`)?.focus()
-          }, 200)
-        } else {
-          setTimeout(() => inputEl.current?.focus(), 0) // tab have to blur
-          setTimeout(() => setFocus(true), 200) // wait input onBlur
-        }
+        changeKey(key)
+      } else if (displayKeys ? kquery.includes('`') : squery.includes('`') || dquery.includes('')) {
+        setDisplayKeys(!displayKeys)
       }
     },
     [squery, kquery, dquery],

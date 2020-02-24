@@ -234,12 +234,16 @@ const Drawer: React.FC = (): JSX.Element => {
                   <span className={css.description}>{useIntl(Words.FocusToInput)}</span>
                 </div>
                 <div>
+                  <span className={css.shortcut}>&apos;gh&apos;+tab</span>
+                  <span className={css.description}>{useIntl(Words.SwitchToGithub)}</span>
+                </div>
+                <div>
                   <span className={css.shortcut}>`</span>
                   <span className={css.description}>{useIntl(Words.DisplaySearchable)}</span>
                 </div>
                 <div>
-                  <span className={css.shortcut}>&apos;gh&apos;+tab</span>
-                  <span className={css.description}>{useIntl(Words.SwitchToGithub)}</span>
+                  <span className={css.shortcut}>&apos;`&apos;+tab</span>
+                  <span className={css.description}>{useIntl(Words.DisplaySearchable)}</span>
                 </div>
               </div>
               {/* <div className={css.section}>
