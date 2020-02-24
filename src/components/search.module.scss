@@ -13,9 +13,6 @@
   top: 130px;
   margin-bottom: 20px;
   z-index: 8;
-  &.hasfloat {
-    padding-top: 64px;
-  }
 
   *::-webkit-scrollbar-track {
     background: $white;
@@ -30,12 +27,8 @@
   background: #fff;
   border-radius: 6px;
   padding: 0 16px;
-  &.float {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 11;
-  }
+  position: sticky;
+  top: -1px;
   .input {
     @include ms-respond(font-size, 2);
     padding: 16px 0;

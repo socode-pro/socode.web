@@ -34,7 +34,6 @@ const programLanguageOptions = IntEnumObjects(ProgramLanguage)
 const timeRangeOptions = StringEnumObjects(SearchTimeRange)
 
 const SearchInput: React.FC = (): JSX.Element => {
-  const [isFloat, setIsFloat] = useState(false)
   const inputEl = useRef<HTMLInputElement & { onsearch: (e: InputEvent) => void }>(null)
 
   const [focus, setFocus] = useState(true)
@@ -298,20 +297,6 @@ const SearchInput: React.FC = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const debounceFloat = useCallback(
-    debounce<() => void>(() => {
-      setIsFloat(document.body.scrollTop > wapperTop + 20)
-    }, 100),
-    [wapperTop]
-  )
-
-  useEffect(() => {
-    document.body.addEventListener('scroll', debounceFloat, false)
-    return () => {
-      document.body.removeEventListener('scroll', debounceFloat)
-    }
-  }, [debounceFloat])
-
   useEffect(() => {
     if (!displayKeys && dsConfig && docsearchHack) {
       docsearch({
@@ -463,11 +448,11 @@ const SearchInput: React.FC = (): JSX.Element => {
       <div className='container'>
         <Brand />
         <animated.div
-          className={cs(css.searchWapper, { [css.focus]: focus, [css.hasfloat]: isFloat })}
+          className={cs(css.searchWapper, { [css.focus]: focus })}
           style={{
             top: spring.wapperTop,
           }}>
-          <div className={cs(css.searchInput, 'container', { [css.float]: isFloat })}>
+          <div className={cs(css.searchInput)}>
             <span className={cs(css.prefix, { [css.displayKeys]: displayKeys })} onClick={() => setDisplayKeys(!displayKeys)}>
               {currentKey.name}
             </span>
