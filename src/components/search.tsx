@@ -8,6 +8,7 @@ import cs from 'classnames'
 import Highlighter from 'react-highlight-words'
 import Brand from './brand'
 import CheatSheets from './cheatsheets'
+import Tools from './tools'
 import Awesome from './awesome'
 import Devdocs from './devdocs'
 import Slogan from './slogan'
@@ -463,6 +464,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               currentKey.devdocs ||
               currentKey.template ||
               currentKey.code === 'socode' ||
+              currentKey.code === 'tools' ||
               currentKey.code === 'cheatsheets') && (
               <input
                 type='search'
@@ -713,6 +715,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           )}
 
           {!displayKeys && currentKey.code === 'cheatsheets' && <CheatSheets query={squery} />}
+          {!displayKeys && currentKey.code === 'tools' && <Tools query={squery} />}
           {!displayKeys && displayAwesome && currentKey.awesome && !currentKey.devdocs && (
             <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} />
           )}

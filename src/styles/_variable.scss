@@ -161,12 +161,12 @@ $shadow_ionic_focus_invert: 0 6px 12px 0 rgba(255, 255, 255, 0.1), 0 1px 3px 0 r
   }
 }
 
-@mixin underline-hover() {
+@mixin underline-hover($bottom: -4px) {
   &:after {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -4px;
+    bottom: $bottom;
     height: 2px;
     background: currentColor;
     opacity: 1;

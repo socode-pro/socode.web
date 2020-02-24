@@ -31,6 +31,7 @@ $code-padding: 0;
 @import '~bulma/sass/utilities/_all.sass';
 @import '~bulma/sass/base/_all.sass';
 @import '~bulma/sass/grid/columns.sass';
+@import '~bulma/sass/grid/tiles.sass';
 @import '~bulma/sass/elements/button.sass';
 @import '~bulma/sass/elements/container.sass';
 @import '~bulma/sass/elements/title.sass';
@@ -114,6 +115,11 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   @extend %fa-icon;
   @extend .far;
   @extend .fa-list-alt;
+}
+.fa-thumbsup {
+  @extend %fa-icon;
+  @extend .far;
+  @extend .fa-thumbs-up;
 }
 // .fa-up {
 //   @extend %fa-icon;

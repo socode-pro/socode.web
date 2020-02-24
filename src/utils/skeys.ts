@@ -49,7 +49,6 @@ export const Keys: SKey[] = [
   {
     code: 'angular',
     name: 'Angular',
-    usage: true,
     shortkeys: 'ng',
     icon: 'angular.svg',
     homelink: 'https://angular.io',
@@ -756,12 +755,13 @@ export const Keys: SKey[] = [
     template: 'https://docs.mongodb.com/?searchProperty=manual&query=%s',
   },
   {
-    code: 'microsoft',
-    name: 'Microsoft Doc',
-    shortkeys: 'ms',
+    code: 'dotnet',
+    name: '.NET',
+    shortkeys: 'net',
     icon: 'microsoft.png',
     awesome: 'quozd/awesome-dotnet',
-    template: 'https://docs.microsoft.com/%l/search/?search=%s',
+    // template: 'https://docs.microsoft.com/%l/search/?search=%s',
+    template: 'https://docs.microsoft.com/zh-cn/dotnet/api/index?term=%s',
     bylang: true,
   },
   {
@@ -1198,6 +1198,13 @@ export const Keys: SKey[] = [
     devdocs: 'tensorflow~python',
   },
   {
+    code: 'tools',
+    name: 'Tools Tiles',
+    usage: true,
+    shortkeys: 'tt',
+    icon: 'tiles.png',
+  },
+  {
     code: 'typescript',
     name: 'Typescript',
     shortkeys: 'ts',
@@ -1214,6 +1221,13 @@ export const Keys: SKey[] = [
         indexName: 'typescriptlang',
       },
     ],
+  },
+  {
+    code: 'utf',
+    name: 'UTF8 Icons',
+    shortkeys: 'utf',
+    icon: 'utf.svg',
+    template: 'https://www.utf8icons.com/search?query=%s',
   },
   {
     code: 'vue',
@@ -1302,7 +1316,7 @@ export const IsDevdocsKeys = (code: string): boolean => {
 }
 
 export const IsAvoidKeys = (code: string): boolean => {
-  return IsDocsearchKeys(code) || IsDevdocsKeys(code) || code === 'cheatsheets'
+  return IsDocsearchKeys(code) || IsDevdocsKeys(code) || code === 'cheatsheets' || code === 'tools'
 }
 
 // export const GetKeyByName = (name: string): SKey | null => {
@@ -1337,12 +1351,4 @@ export const IsAvoidKeys = (code: string): boolean => {
 //     .map(([k, v]) => v)
 
 //   return keys.concat(mkeys)
-// }
-
-// export const AvoidKeys = (name: string): boolean => {
-//   return (
-//     DocsearchKeys()
-//       .map(k => k.name)
-//       .includes(name) || name === 'CheatSheets'
-//   )
 // }

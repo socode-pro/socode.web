@@ -1,0 +1,26 @@
+@import '../styles/variable';
+
+.grid {
+  padding: 15px;
+  font-family: $font-mono;
+  :global(p.title) {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.collection {
+  a {
+    margin-right: 15px;
+    color: $dh-text;
+    @include underline($dh-text);
+    &.elite {
+      color: $primary-dark;
+    }
+    &:hover {
+      @include underline-hover(1px);
+    }
+    i {
+      margin-left: 5px;
+    }
+  }
+}
