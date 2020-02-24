@@ -24,7 +24,7 @@ import css from './search.module.scss'
 import Loader1 from './loader/loader1'
 
 const fuseOptions: Fuse.FuseOptions<SKey> = {
-  keys: ['name'],
+  keys: ['name', 'shortkeys'],
   threshold: 0.3,
   maxPatternLength: 8,
 }
