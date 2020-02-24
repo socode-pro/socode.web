@@ -29,6 +29,7 @@
   padding: 0 16px;
   position: sticky;
   top: -1px;
+  z-index: 10;
   .input {
     @include ms-respond(font-size, 2);
     padding: 16px 0;

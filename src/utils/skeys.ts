@@ -557,6 +557,7 @@ export const Keys: SKey[] = [
     shortkeys: 'jv',
     icon: 'java.png',
     awesome: 'akullpp/awesome-java',
+    devdocs: 'openjdk~8',
     template: 'https://docs.oracle.com/apps/search/search.jsp?category=java&q=%s',
   },
   {
