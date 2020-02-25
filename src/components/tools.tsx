@@ -9,7 +9,7 @@ interface Props {
 }
 
 const fuseOptions: Fuse.FuseOptions<Link> = {
-  keys: ['name', 'label'],
+  keys: ['name', 'label', 'title'],
   threshold: 0.5,
   maxPatternLength: 16,
 }
@@ -50,7 +50,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                     return (
                       <a
                         key={a.href}
-                        title={a.label}
+                        title={a.title || a.label}
                         className={cs({ [css.elite]: a.elite })}
                         href={a.href}
                         target='_blank'
@@ -71,7 +71,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                     return (
                       <a
                         key={a.href}
-                        title={a.label}
+                        title={a.title || a.label}
                         className={cs({ [css.elite]: a.elite })}
                         href={a.href}
                         target='_blank'
@@ -95,7 +95,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                     return (
                       <a
                         key={a.href}
-                        title={a.label}
+                        title={a.title || a.label}
                         className={cs({ [css.elite]: a.elite })}
                         href={a.href}
                         target='_blank'
@@ -117,7 +117,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                       return (
                         <a
                           key={a.href}
-                          title={a.label}
+                          title={a.title || a.label}
                           className={cs({ [css.elite]: a.elite })}
                           href={a.href}
                           target='_blank'
@@ -138,7 +138,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                       return (
                         <a
                           key={a.href}
-                          title={a.label}
+                          title={a.title || a.label}
                           className={cs({ [css.elite]: a.elite })}
                           href={a.href}
                           target='_blank'
@@ -164,7 +164,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                       return (
                         <a
                           key={a.href}
-                          title={a.label}
+                          title={a.title || a.label}
                           className={cs({ [css.elite]: a.elite })}
                           href={a.href}
                           target='_blank'
@@ -185,7 +185,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                       return (
                         <a
                           key={a.href}
-                          title={a.label}
+                          title={a.title || a.label}
                           className={cs({ [css.elite]: a.elite })}
                           href={a.href}
                           target='_blank'
@@ -208,7 +208,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                     return (
                       <a
                         key={a.href}
-                        title={a.label}
+                        title={a.title || a.label}
                         className={cs({ [css.elite]: a.elite })}
                         href={a.href}
                         target='_blank'
@@ -233,7 +233,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                   return (
                     <a
                       key={a.href}
-                      title={a.label}
+                      title={a.title || a.label}
                       className={cs({ [css.elite]: a.elite })}
                       href={a.href}
                       target='_blank'
@@ -255,7 +255,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                   return (
                     <a
                       key={a.href}
-                      title={a.label}
+                      title={a.title || a.label}
                       className={cs({ [css.elite]: a.elite })}
                       href={a.href}
                       target='_blank'

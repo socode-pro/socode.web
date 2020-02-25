@@ -4,6 +4,7 @@ export interface Link {
   label?: string
   category?: ToolCategory
   elite?: boolean
+  title?: string
 }
 
 export enum ToolCategory {
@@ -25,6 +26,7 @@ export const Grids: Array<Link> = [
     label: 'http api test',
     category: ToolCategory.Playground,
     elite: true,
+    title: 'API request builder',
   },
   {
     name: 'CodeSandbox',
@@ -41,11 +43,40 @@ export const Grids: Array<Link> = [
     elite: true,
   },
   {
-    name: 'RegExr',
-    href: 'https://regexr.com',
-    label: 'regular',
+    name: 'Puppeteer Sandbox',
+    href: 'https://puppeteersandbox.com/',
+    label: 'http api test',
+    category: ToolCategory.Playground,
+    elite: true,
+    title: 'API request builder',
+  },
+  {
+    name: 'Codeply',
+    href: 'https://www.codeply.com/',
+    label: 'responsive layout bootstrap',
+    category: ToolCategory.Playground,
+    elite: true,
+    title: 'create beautiful screenshots of your source code.',
+  },
+  {
+    name: 'JSON Editor',
+    href: 'https://jsoneditoronline.org',
+    category: ToolCategory.Playground,
+    elite: true,
+  },
+  {
+    name: 'AST explorer',
+    href: 'https://astexplorer.net',
+    category: ToolCategory.Playground,
+    title:
+      'paste your JavaScript code and generate the Abstract Syntax Tree that will help you understand how the JavaScript parser works.',
+  },
+  {
+    name: 'HTTPie',
+    href: 'https://httpie.org/run',
     category: ToolCategory.Playground,
   },
+
   {
     name: 'Typescript Playground',
     href: 'https://www.typescriptlang.org/play',
@@ -168,6 +199,20 @@ export const Grids: Array<Link> = [
     category: ToolCategory.Playground,
   },
 
+  {
+    name: 'Mockaroo',
+    href: 'https://www.mockaroo.com',
+    category: ToolCategory.Generator,
+    elite: true,
+    title: 'generate dummy test data in CSV, JSON, SQL and Excel formats.',
+  },
+  {
+    name: 'Carbon',
+    href: 'https://carbon.now.sh',
+    category: ToolCategory.Generator,
+    elite: true,
+    title: 'create and share beautiful images of your source code.',
+  },
   {
     name: 'CSS3 Generator',
     href: 'https://enjoycss.com',
@@ -574,6 +619,13 @@ export const Grids: Array<Link> = [
   },
 
   {
+    name: 'htaccess tester',
+    href: 'https://htaccess.madewithlove.be',
+    category: ToolCategory.Validator,
+    elite: true,
+    title: 'test htaccess rewrite rules',
+  },
+  {
     name: 'Glob Test',
     href: 'https://www.digitalocean.com/community/tools/glob',
     category: ToolCategory.Validator,
@@ -636,6 +688,19 @@ export const Grids: Array<Link> = [
     category: ToolCategory.Validator,
   },
 
+  {
+    name: 'RegExr',
+    href: 'https://regexr.com',
+    label: 'regular',
+    category: ToolCategory.String,
+    elite: true,
+  },
+  {
+    name: 'Regulex',
+    href: 'https://jex.im/regulex',
+    category: ToolCategory.String,
+    label: 'regular',
+  },
   {
     name: 'String Builder',
     href: 'https://codebeautify.org/string-builder',

@@ -334,6 +334,14 @@ export const Keys: SKey[] = [
     devdocs: 'erlang~21',
   },
   {
+    code: 'explainshell',
+    name: 'explainshell',
+    usage: true,
+    shortkeys: 'she',
+    icon: 'shell.png',
+    template: 'https://explainshell.com/explain?cmd=%s',
+  },
+  {
     code: 'express',
     name: 'Express',
     shortkeys: 'ep',
@@ -614,6 +622,15 @@ export const Keys: SKey[] = [
     usage: true,
     icon: 'jscoach.svg',
     template: 'https://js.coach/?search=%s',
+  },
+  {
+    code: 'jsdelivr',
+    name: 'jsDelivr',
+    shortkeys: 'jd',
+    icon: 'jsdelivr.svg',
+    hideName: true,
+    width: 100,
+    template: 'https://www.jsdelivr.com/?query=%s',
   },
   {
     code: 'koa',
@@ -1189,6 +1206,16 @@ export const Keys: SKey[] = [
     homelink: 'https://swift.org/',
     awesome: 'matteocrippa/awesome-swift',
     template: 'https://google.com/search?q=%s%20site:swift.org',
+  },
+  {
+    code: 'tldr',
+    name: 'tldr',
+    usage: true,
+    shortkeys: 'tl',
+    icon: 'tldr.svg',
+    hideName: true,
+    width: 80,
+    template: 'https://tldr.ostera.io/%s',
   },
   {
     code: 'taro',
