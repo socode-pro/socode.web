@@ -6,6 +6,11 @@
   :global(p.title) {
     margin-bottom: 0.5rem;
   }
+  :global(.tile.is-parent) {
+    &:hover {
+      background-color: $white-duck;
+    }
+  }
 }
 
 .collection {

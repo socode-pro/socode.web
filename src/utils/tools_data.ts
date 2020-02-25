@@ -219,7 +219,7 @@ export const Grids: Array<Link> = [
     elite: true,
   },
   {
-    name: 'Word to HTML Converter',
+    name: 'Word to HTML',
     href: 'https://codebeautify.org/word-to-html-converter',
     category: ToolCategory.Converter,
   },
@@ -229,13 +229,8 @@ export const Grids: Array<Link> = [
     category: ToolCategory.Converter,
   },
   {
-    name: 'HTML to CSV Converter',
+    name: 'HTML to CSV',
     href: 'https://codebeautify.org/html-to-csv-converter',
-    category: ToolCategory.Converter,
-  },
-  {
-    name: 'HTML to TSV Converter',
-    href: 'https://codebeautify.org/html-to-tsv-converter',
     category: ToolCategory.Converter,
   },
   {
@@ -274,28 +269,13 @@ export const Grids: Array<Link> = [
     category: ToolCategory.Converter,
   },
   {
-    name: 'CSV to TSV',
-    href: 'https://codebeautify.org/csv-to-tsv-converter',
-    category: ToolCategory.Converter,
-  },
-  {
     name: 'JSON to CSV',
     href: 'https://codebeautify.org/json-to-csv',
     category: ToolCategory.Converter,
   },
   {
-    name: 'JSON to TSV',
-    href: 'https://codebeautify.org/json-to-tsv-converter',
-    category: ToolCategory.Converter,
-  },
-  {
     name: 'XML to CSV',
     href: 'https://codebeautify.org/xml-to-csv-converter',
-    category: ToolCategory.Converter,
-  },
-  {
-    name: 'XML to TSV',
-    href: 'https://codebeautify.org/xml-to-tsv-converter',
     category: ToolCategory.Converter,
   },
   {
@@ -453,7 +433,6 @@ export const Grids: Array<Link> = [
     name: 'All NumbersConverter',
     href: 'https://codebeautify.org/all-number-converter',
     category: ToolCategory.UnitConverter,
-    elite: true,
   },
   {
     name: 'NUMBER to WORD',
