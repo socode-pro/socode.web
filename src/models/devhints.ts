@@ -6,7 +6,8 @@ export interface DevhintsModel {
   loading: boolean
   setLoading: Action<DevhintsModel, boolean>
   html: string
-  setHtml: Action<DevhintsModel, { html: string; setTime?: boolean }>
+  setHtml: Action<DevhintsModel, string>
+  setHtmlStorage: Action<DevhintsModel, string>
   getHtml: Thunk<DevhintsModel>
 }
 
@@ -17,13 +18,14 @@ const devhintsModel: DevhintsModel = {
   }),
 
   html: '',
-  setHtml: action((state, payload) => {
+  setHtml: action((state, html) => {
+    state.html = html
+  }),
+  setHtmlStorage: action((state, html) => {
     try {
-      localStorage.setItem('devhintsHtml', payload.html)
-      state.html = payload.html
-      if (payload.setTime) {
-        localStorage.setItem('devhintsTime', dayjs().toJSON())
-      }
+      localStorage.setItem('devhintsHtml', html)
+      state.html = html
+      localStorage.setItem('devhintsTime', dayjs().toJSON())
     } catch (err) {
       console.error(err)
     }
@@ -39,14 +41,14 @@ const devhintsModel: DevhintsModel = {
       ) {
         const devhintsHtml = localStorage.getItem('devhintsHtml')
         if (devhintsHtml) {
-          actions.setHtml({ html: devhintsHtml || '' })
+          actions.setHtml(devhintsHtml || '')
           return
         }
       }
 
       actions.setLoading(true)
       const html = await ky.get('https://devhints.io/').text()
-      actions.setHtml({ html, setTime: true })
+      await actions.setHtmlStorage(html)
     } catch (err) {
       console.warn('DevhintsModel.getHtml:', err)
     }

@@ -3,6 +3,7 @@ import storageModel, { StorageModel } from './storage'
 import devhintsModel, { DevhintsModel } from './devhints'
 import learnxinyModel, { LearnxinyModel } from './learnxiny'
 import awesomeModel, { AwesomeModel } from './awesome'
+import readmeModel, { ReadmeModel } from './readme'
 import devdocsModel, { DevdocsModel } from './devdocs'
 
 export interface StoreModel {
@@ -11,6 +12,7 @@ export interface StoreModel {
   devhints: DevhintsModel
   learnxiny: LearnxinyModel
   awesome: AwesomeModel
+  readme: ReadmeModel
   devdocs: DevdocsModel
 }
 
@@ -20,6 +22,7 @@ const storeModel: StoreModel = {
   devhints: devhintsModel,
   learnxiny: learnxinyModel,
   awesome: awesomeModel,
+  readme: readmeModel,
   devdocs: devdocsModel,
 }
 

@@ -10,6 +10,7 @@ import Brand from './brand'
 import CheatSheets from './cheatsheets'
 import Tools from './tools'
 import Awesome from './awesome'
+import Readme from './readme'
 import Devdocs from './devdocs'
 import Slogan from './slogan'
 import Language, { ProgramLanguage } from '../utils/language'
@@ -463,6 +464,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             {(displayKeys ||
               currentKey.devdocs ||
               currentKey.template ||
+              currentKey.readmes ||
               currentKey.code === 'socode' ||
               currentKey.code === 'tools' ||
               currentKey.code === 'cheatsheets') && (
@@ -480,7 +482,15 @@ const SearchInput: React.FC = (): JSX.Element => {
                   setFocus(true)
                 }}
                 onChange={handleQueryChange}
-                placeholder={displayKeys ? 'filter...' : IsDevdocsKeys(currentKey.code) ? 'menu search...' : ''}
+                placeholder={
+                  displayKeys
+                    ? 'filter...'
+                    : IsDevdocsKeys(currentKey.code)
+                    ? 'menu search...'
+                    : currentKey.readmes
+                    ? 'no search...'
+                    : ''
+                }
                 ref={inputEl} // https://stackoverflow.com/a/48656310/346701
                 // onKeyPress={handleQueryKeyPress}
               />
@@ -719,6 +729,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           {!displayKeys && displayAwesome && currentKey.awesome && !currentKey.devdocs && (
             <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} />
           )}
+          {!displayKeys && currentKey.readmes && <Readme homelink={currentKey.homelink || ''} readmes={currentKey.readmes} />}
           {!displayKeys && currentKey.devdocs && <Devdocs slug={currentKey.devdocs} query={squery} />}
 
           {error !== null && <div className={css.error}>{error instanceof String ? error : error.message}</div>}

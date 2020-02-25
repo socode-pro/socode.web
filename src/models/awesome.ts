@@ -4,46 +4,48 @@ import dayjs from 'dayjs'
 
 export interface AwesomeModel {
   markdown: string
-  setMarkdown: Action<AwesomeModel, { name: string; markdown: string; setTime?: boolean }>
+  setMarkdown: Action<AwesomeModel, string>
+  setMarkdownStorage: Action<AwesomeModel, { name: string; markdown: string }>
   getMarkdown: Thunk<AwesomeModel, { name: string; awesome: string }>
 }
 
 const awesomeModel: AwesomeModel = {
   markdown: '',
   setMarkdown: action((state, payload) => {
+    state.markdown = payload
+  }),
+  setMarkdownStorage: action((state, payload) => {
     try {
-      localStorage.setItem(`markdown_${payload.name}`, payload.markdown)
+      localStorage.setItem(`awesome_${payload.name}`, payload.markdown)
       state.markdown = payload.markdown
-      if (payload.setTime) {
-        localStorage.setItem(`markdown_${payload.name}_time`, dayjs().toJSON())
-      }
+      localStorage.setItem(`awesome_${payload.name}_time`, dayjs().toJSON())
     } catch (err) {
       console.error(err)
     }
   }),
   getMarkdown: thunk(async (actions, payload) => {
     try {
-      const time = localStorage.getItem(`markdown_${payload.name}_time`)
+      const time = localStorage.getItem(`awesome_${payload.name}_time`)
       if (
         time &&
         dayjs(time)
           .add(1, 'day')
           .isAfter(dayjs())
       ) {
-        const markdown = localStorage.getItem(`markdown_${payload.name}`)
+        const markdown = localStorage.getItem(`awesome_${payload.name}`)
         if (markdown) {
-          actions.setMarkdown({ name: payload.name, markdown: markdown || '' })
+          actions.setMarkdown(markdown || '')
           return
         }
       }
 
       const markdown = await ky.get(`https://raw.githubusercontent.com/${payload.awesome}/master/readme.md`).text()
-      actions.setMarkdown({ name: payload.name, markdown, setTime: true })
+      await actions.setMarkdownStorage({ name: payload.name, markdown })
     } catch (err) {
       if (err.response?.status === 404) {
         try {
           const markdown = await ky.get(`https://raw.githubusercontent.com/${payload.awesome}/master/README.md`).text()
-          actions.setMarkdown({ name: payload.name, markdown, setTime: true })
+          await actions.setMarkdownStorage({ name: payload.name, markdown })
         } catch (e) {
           console.error('AwesomeModel.getMarkdown.retry', e)
         }

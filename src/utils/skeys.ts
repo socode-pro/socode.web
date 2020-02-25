@@ -27,6 +27,10 @@ export interface SKey {
     transformData?: (suggestions: any) => any
     lang: Language
   }>
+  readmes?: ReadonlyArray<{
+    path: string
+    lang: Language
+  }>
 }
 
 export const Keys: SKey[] = [
@@ -646,21 +650,6 @@ export const Keys: SKey[] = [
     ],
   },
   {
-    code: 'jenkinsx',
-    name: 'Jenkins X',
-    shortkeys: 'jk',
-    icon: 'jenkinsx.svg',
-    homelink: 'https://jenkins-x.io',
-    docsearch: [
-      {
-        lang: Language.English,
-        apiKey: '8904bbd3ca621bef472e3de7e0e29532',
-        indexName: 'jenkins_x',
-        algoliaOptions: { facetFilters: ['en-us'] },
-      },
-    ],
-  },
-  {
     code: 'jquery',
     name: 'jquery',
     shortkeys: 'jq',
@@ -727,7 +716,7 @@ export const Keys: SKey[] = [
   {
     code: 'laravel',
     name: 'Laravel',
-    shortkeys: 'lr',
+    shortkeys: 'lar',
     icon: 'laravel.svg',
     homelink: 'https://laravel.com',
     awesome: 'chiraggude/awesome-laravel',
@@ -749,6 +738,54 @@ export const Keys: SKey[] = [
         lang: Language.English,
         apiKey: '357b777ed18e79673a2c1de3f6c64478',
         indexName: 'leancloud',
+      },
+    ],
+  },
+  {
+    code: 'learn_regex',
+    name: 'Learn Regex',
+    usage: true,
+    shortkeys: 'lr',
+    icon: 'learn_regex.png',
+    hideName: true,
+    width: 100,
+    homelink: 'https://github.com/ziishaned/learn-regex',
+    readmes: [
+      {
+        lang: Language.English,
+        path: '/README.md',
+      },
+      {
+        lang: Language.Español,
+        path: '/translations/README-es.md',
+      },
+      {
+        lang: Language.français,
+        path: '/translations/README-fr.md',
+      },
+      {
+        lang: Language.Português,
+        path: '/translations/README-pt_BR.md',
+      },
+      {
+        lang: Language.中文_简体,
+        path: '/translations/README-cn.md',
+      },
+      {
+        lang: Language.日本語,
+        path: '/translations/README-ja.md',
+      },
+      {
+        lang: Language.한국어,
+        path: '/translations/README-ko.md',
+      },
+      {
+        lang: Language.Polski,
+        path: '/translations/README-pl.md',
+      },
+      {
+        lang: Language.русский,
+        path: '/translations/README-ru.md',
       },
     ],
   },
