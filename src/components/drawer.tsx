@@ -75,7 +75,7 @@ const Drawer: React.FC = (): JSX.Element => {
                 <span>to synchronize your settings</span>
               </a>
             </li> */}
-            {language !== Language.中文_简体 && (
+            {/* {language !== Language.中文_简体 && (
               <li>
                 <a
                   className={cs(css.navlink, css.discord)}
@@ -86,20 +86,29 @@ const Drawer: React.FC = (): JSX.Element => {
                   <span>recommend feature/feedback bug</span>
                 </a>
               </li>
-            )}
-            {language === Language.中文_简体 && (
+            )} */}
+            {/* {language === Language.中文_简体 && (
               <li>
                 <a
                   className={cs(css.navlink, css.feishu)}
                   target='_blank'
                   rel='noopener noreferrer'
                   href='https://go.feishu.cn/GNjRYF/'>
-                  {/* href='//shang.qq.com/wpa/qunwpa?idkey=3d2b1144846dfa498110b161de4267459888c26c67d509265bb88b4405b57e02'> */}
                   <h3>Chat</h3>
                   <span>recommend feature/feedback bug</span>
                 </a>
               </li>
-            )}
+            )} */}
+            <li>
+                <a
+                  className={cs(css.navlink, css.spectrum)}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  href='https://spectrum.chat/socode'>
+                  <h3>Chat</h3>
+                  <span>recommend feature/feedback bug</span>
+                </a>
+              </li>
             <li>
               <a
                 className={cs(css.navlink, css.chrome)}
