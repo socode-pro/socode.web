@@ -36,7 +36,7 @@ export const Grids: Array<Link> = [
     elite: true,
   },
   {
-    name: 'StackEdit',
+    name: 'StackEdit(markdown)',
     href: 'https://stackedit.io',
     label: 'markdown',
     category: ToolCategory.Playground,
@@ -51,7 +51,7 @@ export const Grids: Array<Link> = [
     title: 'API request builder',
   },
   {
-    name: 'Codeply',
+    name: 'Codeply(code image)',
     href: 'https://www.codeply.com/',
     label: 'responsive layout bootstrap',
     category: ToolCategory.Playground,
@@ -65,7 +65,7 @@ export const Grids: Array<Link> = [
     elite: true,
   },
   {
-    name: 'AST explorer',
+    name: 'AST explorer(Js Syntax Tree)',
     href: 'https://astexplorer.net',
     category: ToolCategory.Playground,
     title:
@@ -223,6 +223,12 @@ export const Grids: Array<Link> = [
   {
     name: 'NGINX Config',
     href: 'https://www.digitalocean.com/community/tools/nginx',
+    category: ToolCategory.Generator,
+    elite: true,
+  },
+  {
+    name: 'Random Keygen Generator',
+    href: 'https://randomkeygen.com',
     category: ToolCategory.Generator,
     elite: true,
   },
@@ -619,6 +625,12 @@ export const Grids: Array<Link> = [
   },
 
   {
+    name: 'Javascript Validator',
+    href: 'https://validatejavascript.com',
+    category: ToolCategory.Validator,
+    elite: true,
+  },
+  {
     name: 'htaccess tester',
     href: 'https://htaccess.madewithlove.be',
     category: ToolCategory.Validator,
@@ -650,11 +662,6 @@ export const Grids: Array<Link> = [
   {
     name: 'CSS Validator',
     href: 'https://codebeautify.org/cssvalidate',
-    category: ToolCategory.Validator,
-  },
-  {
-    name: 'JAVASCRIPT Validator',
-    href: 'https://codebeautify.org/jsvalidate',
     category: ToolCategory.Validator,
   },
   {
@@ -841,13 +848,19 @@ export const Grids: Array<Link> = [
   },
 
   {
-    name: 'Json Minifier',
-    href: 'https://codebeautify.org/jsonminifier',
+    name: 'JSCompress',
+    href: 'https://jscompress.com/',
+    category: ToolCategory.Minifier,
+    elite: true,
+  },
+  {
+    name: 'CSS Minifier',
+    href: 'https://cssminifier.com/',
     category: ToolCategory.Minifier,
   },
   {
-    name: 'Css Minifier',
-    href: 'https://codebeautify.org/css-beautify-minify',
+    name: 'Json Minifier',
+    href: 'https://codebeautify.org/jsonminifier',
     category: ToolCategory.Minifier,
   },
   {
