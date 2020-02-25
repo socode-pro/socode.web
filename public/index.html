@@ -15,10 +15,7 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -44,21 +41,14 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-159039195-1"></script>
     <script>
-      ;(function(f, a, t, h, o, m) {
-        a[h] =
-          a[h] ||
-          function() {
-            ;(a[h].q = a[h].q || []).push(arguments)
-          }
-        ;(o = f.createElement('script')), (m = f.getElementsByTagName('script')[0])
-        o.async = 1
-        o.src = t
-        o.id = 'fathom-script'
-        m.parentNode.insertBefore(o, m)
-      })(document, window, '//analytics.socode.pro/tracker.js', 'fathom')
-      fathom('set', 'siteId', 'XSXYV')
-      fathom('trackPageview')
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+      gtag('config', 'UA-159039195-1')
     </script>
   </body>
 </html>

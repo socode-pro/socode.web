@@ -1225,6 +1225,8 @@ export const Keys: SKey[] = [
   {
     code: 'utf',
     name: 'UTF8 Icons',
+    hideName: true,
+    width: 80,
     shortkeys: 'utf',
     icon: 'utf.svg',
     template: 'https://www.utf8icons.com/search?query=%s',
