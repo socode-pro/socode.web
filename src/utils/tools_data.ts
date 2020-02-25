@@ -34,6 +34,13 @@ export const Grids: Array<Link> = [
     elite: true,
   },
   {
+    name: 'StackEdit',
+    href: 'https://stackedit.io',
+    label: 'markdown',
+    category: ToolCategory.Playground,
+    elite: true,
+  },
+  {
     name: 'RegExr',
     href: 'https://regexr.com',
     label: 'regular',

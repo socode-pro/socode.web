@@ -304,7 +304,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         appId: dsConfig.appId,
         apiKey: dsConfig.apiKey,
         indexName: dsConfig.indexName,
-        inputSelector: `#docsearch_${currentKey.code}_${dsConfig.lang}`,
+        inputSelector: `#docsearch_${currentKey.code}`,
         algoliaOptions: { ...dsConfig.algoliaOptions, hitsPerPage: 10 },
         handleSelected: (input, event, suggestion) => {
           window.open(suggestion.url, '_blank')?.focus()
@@ -335,13 +335,13 @@ const SearchInput: React.FC = (): JSX.Element => {
       setPageno(1)
       setResultAction(null)
 
-      if (IsDocsearchKeys(key.code)) {
-        setTimeout(() => {
+      setTimeout(() => {
+        if (IsDocsearchKeys(key.code)) {
           document?.getElementById(`docsearch_${key.code}`)?.focus()
-        }, 200)
-      } else {
-        inputEl.current?.focus()
-      }
+        } else {
+          inputEl.current?.focus()
+        }
+      }, 200)
     },
     [setResultAction]
   )
@@ -437,7 +437,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         : Keys.find(k => k.shortkeys === squery || k.shortkeys === dquery)
       if (key) {
         changeKey(key)
-      } else if (displayKeys ? kquery.includes('`') : squery.includes('`') || dquery.includes('')) {
+      } else if (displayKeys ? kquery.endsWith('`') : squery.endsWith('`') || dquery.endsWith('`')) {
         setDisplayKeys(!displayKeys)
       }
     },
@@ -496,7 +496,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                   autoFocus
                   value={dquery}
                   onChange={e => setDquery(e.target.value)}
-                  id={`docsearch_${currentKey.code}_${dsConfig.lang}`}
+                  id={`docsearch_${currentKey.code}`}
                 />
               </div>
             )}
