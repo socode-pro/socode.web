@@ -395,6 +395,14 @@ export const Keys: SKey[] = [
     template: 'https://flutter.dev/search?q=%s',
   },
   {
+    code: 'fontawesome',
+    name: 'Font Awesome',
+    shortkeys: 'fa',
+    icon: 'fontawesome.svg',
+    homelink: 'https://fontawesome.com',
+    template: 'https://fontawesome.com/icons?d=gallery&q=%s',
+  },
+  {
     code: 'gatsby',
     name: 'Gatsby',
     shortkeys: 'gb',
@@ -551,6 +559,21 @@ export const Keys: SKey[] = [
     template: 'https://hex.pm/packages?search=%s',
   },
   {
+    code: 'hugo',
+    name: 'Hugo',
+    shortkeys: 'hg',
+    icon: 'hugo.svg',
+    hideName: true,
+    width: 110,
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '167e7998590aebda7f9fedcf86bc4a55',
+        indexName: 'hugodocs',
+      },
+    ],
+  },
+  {
     code: 'html',
     name: 'HTML',
     shortkeys: 'html',
@@ -564,6 +587,13 @@ export const Keys: SKey[] = [
     icon: 'influxdata.svg',
     homelink: 'https://www.influxdata.com',
     devdocs: 'influxdata',
+  },
+  {
+    code: 'iconfont',
+    name: 'Iconfont',
+    shortkeys: 'if',
+    icon: 'iconfont.svg',
+    template: 'https://www.iconfont.cn/search/index?searchType=icon&fromCollection=1&q=%s',
   },
   {
     code: 'java',
@@ -582,6 +612,38 @@ export const Keys: SKey[] = [
     icon: 'javascript.svg',
     awesome: 'sorrycc/awesome-javascript',
     devdocs: 'javascript',
+  },
+  {
+    code: 'jekyll',
+    name: 'Jekyll',
+    shortkeys: 'jk',
+    icon: 'jekyll.svg',
+    hideName: true,
+    width: 80,
+    homelink: 'https://jekyllrb.com',
+    devdocs: 'jekyll',
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '50fe39c839958dfad797000f33e2ec17',
+        indexName: 'jekyllrb',
+      },
+    ],
+  },
+  {
+    code: 'jenkinsx',
+    name: 'Jenkins X',
+    shortkeys: 'jk',
+    icon: 'jenkinsx.svg',
+    homelink: 'https://jenkins-x.io',
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: '8904bbd3ca621bef472e3de7e0e29532',
+        indexName: 'jenkins_x',
+        algoliaOptions: { facetFilters: ['en-us'] },
+      },
+    ],
   },
   {
     code: 'jenkinsx',
