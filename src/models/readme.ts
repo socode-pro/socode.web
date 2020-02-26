@@ -6,7 +6,7 @@ export interface ReadmeModel {
   markdown: string
   setMarkdown: Action<ReadmeModel, string>
   setMarkdownStorage: Action<ReadmeModel, { name: string; readme: string }>
-  getMarkdown: Thunk<ReadmeModel, { homelink: string; readme: string }>
+  getMarkdown: Thunk<ReadmeModel, { base: string; path: string }>
 }
 
 const readmeModel: ReadmeModel = {
@@ -23,8 +23,8 @@ const readmeModel: ReadmeModel = {
       console.error(err)
     }
   }),
-  getMarkdown: thunk(async (actions, { homelink, readme }) => {
-    const name = homelink.replace('https://github.com/', '') + readme
+  getMarkdown: thunk(async (actions, { base, path }) => {
+    const name = base + path
     try {
       const time = localStorage.getItem(`readme_${name}_time`)
       if (
@@ -40,10 +40,10 @@ const readmeModel: ReadmeModel = {
         }
       }
 
-      const markdown = await ky.get(`${homelink.replace('github', 'raw.githubusercontent')}/master${readme}`).text()
+      const markdown = await ky.get(`https://raw.githubusercontent.com/${base}/master${path}`).text()
       actions.setMarkdownStorage({ name, readme: markdown })
     } catch (err) {
-      console.warn('AwesomeModel.getMarkdown', err)
+      console.warn('ReadmeModel.getMarkdown', err)
     }
   }),
 }

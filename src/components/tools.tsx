@@ -17,6 +17,7 @@ const fuseOptions: Fuse.FuseOptions<Link> = {
 const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
   const [grids, setGrids] = useState(Grids)
   const playground = grids.filter(g => g.category === ToolCategory.Playground)
+  const playgroundBackend = grids.filter(g => g.category === ToolCategory.PlaygroundBackend)
   const generator = grids.filter(g => g.category === ToolCategory.Generator)
   const converter = grids.filter(g => g.category === ToolCategory.Converter)
   const unitConverter = grids.filter(g => g.category === ToolCategory.UnitConverter)
@@ -87,6 +88,28 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
           </div>
 
           <div className='tile'>
+            <div className='tile is-parent'>
+              <article className='tile is-child'>
+                <p className='title is-5'>Playground Backend</p>
+                <div className={cs(css.collection, 'content')}>
+                  {playgroundBackend.map(a => {
+                    return (
+                      <a
+                        key={a.href}
+                        title={a.title || a.label}
+                        className={cs({ [css.elite]: a.elite })}
+                        href={a.href}
+                        target='_blank'
+                        rel='noopener noreferrer'>
+                        {a.name}
+                        {a.elite && <i className='fa-thumbsup' />}
+                      </a>
+                    )
+                  })}
+                </div>
+              </article>
+            </div>
+
             <div className='tile is-parent is-6'>
               <article className='tile is-child'>
                 <p className='title is-5'>Validators</p>
@@ -108,49 +131,50 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                 </div>
               </article>
             </div>
-            <div className='tile is-vertical'>
-              <div className='tile is-parent'>
-                <article className='tile is-child'>
-                  <p className='title is-5'>Minifier</p>
-                  <div className={cs(css.collection, 'content')}>
-                    {minifier.map(a => {
-                      return (
-                        <a
-                          key={a.href}
-                          title={a.title || a.label}
-                          className={cs({ [css.elite]: a.elite })}
-                          href={a.href}
-                          target='_blank'
-                          rel='noopener noreferrer'>
-                          {a.name}
-                          {a.elite && <i className='fa-thumbsup' />}
-                        </a>
-                      )
-                    })}
-                  </div>
-                </article>
-              </div>
-              <div className='tile is-parent'>
-                <article className='tile is-child'>
-                  <p className='title is-5'>Diff</p>
-                  <div className={cs(css.collection, 'content')}>
-                    {diffs.map(a => {
-                      return (
-                        <a
-                          key={a.href}
-                          title={a.title || a.label}
-                          className={cs({ [css.elite]: a.elite })}
-                          href={a.href}
-                          target='_blank'
-                          rel='noopener noreferrer'>
-                          {a.name}
-                          {a.elite && <i className='fa-thumbsup' />}
-                        </a>
-                      )
-                    })}
-                  </div>
-                </article>
-              </div>
+          </div>
+
+          <div className='tile'>
+            <div className='tile is-parent'>
+              <article className='tile is-child'>
+                <p className='title is-5'>Minifier</p>
+                <div className={cs(css.collection, 'content')}>
+                  {minifier.map(a => {
+                    return (
+                      <a
+                        key={a.href}
+                        title={a.title || a.label}
+                        className={cs({ [css.elite]: a.elite })}
+                        href={a.href}
+                        target='_blank'
+                        rel='noopener noreferrer'>
+                        {a.name}
+                        {a.elite && <i className='fa-thumbsup' />}
+                      </a>
+                    )
+                  })}
+                </div>
+              </article>
+            </div>
+            <div className='tile is-parent'>
+              <article className='tile is-child'>
+                <p className='title is-5'>Diff</p>
+                <div className={cs(css.collection, 'content')}>
+                  {diffs.map(a => {
+                    return (
+                      <a
+                        key={a.href}
+                        title={a.title || a.label}
+                        className={cs({ [css.elite]: a.elite })}
+                        href={a.href}
+                        target='_blank'
+                        rel='noopener noreferrer'>
+                        {a.name}
+                        {a.elite && <i className='fa-thumbsup' />}
+                      </a>
+                    )
+                  })}
+                </div>
+              </article>
             </div>
           </div>
 

@@ -488,7 +488,9 @@ const SearchInput: React.FC = (): JSX.Element => {
                     : IsDevdocsKeys(currentKey.code)
                     ? 'menu search...'
                     : currentKey.readmes
-                    ? 'no search...'
+                    ? currentKey.readmes.searched
+                      ? 'content search...'
+                      : 'no search...'
                     : ''
                 }
                 ref={inputEl} // https://stackoverflow.com/a/48656310/346701
@@ -729,7 +731,13 @@ const SearchInput: React.FC = (): JSX.Element => {
           {!displayKeys && displayAwesome && currentKey.awesome && !currentKey.devdocs && (
             <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} />
           )}
-          {!displayKeys && currentKey.readmes && <Readme homelink={currentKey.homelink || ''} readmes={currentKey.readmes} />}
+          {!displayKeys && currentKey.readmes && (
+            <Readme
+              base={currentKey.readmes.base}
+              paths={currentKey.readmes.paths}
+              query={currentKey.readmes.searched ? squery : undefined}
+            />
+          )}
           {!displayKeys && currentKey.devdocs && <Devdocs slug={currentKey.devdocs} query={squery} />}
 
           {error !== null && <div className={css.error}>{error instanceof String ? error : error.message}</div>}

@@ -27,10 +27,14 @@ export interface SKey {
     transformData?: (suggestions: any) => any
     lang: Language
   }>
-  readmes?: ReadonlyArray<{
-    path: string
-    lang: Language
-  }>
+  readmes?: {
+    base: string
+    paths: ReadonlyArray<{
+      path: string
+      lang: Language
+    }>
+    searched?: boolean
+  }
 }
 
 export const Keys: SKey[] = [
@@ -407,6 +411,69 @@ export const Keys: SKey[] = [
     template: 'https://fontawesome.com/icons?d=gallery&q=%s',
   },
   {
+    code: 'free_programming_books',
+    name: 'Free Programming Books',
+    shortkeys: 'fpb',
+    usage: true,
+    icon: 'free_programming_books.png',
+    homelink: 'https://github.com/EbookFoundation/free-programming-books',
+    readmes: {
+      base: 'EbookFoundation/free-programming-books',
+      searched: true,
+      paths: [
+        {
+          lang: Language.English,
+          path: '/free-programming-books.md',
+        },
+        {
+          lang: Language.中文_简体,
+          path: '/free-programming-books-zh.md',
+        },
+        {
+          lang: Language.Português,
+          path: '/free-programming-books-pt_BR.md',
+        },
+        {
+          lang: Language.日本語,
+          path: '/free-programming-books-ja.md',
+        },
+        {
+          lang: Language.русский,
+          path: '/free-programming-books-ru.md',
+        },
+        {
+          lang: Language.Español,
+          path: '/free-programming-books-es.md',
+        },
+        {
+          lang: Language.français,
+          path: '/free-programming-books-fr.md',
+        },
+        {
+          lang: Language.Deutsche,
+          path: '/free-programming-books-de.md',
+        },
+        {
+          lang: Language.Italiano,
+          path: '/free-programming-books-it.md',
+        },
+
+        {
+          lang: Language.한국어,
+          path: '/free-programming-books-ko.md',
+        },
+        {
+          lang: Language.العربية,
+          path: '/free-programming-books-ar.md',
+        },
+        {
+          lang: Language.Polski,
+          path: '/free-programming-books-pl.md',
+        },
+      ],
+    },
+  },
+  {
     code: 'gatsby',
     name: 'Gatsby',
     shortkeys: 'gb',
@@ -746,48 +813,49 @@ export const Keys: SKey[] = [
     name: 'Learn Regex',
     usage: true,
     shortkeys: 'lr',
-    icon: 'learn_regex.png',
-    hideName: true,
-    width: 100,
+    icon: 'regex.svg',
     homelink: 'https://github.com/ziishaned/learn-regex',
-    readmes: [
-      {
-        lang: Language.English,
-        path: '/README.md',
-      },
-      {
-        lang: Language.Español,
-        path: '/translations/README-es.md',
-      },
-      {
-        lang: Language.français,
-        path: '/translations/README-fr.md',
-      },
-      {
-        lang: Language.Português,
-        path: '/translations/README-pt_BR.md',
-      },
-      {
-        lang: Language.中文_简体,
-        path: '/translations/README-cn.md',
-      },
-      {
-        lang: Language.日本語,
-        path: '/translations/README-ja.md',
-      },
-      {
-        lang: Language.한국어,
-        path: '/translations/README-ko.md',
-      },
-      {
-        lang: Language.Polski,
-        path: '/translations/README-pl.md',
-      },
-      {
-        lang: Language.русский,
-        path: '/translations/README-ru.md',
-      },
-    ],
+    readmes: {
+      base: 'ziishaned/learn-regex',
+      paths: [
+        {
+          lang: Language.English,
+          path: '/README.md',
+        },
+        {
+          lang: Language.Español,
+          path: '/translations/README-es.md',
+        },
+        {
+          lang: Language.français,
+          path: '/translations/README-fr.md',
+        },
+        {
+          lang: Language.Português,
+          path: '/translations/README-pt_BR.md',
+        },
+        {
+          lang: Language.中文_简体,
+          path: '/translations/README-cn.md',
+        },
+        {
+          lang: Language.日本語,
+          path: '/translations/README-ja.md',
+        },
+        {
+          lang: Language.한국어,
+          path: '/translations/README-ko.md',
+        },
+        {
+          lang: Language.Polski,
+          path: '/translations/README-pl.md',
+        },
+        {
+          lang: Language.русский,
+          path: '/translations/README-ru.md',
+        },
+      ],
+    },
   },
   {
     code: 'less',
@@ -827,7 +895,6 @@ export const Keys: SKey[] = [
   {
     code: 'mariadb',
     name: 'MariaDB',
-    usage: true,
     shortkeys: 'mdb',
     icon: 'mariadb.svg',
     homelink: 'https://mariadb.org',
@@ -1157,7 +1224,6 @@ export const Keys: SKey[] = [
   {
     code: 'redis',
     name: 'Redis',
-    usage: true,
     shortkeys: 'rd',
     icon: 'redis.svg',
     homelink: 'https://redis.io',
@@ -1460,8 +1526,14 @@ export const IsDevdocsKeys = (code: string): boolean => {
     .includes(code)
 }
 
+export const IsReadmeKeys = (code: string): boolean => {
+  return Keys.filter(k => k.readmes)
+    .map(k => k.code)
+    .includes(code)
+}
+
 export const IsAvoidKeys = (code: string): boolean => {
-  return IsDocsearchKeys(code) || IsDevdocsKeys(code) || code === 'cheatsheets' || code === 'tools'
+  return IsDocsearchKeys(code) || IsDevdocsKeys(code) || IsReadmeKeys(code) || code === 'cheatsheets' || code === 'tools'
 }
 
 // export const GetKeyByName = (name: string): SKey | null => {
