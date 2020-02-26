@@ -46,3 +46,18 @@ export const winSearchParams = (params: { keyname?: string; query?: string; devd
   }
   history.pushState(null, '', `${location.pathname}${[...searchParams].length ? `?${searchParams.toString()}` : ''}`)
 }
+
+export const transRelationHref = (href: string | null, currentPath: string): string => {
+  if (href && !href.startsWith('http') && !href.startsWith('/?') && !href.startsWith('#')) {
+    const hrefs = currentPath.split('/')
+    if (href.startsWith('../')) {
+      hrefs[hrefs.length - 2] = href.replace('../', '')
+      hrefs.pop()
+    } else {
+      hrefs[hrefs.length - 1] = href
+    }
+    const nhref = hrefs.join('/')
+    return nhref
+  }
+  return ''
+}

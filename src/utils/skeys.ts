@@ -533,7 +533,7 @@ export const Keys: SKey[] = [
   {
     code: 'google',
     name: 'Google',
-    shortkeys: 'g',
+    shortkeys: 'gg',
     icon: 'google.png',
     template: 'https://google.com/search?q=%s&hl=%l',
     bylang: true,
@@ -1099,6 +1099,23 @@ export const Keys: SKey[] = [
         indexName: 'prettier',
       },
     ],
+  },
+  {
+    code: 'public_apis',
+    name: 'Public APIs',
+    shortkeys: 'pa',
+    icon: 'api.svg',
+    homelink: 'https://github.com/public-apis/public-apis',
+    readmes: {
+      base: 'zicjin/public-apis',
+      searched: true,
+      paths: [
+        {
+          lang: Language.English,
+          path: '/README.md',
+        },
+      ],
+    },
   },
   {
     code: 'puppeteer',

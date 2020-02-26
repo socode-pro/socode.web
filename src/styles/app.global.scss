@@ -294,6 +294,19 @@ html.WithJs {
   background-color: transparent;
 }
 
+.markdown-body {
+  margin: 15px 20px;
+  h1 {
+    font-size: 1.5em;
+  }
+  &.querying {
+    table,
+    p {
+      margin: 0;
+    }
+  }
+}
+
 html {
   *::-webkit-scrollbar {
     -webkit-appearance: none;

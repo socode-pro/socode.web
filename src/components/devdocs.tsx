@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import cs from 'classnames'
 import debounce from 'lodash/debounce'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { DevDocEntrie } from '../services/devdocs.service'
-import { winSearchParams } from '../utils/assist'
+import { winSearchParams, transRelationHref } from '../utils/assist'
 import Loader1 from './loader/loader1'
 import css from './devdocs.module.scss'
 
@@ -84,16 +84,8 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
     const atags = document.querySelectorAll('.devdocs_main a[href]')
     atags.forEach(tag => {
       const href = tag.getAttribute('href')
-      if (href && !href.startsWith('http') && !href.startsWith('/?') && !href.startsWith('#')) {
-        const hrefs = currentPath.split('/')
-        if (href.startsWith('../')) {
-          hrefs[hrefs.length - 2] = href.replace('../', '')
-          hrefs.pop()
-        } else {
-          hrefs[hrefs.length - 1] = href
-        }
-        const nhref = hrefs.join('/')
-
+      const nhref = transRelationHref(href, currentPath)
+      if (nhref) {
         const searchParams = new URLSearchParams(window.location.search)
         searchParams.set('devdocs', nhref)
         tag.setAttribute('href', `/?${searchParams.toString()}`)
