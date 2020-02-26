@@ -203,7 +203,6 @@ export const Keys: SKey[] = [
   {
     code: 'css',
     name: 'css',
-    usage: true,
     shortkeys: 'css',
     icon: 'css.svg',
     devdocs: 'css',
@@ -679,7 +678,6 @@ export const Keys: SKey[] = [
     code: 'javascript',
     name: 'Javascript',
     shortkeys: 'js',
-    usage: true,
     icon: 'javascript.svg',
     awesome: 'sorrycc/awesome-javascript',
     devdocs: 'javascript',
@@ -1105,6 +1103,7 @@ export const Keys: SKey[] = [
     name: 'Public APIs',
     shortkeys: 'pa',
     icon: 'api.svg',
+    usage: true,
     homelink: 'https://github.com/public-apis/public-apis',
     readmes: {
       base: 'zicjin/public-apis',
