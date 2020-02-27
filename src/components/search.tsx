@@ -609,6 +609,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           </div>
 
           {focus &&
+            !displayKeys &&
             suggeste !== null &&
             suggeste.words.length > 0 &&
             suggeste.key === currentKey.code &&
