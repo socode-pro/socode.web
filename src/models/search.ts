@@ -3,6 +3,7 @@ import { Injections } from '../store'
 import { StoreModel } from './index'
 import { ProgramLanguage } from '../utils/language'
 import { SocodeResult, SearchParam } from '../services/socode.service'
+import { NpmsResult, NpmsParam } from '../services/npms.service'
 import { SKey, IsAvoidKeys } from '../utils/skeys'
 
 export interface SMError {
@@ -21,14 +22,18 @@ export interface SearchModel {
   result: SocodeResult | null
   setResult: Action<SearchModel, SocodeResult | null>
 
+  npmResult: NpmsResult | null
+  setNpmResult: Action<SearchModel, NpmsResult | null>
+
   loading: boolean
   setLoading: Action<SearchModel, boolean>
 
   error: SMError | null
   setError: Action<SearchModel, SMError | null>
 
-  search: Thunk<SearchModel, SearchParam & SKey, Injections>
+  search: Thunk<SearchModel, (SearchParam | NpmsParam) & SKey, Injections>
   lunchUrl: Thunk<SearchModel, SearchParam & SKey, Injections, StoreModel>
+  clearResult: Action<SearchModel>
 }
 
 const searchModel: SearchModel = {
@@ -45,6 +50,11 @@ const searchModel: SearchModel = {
   result: null,
   setResult: action((state, payload) => {
     state.result = payload
+  }),
+
+  npmResult: null,
+  setNpmResult: action((state, payload) => {
+    state.npmResult = payload
   }),
 
   wapperTop: computed(state =>
@@ -77,6 +87,17 @@ const searchModel: SearchModel = {
       }
       actions.setResult(result)
       actions.setLoading(false)
+    } else if (payload.code === 'npm') {
+      actions.setLoading(true)
+      actions.setError(null)
+      let result: NpmsResult | null = null
+      try {
+        result = await injections.npmsService.search(payload)
+      } catch (err) {
+        actions.setError(err)
+      }
+      actions.setNpmResult(result)
+      actions.setLoading(false)
     } else {
       actions.lunchUrl(payload)
     }
@@ -105,6 +126,11 @@ const searchModel: SearchModel = {
     } else {
       state.error = { message: 'query fail' }
     }
+  }),
+
+  clearResult: action(state => {
+    state.result = null
+    state.npmResult = null
   }),
 }
 

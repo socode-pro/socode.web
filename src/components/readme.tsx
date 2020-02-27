@@ -62,6 +62,11 @@ const changeTags = (base: string, body: Element, tags: NodeListOf<HTMLElement>, 
     items.forEach(tag => {
       tag.style.display = display
     })
+  } else if (base.endsWith('free-programming-books')) {
+    const items = body.querySelectorAll('h3, h4') as NodeListOf<HTMLElement>
+    items.forEach(tag => {
+      tag.style.display = display
+    })
   }
 }
 
@@ -78,7 +83,7 @@ const Readme: React.FC<Props> = ({ base, paths, query }: Props): JSX.Element => 
 
   useEffect(() => {
     const readme = paths.find(r => r.lang === docLanguage)
-    setPath(readme?.path || '')
+    setPath(readme?.path || paths[0].path)
   }, [docLanguage, paths])
 
   useEffect(() => {

@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react'
 import { useSpring, animated } from 'react-spring'
+import dayjs from 'dayjs'
 import Fuse from 'fuse.js'
 import debounce from 'lodash/debounce'
 import without from 'lodash/without'
@@ -19,11 +20,13 @@ import { SKey, Keys, IsDocsearchKeys, IsDevdocsKeys, IsAvoidKeys } from '../util
 import { StringEnumObjects, IntEnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { SearchTimeRange, SearchParam, SocodeResult } from '../services/socode.service'
+import { NpmsResult } from '../services/npms.service'
 import { StorageType } from '../models/storage'
 import { SMError } from '../models/search'
 import { Suggester, SuggestItem } from '../services/suggest.service'
 import css from './search.module.scss'
 import Loader1 from './loader/loader1'
+import { ReactComponent as Github } from '../images/github.svg'
 
 const fuseOptions: Fuse.FuseOptions<SKey> = {
   keys: ['name', 'shortkeys'],
@@ -55,8 +58,9 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const setExpandView = useStoreActions(actions => actions.search.setExpandView)
   const result = useStoreState<SocodeResult | null>(state => state.search.result)
+  const npmResult = useStoreState<NpmsResult | null>(state => state.search.npmResult)
   const searchAction = useStoreActions(actions => actions.search.search)
-  const setResultAction = useStoreActions(actions => actions.search.setResult)
+  const clearResult = useStoreActions(actions => actions.search.clearResult)
   const lunchUrlAction = useStoreActions(actions => actions.search.lunchUrl)
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
   const storageInitialed = useStoreState<boolean>(state => state.storage.initialed)
@@ -150,13 +154,13 @@ const SearchInput: React.FC = (): JSX.Element => {
       }
 
       if (!query) {
-        setResultAction(null)
+        clearResult()
         return
       }
       const param = { query, searchLanguage, porogramLanguage, timeRange, pageno } as SearchParam
       await searchAction({ ...param, ...skey })
     },
-    [currentKey, squery, searchLanguage, porogramLanguage, timeRange, pageno, searchAction, setResultAction]
+    [currentKey, squery, searchLanguage, porogramLanguage, timeRange, pageno, searchAction, clearResult]
   )
 
   const debounceSuggeste = useCallback(
@@ -262,7 +266,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       setPageno(1)
 
       if (url) {
-        lunchUrlAction({ url, ...currentKey })
+        lunchUrlAction({ query: '', url, ...currentKey })
       } else {
         searchSubmit(a)
         winSearchParams({ keyname: currentKey.code, query: a })
@@ -334,7 +338,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       setSuggesteIndex(-1)
       setSuggeste(null)
       setPageno(1)
-      setResultAction(null)
+      clearResult()
 
       setTimeout(() => {
         if (IsDocsearchKeys(key.code)) {
@@ -344,7 +348,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         }
       }, 200)
     },
-    [setResultAction]
+    [clearResult]
   )
 
   const getKeysDom = useCallback(
@@ -762,24 +766,24 @@ const SearchInput: React.FC = (): JSX.Element => {
                 </div>
               ))}
 
-              {result.paging && (
-                <div className={cs(css.pagination, 'field has-addons')}>
-                  {pageno !== 1 && (
-                    <p className='control'>
-                      <button
-                        type='button'
-                        className='button is-rounded'
-                        onClick={() => {
-                          setPageno(pageno - 1)
-                          window.scrollTo({ top: 0 })
-                        }}>
-                        <span className='icon'>
-                          <i className='fa-angle-left' />
-                        </span>
-                        <span>Previous Page</span>
-                      </button>
-                    </p>
-                  )}
+              <div className={cs(css.pagination, 'field has-addons')}>
+                {pageno !== 1 && (
+                  <p className='control'>
+                    <button
+                      type='button'
+                      className='button is-rounded'
+                      onClick={() => {
+                        setPageno(pageno - 1)
+                        window.scrollTo({ top: 0 })
+                      }}>
+                      <span className='icon'>
+                        <i className='fa-angle-left' />
+                      </span>
+                      <span>Previous Page</span>
+                    </button>
+                  </p>
+                )}
+                {result.paging && (
                   <p className='control'>
                     <button
                       type='button'
@@ -794,10 +798,70 @@ const SearchInput: React.FC = (): JSX.Element => {
                       </span>
                     </button>
                   </p>
-                </div>
-              )}
+                )}
+              </div>
 
               {result.results.length === 0 && <div className={css.notFound} />}
+            </div>
+          )}
+
+          {npmResult !== null && (
+            <div className={css.searchResult}>
+              {npmResult.results.map(r => (
+                <div key={r.package.links.npm} className={css.result}>
+                  <h4 className={css.header}>
+                    <a href={r.package.links.npm} target='_blank' rel='noopener noreferrer'>
+                      {r.package.name}
+                    </a>
+                  </h4>
+                  <p className={css.content}>{r.package.description}</p>
+                  <p className={css.infos}>
+                    <a className='mgr10' href={r.package.links.repository} target='_blank' rel='noopener noreferrer'>
+                      <Github className={css.github} />
+                    </a>
+                    <span className='mgr10'>{r.package.version}</span>
+                    <span className='mgr10'>{r.package.publisher.username}</span>
+                    <span>{dayjs(r.package.date).format('YYYY-M-D')}</span>
+                  </p>
+                </div>
+              ))}
+
+              <div className={cs(css.pagination, 'field has-addons')}>
+                {pageno !== 1 && (
+                  <p className='control'>
+                    <button
+                      type='button'
+                      className='button is-rounded'
+                      onClick={() => {
+                        setPageno(pageno - 1)
+                        window.scrollTo({ top: 0 })
+                      }}>
+                      <span className='icon'>
+                        <i className='fa-angle-left' />
+                      </span>
+                      <span>Previous Page</span>
+                    </button>
+                  </p>
+                )}
+                {npmResult.total > pageno * 10 && (
+                  <p className='control'>
+                    <button
+                      type='button'
+                      className='button is-rounded'
+                      onClick={() => {
+                        setPageno(pageno + 1)
+                        window.scrollTo({ top: 0 })
+                      }}>
+                      <span>Next Page</span>
+                      <span className='icon'>
+                        <i className='fa-angle-right' />
+                      </span>
+                    </button>
+                  </p>
+                )}
+              </div>
+
+              {npmResult.results.length === 0 && <div className={css.notFound} />}
             </div>
           )}
 

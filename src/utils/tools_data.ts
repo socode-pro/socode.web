@@ -91,7 +91,7 @@ export const Grids: Array<Link> = [
   },
 
   {
-    name: 'Typescript Playground',
+    name: 'Typescript',
     href: 'https://www.typescriptlang.org/play',
     label: 'javascript',
     category: ToolCategory.Playground,
@@ -437,86 +437,6 @@ export const Grids: Array<Link> = [
     category: ToolCategory.Converter,
   },
   {
-    name: 'HEX to Pantone',
-    href: 'https://codebeautify.org/hex-to-pantone-converter',
-    category: ToolCategory.Converter,
-  },
-  {
-    name: 'RGB to Pantone',
-    href: 'https://codebeautify.org/rgb-to-pantone-converter',
-    category: ToolCategory.Converter,
-  },
-  {
-    name: 'HSV to Pantone',
-    href: 'https://codebeautify.org/hsv-to-pantone-converter',
-    category: ToolCategory.Converter,
-  },
-  {
-    name: 'CMYK to Pantone',
-    href: 'https://codebeautify.org/cmyk-to-pantone-converter',
-    category: ToolCategory.Converter,
-  },
-  {
-    name: 'CMYK to HEX',
-    href: 'https://codebeautify.org/cmyk-to-hex-converter',
-    category: ToolCategory.Converter,
-  },
-  {
-    name: 'CMYK to RGB',
-    href: 'https://codebeautify.org/cmyk-to-rgb-converter',
-    category: ToolCategory.Converter,
-  },
-  {
-    name: 'CMYK to HSV',
-    href: 'https://codebeautify.org/cmyk-to-hsv-converter',
-    category: ToolCategory.Converter,
-  },
-  {
-    name: 'HSV to HEX',
-    href: 'https://codebeautify.org/hsv-to-hex-converter',
-    category: ToolCategory.Converter,
-  },
-  {
-    name: 'HSV to RGB',
-    href: 'https://codebeautify.org/hsv-to-rgb-converter',
-    category: ToolCategory.Converter,
-  },
-  {
-    name: 'HSV to CMYK',
-    href: 'https://codebeautify.org/hsv-to-cmyk-converter',
-    category: ToolCategory.Converter,
-  },
-  {
-    name: 'HEX to HSV',
-    href: 'https://codebeautify.org/hex-to-hsv-converter',
-    category: ToolCategory.Converter,
-  },
-  {
-    name: 'RGB to HEX',
-    href: 'https://codebeautify.org/rgb-to-hex-converter',
-    category: ToolCategory.Converter,
-  },
-  {
-    name: 'RGB to HSV',
-    href: 'https://codebeautify.org/rgb-to-hsv-converter',
-    category: ToolCategory.Converter,
-  },
-  {
-    name: 'RGB to CMYK',
-    href: 'https://codebeautify.org/rgb-to-cmyk-converter',
-    category: ToolCategory.Converter,
-  },
-  {
-    name: 'HEX to RGB',
-    href: 'https://codebeautify.org/hex-to-rgb-converter',
-    category: ToolCategory.Converter,
-  },
-  {
-    name: 'HEX to CMYK',
-    href: 'https://codebeautify.org/hex-to-cmyk-converter',
-    category: ToolCategory.Converter,
-  },
-  {
     name: 'JSON to HTML',
     href: 'https://codebeautify.org/json-to-html-converter',
     category: ToolCategory.Converter,
@@ -547,6 +467,12 @@ export const Grids: Array<Link> = [
     category: ToolCategory.Converter,
   },
 
+  {
+    name: 'Converting Colors',
+    href: 'https://convertingcolors.com/',
+    category: ToolCategory.UnitConverter,
+    elite: true,
+  },
   {
     name: 'All NumbersConverter',
     href: 'https://codebeautify.org/all-number-converter',
@@ -944,7 +870,12 @@ export const Grids: Array<Link> = [
     href: 'https://www.digitalocean.com/community/tools/dns',
     elite: true,
   },
-
+  {
+    name: 'package.json scan',
+    href: 'https://bundlephobia.com/scan',
+    label: 'npm',
+    elite: true,
+  },
   {
     name: 'Lorem-Ipsum',
     href: 'https://codebeautify.org/lorem-ipsum',

@@ -24,6 +24,7 @@ const readmeModel: ReadmeModel = {
     }
   }),
   getMarkdown: thunk(async (actions, { base, path }) => {
+    if (!path) return
     const name = base + path
     try {
       const time = localStorage.getItem(`readme_${name}_time`)

@@ -15,7 +15,7 @@ export enum SearchTimeRange {
 }
 
 export interface SearchParam {
-  query?: string
+  query: string
   timeRange?: SearchTimeRange
   searchLanguage?: Language
   porogramLanguage?: ProgramLanguage

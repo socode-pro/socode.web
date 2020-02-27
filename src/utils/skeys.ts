@@ -91,7 +91,7 @@ export const Keys: SKey[] = [
     shortkeys: 'aws',
     icon: 'aws.svg',
     hideName: true,
-    width: 80,
+    width: 60,
     homelink: 'https://aws.amazon.com',
     awesome: 'donnemartin/awesome-aws',
     template: 'https://aws.amazon.com/search/?searchQuery=%s',
@@ -884,7 +884,6 @@ export const Keys: SKey[] = [
   {
     code: 'markdown',
     name: 'Markdown',
-    usage: true,
     shortkeys: 'md',
     icon: 'markdown.svg',
     backgroundPosition: 'left center',
