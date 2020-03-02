@@ -37,11 +37,14 @@ $code-padding: 0;
 @import '~bulma/sass/elements/title.sass';
 @import '~bulma/sass/elements/other.sass';
 @import '~bulma/sass/elements/icon.sass';
+@import '~bulma/sass/elements/notification.sass';
 @import '~bulma/sass/form/_all.sass';
 @import '~bulma/sass/components/navbar.sass';
 @import '~bulma/sass/components/dropdown.sass';
 @import '~bulma/sass/components/menu.sass';
 @import '~bulma/sass/components/modal.sass';
+@import '~bulma/sass/components/message.sass';
+@import '~bulma/sass/components/panel.sass';
 @import '~bulma/sass/layout/hero.sass';
 @import '~bulma/sass/layout/section.sass';
 // @import '~bulma/sass/layout/footer.sass';
@@ -120,6 +123,21 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   @extend %fa-icon;
   @extend .far;
   @extend .fa-thumbs-up;
+}
+.fa-group {
+  @extend %fa-icon;
+  @extend .fas;
+  @extend .fa-layer-group;
+}
+.fa-user {
+  @extend %fa-icon;
+  @extend .far;
+  @extend .fa-user-circle;
+}
+.fa-close {
+  @extend %fa-icon;
+  @extend .far;
+  @extend .fa-window-close;
 }
 // .fa-up {
 //   @extend %fa-icon;

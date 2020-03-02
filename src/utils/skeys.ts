@@ -1548,7 +1548,7 @@ export const IsReadmeKeys = (code: string): boolean => {
 }
 
 export const IsAvoidKeys = (code: string): boolean => {
-  return IsDocsearchKeys(code) || IsDevdocsKeys(code) || IsReadmeKeys(code) || code === 'cheatsheets' || code === 'tools'
+  return IsDocsearchKeys(code) || IsDevdocsKeys(code) || IsReadmeKeys(code) || code === 'cheatsheets' || code === 'tools' || code === 'starhistory'
 }
 
 // export const GetKeyByName = (name: string): SKey | null => {

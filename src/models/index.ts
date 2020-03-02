@@ -5,6 +5,7 @@ import learnxinyModel, { LearnxinyModel } from './learnxiny'
 import awesomeModel, { AwesomeModel } from './awesome'
 import readmeModel, { ReadmeModel } from './readme'
 import devdocsModel, { DevdocsModel } from './devdocs'
+import historyModel, { HistoryModel } from './history'
 
 export interface StoreModel {
   search: SearchModel
@@ -14,6 +15,7 @@ export interface StoreModel {
   awesome: AwesomeModel
   readme: ReadmeModel
   devdocs: DevdocsModel
+  history: HistoryModel
 }
 
 const storeModel: StoreModel = {
@@ -24,6 +26,7 @@ const storeModel: StoreModel = {
   awesome: awesomeModel,
   readme: readmeModel,
   devdocs: devdocsModel,
+  history: historyModel,
 }
 
 export default storeModel

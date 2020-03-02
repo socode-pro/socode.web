@@ -13,7 +13,7 @@ export interface StorageType {
   searchLanguage?: Language
   docLanguage?: Language
   searchKey?: string
-  starHistoryToken?: string
+  githubToken?: string
   trending?: TrendingParam
   openNewTab?: boolean
   darkMode?: DarkMode
@@ -27,7 +27,7 @@ const storageKeys = [
   'searchLanguage',
   'docLanguage',
   'searchKey',
-  'starHistoryToken',
+  'githubToken',
   'trending',
   'openNewTab',
   'darkMode',
@@ -37,6 +37,7 @@ const storageKeys = [
 ]
 const jsonParseKeys = ['trending']
 const booleanParseKeys = ['openNewTab', 'displayAwesome', 'displayMoreKeys']
+const arrayParseKeys = ['pinKeys']
 
 export interface StorageModel {
   initialed: boolean
@@ -70,7 +71,7 @@ const storageModel: StorageModel = {
           if (booleanParseKeys.includes(key)) value = value !== 'false'
           else if (key === 'darkMode') value = parseInt(value, 10)
           else if (jsonParseKeys.includes(key)) value = JSON.parse(value)
-          else if (key === 'pinKeys') value = value.split(',')
+          else if (arrayParseKeys.includes(key)) value = value.split(',')
           state.values = { ...state.values, ...{ [key]: value } }
         }
       })

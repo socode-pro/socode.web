@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react'
+import React, { useState, useCallback, useEffect, useRef, useMemo, lazy, Suspense } from 'react'
 import { useSpring, animated } from 'react-spring'
 import dayjs from 'dayjs'
 import Fuse from 'fuse.js'
@@ -28,6 +28,7 @@ import css from './search.module.scss'
 import Loader1 from './loader/loader1'
 import { ReactComponent as Github } from '../images/github.svg'
 
+const StarHistory = lazy(() => import('./history'))
 const fuseOptions: Fuse.FuseOptions<SKey> = {
   keys: ['name', 'shortkeys'],
   threshold: 0.3,
@@ -69,11 +70,10 @@ const SearchInput: React.FC = (): JSX.Element => {
   >(state => state.storage.values)
 
   // currentKey ----------------------------------
-  const initKey = useMemo(
-    () => (language === Language.中文_简体 ? Keys.find(k => k.code === 'socode') : Keys.find(k => k.code === 'github')),
-    [language]
-  )
-  const [currentKey, setCurrentKey] = useState<SKey>(initKey || Keys[0])
+  const [currentKey, setCurrentKey] = useState<SKey>(() => {
+    const key = language === Language.中文_简体 ? Keys.find(k => k.code === 'socode') : Keys.find(k => k.code === 'github')
+    return key || Keys[0]
+  })
   const dsConfig = useMemo(() => {
     if (currentKey.docsearch) {
       const target = currentKey.docsearch.find(k => k.lang === docLanguage)
@@ -733,6 +733,11 @@ const SearchInput: React.FC = (): JSX.Element => {
 
           {!displayKeys && currentKey.code === 'cheatsheets' && <CheatSheets query={squery} />}
           {!displayKeys && currentKey.code === 'tools' && <Tools query={squery} />}
+          {!displayKeys && currentKey.code === 'starhistory' && (
+            <Suspense fallback={<Loader1 type={2} />}>
+              <StarHistory query={squery} />
+            </Suspense>
+          )}
           {!displayKeys && displayAwesome && currentKey.awesome && !currentKey.devdocs && (
             <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} />
           )}
