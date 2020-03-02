@@ -1,0 +1,68 @@
+@import '../styles/variable';
+
+div.history {
+  padding: 15px;
+}
+
+a.stack {
+  font-family: $font-mono;
+  @include ms-respond(font-size, 1);
+  position: relative;
+  & > :global(i.fa-close) {
+    position: absolute;
+    right: 10px;
+    display: none;
+    color: $grey-light;
+    cursor: pointer;
+    &:hover {
+      color: $black;
+    }
+  }
+
+  &:hover {
+    & > :global(i.fa-close) {
+      display: inline;
+    }
+  }
+}
+
+:global(a.panel-block.is-active) {
+  border-bottom: none;
+  cursor: default;
+  color: $primary;
+  &:hover {
+    background-color: $white;
+  }
+}
+
+div.repos {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0.2em 0.75em 0.5em 2.7em;
+  border-bottom: 1px solid #ededed;
+  p.repo {
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+    & > :global(i.fa-close) {
+      margin-left: 8px;
+      display: none;
+      color: $grey-light;
+      cursor: pointer;
+      &:hover {
+        color: $black;
+      }
+    }
+    &:hover {
+      & > :global(i.fa-close) {
+        display: inline;
+      }
+    }
+  }
+}
+
+p.button {
+  width: auto !important;
+  flex-grow: 0 !important;
+}

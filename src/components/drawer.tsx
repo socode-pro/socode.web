@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useSpring, animated } from 'react-spring'
 import { Link } from 'react-router-dom'
 import cs from 'classnames'
@@ -8,6 +8,7 @@ import useIntl, { Words } from '../utils/useIntl'
 import { StorageType } from '../models/storage'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { StringEnumObjects } from '../utils/assist'
+import { error } from '../utils/toast'
 import css from './drawer.module.scss'
 
 const languageOptions = StringEnumObjects(InterfaceLanguage)
@@ -21,6 +22,21 @@ const Drawer: React.FC = (): JSX.Element => {
   const { right } = useSpring({
     right: active ? 0 : 20,
   })
+
+  const GithubOAuth = useCallback(
+    e => {
+      e.preventDefault()
+      const authenticator = new (window as any).netlify.default({})
+      authenticator.authenticate({ provider: 'github', scope: 'user' }, (err, data) => {
+        if (err) {
+          error(`Error Authenticating with GitHub: ${err}`)
+          return
+        }
+        setStorage({ githubToken: data.token })
+      })
+    },
+    [setStorage]
+  )
 
   useHotkeys(
     'f2',
@@ -69,12 +85,12 @@ const Drawer: React.FC = (): JSX.Element => {
         <aside className={cs('menu', css.jacket)}>
           <p className='menu-label'>Aside</p>
           <ul className='menu-list'>
-            {/* <li>
-              <a className={cs(css.navlink, css.github)}>
+            <li>
+              <a className={cs(css.navlink, css.github)} onClick={GithubOAuth}>
                 <h3>Github OAuth</h3>
                 <span>to synchronize your settings</span>
               </a>
-            </li> */}
+            </li>
             {/* {language !== Language.中文_简体 && (
               <li>
                 <a
@@ -100,15 +116,15 @@ const Drawer: React.FC = (): JSX.Element => {
               </li>
             )} */}
             <li>
-                <a
-                  className={cs(css.navlink, css.spectrum)}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  href='https://spectrum.chat/socode'>
-                  <h3>Chat</h3>
-                  <span>recommend feature/feedback bug</span>
-                </a>
-              </li>
+              <a
+                className={cs(css.navlink, css.spectrum)}
+                target='_blank'
+                rel='noopener noreferrer'
+                href='https://spectrum.chat/socode'>
+                <h3>Chat</h3>
+                <span>recommend feature/feedback bug</span>
+              </a>
+            </li>
             <li>
               <a
                 className={cs(css.navlink, css.chrome)}

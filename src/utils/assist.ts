@@ -8,14 +8,14 @@ export const sleep = (ms): Promise<void> => {
   return new Promise(r => setTimeout(r, ms))
 }
 
-export const StringEnumObjects = (enumme): Array<{ label: string; value: any }> => {
+export const StringEnumObjects = (enumme): Array<{ label: string; value: string }> => {
   return Object.keys(enumme).map(key => ({ label: key, value: enumme[key] }))
 }
 
-export const IntEnumObjects = (enumme): Array<{ label: string; value: any }> => {
+export const IntEnumObjects = (enumme): Array<{ label: string; value: number }> => {
   return Object.keys(enumme)
     .filter(value => !Number.isNaN(Number(value)))
-    .map(key => ({ label: enumme[key], value: key }))
+    .map(key => ({ label: enumme[key], value: parseInt(key, 10) }))
 }
 
 const { location, history } = window
@@ -60,4 +60,14 @@ export const transRelationHref = (href: string | null, currentPath: string): str
     return nhref
   }
   return ''
+}
+
+const generateS4 = (): string => {
+  return Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1)
+}
+
+export const generateUuid = (): string => {
+  return `${generateS4()}${generateS4()}-${generateS4()}-${generateS4()}-${generateS4()}-${generateS4()}${generateS4()}${generateS4()}`
 }
