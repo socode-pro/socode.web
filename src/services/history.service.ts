@@ -2,10 +2,6 @@ import ky, { ResponsePromise } from 'ky'
 import range from 'lodash/range'
 import flatMap from 'lodash/flatMap'
 
-import firebase from 'firebase/app'
-import 'firebase/database'
-import { encode } from 'firebase-encode'
-
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
@@ -16,6 +12,8 @@ const GITHUB_TOKENS = [
   '973b01056d698b275affa2f5b7afa419c4e7ffe7', // xiong
   'c62e196cb1817c6870849b3cd928dfe9d1744f3f', // qijianli
   'acd55b5ae8abebce3d25c2a73660d8c4f894443f', // xyt
+  'a541f3ef93c040d961260c1b956573caadb6674e', // cff
+  '2a42786e6e3c84648f951b13ebbc5772f9015464', // lbb
 ]
 let tokenIndex = -1
 const getToken = (): string => {
@@ -41,7 +39,7 @@ export interface Repository {
 const NUMBER_OF_SAMPLES = 30 // number of samples for chart
 const PAGE_SIZE = 30
 
-const fetchCurrentStars = async (repo: Repository, userToken?: string): Promise<Repository> => {
+export const fetchCurrentStars = async (repo: Repository, userToken?: string): Promise<Repository> => {
   let retrys = 0
   const api = ky.extend({
     timeout: 200 * 1000,
@@ -84,7 +82,7 @@ interface HistoryItem {
   starred_at: string
 }
 
-const getStarHistory = async (repoName: string, userToken?: string): Promise<Repository> => {
+export const getStarHistory = async (repoName: string, userToken?: string): Promise<Repository> => {
   let retrys = 0
   const api = ky.extend({
     timeout: 200 * 1000,
@@ -194,48 +192,4 @@ const getStarHistory = async (repoName: string, userToken?: string): Promise<Rep
     lastRefreshDate: dayjs.utc().toDate(),
     requiredCacheUpdate: true,
   }
-}
-
-const fbconfig = {
-  apiKey: '***REMOVED***',
-  authDomain: 'github-stars-history.firebaseapp.com',
-  databaseURL: 'https://github-stars-history.firebaseio.com',
-  projectId: 'github-stars-history',
-  storageBucket: 'github-stars-history.appspot.com',
-  messagingSenderId: '860963673180',
-}
-const firebaseApp = firebase.initializeApp(fbconfig)
-const fbdb = firebaseApp.database()
-const firebaseReposRef = fbdb.ref('repos_v3')
-
-export const getRepoData = (repoName: string, userToken?: string): Promise<Repository | null> => {
-  return new Promise<Repository | null>(resolve => {
-    firebaseReposRef.child(encode(repoName)).on('value', snapshot => {
-      const repository = snapshot.val()
-      if (!repository) {
-        resolve(getStarHistory(repoName, userToken))
-      } else if (
-        dayjs(repository.lastRefreshDate)
-          .add(7, 'day')
-          .isBefore(dayjs())
-      ) {
-        resolve(fetchCurrentStars(repository, userToken))
-      } else {
-        resolve(repository)
-      }
-    })
-  }).catch(err => {
-    return Promise.reject(err)
-  })
-}
-
-export const saveRepoToStore = (repo: Repository): void => {
-  repo.requiredCacheUpdate = false
-  firebaseReposRef.child(encode(repo.name)).set(repo)
-}
-
-export const removeRepoFromStore = (repo: Repository | undefined): void => {
-  if (!repo) return
-  repo.requiredCacheUpdate = true
-  firebaseReposRef.child(encode(repo.name)).remove()
 }
