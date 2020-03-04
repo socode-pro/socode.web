@@ -3,7 +3,11 @@ import model from './models'
 import * as searchService from './services/socode.service'
 import * as devdocsService from './services/devdocs.service'
 import * as npmsService from './services/npms.service'
-import * as historyService from './services/history.service'
+import * as historyCacheChinaService from './services/historyCache.qinniu.service'
+import * as historyCacheService from './services/historyCache.service'
+
+const historyService = process.env.REACT_APP_REGION === 'china' ? historyCacheChinaService : historyCacheService
+// const historyService = historyCacheService
 
 export interface Injections {
   searchService: typeof searchService
