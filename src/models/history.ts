@@ -3,7 +3,7 @@ import stacks, { Stack } from '../utils/history_stacks'
 import { generateUuid } from '../utils/assist'
 import { Injections } from '../store'
 import { StoreModel } from './index'
-import { Repository, removeRepoFromStore } from '../services/history.service'
+import { Repository } from '../services/history.service'
 import { error, warn } from '../utils/toast'
 
 export interface HistoryModel {
