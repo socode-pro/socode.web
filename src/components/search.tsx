@@ -14,7 +14,7 @@ import Awesome from './awesome'
 import Readme from './readme'
 import Devdocs from './devdocs'
 import Slogan from './slogan'
-import Language, { ProgramLanguage } from '../utils/language'
+import Language, { InterfaceLanguage, ProgramLanguage } from '../utils/language'
 import useHotkeys from '../utils/useHotkeys'
 import { SKey, Keys, IsDocsearchKeys, IsDevdocsKeys, IsAvoidKeys } from '../utils/skeys'
 import { StringEnumObjects, IntEnumObjects, winSearchParams } from '../utils/assist'
@@ -71,7 +71,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   // currentKey ----------------------------------
   const [currentKey, setCurrentKey] = useState<SKey>(() => {
-    const key = language === Language.中文_简体 ? Keys.find(k => k.code === 'socode') : Keys.find(k => k.code === 'github')
+    const key = language === InterfaceLanguage.中文 ? Keys.find(k => k.code === 'socode') : Keys.find(k => k.code === 'github')
     return key || Keys[0]
   })
   const dsConfig = useMemo(() => {

@@ -3,7 +3,7 @@ import { useSpring, animated } from 'react-spring'
 import { Link } from 'react-router-dom'
 import cs from 'classnames'
 import useHotkeys from '../utils/useHotkeys'
-import Language, { InterfaceLanguage } from '../utils/language'
+import { InterfaceLanguage } from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import { StorageType } from '../models/storage'
 import { useStoreActions, useStoreState } from '../utils/hooks'
@@ -153,7 +153,7 @@ const Drawer: React.FC = (): JSX.Element => {
             <li>
               <div className='control has-icons-left'>
                 <div className='select is-rounded'>
-                  <select value={language} onChange={e => setStorage({ language: e.target.value as Language })}>
+                  <select value={language} onChange={e => setStorage({ language: e.target.value as InterfaceLanguage })}>
                     {languageOptions.map(o => (
                       <option key={o.value} value={o.value}>
                         {o.label}
@@ -213,7 +213,7 @@ const Drawer: React.FC = (): JSX.Element => {
             {/* <li>
               <a>投放广告</a>
             </li> */}
-            {language !== Language.中文_简体 && (
+            {language !== InterfaceLanguage.中文 && (
               <li>
                 <a
                   className={cs(css.navlink, css.twitter)}
@@ -224,7 +224,7 @@ const Drawer: React.FC = (): JSX.Element => {
                 </a>
               </li>
             )}
-            {language === Language.中文_简体 && (
+            {language === InterfaceLanguage.中文 && (
               <li>
                 <a href='http://beian.miit.gov.cn/state/outPortal/loginPortal.action'>苏ICP备18044337号-2</a>
               </li>

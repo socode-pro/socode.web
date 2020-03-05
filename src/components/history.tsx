@@ -7,6 +7,7 @@ import { Stack } from '../utils/history_stacks'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { IntEnumObjects, winSearchParams } from '../utils/assist'
 import { Repository } from '../services/history.service'
+import { InterfaceLanguage } from '../utils/language'
 import css from './history.module.scss'
 import Loader1 from './loader/loader1'
 
@@ -50,6 +51,7 @@ const History: React.FC<Props> = ({ query }: Props): JSX.Element => {
   const currentStack = useStoreState<Stack | null>(state => state.history.currentStack)
   const repositorys = useStoreState<Array<Repository>>(state => state.history.repositorys)
   const loading = useStoreState<boolean>(state => state.history.loading)
+  const language = useStoreState<InterfaceLanguage | undefined>(state => state.storage.values.language)
 
   const addUserStack = useStoreActions(actions => actions.history.addUserStack)
   const removeUserStack = useStoreActions(actions => actions.history.removeUserStack)
@@ -219,6 +221,14 @@ const History: React.FC<Props> = ({ query }: Props): JSX.Element => {
         </nav>
       </div>
       <div className={cs('column')}>
+        {process.env.REACT_APP_REGION !== 'china' && language === InterfaceLanguage.中文 && (
+          <div className='notification'>
+            <span>
+              starhistory 使用了 firebase 缓存数据。如果您正在使用中国互联网，请访问{' '}
+              <a href='https://cn.socode.pro'>https://cn.socode.pro</a>。
+            </span>
+          </div>
+        )}
         {loading && <Loader1 type={1} />}
         {LineChartMemoized}
       </div>

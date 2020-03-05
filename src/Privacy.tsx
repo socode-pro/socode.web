@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useStoreActions, useStoreState } from './utils/hooks'
-import Language from './utils/language'
+import { InterfaceLanguage } from './utils/language'
 import { StorageType } from './models/storage'
 import Brand from './components/brand'
 import './Privacy.scss'
@@ -21,7 +21,7 @@ const useIntl = (words: Words): string => {
   const { language } = useStoreState<StorageType>(state => state.storage.values)
 
   useEffect(() => {
-    if (language === Language.中文_简体) {
+    if (language === InterfaceLanguage.中文) {
       switch (words) {
         case Words.PrivacyPolicy:
           setContent('隐私政策')
