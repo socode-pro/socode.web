@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import cs from 'classnames'
-import Language from '../utils/language'
+import { InterfaceLanguage } from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import { StorageType } from '../models/storage'
 import { useStoreState } from '../utils/hooks'
@@ -16,13 +16,13 @@ const Slogan: React.FC = (): JSX.Element => {
 
   return (
     <div className={css.slogan}>
-      <span className={cs({ [css.zh]: language === Language.中文_简体 })}>{slogon}</span>
+      <span className={cs({ [css.zh]: language === InterfaceLanguage.中文 })}>{slogon}</span>
       <div className={cs('dropdown is-right', css.scdropdown, { 'is-active': displayTips })}>
         <i className={cs(css.scicon, 'fa-question')} onClick={() => setDisplayTips(!displayTips)} />
         <div className='dropdown-menu' style={{ width: 300 }}>
           <div className='dropdown-content'>
             <div className='dropdown-item'>
-              {language !== Language.中文_简体 ? (
+              {language !== InterfaceLanguage.中文 ? (
                 <p>
                   socode is a privacy-respecting, hackable google search by{' '}
                   <a href='https://github.com/asciimoo/searx' target='_blank' rel='noopener noreferrer'>

@@ -17,8 +17,7 @@ enum Language {
 
 export enum InterfaceLanguage {
   English = 'en',
-  中文_简体 = 'zh_CN',
-  中文_繁體 = 'zh_TW',
+  中文 = 'zh_CN',
 }
 
 export const navigatorLanguage = (navigator: string): Language => {

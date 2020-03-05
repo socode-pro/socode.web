@@ -1,6 +1,6 @@
 import { Action, action } from 'easy-peasy'
 import { TrendingParam } from '../services/trending'
-import Language, { navigatorLanguage } from '../utils/language'
+import Language, { InterfaceLanguage, navigatorLanguage } from '../utils/language'
 
 export enum DarkMode {
   light,
@@ -9,7 +9,7 @@ export enum DarkMode {
 }
 
 export interface StorageType {
-  language?: Language
+  language?: InterfaceLanguage
   searchLanguage?: Language
   docLanguage?: Language
   searchKey?: string
@@ -51,7 +51,7 @@ export interface StorageModel {
 const storageModel: StorageModel = {
   initialed: false,
   values: {
-    language: navigatorLanguage(navigator.language),
+    language: navigator.language.startsWith(InterfaceLanguage.中文) ? InterfaceLanguage.中文 : InterfaceLanguage.English,
     searchLanguage: navigatorLanguage(navigator.language),
     docLanguage: navigatorLanguage(navigator.language),
     openNewTab: true,

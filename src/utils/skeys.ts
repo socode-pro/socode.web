@@ -1,4 +1,4 @@
-import Language from './language'
+import Language, { InterfaceLanguage } from './language'
 
 export interface SKey {
   code: string
@@ -12,8 +12,8 @@ export interface SKey {
   backgroundPosition?: string
   width?: number
   template?: string
-  availableLang?: Language
-  disableLang?: Language
+  availableLang?: InterfaceLanguage
+  disableLang?: InterfaceLanguage
   bylang?: boolean
   bypglang?: boolean
   homelink?: string
@@ -276,7 +276,7 @@ export const Keys: SKey[] = [
     icon: 'duckduckgo.svg',
     template: 'https://duckduckgo.com/?q=%s',
     bylang: true,
-    disableLang: Language.中文_简体,
+    disableLang: InterfaceLanguage.中文,
   },
   {
     name: 'Electron',
@@ -522,7 +522,7 @@ export const Keys: SKey[] = [
     name: 'Google Developers',
     shortkeys: 'ggd',
     icon: 'googledev.svg',
-    disableLang: Language.中文_简体,
+    disableLang: InterfaceLanguage.中文,
     hideName: true,
     width: 140,
     bylang: true,
@@ -536,7 +536,7 @@ export const Keys: SKey[] = [
     icon: 'google.png',
     template: 'https://google.com/search?q=%s&hl=%l',
     bylang: true,
-    disableLang: Language.中文_简体,
+    disableLang: InterfaceLanguage.中文,
     usage: true,
   },
   {
@@ -793,7 +793,7 @@ export const Keys: SKey[] = [
     name: 'LeanCloud',
     shortkeys: 'lc',
     icon: 'leancloud.png',
-    availableLang: Language.中文_简体,
+    availableLang: InterfaceLanguage.中文,
     hideName: true,
     width: 100,
     backgroundSize: '90%',
@@ -1336,7 +1336,7 @@ export const Keys: SKey[] = [
     shortkeys: 'sc',
     icon: 'socode.png',
     bylang: true,
-    availableLang: Language.中文_简体,
+    availableLang: InterfaceLanguage.中文,
     usage: true,
   },
   {
@@ -1402,7 +1402,7 @@ export const Keys: SKey[] = [
     name: 'Taro',
     shortkeys: 'tr',
     icon: 'taro.png',
-    availableLang: Language.中文_简体,
+    availableLang: InterfaceLanguage.中文,
     homelink: 'https://taro-docs.jd.com',
     docsearch: [
       {
@@ -1548,7 +1548,14 @@ export const IsReadmeKeys = (code: string): boolean => {
 }
 
 export const IsAvoidKeys = (code: string): boolean => {
-  return IsDocsearchKeys(code) || IsDevdocsKeys(code) || IsReadmeKeys(code) || code === 'cheatsheets' || code === 'tools' || code === 'starhistory'
+  return (
+    IsDocsearchKeys(code) ||
+    IsDevdocsKeys(code) ||
+    IsReadmeKeys(code) ||
+    code === 'cheatsheets' ||
+    code === 'tools' ||
+    code === 'starhistory'
+  )
 }
 
 // export const GetKeyByName = (name: string): SKey | null => {
