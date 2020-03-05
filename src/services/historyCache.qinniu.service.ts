@@ -1,16 +1,21 @@
 import ky from 'ky'
 import dayjs from 'dayjs'
-import qiniu from 'qiniu'
 import { Repository, getStarHistory, fetchCurrentStars } from './history.service'
+import * as config from '../config'
 
-const config = new qiniu.conf.Config({
-  zone: qiniu.zone.Zone_z0,
-  useHttpsDomain: true,
+const api = ky.extend({
+  hooks: {
+    beforeRequest: [
+      request => {
+        request.headers.set('Access-Control-Allow-Origin', '*')
+      },
+    ],
+  },
 })
 
 export const getRepoData = async (repoName: string, userToken?: string): Promise<Repository | null> => {
   try {
-    const repository = await ky.get(`https://socode.s3-cn-east-1.qiniucs.com/${repoName}`).json<Repository>()
+    const repository = await api.get(`https://os.socode.pro/${repoName.replace('/', '_')}.json`).json<Repository>()
     if (
       dayjs(repository.lastRefreshDate)
         .add(7, 'day')
@@ -24,28 +29,25 @@ export const getRepoData = async (repoName: string, userToken?: string): Promise
   }
 }
 
-export const saveRepoToStore = (repo: Repository): void => {
+export const saveRepoToStore = async (repo: Repository): Promise<void> => {
   repo.requiredCacheUpdate = false
 
-  // get uploadToken
-  const uploadToken = 'test'
-  const formUploader = new qiniu.form_up.FormUploader(config)
-  const putExtra = new qiniu.form_up.PutExtra()
-  formUploader.put(uploadToken, repo.name, JSON.stringify(repo), putExtra, (err, respBody, respInfo) => {
-    if (err) {
-      throw err
-    }
-    if (respInfo.statusCode === 200) {
-      console.log(respBody)
-    } else {
-      console.warn(respInfo.statusCode + respBody)
-    }
-  })
+  try {
+    await api.post(`${config.nesthost()}/qiniu`, { json: repo })
+  } catch (err) {
+    console.error('saveRepoToStore:', err)
+  }
 }
 
-export const removeRepoFromStore = (repo: Repository | undefined): void => {
+export const removeRepoFromStore = async (repo: Repository | undefined): Promise<void> => {
   if (!repo) return
   repo.requiredCacheUpdate = true
 
-  // delete
+  try {
+    const sparams = new URLSearchParams()
+    sparams.set('key', `${repo.name.replace('/', '_')}.json`)
+    await api.delete(`${config.nesthost()}/qiniu`, { body: sparams })
+  } catch (err) {
+    console.error('removeRepoFromStore:', err)
+  }
 }

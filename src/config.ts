@@ -63,6 +63,10 @@ export const dochost = (): string => {
   return variable.DOCHOST
 }
 
+export const nesthost = (): string => {
+  return variable.NESTHOST
+}
+
 export const ignoreSites = (): boolean => {
   return variable.IGNORESITES
 }
