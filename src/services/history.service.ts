@@ -54,7 +54,10 @@ export const fetchCurrentStars = async (repo: Repository, userToken?: string): P
         (request, options, response): ResponsePromise | Response => {
           if (response.status === 403) {
             retrys += 1
-            if (retrys > 2) throw new Error('Unfortunately the limit of request to GitHub has been exceeded :(')
+            if (retrys > 2)
+              throw new Error(
+                'Unfortunately the limit of request to GitHub has been exceeded :(. You can authorize your GitHub OAuth to extend this limit'
+              )
             request.headers.set('Authorization', `token ${getToken()}`)
             return ky(request)
           }
@@ -97,7 +100,10 @@ export const getStarHistory = async (repoName: string, userToken?: string): Prom
         (request, options, response): ResponsePromise | Response => {
           if (response.status === 403) {
             retrys += 1
-            if (retrys > 2) throw new Error('Unfortunately the limit of request to GitHub has been exceeded :(')
+            if (retrys > 2)
+              throw new Error(
+                'Unfortunately the limit of request to GitHub has been exceeded :(. You can authorize your GitHub OAuth to extend this limit'
+              )
             request.headers.set('Authorization', `token ${getToken()}`)
             return ky(request)
           }

@@ -89,7 +89,8 @@ const Drawer: React.FC = (): JSX.Element => {
               <li>
                 <a className={cs(css.navlink, css.github)} onClick={GithubOAuth}>
                   <h3>Github OAuth</h3>
-                  <span>to synchronize your settings</span>
+                  {/* <span>to synchronize your settings</span> */}
+                  <span>expand the limit of github api request</span>
                 </a>
               </li>
             )}
