@@ -15,7 +15,7 @@ const languageOptions = StringEnumObjects(InterfaceLanguage)
 
 const Drawer: React.FC = (): JSX.Element => {
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
-  const { language, openNewTab, displayAwesome } = useStoreState<StorageType>(state => state.storage.values)
+  const { language, openNewTab, displayAwesome, githubToken } = useStoreState<StorageType>(state => state.storage.values)
 
   const [shortcut, setShortcut] = useState(false)
   const [active, setActive] = useState(false)
@@ -85,12 +85,15 @@ const Drawer: React.FC = (): JSX.Element => {
         <aside className={cs('menu', css.jacket)}>
           <p className='menu-label'>Aside</p>
           <ul className='menu-list'>
-            <li>
-              <a className={cs(css.navlink, css.github)} onClick={GithubOAuth}>
-                <h3>Github OAuth</h3>
-                <span>to synchronize your settings</span>
-              </a>
-            </li>
+            {!githubToken && (
+              <li>
+                <a className={cs(css.navlink, css.github)} onClick={GithubOAuth}>
+                  <h3>Github OAuth</h3>
+                  <span>to synchronize your settings</span>
+                </a>
+              </li>
+            )}
+
             {/* {language !== Language.中文_简体 && (
               <li>
                 <a
