@@ -231,6 +231,12 @@ const History: React.FC<Props> = ({ query }: Props): JSX.Element => {
         )}
         {loading && <Loader1 type={1} />}
         {LineChartMemoized}
+        <p>
+          inspired by{' '}
+          <a href='https://stars.przemeknowak.com' target='_blank' rel='noopener noreferrer'>
+            stars.przemeknowak.com
+          </a>
+        </p>
       </div>
     </div>
   )
