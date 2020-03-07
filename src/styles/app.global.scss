@@ -49,6 +49,9 @@ $code-padding: 0;
 @import '~bulma/sass/layout/section.sass';
 // @import '~bulma/sass/layout/footer.sass';
 @import '~bulma-checkradio';
+
+$tooltip-font-size: 14px;
+@import '~bulma-tooltip';
 // ------------------------------------------------------------------------------------
 
 $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';

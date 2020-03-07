@@ -375,8 +375,9 @@ const SearchInput: React.FC = (): JSX.Element => {
           if (key.width) {
             styles = { ...styles, width: key.width }
           }
+          const moreprops = key.tooltips? { 'data-tooltip': key.tooltips}: {}
           return (
-            <div key={key.code} className={css.skeybox} onClick={() => changeKey(key)}>
+            <div key={key.code} className={cs(css.skeybox, 'has-tooltip-multiline has-tooltip-warning')} {...moreprops} onClick={() => changeKey(key)}>
               <div className={css.skey}>
                 <div className={cs(css.skname)} style={styles}>
                   {key.hideName ? <>&nbsp;</> : key.name}
@@ -713,13 +714,13 @@ const SearchInput: React.FC = (): JSX.Element => {
                   {getKeysDom(UsageKeys)}
                 </div>
               )}
-              {displayMoreKeys && MoreKeys.length > 0 && (
+              {(displayMoreKeys || kquery) && MoreKeys.length > 0 && (
                 <div className={cs(css.skgroup)}>
                   <div className={css.kdesc}>MORE</div>
                   {getKeysDom(MoreKeys)}
                 </div>
               )}
-              {!displayMoreKeys && (
+              {!displayMoreKeys && !kquery && (
                 <button type='button' className='button is-text w100' onClick={() => setStorage({ displayMoreKeys: true })}>
                   More
                 </button>
