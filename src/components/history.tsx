@@ -233,8 +233,8 @@ const History: React.FC<Props> = ({ query }: Props): JSX.Element => {
         {LineChartMemoized}
         <p>
           inspired by{' '}
-          <a href='https://stars.przemeknowak.com' target='_blank' rel='noopener noreferrer'>
-            stars.przemeknowak.com
+          <a href='https://star-history.t9t.io' target='_blank' rel='noopener noreferrer'>
+            star-history.t9t.io
           </a>
         </p>
       </div>

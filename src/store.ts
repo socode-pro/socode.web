@@ -7,7 +7,6 @@ import * as historyCacheChinaService from './services/historyCache.qinniu.servic
 import * as historyCacheService from './services/historyCache.service'
 
 const historyService = process.env.REACT_APP_REGION === 'china' ? historyCacheChinaService : historyCacheService
-// const historyService = historyCacheService
 
 export interface Injections {
   searchService: typeof searchService

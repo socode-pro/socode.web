@@ -94,13 +94,14 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [storageInitialed])
 
   useEffect(() => {
-    if (storageInitialed) setStorage({ searchKey: currentKey.code })
+    if (storageInitialed) {
+      setStorage({ searchKey: currentKey.code })
+    }
+    if (!currentKey.devdocs) {
+      setExpandView(false)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentKey, setStorage])
-
-  if (!currentKey.devdocs) {
-    setExpandView(false)
-  }
   // --------------------------------------------
 
   // to refresh input dom, until uninstall api: https://github.com/algolia/docsearch/issues/927
