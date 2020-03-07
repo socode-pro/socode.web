@@ -18,6 +18,7 @@ export interface SKey {
   bypglang?: boolean
   homelink?: string
   awesome?: string
+  tooltips?: string
   devdocs?: string
   docsearch?: ReadonlyArray<{
     appId?: string
@@ -347,6 +348,7 @@ export const Keys: SKey[] = [
     shortkeys: 'she',
     icon: 'shell.png',
     template: 'https://explainshell.com/explain?cmd=%s',
+    tooltips: 'command-line help with each argument',
   },
   {
     code: 'express',
@@ -491,7 +493,7 @@ export const Keys: SKey[] = [
   },
   {
     code: 'git',
-    name: 'git',
+    name: 'git docs',
     usage: true,
     shortkeys: 'git',
     icon: 'git.svg',
@@ -505,6 +507,7 @@ export const Keys: SKey[] = [
     template: 'https://github.com/search?l=%pl&q=%s',
     bypglang: true,
     usage: true,
+    tooltips: 'search repositorie by algolia'
   },
   {
     code: 'go',
@@ -738,6 +741,7 @@ export const Keys: SKey[] = [
     usage: true,
     icon: 'jscoach.svg',
     template: 'https://js.coach/?search=%s',
+    tooltips: 'search for components, boilerplates, generators and other packages'
   },
   {
     code: 'jsdelivr',
@@ -1014,6 +1018,7 @@ export const Keys: SKey[] = [
     homelink: 'https://www.npmjs.com',
     template: 'https://npms.io/search?q=%s',
     usage: true,
+    tooltips: 'npms.io: a better and open source search for node packages'
   }, // todo: inject result
   { code: 'nuget', name: 'NuGet', shortkeys: 'ng', icon: 'nuget.svg', template: 'https://nuget.org/packages?q=%s' },
   {
@@ -1104,6 +1109,7 @@ export const Keys: SKey[] = [
     icon: 'api.svg',
     usage: true,
     homelink: 'https://github.com/public-apis/public-apis',
+    tooltips: 'a collective list of free APIs for use in software and web development.',
     readmes: {
       base: 'zicjin/public-apis',
       searched: true,
@@ -1338,6 +1344,7 @@ export const Keys: SKey[] = [
     bylang: true,
     availableLang: InterfaceLanguage.中文,
     usage: true,
+    tooltips: '给程序员用的问答搜索',
   },
   {
     code: 'spotify',
@@ -1366,6 +1373,7 @@ export const Keys: SKey[] = [
     shortkeys: 'se',
     icon: 'stackexchange.png',
     template: 'https://stackexchange.com/search?q=%s',
+    tooltips: 'Q&A communities',
   },
   {
     code: 'starhistory',
@@ -1375,7 +1383,8 @@ export const Keys: SKey[] = [
     icon: 'star.png',
     homelink: 'https://star-history.t9t.io',
     template: 'https://star-history.t9t.io/#%s',
-  }, // selfbuild
+    tooltips: 'star history graph comparision of github repos.'
+  },
   {
     code: 'swift',
     name: 'Swift',
@@ -1396,6 +1405,7 @@ export const Keys: SKey[] = [
     hideName: true,
     width: 80,
     template: 'https://tldr.ostera.io/%s',
+    tooltips: 'simplify the beloved man pages with practical examples.'
   },
   {
     code: 'taro',
