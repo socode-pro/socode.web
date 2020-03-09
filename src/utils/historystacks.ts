@@ -5,7 +5,7 @@ export interface Stack {
   predefined?: boolean
 }
 
-const stacks: Stack[] = [
+const Stacks: Stack[] = [
   {
     id: 'java-frameworks',
     name: 'Java Frameworks',
@@ -233,6 +233,7 @@ const stacks: Stack[] = [
   },
 ]
 
-export default stacks
-
 // MQ, Sub/Push
+// console.log(JSON.stringify(Stacks))
+
+export default Stacks

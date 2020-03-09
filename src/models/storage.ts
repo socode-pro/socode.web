@@ -17,7 +17,7 @@ export interface StorageType {
   trending?: TrendingParam
   openNewTab?: boolean
   darkMode?: DarkMode
-  pinKeys?: string[]
+  pins?: string[]
   displayAwesome?: boolean
   displayMoreKeys?: boolean
 }
@@ -31,13 +31,13 @@ const storageKeys = [
   'trending',
   'openNewTab',
   'darkMode',
-  'pinKeys',
+  'pins',
   'displayAwesome',
   'displayMoreKeys',
 ]
 const jsonParseKeys = ['trending']
 const booleanParseKeys = ['openNewTab', 'displayAwesome', 'displayMoreKeys']
-const arrayParseKeys = ['pinKeys']
+const arrayParseKeys = ['pins']
 
 export interface StorageModel {
   initialed: boolean
@@ -56,7 +56,7 @@ const storageModel: StorageModel = {
     docLanguage: navigatorLanguage(navigator.language),
     openNewTab: true,
     displayAwesome: false,
-    pinKeys: [],
+    pins: [],
   },
 
   set: action((state, payload) => {

@@ -6,6 +6,7 @@ import awesomeModel, { AwesomeModel } from './awesome'
 import readmeModel, { ReadmeModel } from './readme'
 import devdocsModel, { DevdocsModel } from './devdocs'
 import historyModel, { HistoryModel } from './history'
+import searchKeysModel, { SearchKeysModel } from './searchkeys'
 
 export interface StoreModel {
   search: SearchModel
@@ -16,6 +17,7 @@ export interface StoreModel {
   readme: ReadmeModel
   devdocs: DevdocsModel
   history: HistoryModel
+  searchKeys: SearchKeysModel
 }
 
 const storeModel: StoreModel = {
@@ -27,6 +29,7 @@ const storeModel: StoreModel = {
   readme: readmeModel,
   devdocs: devdocsModel,
   history: historyModel,
+  searchKeys: searchKeysModel,
 }
 
 export default storeModel

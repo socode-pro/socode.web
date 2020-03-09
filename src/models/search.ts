@@ -4,7 +4,7 @@ import { StoreModel } from './index'
 import { ProgramLanguage } from '../utils/language'
 import { SocodeResult, SearchParam } from '../services/socode.service'
 import { NpmsResult, NpmsParam } from '../services/npms.service'
-import { SKey, IsAvoidKeys } from '../utils/skeys'
+import { SKey } from '../utils/searchkeys'
 
 export interface SMError {
   message: string
@@ -72,10 +72,6 @@ const searchModel: SearchModel = {
   }),
 
   search: thunk(async (actions, payload, { injections }) => {
-    if (IsAvoidKeys(payload.code)) {
-      return
-    }
-
     if (payload.code === 'socode') {
       actions.setLoading(true)
       actions.setError(null)

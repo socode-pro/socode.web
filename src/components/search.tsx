@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef, useMemo, lazy, Suspense } from 'react'
 import { useSpring, animated } from 'react-spring'
 import dayjs from 'dayjs'
-import Fuse from 'fuse.js'
 import debounce from 'lodash/debounce'
 import without from 'lodash/without'
 import docsearch from 'docsearch.js'
@@ -15,8 +14,8 @@ import Readme from './readme'
 import Devdocs from './devdocs'
 import Slogan from './slogan'
 import Language, { InterfaceLanguage, ProgramLanguage } from '../utils/language'
+import { SKey, isAvoidKey } from '../utils/searchkeys'
 import useHotkeys from '../utils/useHotkeys'
-import { SKey, Keys, IsDocsearchKeys, IsDevdocsKeys, IsAvoidKeys } from '../utils/skeys'
 import { StringEnumObjects, IntEnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { SearchTimeRange, SearchParam, SocodeResult } from '../services/socode.service'
@@ -29,11 +28,6 @@ import Loader1 from './loader/loader1'
 import { ReactComponent as Github } from '../images/github.svg'
 
 const StarHistory = lazy(() => import('./history'))
-const fuseOptions: Fuse.FuseOptions<SKey> = {
-  keys: ['name', 'shortkeys'],
-  threshold: 0.3,
-  maxPatternLength: 8,
-}
 
 const languageOptions = StringEnumObjects(Language)
 const programLanguageOptions = IntEnumObjects(ProgramLanguage)
@@ -44,7 +38,6 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const [focus, setFocus] = useState(true)
   const [squery, setSquery] = useState('')
-  const [kquery, setKquery] = useState('')
   const [dquery, setDquery] = useState('')
   const [pageno, setPageno] = useState(1)
   const [timeRange, setTimeRange] = useState<SearchTimeRange>(SearchTimeRange.Anytime)
@@ -53,26 +46,31 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [porogramLanguage, setPorogramLanguage] = useState(ProgramLanguage.All)
   const [displayKeys, setDisplayKeys] = useState(false)
 
+  const kquery = useStoreState<string>(state => state.searchKeys.kquery)
+  const setKquery = useStoreActions(actions => actions.searchKeys.setKquery)
+  const keys = useStoreState<Array<SKey>>(state => state.searchKeys.keys)
+  const pinKeys = useStoreState<Array<SKey>>(state => state.searchKeys.pinKeys)
+  const usageKeys = useStoreState<Array<SKey>>(state => state.searchKeys.usageKeys)
+  const moreKeys = useStoreState<Array<SKey>>(state => state.searchKeys.moreKeys)
+
+  const result = useStoreState<SocodeResult | null>(state => state.search.result)
+  const npmResult = useStoreState<NpmsResult | null>(state => state.search.npmResult)
   const wapperTop = useStoreState<number>(state => state.search.wapperTop)
   const loading = useStoreState<boolean>(state => state.search.loading)
   const error = useStoreState<SMError | null>(state => state.search.error)
-
   const setExpandView = useStoreActions(actions => actions.search.setExpandView)
-  const result = useStoreState<SocodeResult | null>(state => state.search.result)
-  const npmResult = useStoreState<NpmsResult | null>(state => state.search.npmResult)
   const searchAction = useStoreActions(actions => actions.search.search)
   const clearResult = useStoreActions(actions => actions.search.clearResult)
   const lunchUrlAction = useStoreActions(actions => actions.search.lunchUrl)
+
+  const { language, searchLanguage, docLanguage, searchKey, displayAwesome, displayMoreKeys, pins } = useStoreState<StorageType>(state => state.storage.values)
   const setStorage = useStoreActions(actions => actions.storage.setStorage)
   const storageInitialed = useStoreState<boolean>(state => state.storage.initialed)
-  const { language, searchLanguage, docLanguage, searchKey, pinKeys, displayAwesome, displayMoreKeys } = useStoreState<
-    StorageType
-  >(state => state.storage.values)
 
   // currentKey ----------------------------------
   const [currentKey, setCurrentKey] = useState<SKey>(() => {
-    const key = language === InterfaceLanguage.中文 ? Keys.find(k => k.code === 'socode') : Keys.find(k => k.code === 'github')
-    return key || Keys[0]
+    const key = language === InterfaceLanguage.中文 ? keys.find(k => k.code === 'socode') : keys.find(k => k.code === 'github')
+    return key || keys[0]
   })
   const dsConfig = useMemo(() => {
     if (currentKey.docsearch) {
@@ -87,7 +85,7 @@ const SearchInput: React.FC = (): JSX.Element => {
     if (storageInitialed) {
       const params = new URLSearchParams(window.location.search)
       if (!params.has('k')) {
-        setCurrentKey(Keys.find(k => k.code === searchKey) || currentKey)
+        setCurrentKey(keys.find(k => k.code === searchKey) || currentKey)
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -106,26 +104,6 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   // to refresh input dom, until uninstall api: https://github.com/algolia/docsearch/issues/927
   const [docsearchHack, setDocsearchHack] = useState(true)
-
-  // keys list ----------------------------------
-  const [keys, setKeys] = useState(Keys)
-  keys.forEach(k => {
-    k.pin = pinKeys?.includes(k.code)
-  })
-
-  const PinKeys = keys.filter(k => k.pin)
-  const UsageKeys = keys.filter(k => !k.pin && k.usage)
-  const MoreKeys = keys.filter(k => !k.pin && !k.usage)
-
-  useEffect(() => {
-    if (kquery) {
-      const fuse = new Fuse(Keys, fuseOptions)
-      const ks = fuse.search<SKey, false, false>(kquery)
-      setKeys(ks)
-    } else {
-      setKeys(Keys)
-    }
-  }, [kquery])
   // --------------------------------------------
 
   const spring = useSpring({ wapperTop })
@@ -133,7 +111,6 @@ const SearchInput: React.FC = (): JSX.Element => {
   const searchSubmit = useCallback(
     async (q?: string) => {
       let query: string | null = null
-      let skey = currentKey
       if (q !== undefined) {
         query = q
         setSquery(q)
@@ -145,34 +122,27 @@ const SearchInput: React.FC = (): JSX.Element => {
           query = searchParams.get('q') || ''
           setSquery(query)
         }
-        if (searchParams.has('k')) {
-          const key = Keys.find(k => k.code === searchParams.get('k'))
-          if (key) {
-            skey = key
-            setCurrentKey(key)
-          }
-        }
       }
 
-      if (!query) {
+      if (!query && isAvoidKey(currentKey)) {
         clearResult()
         return
       }
       const param = { query, searchLanguage, porogramLanguage, timeRange, pageno } as SearchParam
-      await searchAction({ ...param, ...skey })
+      await searchAction({ ...param, ...currentKey })
     },
-    [currentKey, squery, searchLanguage, porogramLanguage, timeRange, pageno, searchAction, clearResult]
+    [squery, currentKey, searchLanguage, porogramLanguage, timeRange, pageno, searchAction, clearResult]
   )
 
   const debounceSuggeste = useCallback(
-    debounce<(value: any) => Promise<void>>(async value => {
+    debounce<(value: string) => Promise<void>>(async value => {
       setSuggesteIndex(-1)
-      if (value) {
-        const words = await Suggester(value, currentKey.code)
-        setSuggeste({ words, key: currentKey.code })
-      } else {
+      if (!value || isAvoidKey(currentKey)) {
         setSuggeste(null)
+        return
       }
+      const words = await Suggester(value, currentKey.code)
+      setSuggeste({ words, key: currentKey.code })
     }, 500),
     [currentKey]
   )
@@ -187,7 +157,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         debounceSuggeste(e.target.value)
       }
     },
-    [debounceSuggeste, displayKeys]
+    [debounceSuggeste, displayKeys, setKquery]
   )
 
   // const handleQueryKeyPress = useCallback((e) => {
@@ -231,7 +201,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   useHotkeys(
     '/',
     () => {
-      if (IsDocsearchKeys(currentKey.code)) {
+      if (currentKey.docsearch) {
         document?.getElementById(`docsearch_${currentKey.code}`)?.focus()
       } else {
         inputEl.current?.focus()
@@ -342,14 +312,14 @@ const SearchInput: React.FC = (): JSX.Element => {
       clearResult()
 
       setTimeout(() => {
-        if (IsDocsearchKeys(key.code)) {
+        if (key.docsearch) {
           document?.getElementById(`docsearch_${key.code}`)?.focus()
         } else {
           inputEl.current?.focus()
         }
       }, 200)
     },
-    [clearResult]
+    [clearResult, setKquery]
   )
 
   const getKeysDom = useCallback(
@@ -421,9 +391,9 @@ const SearchInput: React.FC = (): JSX.Element => {
                   onClick={e => {
                     e.stopPropagation()
                     if (key.pin) {
-                      setStorage({ pinKeys: without(pinKeys, key.code) })
+                      setStorage({ pins: without(pins, key.code) })
                     } else {
-                      setStorage({ pinKeys: pinKeys ? [key.code, ...pinKeys] : [key.code] })
+                      setStorage({ pins: pins ? [key.code, ...pins] : [key.code] })
                     }
                   }}
                   className={cs('fa-thumbtack', css.thumbtack, { [css.usage]: key.pin })}
@@ -433,22 +403,22 @@ const SearchInput: React.FC = (): JSX.Element => {
           )
         })
     },
-    [language, changeKey, setStorage, pinKeys]
+    [language, changeKey, setStorage, pins]
   )
 
   useHotkeys(
     'tab',
     () => {
       const key = displayKeys
-        ? Keys.find(k => k.shortkeys === kquery)
-        : Keys.find(k => k.shortkeys === squery || k.shortkeys === dquery)
+        ? keys.find(k => k.shortkeys === kquery)
+        : keys.find(k => k.shortkeys === squery || k.shortkeys === dquery)
       if (key) {
         changeKey(key)
       } else if (displayKeys ? kquery.endsWith('`') : squery.endsWith('`') || dquery.endsWith('`')) {
         setDisplayKeys(!displayKeys)
       }
     },
-    [squery, kquery, dquery],
+    [keys, squery, kquery, dquery],
     [css.input]
   )
 
@@ -491,7 +461,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                 placeholder={
                   displayKeys
                     ? 'filter...'
-                    : IsDevdocsKeys(currentKey.code)
+                    : currentKey.devdocs
                     ? 'menu search...'
                     : currentKey.readmes
                     ? currentKey.readmes.searched
@@ -605,7 +575,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               </div>
             )}
 
-            {!displayKeys && !IsDocsearchKeys(currentKey.code) && !IsDevdocsKeys(currentKey.code) && (
+            {!displayKeys && !currentKey.docsearch && !currentKey.devdocs && (
               <i className={cs(css.sicon, 'fa-search')} onClick={() => searchSubmit()} />
             )}
           </div>
@@ -615,7 +585,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             suggeste !== null &&
             suggeste.words.length > 0 &&
             suggeste.key === currentKey.code &&
-            !IsAvoidKeys(currentKey.code) && (
+            !isAvoidKey(currentKey) && (
               <div className={cs(css.suggeste, 'dropdown is-active')} style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
                 <div className='dropdown-menu'>
                   <div className='dropdown-content'>
@@ -707,17 +677,17 @@ const SearchInput: React.FC = (): JSX.Element => {
 
           {displayKeys && (
             <div className='mgl10 mgb10 mgr10'>
-              <div className={css.skgroup}>{getKeysDom(PinKeys)}</div>
-              {UsageKeys.length > 0 && (
+              <div className={css.skgroup}>{getKeysDom(pinKeys)}</div>
+              {usageKeys.length > 0 && (
                 <div className={cs(css.skgroup)}>
                   <div className={css.kdesc}>USAGING</div>
-                  {getKeysDom(UsageKeys)}
+                  {getKeysDom(usageKeys)}
                 </div>
               )}
-              {(displayMoreKeys || kquery) && MoreKeys.length > 0 && (
+              {(displayMoreKeys || kquery) && moreKeys.length > 0 && (
                 <div className={cs(css.skgroup)}>
                   <div className={css.kdesc}>MORE</div>
-                  {getKeysDom(MoreKeys)}
+                  {getKeysDom(moreKeys)}
                 </div>
               )}
               {!displayMoreKeys && !kquery && (

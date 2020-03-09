@@ -3,9 +3,9 @@ import cs from 'classnames'
 import Fuse from 'fuse.js'
 import Highcharts from 'highcharts'
 import Chartkick, { LineChart } from 'react-chartkick'
-import { Stack } from '../utils/history_stacks'
+import { Stack } from '../utils/historystacks'
 import { useStoreActions, useStoreState } from '../utils/hooks'
-import { IntEnumObjects, winSearchParams } from '../utils/assist'
+import { IntEnumObjects } from '../utils/assist'
 import { Repository } from '../services/history.service'
 import { InterfaceLanguage } from '../utils/language'
 import css from './history.module.scss'
@@ -45,6 +45,18 @@ interface Props {
 }
 
 const History: React.FC<Props> = ({ query }: Props): JSX.Element => {
+  const initialPresetStacks = useStoreActions(actions => actions.history.initialPresetStacks)
+  const initialStacks = useStoreActions(actions => actions.history.initialUserStacks)
+  const popstateCurrentStack = useStoreActions(actions => actions.history.popstateCurrentStack)
+  useEffect(() => {
+    const initial = async (): Promise<void> => {
+      await initialPresetStacks()
+      await initialStacks()
+      await popstateCurrentStack()
+    }
+    initial()
+  }, [initialStacks, initialPresetStacks, popstateCurrentStack])
+
   const presetStacks = useStoreState<Array<Stack>>(state => state.history.presetStacks)
   const userStacks = useStoreState<Array<Stack>>(state => state.history.userStacks)
   const allStacks = useStoreState<Array<Stack>>(state => state.history.allStacks)
