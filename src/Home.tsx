@@ -7,14 +7,12 @@ import './styles/app.global.scss'
 
 const Home: React.FC = () => {
   const initialStorage = useStoreActions(actions => actions.storage.initialStorage)
-  const initialMetas = useStoreActions(actions => actions.devdocs.initialMetas)
-  const initialStacks = useStoreActions(actions => actions.history.initialStacks)
+  const initialKeys = useStoreActions(actions => actions.searchKeys.initialKeys)
 
   useEffect(() => {
     initialStorage()
-    initialMetas()
-    initialStacks()
-  }, [initialStorage, initialMetas, initialStacks])
+    initialKeys()
+  }, [initialStorage, initialKeys])
 
   return (
     <>

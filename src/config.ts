@@ -63,6 +63,10 @@ export const dochost = (): string => {
   return variable.DOCHOST
 }
 
+export const keyshost = (): string => {
+  return variable.KEYSHOST
+}
+
 export const nesthost = (): string => {
   return variable.NESTHOST
 }

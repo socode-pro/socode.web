@@ -38,7 +38,15 @@ export interface SKey {
   }
 }
 
-export const Keys: SKey[] = [
+export const isAvoidKey = (key: SKey): boolean =>
+  !!key.docsearch ||
+  !!key.devdocs ||
+  !!key.readmes ||
+  key.code === 'cheatsheets' ||
+  key.code === 'tools' ||
+  key.code === 'starhistory'
+
+const SKeys: SKey[] = [
   {
     code: '_30seconds',
     name: '30 seconds of code',
@@ -1539,65 +1547,6 @@ export const Keys: SKey[] = [
   },
 ]
 
-export const IsDocsearchKeys = (code: string): boolean => {
-  return Keys.filter(k => k.docsearch)
-    .map(k => k.code)
-    .includes(code)
-}
+// console.log(JSON.stringify(SKeys))
 
-export const IsDevdocsKeys = (code: string): boolean => {
-  return Keys.filter(k => k.devdocs)
-    .map(k => k.code)
-    .includes(code)
-}
-
-export const IsReadmeKeys = (code: string): boolean => {
-  return Keys.filter(k => k.readmes)
-    .map(k => k.code)
-    .includes(code)
-}
-
-export const IsAvoidKeys = (code: string): boolean => {
-  return (
-    IsDocsearchKeys(code) ||
-    IsDevdocsKeys(code) ||
-    IsReadmeKeys(code) ||
-    code === 'cheatsheets' ||
-    code === 'tools' ||
-    code === 'starhistory'
-  )
-}
-
-// export const GetKeyByName = (name: string): SKey | null => {
-//   const r1 = _.find(UsageKeys, { name })
-//   if (r1) return r1
-//   const r2 = _.find(DocsearchKeys, { name })
-//   if (r2) return r2
-//   const r3 = _.find(MoreKeys, { name })
-//   if (r3) return r3
-
-//   return null
-// }
-
-// export const GetKeyByShortkeys = (shortkeys: string): SKey | null => {
-//   const r1 = _.find(UsageKeys, { shortkeys })
-//   if (r1) return r1
-//   const r2 = _.find(DocsearchKeys, { shortkeys })
-//   if (r2) return r2
-//   const r3 = _.find(MoreKeys, { shortkeys })
-//   if (r3) return r3
-
-//   return null
-// }
-
-// export const DocsearchKeys = (): SKey[] => {
-//   const keys: SKey[] = Object.entries(UsageKeys)
-//     .filter(([k, v]) => v.docsearch)
-//     .map(([k, v]) => v)
-
-//   const mkeys: SKey[] = Object.entries(MoreKeys)
-//     .filter(([k, v]) => v.docsearch)
-//     .map(([k, v]) => v)
-
-//   return keys.concat(mkeys)
-// }
+export default SKeys

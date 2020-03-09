@@ -2,7 +2,7 @@ import React, { useEffect, useCallback } from 'react'
 import cs from 'classnames'
 import debounce from 'lodash/debounce'
 import { useStoreActions, useStoreState } from '../utils/hooks'
-import { DevDocEntrie } from '../services/devdocs.service'
+import { DevDocEntrie } from '../models/devdocs'
 import { winSearchParams, transRelationHref } from '../utils/assist'
 import Loader1 from './loader/loader1'
 import css from './devdocs.module.scss'
@@ -13,6 +13,11 @@ interface Props {
 }
 
 const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
+  const initialMetas = useStoreActions(actions => actions.devdocs.initialMetas)
+  useEffect(() => {
+    initialMetas()
+  }, [initialMetas])
+
   const loading = useStoreState<boolean>(state => state.devdocs.loading)
   const docLoading = useStoreState<boolean>(state => state.devdocs.docLoading)
   const results = useStoreState<{ [type: string]: Array<DevDocEntrie> }>(state => state.devdocs.results)
@@ -20,7 +25,7 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
   const docs = useStoreState<{ [index: string]: string }>(state => state.devdocs.docs)
   const currentPath = useStoreState<string>(state => state.devdocs.currentPath)
 
-  const initialIndex = useStoreActions(actions => actions.devdocs.initialIndex)
+  const loadIndex = useStoreActions(actions => actions.devdocs.loadIndex)
   const search = useStoreActions(actions => actions.devdocs.search)
   const toggleExpanding = useStoreActions(actions => actions.devdocs.toggleExpanding)
   const expand = useStoreActions(actions => actions.devdocs.expand)
@@ -37,13 +42,13 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
 
   useEffect(() => {
     const initial = async (): Promise<void> => {
-      await initialIndex(slug)
-      await search({ slug, query })
+      await loadIndex(slug)
       await popstateSelect()
+      await search({ slug, query })
     }
     initial()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialIndex, slug])
+  }, [loadIndex, slug])
 
   const debounceSearch = useCallback(
     debounce<() => Promise<void>>(async () => {

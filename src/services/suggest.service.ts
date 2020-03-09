@@ -1,7 +1,6 @@
 import ky from 'ky'
 import algoliasearch from 'algoliasearch'
 import * as global from '../config'
-import { IsAvoidKeys } from '../utils/skeys'
 
 const api = ky.extend({
   timeout: 2000,
@@ -118,9 +117,9 @@ export const Suggester = async (q: string, code: string): Promise<Array<SuggestI
   // if (kname === 'Can I use') {
   //   return CaniuseSuggester(q)
   // }
-  if (IsAvoidKeys(code)) {
-    return []
-  }
+  // if (IsAvoidKeys(code)) {
+  //   return []
+  // }
 
   try {
     const data = await api

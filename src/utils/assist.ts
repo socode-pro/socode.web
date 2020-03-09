@@ -21,7 +21,7 @@ export const IntEnumObjects = (enumme): Array<{ label: string; value: number }> 
 const { location, history } = window
 
 // https://stackoverflow.com/a/41542008
-export const winSearchParams = (params: { keyname?: string; query?: string; devdocs?: string }): void => {
+export const winSearchParams = (params: { keyname?: string; query?: string; devdocs?: string; stack?: string }): void => {
   const searchParams = new URLSearchParams(window.location.search)
   if (params.keyname !== undefined) {
     if (params.keyname) {
@@ -42,6 +42,13 @@ export const winSearchParams = (params: { keyname?: string; query?: string; devd
       searchParams.set('devdocs', params.devdocs)
     } else {
       searchParams.delete('devdocs')
+    }
+  }
+  if (params.stack !== undefined) {
+    if (params.stack) {
+      searchParams.set('stack', params.stack)
+    } else {
+      searchParams.delete('stack')
     }
   }
   history.pushState(null, '', `${location.pathname}${[...searchParams].length ? `?${searchParams.toString()}` : ''}`)
