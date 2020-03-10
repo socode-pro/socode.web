@@ -1,6 +1,6 @@
 import ky from 'ky'
 import * as config from '../config'
-import Language, { ProgramLanguage } from '../utils/language'
+import Language from '../utils/language'
 
 const api = ky.extend({
   timeout: 5000,
@@ -18,10 +18,8 @@ export interface SearchParam {
   query: string
   timeRange?: SearchTimeRange
   searchLanguage?: Language
-  porogramLanguage?: ProgramLanguage
   pageno?: number
   cookie?: string
-  url?: string
 }
 
 export interface SocodeResult {
