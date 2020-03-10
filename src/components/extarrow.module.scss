@@ -19,6 +19,9 @@
     height: 50px;
     padding-left: 60px;
     background: url(../images/icons8-chrome.svg) left/contain no-repeat;
+    &.edge {
+      background: url(../images/icons8-edge.svg) left/contain no-repeat;
+    }
     @include stretched-link;
     h3 {
       @include underline('#363636');
