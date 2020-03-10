@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect, useRef, useMemo, lazy, Suspens
 import { useSpring, animated } from 'react-spring'
 import dayjs from 'dayjs'
 import debounce from 'lodash/debounce'
-import without from 'lodash/without'
 import docsearch from 'docsearch.js'
 import cs from 'classnames'
 import Highlighter from 'react-highlight-words'
@@ -13,12 +12,12 @@ import Awesome from './awesome'
 import Readme from './readme'
 import Devdocs from './devdocs'
 import Slogan from './slogan'
-import Language, { InterfaceLanguage, ProgramLanguage } from '../utils/language'
+import Language, { ProgramLanguage } from '../utils/language'
 import { SKey, isAvoidKey } from '../utils/searchkeys'
 import useHotkeys from '../utils/useHotkeys'
 import { StringEnumObjects, IntEnumObjects, winSearchParams } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
-import { SearchTimeRange, SearchParam, SocodeResult } from '../services/socode.service'
+import { SearchTimeRange, SocodeResult } from '../services/socode.service'
 import { NpmsResult } from '../services/npms.service'
 import { StorageType } from '../models/storage'
 import { SMError } from '../models/search'
@@ -37,43 +36,59 @@ const SearchInput: React.FC = (): JSX.Element => {
   const inputEl = useRef<HTMLInputElement & { onsearch: (e: InputEvent) => void }>(null)
 
   const [focus, setFocus] = useState(true)
-  const [squery, setSquery] = useState('')
   const [dquery, setDquery] = useState('')
-  const [pageno, setPageno] = useState(1)
-  const [timeRange, setTimeRange] = useState<SearchTimeRange>(SearchTimeRange.Anytime)
   const [suggeste, setSuggeste] = useState<{ words: Array<SuggestItem>; key: string } | null>(null)
   const [suggesteIndex, setSuggesteIndex] = useState(-1)
-  const [porogramLanguage, setPorogramLanguage] = useState(ProgramLanguage.All)
   const [displayKeys, setDisplayKeys] = useState(false)
 
-  const kquery = useStoreState<string>(state => state.searchKeys.kquery)
-  const setKquery = useStoreActions(actions => actions.searchKeys.setKquery)
   const keys = useStoreState<Array<SKey>>(state => state.searchKeys.keys)
   const pinKeys = useStoreState<Array<SKey>>(state => state.searchKeys.pinKeys)
   const usageKeys = useStoreState<Array<SKey>>(state => state.searchKeys.usageKeys)
   const moreKeys = useStoreState<Array<SKey>>(state => state.searchKeys.moreKeys)
+
+  const kquery = useStoreState<string>(state => state.searchKeys.kquery)
+  const setKquery = useStoreActions(actions => actions.searchKeys.setKquery)
+  const currentKey = useStoreState<SKey>(state => state.searchKeys.currentKey)
+  const setCurrentKey = useStoreActions(actions => actions.searchKeys.setCurrentKey)
+  const addPin = useStoreActions(actions => actions.searchKeys.addPin)
+  const removePin = useStoreActions(actions => actions.searchKeys.removePin)
+  const displayMore = useStoreState<boolean>(state => state.searchKeys.displayMore)
+  const setDisplayMore = useStoreActions(actions => actions.searchKeys.setDisplayMore)
+
+  const squery = useStoreState<string>(state => state.search.query)
+  const setSquery = useStoreActions(actions => actions.search.setQuery)
+  const timeRange = useStoreState<SearchTimeRange>(state => state.search.timeRange)
+  const setTimeRange = useStoreActions(actions => actions.search.setTimeRangeThunk)
+  const pageno = useStoreState<ProgramLanguage>(state => state.search.pageno)
+  const nextPage = useStoreActions(actions => actions.search.nextPageThunk)
+  const prevPage = useStoreActions(actions => actions.search.prevPageThunk)
+  const searchLanguage = useStoreState<Language>(state => state.search.searchLanguage)
+  const setSearchLanguage = useStoreActions(actions => actions.search.setSearchLanguageThunk)
+  const docLanguage = useStoreState<Language>(state => state.search.docLanguage)
+  const setDocLanguage = useStoreActions(actions => actions.search.setDocLanguage)
+  const programLanguage = useStoreState<ProgramLanguage>(state => state.search.programLanguage)
+  const setProgramLanguage = useStoreActions(actions => actions.search.setProgramLanguage)
 
   const result = useStoreState<SocodeResult | null>(state => state.search.result)
   const npmResult = useStoreState<NpmsResult | null>(state => state.search.npmResult)
   const wapperTop = useStoreState<number>(state => state.search.wapperTop)
   const loading = useStoreState<boolean>(state => state.search.loading)
   const error = useStoreState<SMError | null>(state => state.search.error)
-  const setExpandView = useStoreActions(actions => actions.search.setExpandView)
-  const searchAction = useStoreActions(actions => actions.search.search)
+  const search = useStoreActions(actions => actions.search.search)
   const clearResult = useStoreActions(actions => actions.search.clearResult)
   const lunchUrlAction = useStoreActions(actions => actions.search.lunchUrl)
 
-  const { language, searchLanguage, docLanguage, searchKey, displayAwesome, displayMoreKeys, pins } = useStoreState<StorageType>(state => state.storage.values)
-  const setStorage = useStoreActions(actions => actions.storage.setStorage)
-  const storageInitialed = useStoreState<boolean>(state => state.storage.initialed)
+  const { language, displayAwesome } = useStoreState<StorageType>(state => state.storage.values)
 
-  // currentKey ----------------------------------
-  const [currentKey, setCurrentKey] = useState<SKey>(() => {
-    const key = language === InterfaceLanguage.中文 ? keys.find(k => k.code === 'socode') : keys.find(k => k.code === 'github')
-    return key || keys[0]
-  })
+  // const initialKeys = useStoreActions(actions => actions.searchKeys.initialKeys)
+  const initialCurrentKey = useStoreActions(actions => actions.searchKeys.initialCurrentKey)
+  useEffect(() => {
+    // initialKeys()
+    initialCurrentKey()
+  }, [initialCurrentKey])
+
   const dsConfig = useMemo(() => {
-    if (currentKey.docsearch) {
+    if (currentKey && currentKey.docsearch) {
       const target = currentKey.docsearch.find(k => k.lang === docLanguage)
       if (target) return target
       return currentKey.docsearch[0]
@@ -81,58 +96,11 @@ const SearchInput: React.FC = (): JSX.Element => {
     return null
   }, [currentKey, docLanguage])
 
-  useEffect(() => {
-    if (storageInitialed) {
-      const params = new URLSearchParams(window.location.search)
-      if (!params.has('k')) {
-        setCurrentKey(keys.find(k => k.code === searchKey) || currentKey)
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storageInitialed])
-
-  useEffect(() => {
-    if (storageInitialed) {
-      setStorage({ searchKey: currentKey.code })
-    }
-    if (!currentKey.devdocs) {
-      setExpandView(false)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentKey, setStorage])
-  // --------------------------------------------
-
   // to refresh input dom, until uninstall api: https://github.com/algolia/docsearch/issues/927
   const [docsearchHack, setDocsearchHack] = useState(true)
   // --------------------------------------------
 
   const spring = useSpring({ wapperTop })
-
-  const searchSubmit = useCallback(
-    async (q?: string) => {
-      let query: string | null = null
-      if (q !== undefined) {
-        query = q
-        setSquery(q)
-      } else if (squery) {
-        query = squery
-      } else {
-        const searchParams = new URLSearchParams(window.location.search)
-        if (searchParams.has('q')) {
-          query = searchParams.get('q') || ''
-          setSquery(query)
-        }
-      }
-
-      if (!query && isAvoidKey(currentKey)) {
-        clearResult()
-        return
-      }
-      const param = { query, searchLanguage, porogramLanguage, timeRange, pageno } as SearchParam
-      await searchAction({ ...param, ...currentKey })
-    },
-    [squery, currentKey, searchLanguage, porogramLanguage, timeRange, pageno, searchAction, clearResult]
-  )
 
   const debounceSuggeste = useCallback(
     debounce<(value: string) => Promise<void>>(async value => {
@@ -152,12 +120,12 @@ const SearchInput: React.FC = (): JSX.Element => {
       if (displayKeys) {
         setKquery(e.target.value)
       } else {
-        debounceSuggeste?.cancel()
         setSquery(e.target.value)
+        debounceSuggeste?.cancel()
         debounceSuggeste(e.target.value)
       }
     },
-    [debounceSuggeste, displayKeys, setKquery]
+    [debounceSuggeste, displayKeys, setKquery, setSquery]
   )
 
   // const handleQueryKeyPress = useCallback((e) => {
@@ -165,24 +133,19 @@ const SearchInput: React.FC = (): JSX.Element => {
   //   }
   // }, [searchSubmit])
 
-  const closeResult = useCallback(() => {
+  const clearResultAll = useCallback(() => {
     setSuggesteIndex(-1)
     setSuggeste(null)
-    setPageno(1)
-    searchSubmit('')
-    winSearchParams({ keyname: currentKey.code, query: '' })
-  }, [currentKey.code, searchSubmit])
+    clearResult()
+  }, [clearResult])
 
   const handlerSearch = useCallback(
     e => {
-      setSuggesteIndex(-1)
-      setSuggeste(null)
-      setPageno(1)
-      searchSubmit(e.target?.value)
-      winSearchParams({ keyname: currentKey.code, query: e.target?.value })
+      clearResultAll()
+      search()
       e.target?.blur()
     },
-    [currentKey.code, searchSubmit]
+    [clearResultAll, search]
   )
 
   if (inputEl.current !== null) inputEl.current.onsearch = handlerSearch
@@ -192,22 +155,29 @@ const SearchInput: React.FC = (): JSX.Element => {
     () => {
       if (document.activeElement?.tagName !== 'INPUT') {
         setDisplayKeys(!displayKeys)
+        return false
       }
     },
     [displayKeys],
     ['BODY']
   )
 
+  const focusInput = useCallback(() => {
+    if (currentKey.docsearch && !!currentKey.devdocs) {
+      document?.getElementById(`docsearch_${currentKey.code}`)?.focus()
+    } else {
+      inputEl.current?.focus()
+    }
+  }, [currentKey.code, currentKey.devdocs, currentKey.docsearch])
+
+  useEffect(() => {
+    setTimeout(focusInput, 0)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayKeys])
+
   useHotkeys(
     '/',
-    () => {
-      if (currentKey.docsearch) {
-        document?.getElementById(`docsearch_${currentKey.code}`)?.focus()
-      } else {
-        inputEl.current?.focus()
-      }
-      return false
-    },
+    () => { focusInput(); return false },
     [currentKey],
     ['BODY']
   )
@@ -215,7 +185,10 @@ const SearchInput: React.FC = (): JSX.Element => {
   useHotkeys(
     'down',
     () => {
-      if (suggeste && suggeste.words.length > suggesteIndex + 1) setSuggesteIndex(suggesteIndex + 1)
+      if (suggeste && suggeste.words.length > suggesteIndex + 1) {
+        setSuggesteIndex(suggesteIndex + 1)
+        setSquery(suggeste.words[suggesteIndex + 1].name) // warn: suggesteIndex must '-1' when autocomplate arr init
+      }
     },
     [suggesteIndex, suggeste],
     ['with_suggeste']
@@ -224,48 +197,32 @@ const SearchInput: React.FC = (): JSX.Element => {
   useHotkeys(
     'up',
     () => {
-      if (suggesteIndex >= 0) setSuggesteIndex(suggesteIndex - 1)
+      if (suggeste && suggesteIndex >= 0) {
+        setSuggesteIndex(suggesteIndex - 1)
+        setSquery(suggeste.words[suggesteIndex - 1].name)
+      }
     },
     [suggesteIndex],
     ['with_suggeste']
   )
 
   const suggesteClick = useCallback(
-    (a, url?: string) => {
-      setSuggesteIndex(-1)
-      setSuggeste(null)
-      setPageno(1)
+    (q, url?: string) => {
+      clearResultAll()
 
       if (url) {
-        lunchUrlAction({ query: '', url, ...currentKey })
+        lunchUrlAction(url)
       } else {
-        searchSubmit(a)
-        winSearchParams({ keyname: currentKey.code, query: a })
+        setSquery(q)
+        search()
       }
     },
-    [currentKey, lunchUrlAction, searchSubmit]
+    [clearResultAll, lunchUrlAction, search, setSquery]
   )
 
   useEffect(() => {
-    if (suggesteIndex >= 0 && suggeste && suggeste?.words.length > 0) setSquery(suggeste.words[suggesteIndex].name) // warn: acIndex must '-1' when autocomplate arr init
-  }, [suggesteIndex, suggeste])
-
-  useEffect(() => {
-    searchSubmit()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageno])
-
-  useEffect(() => {
-    if (result !== null) {
-      setPageno(1)
-      searchSubmit()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchLanguage, timeRange])
-
-  useEffect(() => {
     const popstateSearch = (): void => {
-      searchSubmit()
+      search()
     }
     window.addEventListener('popstate', popstateSearch)
     return () => {
@@ -275,7 +232,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    if (!displayKeys && dsConfig && docsearchHack) {
+    if (dsConfig && docsearchHack) {
       docsearch({
         appId: dsConfig.appId,
         apiKey: dsConfig.apiKey,
@@ -291,35 +248,19 @@ const SearchInput: React.FC = (): JSX.Element => {
         debug: false,
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [displayKeys, currentKey.code, docsearchHack])
-
-  useEffect(() => {
-    setTimeout(() => inputEl.current?.focus(), 0)
-  }, [displayKeys])
+  }, [currentKey.code, docsearchHack, dsConfig])
 
   const changeKey = useCallback(
     (key: SKey) => {
+      clearResultAll()
       setSquery('')
       setKquery('')
       setCurrentKey(key)
-      setDisplayKeys(false)
       winSearchParams({ keyname: key.code, query: '' })
-
-      setSuggesteIndex(-1)
-      setSuggeste(null)
-      setPageno(1)
-      clearResult()
-
-      setTimeout(() => {
-        if (key.docsearch) {
-          document?.getElementById(`docsearch_${key.code}`)?.focus()
-        } else {
-          inputEl.current?.focus()
-        }
-      }, 200)
+      setDisplayKeys(false)
+      setTimeout(focusInput, 200)
     },
-    [clearResult, setKquery]
+    [clearResultAll, focusInput, setCurrentKey, setKquery, setSquery]
   )
 
   const getKeysDom = useCallback(
@@ -391,9 +332,9 @@ const SearchInput: React.FC = (): JSX.Element => {
                   onClick={e => {
                     e.stopPropagation()
                     if (key.pin) {
-                      setStorage({ pins: without(pins, key.code) })
+                      addPin(key.code)
                     } else {
-                      setStorage({ pins: pins ? [key.code, ...pins] : [key.code] })
+                      removePin(key.code)
                     }
                   }}
                   className={cs('fa-thumbtack', css.thumbtack, { [css.usage]: key.pin })}
@@ -403,7 +344,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           )
         })
     },
-    [language, changeKey, setStorage, pins]
+    [language, changeKey, addPin, removePin]
   )
 
   useHotkeys(
@@ -495,8 +436,8 @@ const SearchInput: React.FC = (): JSX.Element => {
                   value={docLanguage}
                   onChange={async e => {
                     setDocsearchHack(false)
-                    await setStorage({ docLanguage: e.target.value as Language })
-                    setDocsearchHack(true)
+                    setDocLanguage(e.target.value as Language)
+                    setTimeout(() => setDocsearchHack(true), 0)
                   }}>
                   {currentKey.docsearch.map(d => (
                     <option key={d.lang} value={d.lang}>
@@ -553,7 +494,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
             {!displayKeys && currentKey.bylang && (
               <div className='select is-rounded mgl10'>
-                <select value={searchLanguage} onChange={e => setStorage({ searchLanguage: e.target.value as Language })}>
+                <select value={searchLanguage} onChange={e => setSearchLanguage(e.target.value as Language)}>
                   {languageOptions.map(o => (
                     <option key={o.value} value={o.value}>
                       {o.label}
@@ -565,7 +506,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
             {!displayKeys && currentKey.bypglang && (
               <div className='select is-rounded mgl10'>
-                <select value={porogramLanguage} onChange={e => setPorogramLanguage(parseInt(e.target.value, 10))}>
+                <select value={programLanguage} onChange={e => setProgramLanguage(parseInt(e.target.value, 10))}>
                   {programLanguageOptions.map(o => (
                     <option key={o.value} value={o.value}>
                       {o.label}
@@ -576,7 +517,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             )}
 
             {!displayKeys && !currentKey.docsearch && !currentKey.devdocs && (
-              <i className={cs(css.sicon, 'fa-search')} onClick={() => searchSubmit()} />
+              <i className={cs(css.sicon, 'fa-search')} onClick={() => search()} />
             )}
           </div>
 
@@ -684,19 +625,19 @@ const SearchInput: React.FC = (): JSX.Element => {
                   {getKeysDom(usageKeys)}
                 </div>
               )}
-              {(displayMoreKeys || kquery) && moreKeys.length > 0 && (
+              {(displayMore || kquery) && moreKeys.length > 0 && (
                 <div className={cs(css.skgroup)}>
                   <div className={css.kdesc}>MORE</div>
                   {getKeysDom(moreKeys)}
                 </div>
               )}
-              {!displayMoreKeys && !kquery && (
-                <button type='button' className='button is-text w100' onClick={() => setStorage({ displayMoreKeys: true })}>
+              {!displayMore && !kquery && (
+                <button type='button' className='button is-text w100' onClick={() => setDisplayMore(true)}>
                   More
                 </button>
               )}
-              {displayMoreKeys && (
-                <button type='button' className='button is-text w100' onClick={() => setStorage({ displayMoreKeys: false })}>
+              {displayMore && (
+                <button type='button' className='button is-text w100' onClick={() => setDisplayMore(false)}>
                   Less
                 </button>
               )}
@@ -750,10 +691,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                     <button
                       type='button'
                       className='button is-rounded'
-                      onClick={() => {
-                        setPageno(pageno - 1)
-                        window.scrollTo({ top: 0 })
-                      }}>
+                      onClick={() => prevPage()}>
                       <span className='icon'>
                         <i className='fa-angle-left' />
                       </span>
@@ -766,10 +704,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                     <button
                       type='button'
                       className='button is-rounded'
-                      onClick={() => {
-                        setPageno(pageno + 1)
-                        window.scrollTo({ top: 0 })
-                      }}>
+                      onClick={() => nextPage()}>
                       <span>Next Page</span>
                       <span className='icon'>
                         <i className='fa-angle-right' />
@@ -810,10 +745,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                     <button
                       type='button'
                       className='button is-rounded'
-                      onClick={() => {
-                        setPageno(pageno - 1)
-                        window.scrollTo({ top: 0 })
-                      }}>
+                      onClick={() => prevPage()}>
                       <span className='icon'>
                         <i className='fa-angle-left' />
                       </span>
@@ -826,10 +758,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                     <button
                       type='button'
                       className='button is-rounded'
-                      onClick={() => {
-                        setPageno(pageno + 1)
-                        window.scrollTo({ top: 0 })
-                      }}>
+                      onClick={() => nextPage()}>
                       <span>Next Page</span>
                       <span className='icon'>
                         <i className='fa-angle-right' />
@@ -846,7 +775,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           {loading && <Loader1 type={2} />}
 
           {result !== null && (
-            <div className={css.closer} onClick={closeResult}>
+            <div className={css.closer} onClick={clearResultAll}>
               <a className='delete is-medium' />
             </div>
           )}
@@ -854,12 +783,6 @@ const SearchInput: React.FC = (): JSX.Element => {
           {result === null && currentKey.name === 'socode' && <Slogan />}
         </animated.div>
       </div>
-      {/* <div
-        className={cs('mask', { 'dis-none': !displayKeys })}
-        onClick={() => {
-          setDisplayKeys(false)
-        }}
-      /> */}
     </>
   )
 }

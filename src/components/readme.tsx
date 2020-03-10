@@ -4,7 +4,6 @@ import marked from 'marked'
 import Fuse from 'fuse.js'
 import { transRelationHref } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
-import { StorageType } from '../models/storage'
 import Language from '../utils/language'
 import css from './readme.module.scss'
 
@@ -75,8 +74,8 @@ const Readme: React.FC<Props> = ({ base, paths, query }: Props): JSX.Element => 
   const [path, setPath] = useState<string>('')
   const [querying, setQuerying] = useState<boolean>(false)
 
-  const { docLanguage } = useStoreState<StorageType>(state => state.storage.values)
-  const setStorage = useStoreActions(actions => actions.storage.setStorage)
+  const docLanguage = useStoreState<Language>(state => state.search.docLanguage)
+  const setDocLanguage = useStoreActions(actions => actions.search.setDocLanguage)
 
   const markdown = useStoreState<string>(state => state.readme.markdown)
   const getMarkdown = useStoreActions(actions => actions.readme.getMarkdown)
@@ -150,9 +149,7 @@ const Readme: React.FC<Props> = ({ base, paths, query }: Props): JSX.Element => 
         <div className={cs('select is-rounded', css.selector)}>
           <select
             value={docLanguage}
-            onChange={async e => {
-              await setStorage({ docLanguage: e.target.value as Language })
-            }}>
+            onChange={e => setDocLanguage(e.target.value as Language)}>
             {paths.map(d => (
               <option key={d.lang} value={d.lang}>
                 {Object.keys(Language).filter(e => Language[e] === d.lang)}

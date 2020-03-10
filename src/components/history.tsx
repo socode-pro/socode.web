@@ -45,17 +45,17 @@ interface Props {
 }
 
 const History: React.FC<Props> = ({ query }: Props): JSX.Element => {
-  const initialPresetStacks = useStoreActions(actions => actions.history.initialPresetStacks)
-  const initialStacks = useStoreActions(actions => actions.history.initialUserStacks)
+  // const initialPresetStacks = useStoreActions(actions => actions.history.initialPresetStacks)
+  const initialUserStacks = useStoreActions(actions => actions.history.initialUserStacks)
   const popstateCurrentStack = useStoreActions(actions => actions.history.popstateCurrentStack)
   useEffect(() => {
     const initial = async (): Promise<void> => {
-      await initialPresetStacks()
-      await initialStacks()
+      // await initialPresetStacks()
+      await initialUserStacks()
       await popstateCurrentStack()
     }
     initial()
-  }, [initialStacks, initialPresetStacks, popstateCurrentStack])
+  }, [initialUserStacks, popstateCurrentStack])
 
   const presetStacks = useStoreState<Array<Stack>>(state => state.history.presetStacks)
   const userStacks = useStoreState<Array<Stack>>(state => state.history.userStacks)

@@ -61,10 +61,10 @@ const useIntl = (words: Words): string => {
 }
 
 const Privacy: React.FC = () => {
-  const initialStorage = useStoreActions(actions => actions.storage.initialStorage)
+  const storageInitial = useStoreActions(actions => actions.storage.initial)
   useEffect(() => {
-    initialStorage()
-  }, [initialStorage])
+    storageInitial()
+  }, [storageInitial])
 
   return (
     <div className='container'>

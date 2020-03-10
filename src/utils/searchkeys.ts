@@ -149,8 +149,10 @@ const SKeys: SKey[] = [
     code: 'bundlephobia',
     name: 'Bundlephobia',
     shortkeys: 'bp',
+    usage: true,
     icon: 'bundlephobia.svg',
     template: 'https://bundlephobia.com/result?p=%s',
+    tooltips: 'find the cost of adding a npm package to your bundle',
   },
   {
     code: 'c_lang',
