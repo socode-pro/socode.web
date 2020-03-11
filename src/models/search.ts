@@ -1,4 +1,4 @@
-import { Action, action, Thunk, thunk, Computed, computed, ActionOn, actionOn } from 'easy-peasy'
+import { Action, action, Thunk, thunk, Computed, computed, ActionOn, actionOn, ThunkOn, thunkOn } from 'easy-peasy'
 import { Injections } from '../store'
 import { StoreModel } from './index'
 import Language, { ProgramLanguage, navigatorLanguage } from '../utils/language'
@@ -61,6 +61,7 @@ export interface SearchModel {
   setProgramLanguage: Action<SearchModel, ProgramLanguage>
 
   onCurrentKey: ActionOn<SearchModel, StoreModel>
+  onInitialCurrentKey: ThunkOn<SearchModel, void, StoreModel>
 }
 
 const searchModel: SearchModel = {
@@ -234,7 +235,17 @@ const searchModel: SearchModel = {
         state.expandView = false
       }
     },
-  )
+  ),
+
+  onInitialCurrentKey: thunkOn(
+    (actions, storeActions) => storeActions.searchKeys.initialCurrentKey,
+    (actions, target) => {
+      const params = new URLSearchParams(window.location.search)
+      if (params.has('q')) {
+        actions.search()
+      }
+    },
+  ),
 }
 
 export default searchModel

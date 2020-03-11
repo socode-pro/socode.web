@@ -45,7 +45,7 @@ const historyModel: HistoryModel = {
   }),
   initialPresetStacks: thunk(async actions => {
     try {
-      const stacks = await ky.get(`${config.keyshost()}/presetstacks.json`).json<Array<Stack>>()
+      const stacks = await ky.get(`${config.keyshost()}/historystacks.json`).json<Array<Stack>>()
       if (stacks !== null) {
         actions.setPresetStacks(stacks)
       }
