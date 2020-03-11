@@ -2,10 +2,12 @@ import ky from 'ky'
 import dayjs from 'dayjs'
 import { Repository, getStarHistory, fetchCurrentStars } from './history.service'
 import * as config from '../config'
+import { warn } from '../utils/toast'
 
 let countryCode = ''
 ky.get('https://freegeoip.app/json/').json<{ country_code: string }>()
-  .then(j => { countryCode = j.country_code; console.log(countryCode) })
+  .then(j => { countryCode = j.country_code })
+  .catch(err => warn('Do not use ad blocking plug-ins to block the https://freegeoip.app domain. To use a cache closer to your geographic location', true))
 
 export const getRepoData = async (repoName: string, userToken?: string): Promise<Repository | null> => {
   try {
