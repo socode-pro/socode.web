@@ -47,15 +47,15 @@ interface Props {
 const History: React.FC<Props> = ({ query }: Props): JSX.Element => {
   // const initialPresetStacks = useStoreActions(actions => actions.history.initialPresetStacks)
   const initialUserStacks = useStoreActions(actions => actions.history.initialUserStacks)
-  const popstateCurrentStack = useStoreActions(actions => actions.history.popstateCurrentStack)
+  const initialCurrentStack = useStoreActions(actions => actions.history.initialCurrentStack)
   useEffect(() => {
     const initial = async (): Promise<void> => {
       // await initialPresetStacks()
       await initialUserStacks()
-      await popstateCurrentStack()
+      await initialCurrentStack()
     }
     initial()
-  }, [initialUserStacks, popstateCurrentStack])
+  }, [initialUserStacks, initialCurrentStack])
 
   const presetStacks = useStoreState<Array<Stack>>(state => state.history.presetStacks)
   const userStacks = useStoreState<Array<Stack>>(state => state.history.userStacks)
@@ -63,7 +63,7 @@ const History: React.FC<Props> = ({ query }: Props): JSX.Element => {
   const currentStack = useStoreState<Stack | null>(state => state.history.currentStack)
   const repositorys = useStoreState<Array<Repository>>(state => state.history.repositorys)
   const loading = useStoreState<boolean>(state => state.history.loading)
-  const language = useStoreState<InterfaceLanguage | undefined>(state => state.storage.values.language)
+  // const language = useStoreState<InterfaceLanguage | undefined>(state => state.storage.values.language)
 
   const addUserStack = useStoreActions(actions => actions.history.addUserStack)
   const removeUserStack = useStoreActions(actions => actions.history.removeUserStack)
