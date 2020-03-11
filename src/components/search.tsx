@@ -332,9 +332,9 @@ const SearchInput: React.FC = (): JSX.Element => {
                   onClick={e => {
                     e.stopPropagation()
                     if (key.pin) {
-                      addPin(key.code)
-                    } else {
                       removePin(key.code)
+                    } else {
+                      addPin(key.code)
                     }
                   }}
                   className={cs('fa-thumbtack', css.thumbtack, { [css.usage]: key.pin })}
