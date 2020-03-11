@@ -7,7 +7,7 @@ import { InterfaceLanguage } from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
 import { StorageType } from '../models/storage'
 import { useStoreActions, useStoreState } from '../utils/hooks'
-import { StringEnumObjects } from '../utils/assist'
+import { StringEnumObjects, isEdgeChromium } from '../utils/assist'
 import { error } from '../utils/toast'
 import css from './drawer.module.scss'
 
@@ -131,7 +131,7 @@ const Drawer: React.FC = (): JSX.Element => {
             </li>
             <li>
               <a
-                className={cs(css.navlink, css.chrome)}
+                className={cs(css.navlink, css.chrome, { [css.edge]: isEdgeChromium })}
                 href='https://chrome.google.com/webstore/detail/socode/hlkgijncpebndijijbcakkcefmpniacd'>
                 <h3>Browser Extension</h3>
                 <span>become the new tab of your browser</span>

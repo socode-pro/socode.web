@@ -23,7 +23,7 @@
       color: $primary-dark;
     }
     &:hover {
-      @include underline-hover(1px);
+      @include underline-hover(1px, 2px);
     }
     i {
       margin-left: 4px;

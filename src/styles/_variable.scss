@@ -148,12 +148,13 @@ $shadow_ionic_focus_invert: 0 6px 12px 0 rgba(255, 255, 255, 0.1), 0 1px 3px 0 r
   }
 }
 
-@mixin underline($color) {
-  position: relative;
+// https://www.figma.com/
+@mixin underline($color: $dh-mute) {
   display: inline-block;
   &:after {
     color: $color;
     content: '';
+    height: 3px;
     opacity: 0;
     transform: translateY(3px) scaleY(0);
     transition: transform 250ms, opacity 250ms;
@@ -161,13 +162,14 @@ $shadow_ionic_focus_invert: 0 6px 12px 0 rgba(255, 255, 255, 0.1), 0 1px 3px 0 r
   }
 }
 
-@mixin underline-hover($bottom: -4px) {
+@mixin underline-hover($bottom: -3px, $height: 3px) {
+  position: relative;
   &:after {
     position: absolute;
     left: 0;
     right: 0;
     bottom: $bottom;
-    height: 2px;
+    height: $height;
     background: currentColor;
     opacity: 1;
     transform: translateY(0) scaleY(1);

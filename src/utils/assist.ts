@@ -78,3 +78,6 @@ const generateS4 = (): string => {
 export const generateUuid = (): string => {
   return `${generateS4()}${generateS4()}-${generateS4()}-${generateS4()}-${generateS4()}-${generateS4()}${generateS4()}${generateS4()}`
 }
+
+export const isChrome = !!(window as any).chrome && (!!(window as any).chrome.webstore || !!(window as any).chrome.runtime)
+export const isEdgeChromium = isChrome && (navigator.userAgent.indexOf('Edg') !== -1)
