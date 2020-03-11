@@ -26,7 +26,7 @@ export interface HistoryModel {
 
   currentStack: Stack | null
   setCurrentStack: Action<HistoryModel, Stack>
-  popstateCurrentStack: Action<HistoryModel>
+  initialCurrentStack: Action<HistoryModel>
 
   loading: boolean
   setLoading: Action<HistoryModel, boolean>
@@ -119,7 +119,7 @@ const historyModel: HistoryModel = {
   setCurrentStack: action((state, stack) => {
     state.currentStack = stack
   }),
-  popstateCurrentStack: action(state => {
+  initialCurrentStack: action(state => {
     const searchParams = new URLSearchParams(window.location.search)
     const stackid = searchParams.get('stack')
     state.currentStack = state.allStacks.find(s => s.id === stackid) || null

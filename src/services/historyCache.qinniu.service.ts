@@ -4,10 +4,10 @@ import { Repository, getStarHistory, fetchCurrentStars } from './history.service
 import * as config from '../config'
 
 let countryCode = ''
-ky.get('https://freegeoip.app/json/').json<{ country_code: string }>().then(j => { countryCode = j.country_code })
+ky.get('https://freegeoip.app/json/').json<{ country_code: string }>()
+  .then(j => { countryCode = j.country_code; console.log(countryCode) })
 
 export const getRepoData = async (repoName: string, userToken?: string): Promise<Repository | null> => {
-  console.log(countryCode)
   try {
     const repository = await ky.get(`https://${countryCode === 'CN'? 'os': 'os-us'}.socode.pro/${repoName.replace('/', '_')}.json`).json<Repository>()
     if (
