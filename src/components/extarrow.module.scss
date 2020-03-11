@@ -16,6 +16,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    line-height: 17.5px;
     height: 50px;
     padding-left: 60px;
     background: url(../images/icons8-chrome.svg) left/contain no-repeat;
@@ -24,8 +25,7 @@
     }
     @include stretched-link;
     h3 {
-      @include underline('#363636');
-      line-height: 1em;
+      @include underline();
     }
     span {
       color: $nobody;
@@ -41,7 +41,7 @@
       padding-left: 70px;
       h3 {
         // text-decoration: underline;
-        @include underline-hover();
+        @include underline-hover(-3px, 2px);
       }
     }
   }

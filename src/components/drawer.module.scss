@@ -53,7 +53,7 @@
   }
 
   a.navlink {
-    padding: 1.5em 1.5em 1.5em calc(1em + 50px);
+    padding: 1.4em 1.5em 1.4em calc(1em + 50px);
     &.github {
       background: #fff url(../images/icons8-github.svg) left 0.5em center/50px 50px no-repeat;
     }
@@ -75,6 +75,9 @@
     &.chrome {
       background: #fff url(../images/icons8-chrome.svg) left 0.5em center/50px 50px no-repeat;
     }
+    &.edge {
+      background: #fff url(../images/icons8-edge.svg) left 0.5em center/50px 50px no-repeat;
+    }
     &.privacy {
       background: #fff url(../images/icons8-fingerprint-100.png) left 0.5em center/50px 50px no-repeat;
     }
@@ -83,7 +86,7 @@
     }
     &.twitter {
       background: #fafafa url(../images/twitter.svg) left 0.9em center/22px 22px no-repeat;
-      padding: 1em 1.5em 1em calc(1.5em + 22px);
+      padding: 0.8em 0.8em 0.8em calc(1.2em + 22px);
       // padding: 1em;
       // display: flex;
       // align-items: center;
@@ -93,7 +96,7 @@
       // }
     }
     h3 {
-      @include underline($dh-mute);
+      @include underline();
     }
     &:hover {
       background-color: $white-duck;
