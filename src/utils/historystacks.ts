@@ -231,6 +231,18 @@ const Stacks: Stack[] = [
     ],
     predefined: true,
   },
+  {
+    id: 'slack',
+    name: 'Similar to Slack',
+    repos: [
+      'RocketChat/Rocket.Chat',
+      'withspectrum/spectrum',
+      'vector-im/riot-web',
+      'mattermost/mattermost-server',
+      'wireapp/wire-server',
+      'zulip/zulip',
+    ]
+  }
 ]
 
 // MQ, Sub/Push
