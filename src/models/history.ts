@@ -1,4 +1,4 @@
-import { Action, action, Computed, computed, Thunk, thunk } from 'easy-peasy'
+import { Action, action, Computed, computed, Thunk, thunk, ActionOn, actionOn } from 'easy-peasy'
 import ky from 'ky'
 import Stacks, { Stack } from '../utils/historystacks'
 import { generateUuid , winSearchParams } from '../utils/assist'
@@ -9,20 +9,19 @@ import { error, warn } from '../utils/toast'
 import * as config from '../config'
 
 export interface HistoryModel {
+  allStacks: Computed<HistoryModel, Array<Stack>>
+
   presetStacks: Array<Stack>
   setPresetStacks: Action<HistoryModel, Array<Stack>>
   initialPresetStacks: Thunk<HistoryModel>
 
   userStacks: Array<Stack>
-  initialUserStacks: Action<HistoryModel>
-
   addUserStack: Action<HistoryModel, string>
   removeUserStack: Action<HistoryModel, string>
   addStackRepo: Action<HistoryModel, { stackid: string; repo: string }>
   addStackRepoAndData: Thunk<HistoryModel, { stackid: string; repo: string }, Injections>
   removeStackRepo: Action<HistoryModel, { stackid: string; repo: string }>
-
-  allStacks: Computed<HistoryModel, Array<Stack>>
+  onUserStack: ActionOn<HistoryModel>
 
   currentStack: Stack | null
   setCurrentStack: Action<HistoryModel, Stack>
@@ -39,6 +38,8 @@ export interface HistoryModel {
 }
 
 const historyModel: HistoryModel = {
+  allStacks: computed(state => state.presetStacks.concat(state.userStacks)),
+
   presetStacks: Stacks,
   setPresetStacks: action((state, payload) => {
     state.presetStacks = payload
@@ -54,14 +55,7 @@ const historyModel: HistoryModel = {
     }
   }),
 
-  userStacks: [],
-  initialUserStacks: action(state => {
-    const userstacks = localStorage.getItem('userstacks')
-    if (userstacks) {
-      state.userStacks = JSON.parse(userstacks)
-    }
-  }),
-
+  userStacks: JSON.parse(localStorage.getItem('userstacks') || '[]'),
   addUserStack: action((state, name) => {
     const stack: Stack = {
       id: generateUuid(),
@@ -69,17 +63,17 @@ const historyModel: HistoryModel = {
       repos: [],
     }
     state.userStacks.push(stack)
-    localStorage.setItem('userstacks', JSON.stringify(state.userStacks))
   }),
   removeUserStack: action((state, id) => {
     state.userStacks = state.userStacks.filter(s => s.id !== id)
-    localStorage.setItem('userstacks', JSON.stringify(state.userStacks))
   }),
 
   addStackRepo: action((state, { stackid, repo }) => {
     const stack = state.userStacks.find(s => s.id === stackid)
-    if (stack && !stack.repos.includes(repo)) stack.repos.push(repo)
-    localStorage.setItem('userstacks', JSON.stringify(state.userStacks))
+    if (stack && !stack.repos.includes(repo)) {
+      stack.repos.push(repo)
+      // localStorage.setItem('userstacks', JSON.stringify(state.userStacks))
+    }
   }),
   addStackRepoAndData: thunk(async (actions, payload, { injections }) => {
     actions.addStackRepo(payload)
@@ -105,15 +99,24 @@ const historyModel: HistoryModel = {
     const stack = state.userStacks.find(s => s.id === stackid)
     if (!stack) return
     stack.repos = stack.repos.filter(r => r !== repo)
-    localStorage.setItem('userstacks', JSON.stringify(state.userStacks))
+    // localStorage.setItem('userstacks', JSON.stringify(state.userStacks))
 
     if (state.currentStack?.id === stack.id) {
       // removeRepoFromStore(state.repositorys.find(r => r.name === repo))
       state.repositorys = state.repositorys.filter(r => r.name !== repo)
     }
   }),
-
-  allStacks: computed(state => state.presetStacks.concat(state.userStacks)),
+  onUserStack: actionOn(
+    (actions, storeActions) => [
+      actions.addUserStack,
+      actions.removeUserStack,
+      actions.addStackRepo,
+      actions.removeStackRepo,
+    ],
+    (state, target) => {
+      localStorage.setItem('userstacks', JSON.stringify(state.userStacks))
+    },
+  ),
 
   currentStack: null,
   setCurrentStack: action((state, stack) => {
