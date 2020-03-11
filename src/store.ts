@@ -2,10 +2,11 @@ import { createStore, persist } from 'easy-peasy'
 import model from './models'
 import * as searchService from './services/socode.service'
 import * as npmsService from './services/npms.service'
-import * as historyCacheChinaService from './services/historyCache.qinniu.service'
-import * as historyCacheService from './services/historyCache.service'
+import * as historyCacheQinniuService from './services/historyCache.qinniu.service'
+// import * as historyCacheFirebaseService from './services/historyCache.firebase.service'
 
-const historyService = process.env.REACT_APP_REGION === 'china' ? historyCacheChinaService : historyCacheService
+// const historyService = process.env.REACT_APP_REGION === 'china' ? historyCacheQinniuService : historyCacheFirebaseService
+const historyService = historyCacheQinniuService
 
 export interface Injections {
   searchService: typeof searchService
