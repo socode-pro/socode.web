@@ -1,19 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useSpring, animated, to } from 'react-spring'
 import cs from 'classnames'
+import { InterfaceLanguage } from '../utils/language'
+import { SettingsType } from '../models/storage'
 import { SKey } from '../utils/searchkeys'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 // import { useMediaPredicate } from 'react-media-hook'
 import css from './brand.module.scss'
 
 const words = [
-  { value: 'CheatSheets', code: 'cheatsheets' },
+  { value: 'Cheat Sheets', code: 'cheatsheets' },
   { value: 'repositories star-history', code: 'starhistory' },
   { value: 'Public APIs', code: 'public_apis' },
   { value: 'programming pacakges', code: 'npm' },
 ]
 
 const Brand: React.FC = (): JSX.Element => {
+  const { language } = useStoreState<SettingsType>(state => state.storage.settings)
   const displaySubtitle = useStoreState<boolean>(state => state.search.displaySubtitle)
   const setDisplaySubtitle = useStoreActions(actions => actions.search.setDisplaySubtitle)
 
@@ -117,10 +120,17 @@ const Brand: React.FC = (): JSX.Element => {
         />
       </div>
       {displaySubtitle && <div className={css.subtitle} onClick={onToggle}>
-        <div
+
+        {language === InterfaceLanguage.English && <div
           className={cs(css.text, 'animated', { flipInX: flipIn, flipOutX: !flipIn })}>
-          Search <span onClick={onWord} className={cs(css.adjective, 'typing')}>multiple programming documents</span> in a fast and convenient input box.
-        </div>
+          Search multiple <span onClick={onWord} className={cs(css.adjective, 'typing')}>programming documents</span> in a quick and comfortable input box.
+        </div>}
+
+        {language === InterfaceLanguage.中文 && <div
+          className={cs(css.text, 'animated', { flipInX: flipIn, flipOutX: !flipIn })}>
+          在快捷舒适的输入框中搜索多个 <span onClick={onWord} className={cs(css.adjective, 'typing')}>programming documents</span>
+        </div>}
+
       </div>}
     </>
   )
