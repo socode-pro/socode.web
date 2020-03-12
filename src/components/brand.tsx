@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useCallback, Dispatch, SetStateAction } from 'react'
 import { useSpring, animated, to } from 'react-spring'
 import cs from 'classnames'
+import { SKey } from '../utils/searchkeys'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 // import { useMediaPredicate } from 'react-media-hook'
 import css from './brand.module.scss'
 
-const words = ['learning', 'communication', 'searching']
+// const words = ['cheatsheets', 'repositories star-history', 'public apis', 'programming pacakges']
+const words = [
+  { value: 'CheatSheets', code: 'cheatsheets' },
+  { value: 'repositories star-history', code: 'starhistory' },
+  { value: 'Public APIs', code: 'public_apis' },
+  { value: 'programming pacakges', code: 'npm' },
+]
 
 // interface Props {
 //   onDisplaySubtitle?: Dispatch<SetStateAction<boolean>>
@@ -15,7 +22,10 @@ const Brand: React.FC = (): JSX.Element => {
   const displaySubtitle = useStoreState<boolean>(state => state.search.displaySubtitle)
   const setDisplaySubtitle = useStoreActions(actions => actions.search.setDisplaySubtitle)
 
-  const [activeSubtitle, setActiveSubtitle] = useState(false)
+  const keys = useStoreState<Array<SKey>>(state => state.searchKeys.keys)
+  const setCurrentKey = useStoreActions(actions => actions.searchKeys.setCurrentKey)
+
+  const [flipIn, setFlipIn] = useState(displaySubtitle)
   // const dark = useMediaPredicate('(prefers-color-scheme: dark)')
   // const titleColor = dark? 'rgba(153, 136, 119, 0.5)': 'rgba(102, 119, 136, 0.5)'
   const titleColor = 'rgba(102, 119, 136, 0.5)'
@@ -29,6 +39,12 @@ const Brand: React.FC = (): JSX.Element => {
   //   xys: [0, 0, 1],
   //   config: { mass: 5, tension: 350, friction: 40 },
   // }))
+
+  const [currentCode, setCurrentCode] = useState('react')
+  const onWord = useCallback((): void => {
+    const key = keys.find(k => k.code === currentCode)
+    if (key) setCurrentKey(key)
+  }, [currentCode, keys, setCurrentKey])
 
   const typingTimer = useCallback((): void => {
     let typingDoc
@@ -62,7 +78,8 @@ const Brand: React.FC = (): JSX.Element => {
 
       const text = typingDoc.innerHTML
       reduce(text.length, () => {
-        add(words[index], 0, () => {
+        setCurrentCode(words[index].code)
+        add(words[index].value, 0, () => {
           run((index + 1) % words.length)
         })
       })
@@ -79,15 +96,14 @@ const Brand: React.FC = (): JSX.Element => {
   }, [typingTimer])
 
   const onToggle = useCallback(() => {
-    if (activeSubtitle) {
-      setTimeout(() => setActiveSubtitle(false), 1000)
+    if (displaySubtitle) {
+      setTimeout(() => setDisplaySubtitle(false), 1000)
     } else {
-      setActiveSubtitle(true)
+      setDisplaySubtitle(true)
     }
 
-    setDisplaySubtitle(!displaySubtitle)
-    // onDisplaySubtitle && onDisplaySubtitle(!displaySubtitle)
-  }, [activeSubtitle, displaySubtitle, setDisplaySubtitle])
+    setFlipIn(!flipIn)
+  }, [displaySubtitle, flipIn, setDisplaySubtitle])
 
   return (
     <>
@@ -107,13 +123,12 @@ const Brand: React.FC = (): JSX.Element => {
           // onMouseLeave={() => setXys({ xys: [0, 0, 1] })}
         />
       </div>
-      <div className={css.subtitle}>
+      {displaySubtitle && <div className={css.subtitle}>
         <div
-          className={cs(css.text, 'animated', 'flipInX', { flipOutX: !displaySubtitle, 'dis-none': !activeSubtitle })}>
-          Make life better for programmers who are good at{' '}
-          <span className={cs(css.adjective, 'typing')}>searching</span>
+          className={cs(css.text, 'animated', { flipInX: flipIn, flipOutX: !flipIn })}>
+          Search <span onClick={onWord} className={cs(css.adjective, 'typing')}>multiple programming documents</span> in a fast and convenient input box.
         </div>
-      </div>
+      </div>}
     </>
   )
 }
