@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useStoreActions, useStoreState } from './utils/hooks'
 import { InterfaceLanguage } from './utils/language'
-import { StorageType } from './models/storage'
+import { SettingsType } from './models/storage'
 import Brand from './components/brand'
 import './Privacy.scss'
 
@@ -18,7 +18,7 @@ export enum Words {
 
 const useIntl = (words: Words): string => {
   const [content, setContent] = useState('')
-  const { language } = useStoreState<StorageType>(state => state.storage.values)
+  const { language } = useStoreState<SettingsType>(state => state.storage.settings)
 
   useEffect(() => {
     if (language === InterfaceLanguage.中文) {
@@ -61,11 +61,6 @@ const useIntl = (words: Words): string => {
 }
 
 const Privacy: React.FC = () => {
-  const storageInitial = useStoreActions(actions => actions.storage.initial)
-  useEffect(() => {
-    storageInitial()
-  }, [storageInitial])
-
   return (
     <div className='container'>
       <Brand />

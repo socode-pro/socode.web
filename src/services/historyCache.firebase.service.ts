@@ -16,18 +16,24 @@ const firebaseApp = firebase.initializeApp(fbconfig)
 const fbdb = firebaseApp.database()
 const firebaseReposRef = fbdb.ref('repos_v3')
 
-export const getRepoData = async (repoName: string, userToken?: string): Promise<Repository | null> => {
+interface HistoryGetParam {
+  repo: string
+  region?: string
+  githubToken?: string
+}
+
+export const getRepoData = async ({ repo, region, githubToken }: HistoryGetParam): Promise<Repository | null> => {
   return new Promise<Repository | null>(resolve => {
-    firebaseReposRef.child(encode(repoName)).on('value', snapshot => {
+    firebaseReposRef.child(encode(repo)).on('value', snapshot => {
       const repository = snapshot.val()
       if (!repository) {
-        resolve(getStarHistory(repoName, userToken))
+        resolve(getStarHistory(repo, githubToken))
       } else if (
         dayjs(repository.lastRefreshDate)
           .add(7, 'day')
           .isBefore(dayjs())
       ) {
-        resolve(fetchCurrentStars(repository, userToken))
+        resolve(fetchCurrentStars(repository, githubToken))
       } else {
         resolve(repository)
       }

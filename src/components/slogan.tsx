@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import cs from 'classnames'
 import { InterfaceLanguage } from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
-import { StorageType } from '../models/storage'
+import { SettingsType } from '../models/storage'
 import { useStoreState } from '../utils/hooks'
 import css from './slogan.module.scss'
 
@@ -12,7 +12,7 @@ const Slogan: React.FC = (): JSX.Element => {
   const privacyPolicy = useIntl(Words.PrivacyPolicy)
   const [displayTips, setDisplayTips] = useState(false)
 
-  const { language } = useStoreState<StorageType>(state => state.storage.values)
+  const { language } = useStoreState<SettingsType>(state => state.storage.settings)
 
   return (
     <div className={css.slogan}>

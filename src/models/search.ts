@@ -202,7 +202,7 @@ const searchModel: SearchModel = {
     }
 
     if (url) {
-      if (getStoreState().storage.values.openNewTab) {
+      if (getStoreState().storage.settings.openNewTab) {
         window.open(url, '_blank')?.focus()
       } else {
         window.location.href = url

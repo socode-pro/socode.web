@@ -1,6 +1,9 @@
-import { Action, action } from 'easy-peasy'
-import { TrendingParam } from '../services/trending'
+import { Action, action, Thunk, thunk } from 'easy-peasy'
+import ky from 'ky'
+import dayjs from 'dayjs'
+// import { TrendingParam } from '../services/trending'
 import { InterfaceLanguage } from '../utils/language'
+import { warn } from '../utils/toast'
 
 export enum DarkMode {
   light,
@@ -8,68 +11,76 @@ export enum DarkMode {
   dark,
 }
 
-export interface StorageType {
+export interface SettingsType {
   language?: InterfaceLanguage
-  githubToken?: string
-  trending?: TrendingParam
   openNewTab?: boolean
   darkMode?: DarkMode
   displayAwesome?: boolean
 }
 
-const storageKeys = [
-  'language',
-  'githubToken',
-  'trending',
-  'openNewTab',
-  'darkMode',
-  'displayAwesome',
-]
-const jsonParseKeys = ['trending']
-const booleanParseKeys = ['openNewTab', 'displayAwesome']
-
-export interface StorageModel {
-  values: StorageType
-  set: Action<StorageModel, StorageType>
-  setStorage: Action<StorageModel, StorageType>
-  initial: Action<StorageModel>
-}
-
-const storageModel: StorageModel = {
-  values: {
+const defaultSettings = (): SettingsType => {
+  const settings = localStorage.getItem('settings')
+  if (settings) {
+    return JSON.parse(settings)
+  }
+  return {
     language: navigator.language.startsWith(InterfaceLanguage.中文) ? InterfaceLanguage.中文 : InterfaceLanguage.English,
     openNewTab: true,
     displayAwesome: false,
-  },
+  }
+}
 
-  set: action((state, payload) => {
-    state.values = { ...state.values, ...payload }
+export interface StorageModel {
+  settings: SettingsType
+  setSettings: Action<StorageModel, SettingsType>
+
+  githubToken: string
+  setGithubToken: Action<StorageModel, string>
+
+  region: string
+  setRegion: Action<StorageModel, string>
+  estimateRegion: Thunk<StorageModel>
+}
+
+const storageModel: StorageModel = {
+  settings: defaultSettings(),
+
+  setSettings: action((state, payload) => {
+    state.settings = { ...state.settings, ...payload }
+    localStorage.setItem('settings', JSON.stringify(state.settings))
   }),
 
-  setStorage: action((state, payload) => {
-    try {
-      for (const [name, value] of Object.entries(payload)) {
-        localStorage.setItem(`socode_${name}`, value)
-        state.values = { ...state.values, ...{ [name]: value } }
+  githubToken: localStorage.getItem('githubToken') || '',
+  setGithubToken: action((state, payload) => {
+    state.githubToken = payload
+    localStorage.setItem('githubToken', payload)
+  }),
+
+  region: '',
+  setRegion: action((state, payload) => {
+    state.region = payload
+    localStorage.setItem('region', JSON.stringify({ value: payload, time: dayjs().toJSON()}))
+  }),
+  estimateRegion: thunk(async (actions) => {
+    const region = localStorage.getItem('region')
+    if (region) {
+      const { value, time } = JSON.parse(region)
+      if (time && dayjs(time).add(7, 'day').isAfter(dayjs())) {
+        actions.setRegion(value || '')
+        return
       }
-    } catch (err) {
-      console.error(err)
     }
-  }),
 
-  initial: action(state => {
     try {
-      storageKeys.forEach(key => {
-        let value: any = localStorage.getItem(`socode_${key}`)
-        if (value) {
-          if (booleanParseKeys.includes(key)) value = value !== 'false'
-          else if (key === 'darkMode') value = parseInt(value, 10)
-          else if (jsonParseKeys.includes(key)) value = JSON.parse(value)
-          state.values = { ...state.values, ...{ [key]: value } }
-        }
-      })
+      const result = await ky.get('https://ipapi.co/json').json<{ country: string }>()
+      actions.setRegion(result.country)
     } catch (err) {
-      console.error(err)
+      try {
+        const result = await ky.get('https://ipinfo.io?token=e808b0e2f4fce7').json<{ country: string }>()
+        actions.setRegion(result.country)
+      } catch (err2) {
+        warn('Failed to get your region info, which can help us use the cache closer to you. Maybe it\'s because your ad block plugin blocked the ipapi.co domain', true)
+      }
     }
   }),
 }
