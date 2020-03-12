@@ -5,7 +5,7 @@ import cs from 'classnames'
 import useHotkeys from '../utils/useHotkeys'
 import { InterfaceLanguage } from '../utils/language'
 import useIntl, { Words } from '../utils/useIntl'
-import { StorageType } from '../models/storage'
+import { SettingsType } from '../models/storage'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { StringEnumObjects, isEdgeChromium } from '../utils/assist'
 import { error } from '../utils/toast'
@@ -14,8 +14,10 @@ import css from './drawer.module.scss'
 const languageOptions = StringEnumObjects(InterfaceLanguage)
 
 const Drawer: React.FC = (): JSX.Element => {
-  const setStorage = useStoreActions(actions => actions.storage.setStorage)
-  const { language, openNewTab, displayAwesome, githubToken } = useStoreState<StorageType>(state => state.storage.values)
+  const setSettings = useStoreActions(actions => actions.storage.setSettings)
+  const setGithubToken = useStoreActions(actions => actions.storage.setGithubToken)
+  const { language, openNewTab, displayAwesome } = useStoreState<SettingsType>(state => state.storage.settings)
+  const githubToken = useStoreState<string>(state => state.storage.githubToken)
 
   const [shortcut, setShortcut] = useState(false)
   const [active, setActive] = useState(false)
@@ -32,10 +34,10 @@ const Drawer: React.FC = (): JSX.Element => {
           error(`Error Authenticating with GitHub: ${err}`)
           return
         }
-        setStorage({ githubToken: data.token })
+        setGithubToken(data.token)
       })
     },
-    [setStorage]
+    [setGithubToken]
   )
 
   useHotkeys(
@@ -157,7 +159,7 @@ const Drawer: React.FC = (): JSX.Element => {
             <li>
               <div className='control has-icons-left'>
                 <div className='select is-rounded'>
-                  <select value={language} onChange={e => setStorage({ language: e.target.value as InterfaceLanguage })}>
+                  <select value={language} onChange={e => setSettings({ language: e.target.value as InterfaceLanguage })}>
                     {languageOptions.map(o => (
                       <option key={o.value} value={o.value}>
                         {o.label}
@@ -177,7 +179,7 @@ const Drawer: React.FC = (): JSX.Element => {
                   id='opennewtab'
                   type='checkbox'
                   checked={openNewTab}
-                  onChange={e => setStorage({ openNewTab: e.target.checked })}
+                  onChange={e => setSettings({ openNewTab: e.target.checked })}
                 />
                 <label htmlFor='opennewtab'>{useIntl(Words.OpenNewTab)}</label>
               </div>
@@ -189,7 +191,7 @@ const Drawer: React.FC = (): JSX.Element => {
                   id='displayawesome'
                   type='checkbox'
                   checked={displayAwesome}
-                  onChange={e => setStorage({ displayAwesome: e.target.checked })}
+                  onChange={e => setSettings({ displayAwesome: e.target.checked })}
                 />
                 <label htmlFor='displayawesome'>{useIntl(Words.DisplayAwesome)}</label>
               </div>

@@ -23,23 +23,23 @@ const devhintsModel: DevhintsModel = {
   }),
   setHtmlStorage: action((state, html) => {
     try {
-      localStorage.setItem('devhintsHtml', html)
+      localStorage.setItem('devhints_html', html)
       state.html = html
-      localStorage.setItem('devhintsTime', dayjs().toJSON())
+      localStorage.setItem('devhints_time', dayjs().toJSON())
     } catch (err) {
       console.error(err)
     }
   }),
   getHtml: thunk(async actions => {
     try {
-      const time = localStorage.getItem('devhintsTime')
+      const time = localStorage.getItem('devhints_time')
       if (
         time &&
         dayjs(time)
           .add(7, 'day')
           .isAfter(dayjs())
       ) {
-        const devhintsHtml = localStorage.getItem('devhintsHtml')
+        const devhintsHtml = localStorage.getItem('devhints_html')
         if (devhintsHtml) {
           actions.setHtml(devhintsHtml || '')
           return

@@ -19,7 +19,7 @@ import { StringEnumObjects, IntEnumObjects, winSearchParams } from '../utils/ass
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { SearchTimeRange, SocodeResult } from '../services/socode.service'
 import { NpmsResult } from '../services/npms.service'
-import { StorageType } from '../models/storage'
+import { SettingsType } from '../models/storage'
 import { SMError } from '../models/search'
 import { Suggester, SuggestItem } from '../services/suggest.service'
 import css from './search.module.scss'
@@ -78,7 +78,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const clearResult = useStoreActions(actions => actions.search.clearResult)
   const lunchUrlAction = useStoreActions(actions => actions.search.lunchUrl)
 
-  const { language, displayAwesome } = useStoreState<StorageType>(state => state.storage.values)
+  const { language, displayAwesome } = useStoreState<SettingsType>(state => state.storage.settings)
 
   // const initialKeys = useStoreActions(actions => actions.searchKeys.initialKeys)
   const initialCurrentKey = useStoreActions(actions => actions.searchKeys.initialCurrentKey)

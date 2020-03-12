@@ -19,7 +19,7 @@ export interface HistoryModel {
   addUserStack: Action<HistoryModel, string>
   removeUserStack: Action<HistoryModel, string>
   addStackRepo: Action<HistoryModel, { stackid: string; repo: string }>
-  addStackRepoAndData: Thunk<HistoryModel, { stackid: string; repo: string }, Injections>
+  addStackRepoAndData: Thunk<HistoryModel, { stackid: string; repo: string }, Injections, StoreModel>
   removeStackRepo: Action<HistoryModel, { stackid: string; repo: string }>
   onUserStack: ActionOn<HistoryModel>
 
@@ -75,11 +75,12 @@ const historyModel: HistoryModel = {
       // localStorage.setItem('userstacks', JSON.stringify(state.userStacks))
     }
   }),
-  addStackRepoAndData: thunk(async (actions, payload, { injections }) => {
-    actions.addStackRepo(payload)
+  addStackRepoAndData: thunk(async (actions, { stackid, repo }, { injections, getStoreState }) => {
+    actions.addStackRepo({ stackid, repo })
     actions.setLoading(true)
+    const { region, githubToken } = getStoreState().storage
     try {
-      const data = await injections.historyService.getRepoData(payload.repo)
+      const data = await injections.historyService.getRepoData({ repo, region, githubToken })
       if (data) {
         actions.pushRepository(data)
         if (data.requiredCacheUpdate) {
@@ -145,13 +146,13 @@ const historyModel: HistoryModel = {
     actions.setCurrentStack(stack)
     actions.clearRepositorys()
     actions.setLoading(true)
-    const userToken = getStoreState().storage.values.githubToken
-    winSearchParams({ stack: stack.id })
+    const { region, githubToken } = getStoreState().storage
+    winSearchParams({ keyname: 'starhistory', stack: stack.id })
 
     await Promise.all(
-      stack.repos.map(async name => {
+      stack.repos.map(async repo => {
         try {
-          const data = await injections.historyService.getRepoData(name, userToken)
+          const data = await injections.historyService.getRepoData({ repo, region, githubToken })
           if (data) {
             actions.pushRepository(data)
             if (data.requiredCacheUpdate) {
