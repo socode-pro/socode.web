@@ -93,8 +93,12 @@ const Brand: React.FC = (): JSX.Element => {
 
   const onToggle = useCallback(() => {
     if (displaySubtitle) {
-      setTimeout(() => setDisplaySubtitle(false), 1000)
+      setFlipIn(false)
+      setTimeout(() => {
+        setDisplaySubtitle(false)
+      }, 1000)
     } else {
+      setFlipIn(true)
       setDisplaySubtitle(true)
     }
 
