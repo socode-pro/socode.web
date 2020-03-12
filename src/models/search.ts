@@ -70,9 +70,10 @@ const searchModel: SearchModel = {
     state.expandView = payload
   }),
 
-  displaySubtitle: false,
+  displaySubtitle: localStorage.getItem('displaySubtitle') !== 'false',
   setDisplaySubtitle: action((state, payload) => {
     state.displaySubtitle = payload
+    localStorage.setItem('displaySubtitle', payload.toString())
   }),
 
   result: null,

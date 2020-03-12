@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, Dispatch, SetStateAction } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useSpring, animated, to } from 'react-spring'
 import cs from 'classnames'
 import { SKey } from '../utils/searchkeys'
@@ -6,17 +6,12 @@ import { useStoreActions, useStoreState } from '../utils/hooks'
 // import { useMediaPredicate } from 'react-media-hook'
 import css from './brand.module.scss'
 
-// const words = ['cheatsheets', 'repositories star-history', 'public apis', 'programming pacakges']
 const words = [
   { value: 'CheatSheets', code: 'cheatsheets' },
   { value: 'repositories star-history', code: 'starhistory' },
   { value: 'Public APIs', code: 'public_apis' },
   { value: 'programming pacakges', code: 'npm' },
 ]
-
-// interface Props {
-//   onDisplaySubtitle?: Dispatch<SetStateAction<boolean>>
-// }
 
 const Brand: React.FC = (): JSX.Element => {
   const displaySubtitle = useStoreState<boolean>(state => state.search.displaySubtitle)
@@ -41,16 +36,17 @@ const Brand: React.FC = (): JSX.Element => {
   // }))
 
   const [currentCode, setCurrentCode] = useState('react')
-  const onWord = useCallback((): void => {
+  const onWord = useCallback((e): void => {
+    e.stopPropagation()
     const key = keys.find(k => k.code === currentCode)
     if (key) setCurrentKey(key)
   }, [currentCode, keys, setCurrentKey])
 
   const typingTimer = useCallback((): void => {
-    let typingDoc
+    const typingDoc = document.querySelector('span.typing')
 
     const add = (text: string, index: number, uu: () => void): void => {
-      if (index < text.length) {
+      if (typingDoc && index < text.length) {
         typingDoc.innerHTML = text.substring(0, index + 1)
         setTimeout(() => {
           add(text, index + 1, uu)
@@ -61,7 +57,7 @@ const Brand: React.FC = (): JSX.Element => {
     }
 
     const reduce = (index: number, ii: () => void): void => {
-      if (index > 0) {
+      if (typingDoc && index > 0) {
         const text = typingDoc.innerHTML
         typingDoc.innerHTML = text.substring(0, index - 1)
         setTimeout(() => {
@@ -73,11 +69,9 @@ const Brand: React.FC = (): JSX.Element => {
     }
 
     const run = (index = 0): void => {
-      typingDoc = document.querySelector('span.typing')
-      if (!typingDoc) return
+      if (!typingDoc || !document.body.contains(typingDoc)) return
 
-      const text = typingDoc.innerHTML
-      reduce(text.length, () => {
+      reduce(typingDoc.innerHTML.length, () => {
         setCurrentCode(words[index].code)
         add(words[index].value, 0, () => {
           run((index + 1) % words.length)
@@ -89,11 +83,10 @@ const Brand: React.FC = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    const typingInterval = window.setTimeout(typingTimer, 4000)
-    return () => {
-      clearInterval(typingInterval)
+    if (displaySubtitle) {
+      window.setTimeout(typingTimer, 5000)
     }
-  }, [typingTimer])
+  }, [displaySubtitle, typingTimer])
 
   const onToggle = useCallback(() => {
     if (displaySubtitle) {
@@ -123,7 +116,7 @@ const Brand: React.FC = (): JSX.Element => {
           // onMouseLeave={() => setXys({ xys: [0, 0, 1] })}
         />
       </div>
-      {displaySubtitle && <div className={css.subtitle}>
+      {displaySubtitle && <div className={css.subtitle} onClick={onToggle}>
         <div
           className={cs(css.text, 'animated', { flipInX: flipIn, flipOutX: !flipIn })}>
           Search <span onClick={onWord} className={cs(css.adjective, 'typing')}>multiple programming documents</span> in a fast and convenient input box.

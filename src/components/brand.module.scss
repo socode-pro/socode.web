@@ -32,6 +32,7 @@
 
 .subtitle {
   min-height: 2.5rem;
+  cursor: pointer;
   .text {
     text-transform: uppercase;
     color: rgba(0, 0, 0, 0.2);
@@ -41,7 +42,6 @@
     white-space: nowrap;
     & > .adjective {
       color: $primary;
-      cursor: pointer;
       @include underline($primary);
       &:hover {
         @include underline-hover();
