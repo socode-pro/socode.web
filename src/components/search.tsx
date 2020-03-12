@@ -150,18 +150,6 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   if (inputEl.current !== null) inputEl.current.onsearch = handlerSearch
 
-  useHotkeys(
-    '`',
-    () => {
-      if (document.activeElement?.tagName !== 'INPUT') {
-        setDisplayKeys(!displayKeys)
-        return false
-      }
-    },
-    [displayKeys],
-    ['BODY']
-  )
-
   const focusInput = useCallback(() => {
     if (currentKey.docsearch && !!currentKey.devdocs) {
       document?.getElementById(`docsearch_${currentKey.code}`)?.focus()
@@ -170,10 +158,20 @@ const SearchInput: React.FC = (): JSX.Element => {
     }
   }, [currentKey.code, currentKey.devdocs, currentKey.docsearch])
 
-  useEffect(() => {
-    setTimeout(focusInput, 0)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [displayKeys])
+  useHotkeys(
+    '`',
+    () => {
+      if (document.activeElement?.tagName !== 'INPUT') {
+        setDisplayKeys(!displayKeys)
+        if (!displayKeys) {
+          setTimeout(focusInput, 0)
+        }
+        return false
+      }
+    },
+    [displayKeys],
+    ['BODY']
+  )
 
   useHotkeys(
     '/',
