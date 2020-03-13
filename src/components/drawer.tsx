@@ -87,6 +87,15 @@ const Drawer: React.FC = (): JSX.Element => {
         <aside className={cs('menu', css.jacket)}>
           <p className='menu-label'>Aside</p>
           <ul className='menu-list'>
+            {githubToken && (
+              <li>
+                <a className={cs(css.navlink, css.github)} href='https://github.com/settings/applications?o=used-asc'>
+                  <h3>Github Authorized</h3>
+                  {/* <span>to synchronize your settings</span> */}
+                  <span>expand the limit of github api request</span>
+                </a>
+              </li>
+            )}
             {!githubToken && (
               <li>
                 <a className={cs(css.navlink, css.github)} onClick={GithubOAuth}>

@@ -231,6 +231,28 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (dsConfig && docsearchHack) {
+      let customConfig = {}
+      if (currentKey.code === 'eslint' && dsConfig.lang === Language.中文_简体) {
+        customConfig = {
+          transformData: hits => {
+            return hits.map(hit => {
+              hit.url = hit.url.replace('https://eslint.org', 'https://cn.eslint.org')
+              return hit
+            })
+          }
+        }
+      } else if (currentKey.code === 'gradle') {
+        customConfig = {
+          transformData: hits => {
+            return hits.map(hit => {
+              if (hit.anchor.substring(0, 10) === 'org.gradle') {
+                hit.hierarchy.lvl0 = 'DSL Reference'
+              }
+              return hit
+            })
+          }
+        }
+      }
       docsearch({
         appId: dsConfig.appId,
         apiKey: dsConfig.apiKey,
@@ -244,6 +266,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           tabAutocomplete: false,
         },
         debug: false,
+        ...customConfig
       })
     }
   }, [currentKey.code, docsearchHack, dsConfig])
