@@ -152,7 +152,7 @@ const searchModel: SearchModel = {
     const { currentKey } = getStoreState().searchKeys
     winSearchParams({ query })
 
-    if (!query && isAvoidKey(currentKey)) {
+    if (!query || isAvoidKey(currentKey)) {
       actions.clearResult()
       return
     }
