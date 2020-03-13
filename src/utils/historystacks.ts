@@ -48,8 +48,8 @@ const Stacks: Stack[] = [
       'linkerd/linkerd2',
       'hashicorp/consul',
       'ctripcorp/apollo',
+      'kubernetes/kubernetes',
       // 'caddyserver/caddy',
-      // 'kong/kong',
     ],
     predefined: true,
   },
@@ -63,6 +63,20 @@ const Stacks: Stack[] = [
       'alibaba/nacos',
       'spring-cloud/spring-cloud-gateway',
       'spring-cloud/spring-cloud-sleuth',
+    ],
+    predefined: true,
+  },
+  {
+    id: 'kubernetes',
+    name: 'Kubernetes',
+    repos: [
+      'kubernetes/minikube',
+      'rancher/rancher',
+      'rancher/k3s',
+      'kubernetes-sigs/kubespray',
+      'kubesphere/kubesphere',
+      'openshift/origin',
+      'gardener/gardener',
     ],
     predefined: true,
   },
@@ -250,7 +264,8 @@ const Stacks: Stack[] = [
       'uber/react-vis',
       'hshoff/vx',
       'timqian/chart.xkcd',
-    ]
+    ],
+    predefined: true,
   },
   {
     id: 'slack',
@@ -262,7 +277,8 @@ const Stacks: Stack[] = [
       'mattermost/mattermost-server',
       'wireapp/wire-server',
       'zulip/zulip',
-    ]
+    ],
+    predefined: true,
   }
 ]
 
