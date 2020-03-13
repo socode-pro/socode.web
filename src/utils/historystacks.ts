@@ -7,8 +7,8 @@ export interface Stack {
 
 const Stacks: Stack[] = [
   {
-    id: 'java-frameworks',
-    name: 'Java Frameworks',
+    id: 'java-web-frameworks',
+    name: 'Java Web Frameworks',
     repos: [
       'spring-projects/spring-boot',
       'eclipse-vertx/vert.x',
@@ -23,8 +23,24 @@ const Stacks: Stack[] = [
     predefined: true,
   },
   {
-    id: 'cluster-server',
-    name: 'Cluster Server',
+    id: 'node-web-frameworks',
+    name: 'Node Web Frameworks',
+    repos: [
+      'nestjs/nest',
+      'koajs/koa',
+      'fastify/fastify',
+      'adonisjs/core',
+      'restify/node-restify',
+      'meteor/meteor',
+      'expressjs/express',
+      'hapijs/hapi',
+      'balderdashy/sails',
+    ],
+    predefined: true,
+  },
+  {
+    id: 'micro-service',
+    name: 'Micro service',
     repos: [
       'containous/traefik',
       'envoyproxy/envoy',
@@ -38,8 +54,8 @@ const Stacks: Stack[] = [
     predefined: true,
   },
   {
-    id: 'cluster-java-framework',
-    name: 'Cluster Java Frameworks',
+    id: 'java-micro-service',
+    name: 'Java Micro service',
     repos: [
       'apache/dubbo',
       'alibaba/Sentinel',
@@ -48,6 +64,12 @@ const Stacks: Stack[] = [
       'spring-cloud/spring-cloud-gateway',
       'spring-cloud/spring-cloud-sleuth',
     ],
+    predefined: true,
+  },
+  {
+    id: 'data-processing',
+    name: 'Data Processing',
+    repos: ['apache/spark', 'apache/kafka', 'apache/storm', 'apache/Beam', 'apache/Flink', 'apache/pulsar', 'antirez/redis'],
     predefined: true,
   },
   {
@@ -62,12 +84,6 @@ const Stacks: Stack[] = [
       'ravendb/ravendb',
       'apache/couchdb',
     ],
-    predefined: true,
-  },
-  {
-    id: 'data-flow',
-    name: 'Data Flow',
-    repos: ['apache/spark', 'apache/kafka', 'apache/storm', 'apache/Beam', 'apache/Flink', 'apache/pulsar', 'antirez/redis'],
     predefined: true,
   },
   {
@@ -126,24 +142,8 @@ const Stacks: Stack[] = [
     predefined: true,
   },
   {
-    id: 'node-frameworks',
-    name: 'Node Frameworks',
-    repos: [
-      'nestjs/nest',
-      'koajs/koa',
-      'fastify/fastify',
-      'adonisjs/core',
-      'restify/node-restify',
-      'meteor/meteor',
-      'expressjs/express',
-      'hapijs/hapi',
-      'balderdashy/sails',
-    ],
-    predefined: true,
-  },
-  {
-    id: 'web-frameworks',
-    name: 'Web Frameworks',
+    id: 'webfront-frameworks',
+    name: 'WebFront Frameworks',
     repos: ['facebook/react', 'vuejs/vue', 'angular/angular', 'sveltejs/svelte', 'emberjs/ember.js', 'jquery/jquery'],
     predefined: true,
   },
@@ -232,8 +232,29 @@ const Stacks: Stack[] = [
     predefined: true,
   },
   {
+    id: 'web-chart',
+    name: 'Web Chart',
+    repos: [
+      'antvis/g2',
+      'antvis/G6',
+      'antvis/f2',
+      'frappe/charts',
+      'highcharts/highcharts',
+      'processing/p5.js',
+      'plotly/plotly.js',
+      'apache/incubator-echarts',
+      'apexcharts/apexcharts.js',
+      'chartjs/Chart.js',
+      'c3js/c3',
+      'cube-js/cube.js',
+      'uber/react-vis',
+      'hshoff/vx',
+      'timqian/chart.xkcd',
+    ]
+  },
+  {
     id: 'slack',
-    name: 'Similar to Slack',
+    name: 'Slack Like',
     repos: [
       'RocketChat/Rocket.Chat',
       'withspectrum/spectrum',
