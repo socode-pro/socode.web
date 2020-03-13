@@ -25,7 +25,6 @@ export interface SKey {
     apiKey: string
     indexName: string
     algoliaOptions?: object
-    transformData?: (suggestions: any) => any
     lang: Language
   }>
   readmes?: {
@@ -341,6 +340,12 @@ const SKeys: SKey[] = [
         indexName: 'eslint',
         algoliaOptions: { facetFilters: [['tags:docs', 'tags:blog']] },
       },
+      {
+        lang: Language.中文_简体,
+        apiKey: '891b0e977d96c762a3821e0c00172ac9',
+        indexName: 'eslint',
+        algoliaOptions: { facetFilters: [['tags:docs', 'tags:blog']] },
+      },
     ],
   },
   {
@@ -485,6 +490,15 @@ const SKeys: SKey[] = [
     },
   },
   {
+    code: 'g2',
+    name: 'G2',
+    shortkeys: 'g2',
+    icon: 'g2.svg',
+    homelink: 'https://www.g2.com/',
+    template: 'https://www.g2.com/search?query=%s',
+    tooltips: 'Get the right software& services for your business'
+  },
+  {
     code: 'gatsby',
     name: 'Gatsby',
     shortkeys: 'gb',
@@ -567,14 +581,6 @@ const SKeys: SKey[] = [
         lang: Language.English,
         apiKey: '5eb5540d6bd412c7e6d2c687bf10a395',
         indexName: 'gradle',
-        transformData: suggestions => {
-          return suggestions.map(suggestion => {
-            if (suggestion.anchor.substring(0, 10) === 'org.gradle') {
-              suggestion.hierarchy.lvl0 = 'DSL Reference'
-            }
-            return suggestion
-          })
-        },
       },
     ],
   },
