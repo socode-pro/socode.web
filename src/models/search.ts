@@ -110,7 +110,7 @@ const searchModel: SearchModel = {
   nextPageThunk: thunk(async actions => {
     actions.nextPage()
     await actions.search()
-    window.scrollTo({ top: 0 })
+    document.body.scrollTo({ top: 0 })
   }),
   prevPage: action(state => {
     state.pageno -= 1
@@ -118,7 +118,7 @@ const searchModel: SearchModel = {
   prevPageThunk: thunk(async actions => {
     actions.prevPage()
     await actions.search()
-    window.scrollTo({ top: 0 })
+    document.body.scrollTo({ top: 0 })
   }),
 
   query: (new URLSearchParams(window.location.search)).get('q') || '',
