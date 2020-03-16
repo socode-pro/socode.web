@@ -41,7 +41,7 @@ export const search = async ({ query, pageno }: NpmsParam): Promise<NpmsResult |
     sparams.set('q', query)
     sparams.set('size', '10')
     if (pageno) {
-      sparams.set('from', (pageno * 10).toString())
+      sparams.set('from', ((pageno - 1) * 10).toString())
     }
     // if (deprecated) {
     //   sparams.set('not', 'deprecated')

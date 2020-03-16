@@ -127,12 +127,12 @@ const Brand: React.FC = (): JSX.Element => {
 
         {language === InterfaceLanguage.English && <div
           className={cs(css.text, 'animated', { flipInX: flipIn, flipOutX: !flipIn })}>
-          Search multiple <span onClick={onWord} className={cs(css.adjective, 'typing')}>programming documents</span> in a quick and comfortable input box.
+          Search <span onClick={onWord} className={cs(css.adjective, 'typing')}>programming documents</span> in a quick and comfortable input box.
         </div>}
 
         {language === InterfaceLanguage.中文 && <div
           className={cs(css.text, 'animated', { flipInX: flipIn, flipOutX: !flipIn })}>
-          在快捷舒适的输入框中搜索多个 <span onClick={onWord} className={cs(css.adjective, 'typing')}>programming documents</span>
+          在快捷舒适的输入框中搜索 <span onClick={onWord} className={cs(css.adjective, 'typing')}>programming documents</span>
         </div>}
 
       </div>}
