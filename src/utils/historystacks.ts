@@ -279,6 +279,17 @@ const Stacks: Stack[] = [
       'zulip/zulip',
     ],
     predefined: true,
+  },
+  {
+    id: 'forum',
+    name: 'Forum',
+    repos: [
+      'flarum/flarum',
+      'withspectrum/spectrum',
+      'discourse/discourse',
+      'NodeBB/NodeBB',
+    ],
+    predefined: true,
   }
 ]
 
