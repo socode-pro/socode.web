@@ -45,14 +45,14 @@ interface Props {
 }
 
 const History: React.FC<Props> = ({ query }: Props): JSX.Element => {
-  // const initialPresetStacks = useStoreActions(actions => actions.history.initialPresetStacks)
+  const initialPresetStacks = useStoreActions(actions => actions.history.initialPresetStacks)
   const initialCurrentStack = useStoreActions(actions => actions.history.initialCurrentStack)
   const estimateRegion = useStoreActions(actions => actions.storage.estimateRegion)
   useEffect(() => {
-    // initialPresetStacks()
+    initialPresetStacks()
     initialCurrentStack()
     estimateRegion()
-  }, [initialCurrentStack, estimateRegion])
+  }, [initialPresetStacks, initialCurrentStack, estimateRegion])
 
   const presetStacks = useStoreState<Array<Stack>>(state => state.history.presetStacks)
   const userStacks = useStoreState<Array<Stack>>(state => state.history.userStacks)
