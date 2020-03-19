@@ -639,16 +639,17 @@ const SearchInput: React.FC = (): JSX.Element => {
 
           {displayKeys && (
             <div className='mgl10 mgb10 mgr10'>
-              <div className={css.skgroup}>{getKeysDom(pinKeys)}</div>
+              <div className={css.skgroup}>
+                {getKeysDom(pinKeys)}
+                <div className={css.kdesc}>PINNED</div>
+              </div>
               {usageKeys.length > 0 && (
                 <div className={cs(css.skgroup)}>
-                  <div className={css.kdesc}>USAGING</div>
                   {getKeysDom(usageKeys)}
                 </div>
               )}
               {(displayMore || kquery) && moreKeys.length > 0 && (
                 <div className={cs(css.skgroup)}>
-                  <div className={css.kdesc}>MORE</div>
                   {getKeysDom(moreKeys)}
                 </div>
               )}
