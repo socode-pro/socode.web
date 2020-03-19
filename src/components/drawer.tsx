@@ -34,6 +34,7 @@ const Drawer: React.FC = (): JSX.Element => {
           error(`Error Authenticating with GitHub: ${err}`)
           return
         }
+        console.log(JSON.stringify(data))
         setGithubToken(data.token)
       })
     },
