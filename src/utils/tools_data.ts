@@ -327,6 +327,7 @@ export const Grids: Array<Link> = [
     name: 'Image Converter',
     href: 'https://convertio.co/zh/image-converter',
     category: ToolCategory.Converter,
+    label: 'svg png jpg gif',
     elite: true,
   },
   {
