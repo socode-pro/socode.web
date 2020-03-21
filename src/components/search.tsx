@@ -641,10 +641,12 @@ const SearchInput: React.FC = (): JSX.Element => {
 
           {displayKeys && (
             <div className='mgl10 mgb10 mgr10'>
-              <div className={css.skgroup}>
-                {getKeysDom(pinKeys)}
-                <div className={css.kdesc}>PINNED</div>
-              </div>
+              {pinKeys.length > 0 && (
+                <div className={css.skgroup}>
+                  {getKeysDom(pinKeys)}
+                  <div className={css.kdesc}>PINNED</div>
+                </div>
+              )}
               {usageKeys.length > 0 && (
                 <div className={cs(css.skgroup)}>
                   {getKeysDom(usageKeys)}
