@@ -98,7 +98,6 @@ const SKeys: SKey[] = [
     name: 'Awesome Cheatsheet',
     shortkeys: 'ac',
     icon: 'awesome.svg',
-    usage: true,
     homelink: 'https://github.com/detailyang/awesome-cheatsheet',
     tooltips: 'List of useful cheatsheets',
     backgroundPosition: 'left center',
@@ -1183,6 +1182,7 @@ const SKeys: SKey[] = [
     shortkeys: 'pc',
     icon: 'python.svg',
     homelink: 'https://gto76.github.io/python-cheatsheet/',
+    usage: true,
     readmes: {
       base: 'gto76/python-cheatsheet',
       paths: [
