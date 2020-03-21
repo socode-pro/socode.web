@@ -448,10 +448,11 @@ const SKeys: SKey[] = [
   },
   {
     code: 'free_programming_books',
-    name: 'Free Programming Books',
+    name: 'Books',
     shortkeys: 'fpb',
     usage: true,
     icon: 'free_programming_books.png',
+    tooltips: 'Free Programming Books',
     homelink: 'https://github.com/EbookFoundation/free-programming-books',
     readmes: {
       base: 'EbookFoundation/free-programming-books',
