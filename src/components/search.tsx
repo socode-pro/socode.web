@@ -315,7 +315,9 @@ const SearchInput: React.FC = (): JSX.Element => {
                   {key.hideName ? <>&nbsp;</> : key.name}
                 </div>
                 <div className={css.shortkeys}>
-                  {key.shortkeys} <span>+</span>
+                  {key.shortkeys}
+                  <span className={css.plus}>+</span>
+                  <span className={css.tab}>tab</span>
                 </div>
               </div>
               <div>

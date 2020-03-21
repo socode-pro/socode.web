@@ -472,6 +472,7 @@ export const Grids: Array<Link> = [
     name: 'Converting Colors',
     href: 'https://convertingcolors.com/',
     category: ToolCategory.UnitConverter,
+    label: 'hex rgb cmy hsl',
     elite: true,
   },
   {
@@ -898,3 +899,5 @@ export const Grids: Array<Link> = [
     href: 'https://codebeautify.org/open-port-checker',
   },
 ]
+
+// console.log(JSON.stringify(Grids))
