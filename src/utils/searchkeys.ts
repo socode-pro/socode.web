@@ -94,6 +94,26 @@ const SKeys: SKey[] = [
     template: 'https://developer.apple.com/search/?q=%s',
   },
   {
+    code: 'awesome_cheatsheet',
+    name: 'Awesome Cheatsheet',
+    shortkeys: 'ac',
+    icon: 'awesome.svg',
+    usage: true,
+    homelink: 'https://github.com/detailyang/awesome-cheatsheet',
+    tooltips: 'List of useful cheatsheets',
+    backgroundPosition: 'left center',
+    readmes: {
+      base: 'detailyang/awesome-cheatsheet',
+      searched: true,
+      paths: [
+        {
+          lang: Language.English,
+          path: '/README.md',
+        },
+      ],
+    },
+  },
+  {
     code: 'aws',
     name: 'AWS',
     shortkeys: 'aws',
@@ -1155,6 +1175,22 @@ const SKeys: SKey[] = [
     awesome: 'vinta/awesome-python',
     devdocs: 'python~3.8',
     // template: 'https://python.org/search/?q=%s',
+  },
+  {
+    code: 'python_cheatsheet',
+    name: 'Python Cheatsheet',
+    shortkeys: 'pc',
+    icon: 'python.svg',
+    homelink: 'https://gto76.github.io/python-cheatsheet/',
+    readmes: {
+      base: 'gto76/python-cheatsheet',
+      paths: [
+        {
+          lang: Language.English,
+          path: '/README.md',
+        },
+      ],
+    },
   },
   {
     code: 'pytouch',

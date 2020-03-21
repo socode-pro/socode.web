@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import ky from 'ky'
 import cs from 'classnames'
 import Fuse from 'fuse.js'
 import { Link, ToolCategory, Grids } from '../utils/tools_data'
 import css from './tools.module.scss'
+import * as config from '../config'
 
 interface Props {
   query: string
@@ -27,6 +29,20 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
   const diffs = grids.filter(g => g.category === ToolCategory.Diff)
   const minifier = grids.filter(g => g.category === ToolCategory.Minifier)
   const others = grids.filter(g => g.category === undefined)
+
+  useEffect(() => {
+    const init = async (): Promise<void> => {
+      try {
+        const data = await ky.get(`${config.keyshost()}/toolsgrids.json`).json<Array<Link>>()
+        if (data !== null) {
+          setGrids(data)
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    init()
+  }, [])
 
   useEffect(() => {
     if (!query) {
