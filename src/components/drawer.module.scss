@@ -40,6 +40,9 @@
     background-color: #fafafa;
     border-top: solid 1px $white-bis;
     border-bottom-left-radius: 6px;
+    a.navlink:hover {
+      background-color: $white-terer;
+    }
   }
 
   .slogon,
@@ -66,12 +69,9 @@
     // &.discord {
     //   background: #fff url(../images/discord.svg) left 0.5em center/50px 50px no-repeat;
     // }
-    &.spectrum {
-      background: #fff url(../images/spectrum.svg) left 0.5em center/50px 50px no-repeat;
-    }
-    &.feishu {
-      background: #fff url(../images/feishu.svg) left 0.7em center/40px 40px no-repeat;
-    }
+    // &.feishu {
+    //   background: #fff url(../images/feishu.svg) left 0.7em center/40px 40px no-repeat;
+    // }
     &.chrome {
       background: #fff url(../images/icons8-chrome.svg) left 0.5em center/50px 50px no-repeat;
     }
@@ -84,16 +84,21 @@
     &.shortcut {
       background: #fff url(../images/icons8-keyboard-100.png) left 0.5em center/50px 50px no-repeat;
     }
+    &.spectrum {
+      background: #fff url(../images/spectrum.svg) left 0.7em center/30px 30px no-repeat;
+      padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
+    }
+    &.telegram {
+      background: #fff url(../images/telegram.svg) left 0.9em center/22px 22px no-repeat;
+      padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
+    }
+    &.wechat {
+      background: #fff url(../images/wechat.svg) left 0.9em center/22px 22px no-repeat;
+      padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
+    }
     &.twitter {
-      background: #fafafa url(../images/twitter.svg) left 0.9em center/22px 22px no-repeat;
-      padding: 0.8em 0.8em 0.8em calc(1.2em + 22px);
-      // padding: 1em;
-      // display: flex;
-      // align-items: center;
-      // i {
-      //   color: $primary;
-      //   margin-right: 10px;
-      // }
+      background: #fafafa url(../images/twitter.svg) center/22px 22px no-repeat;
+      padding: 0.5em 0.5em 0.5em calc(0.5em + 22px);
     }
     h3 {
       @include underline();
@@ -157,4 +162,8 @@
   .description {
     font-weight: normal;
   }
+}
+
+.wechatqr {
+  width: 360px !important;
 }

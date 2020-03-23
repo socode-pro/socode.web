@@ -10,6 +10,7 @@ import { useStoreActions, useStoreState } from '../utils/hooks'
 import { StringEnumObjects, isEdgeChromium } from '../utils/assist'
 import { error } from '../utils/toast'
 import css from './drawer.module.scss'
+import wechatQRUrl from '../images/wechat.png'
 
 const languageOptions = StringEnumObjects(InterfaceLanguage)
 
@@ -20,6 +21,7 @@ const Drawer: React.FC = (): JSX.Element => {
   const githubToken = useStoreState<string>(state => state.storage.githubToken)
 
   const [shortcut, setShortcut] = useState(false)
+  const [wechatQR, setWechatQR] = useState(false)
   const [active, setActive] = useState(false)
   const { right } = useSpring({
     right: active ? 0 : 20,
@@ -65,6 +67,7 @@ const Drawer: React.FC = (): JSX.Element => {
     'esc',
     () => {
       setShortcut(false)
+      setWechatQR(false)
     },
     [],
     ['BODY']
@@ -106,41 +109,6 @@ const Drawer: React.FC = (): JSX.Element => {
                 </a>
               </li>
             )}
-
-            {/* {language !== Language.中文_简体 && (
-              <li>
-                <a
-                  className={cs(css.navlink, css.discord)}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  href='https://discord.gg/QeuD8Ma'>
-                  <h3>Discord Chat</h3>
-                  <span>recommend feature/feedback bug</span>
-                </a>
-              </li>
-            )} */}
-            {/* {language === Language.中文_简体 && (
-              <li>
-                <a
-                  className={cs(css.navlink, css.feishu)}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  href='https://go.feishu.cn/GNjRYF/'>
-                  <h3>Chat</h3>
-                  <span>recommend feature/feedback bug</span>
-                </a>
-              </li>
-            )} */}
-            <li>
-              <a
-                className={cs(css.navlink, css.spectrum)}
-                target='_blank'
-                rel='noopener noreferrer'
-                href='https://spectrum.chat/socode'>
-                <h3>Chat</h3>
-                <span>recommend feature/feedback bug</span>
-              </a>
-            </li>
             <li>
               <a
                 className={cs(css.navlink, css.chrome, { [css.edge]: isEdgeChromium })}
@@ -164,6 +132,47 @@ const Drawer: React.FC = (): JSX.Element => {
               <a>赞助一杯咖啡，关闭搜索页的广告</a>
             </li> */}
           </ul>
+
+          <p className='menu-label'>request feature / report bug</p>
+          <ul className='menu-list'>
+            {/* {language !== Language.中文_简体 && (
+              <li>
+                <a
+                  className={cs(css.navlink, css.discord)}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  href='https://discord.gg/QeuD8Ma'>
+                  <h3>Discord Chat</h3>
+                  <span>recommend feature/feedback bug</span>
+                </a>
+              </li>
+            )} */}
+            <li>
+              <a
+                className={cs(css.navlink, css.spectrum)}
+                target='_blank'
+                rel='noopener noreferrer'
+                href='https://spectrum.chat/socode'>
+                <h3>Spectrum</h3>
+              </a>
+            </li>
+            <li>
+              <a
+                className={cs(css.navlink, css.telegram)}
+                href='https://t.me/SocodePro'
+                target='_blank'
+                rel='noopener noreferrer'>
+                <h3>telegram</h3>
+              </a>
+            </li>
+            <li>
+              <a
+                className={cs(css.navlink, css.wechat)} onClick={() => setWechatQR(true)}>
+                <h3>wechat group</h3>
+              </a>
+            </li>
+          </ul>
+
           <p className='menu-label'>Setting</p>
           <ul className='menu-list'>
             <li>
@@ -225,27 +234,21 @@ const Drawer: React.FC = (): JSX.Element => {
         </aside>
         <footer className={cs('menu', css.skirt)}>
           <p className='menu-label'>Footer</p>
-          <ul className='menu-list'>
-            {/* <li>
-              <a>投放广告</a>
-            </li> */}
+            {/* <a>投放广告</a> */}
             {language !== InterfaceLanguage.中文 && (
-              <li>
-                <a
-                  className={cs(css.navlink, css.twitter)}
-                  href='https://twitter.com/socode7'
-                  target='_blank'
-                  rel='noopener noreferrer'>
-                  <h3>twitter.com/socode7</h3>
-                </a>
-              </li>
+              <a
+                className={cs(css.navlink, css.twitter)}
+                href='https://twitter.com/socode7'
+                target='_blank'
+                rel='noopener noreferrer'>
+                {/* <h3>twitter</h3> */}
+              </a>
             )}
             {language === InterfaceLanguage.中文 && (
-              <li>
+              <p>
                 <a href='http://beian.miit.gov.cn/state/outPortal/loginPortal.action'>苏ICP备18044337号-2</a>
-              </li>
+              </p>
             )}
-          </ul>
           <p className={css.slogon}>Hack your life</p>
           <p className={css.principles}>and become a professional mistake maker.</p>
         </footer>
@@ -300,6 +303,18 @@ const Drawer: React.FC = (): JSX.Element => {
               </div> */}
             </div>
           </div>
+        </div>
+        <button className='modal-close is-large' type='button' aria-label='close' onClick={() => setShortcut(false)} />
+      </div>
+
+      <div className={cs('modal', { 'is-active': wechatQR })}>
+        <div className='modal-background' onClick={() => setWechatQR(false)} />
+        <div className={cs('modal-card', css.wechatqr)}>
+          <header className='modal-card-head'>
+            <p className='modal-card-title'>Invite me to your group chat</p>
+            <button className='delete' aria-label='close' type='button' />
+          </header>
+          <img src={wechatQRUrl} alt='wechat' />
         </div>
         <button className='modal-close is-large' type='button' aria-label='close' onClick={() => setShortcut(false)} />
       </div>
