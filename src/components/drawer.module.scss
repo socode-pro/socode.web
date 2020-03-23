@@ -66,9 +66,6 @@
     // &.qq {
     //   background: #fff url(../images/qq.svg) left 0.5em center/50px 50px no-repeat;
     // }
-    // &.discord {
-    //   background: #fff url(../images/discord.svg) left 0.5em center/50px 50px no-repeat;
-    // }
     // &.feishu {
     //   background: #fff url(../images/feishu.svg) left 0.7em center/40px 40px no-repeat;
     // }
@@ -86,6 +83,10 @@
     }
     &.spectrum {
       background: #fff url(../images/spectrum.svg) left 0.7em center/30px 30px no-repeat;
+      padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
+    }
+    &.discord {
+      background: #fff url(../images/discord.svg) left 0.6em center/30px 30px no-repeat;
       padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
     }
     &.telegram {

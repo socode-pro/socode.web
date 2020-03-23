@@ -135,18 +135,15 @@ const Drawer: React.FC = (): JSX.Element => {
 
           <p className='menu-label'>request feature / report bug</p>
           <ul className='menu-list'>
-            {/* {language !== Language.中文_简体 && (
-              <li>
-                <a
-                  className={cs(css.navlink, css.discord)}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  href='https://discord.gg/QeuD8Ma'>
-                  <h3>Discord Chat</h3>
-                  <span>recommend feature/feedback bug</span>
-                </a>
-              </li>
-            )} */}
+            <li>
+              <a
+                className={cs(css.navlink, css.discord)}
+                target='_blank'
+                rel='noopener noreferrer'
+                href='https://discord.gg/QeuD8Ma'>
+                <h3>Discord</h3>
+              </a>
+            </li>
             <li>
               <a
                 className={cs(css.navlink, css.spectrum)}
@@ -312,11 +309,11 @@ const Drawer: React.FC = (): JSX.Element => {
         <div className={cs('modal-card', css.wechatqr)}>
           <header className='modal-card-head'>
             <p className='modal-card-title'>Invite me to your group chat</p>
-            <button className='delete' aria-label='close' type='button' />
+            <button className='delete' aria-label='close' type='button' onClick={() => setWechatQR(false)} />
           </header>
           <img src={wechatQRUrl} alt='wechat' />
         </div>
-        <button className='modal-close is-large' type='button' aria-label='close' onClick={() => setShortcut(false)} />
+        <button className='modal-close is-large' type='button' aria-label='close' onClick={() => setWechatQR(false)} />
       </div>
 
       <div className={cs('mask', { 'dis-none': !active })} onClick={() => setActive(false)} />
