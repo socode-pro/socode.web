@@ -9,7 +9,7 @@ export enum Words {
   PrivacyPolicy = 'Privacy Policy',
   PrivacyPolicySlogon = "We don't collect or share personal information. That's our privacy policy in a nutshell.",
   PrivacyPolicyST = 'About Search',
-  PrivacyPolicySS = 'socode.pro is a privacy-respecting, hackable google search by searx. convenient for users who do not have access to google.com (such as Chinese users).',
+  PrivacyPolicySS = '<a href="https://socode.pro/?k=socode">socode search</a> is a privacy-respecting, hackable google search by <a href="https://github.com/asciimoo/searx">searx</a>. convenient for users who do not have access to google.com (such as Chinese users).',
   PrivacyPolicyS0 = 'Compared to using google.com. There are these differences in privacy protection:',
   PrivacyPolicyS1 = 'No private data will be sent to the google server.',
   PrivacyPolicyS2 = 'Do not forward any content from third-party services through advertising.',
@@ -30,11 +30,11 @@ const useIntl = (words: Words): string => {
           setContent('我们不收集或共享个人信息。简而言之，这就是我们的隐私政策。')
           break
         case Words.PrivacyPolicyST:
-          setContent('关于搜索')
+          setContent('关于socode搜索')
           break
         case Words.PrivacyPolicySS:
           setContent(
-            'socode.pro 是一个使用searx构建的google搜索代理，限定了搜索范围。仅用于给无法访问google.com的用户方便地搜索编程问答信息，请不要用于其它需求场合。'
+            '<a href="https://socode.pro/?k=socode">socode搜索</a> 是一个使用<a href="https://github.com/asciimoo/searx">searx</a>构建的google搜索代理，限定了搜索范围。仅用于给无法访问google.com的用户方便地搜索编程问答信息，请不要用于其它需求场合。'
           )
           break
         case Words.PrivacyPolicyS0:
@@ -68,7 +68,7 @@ const Privacy: React.FC = () => {
       <p className='subtitle'>{useIntl(Words.PrivacyPolicySlogon)}</p>
 
       <h3 className='title is-4 mgt40'>{useIntl(Words.PrivacyPolicyST)}</h3>
-      <p className='subtitle'>{useIntl(Words.PrivacyPolicySS)}</p>
+      <p className='subtitle' dangerouslySetInnerHTML={{ __html: useIntl(Words.PrivacyPolicySS) }} />
 
       <p>{useIntl(Words.PrivacyPolicyS0)}</p>
       <div className='content mgl20'>
