@@ -120,6 +120,7 @@ const Drawer: React.FC = (): JSX.Element => {
             <li>
               <a className={cs(css.navlink, css.shortcut)} onClick={() => setShortcut(true)}>
                 <h3>{useIntl(Words.Shortcut)}</h3>
+                <span>quick switch search engine</span>
               </a>
             </li>
             <li>
