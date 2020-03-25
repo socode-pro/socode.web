@@ -26,7 +26,7 @@ import css from './search.module.scss'
 import Loader1 from './loader/loader1'
 import { ReactComponent as Github } from '../images/github.svg'
 
-const StarHistory = lazy(() => import('./history'))
+const GithubStars = lazy(() => import('./stars'))
 
 const languageOptions = StringEnumObjects(Language)
 const programLanguageOptions = IntEnumObjects(ProgramLanguage)
@@ -675,7 +675,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           {!displayKeys && currentKey.code === 'tools' && <Tools query={squery} />}
           {!displayKeys && currentKey.code === 'github_stars' && (
             <Suspense fallback={<Loader1 type={2} />}>
-              <StarHistory query={squery} />
+              <GithubStars query={squery} />
             </Suspense>
           )}
           {!displayKeys && displayAwesome && currentKey.awesome && !currentKey.devdocs && (

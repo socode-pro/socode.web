@@ -96,8 +96,9 @@ div.repos {
     }
   }
 
-  svg.twitter {
-    width: 20px;
+  svg.github {
+    width: 18px;
+    height: 18px;
     margin-left: 10px;
     fill: $grey;
     transition: fill 0.4s ease-in-out, border 0.4s ease-in-out;

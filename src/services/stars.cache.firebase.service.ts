@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import firebase from 'firebase/app'
 import 'firebase/database'
 import { encode } from 'firebase-encode'
-import { Repository, getStarHistory, fetchCurrentStars } from './history.service'
+import { Repository, getStarHistory, fetchCurrentStars } from './stars.service'
 
 const fbconfig = {
   apiKey: '***REMOVED***',
