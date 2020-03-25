@@ -1,6 +1,5 @@
 import ky from 'ky'
 import algoliasearch from 'algoliasearch'
-import * as global from '../config'
 
 const api = ky.extend({
   timeout: 2000,
@@ -123,7 +122,7 @@ export const Suggester = async (q: string, code: string): Promise<Array<SuggestI
 
   try {
     const data = await api
-      .get(`${global.host()}/autocompleter`, {
+      .get(`${process.env.REACT_APP_SEARCH_HOST}/autocompleter`, {
         searchParams: { q },
       })
       .json<Array<string>>()

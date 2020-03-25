@@ -1,14 +1,23 @@
+export enum StackType {
+  Backend,
+  Frontend,
+  Private,
+}
+
 export interface Stack {
   id: string
   name: string
+  nameChinese?: string
   repos: string[]
-  predefined?: boolean
+  type: StackType
+  hidden?: boolean
 }
 
 const Stacks: Stack[] = [
   {
     id: 'java-web-frameworks',
     name: 'Java Web Frameworks',
+    type: StackType.Backend,
     repos: [
       'spring-projects/spring-boot',
       'eclipse-vertx/vert.x',
@@ -20,11 +29,11 @@ const Stacks: Stack[] = [
       'vaadin/framework',
       'jhipster/generator-jhipster',
     ],
-    predefined: true,
   },
   {
     id: 'node-web-frameworks',
     name: 'Node Web Frameworks',
+    type: StackType.Backend,
     repos: [
       'nestjs/nest',
       'koajs/koa',
@@ -36,11 +45,12 @@ const Stacks: Stack[] = [
       'hapijs/hapi',
       'balderdashy/sails',
     ],
-    predefined: true,
   },
   {
     id: 'micro-service',
     name: 'Micro service',
+    nameChinese: '微服务',
+    type: StackType.Backend,
     repos: [
       'containous/traefik',
       'envoyproxy/envoy',
@@ -51,11 +61,12 @@ const Stacks: Stack[] = [
       'kubernetes/kubernetes',
       // 'caddyserver/caddy',
     ],
-    predefined: true,
   },
   {
     id: 'java-micro-service',
     name: 'Java Micro service',
+    nameChinese: 'Java 微服务',
+    type: StackType.Backend,
     repos: [
       'apache/dubbo',
       'alibaba/Sentinel',
@@ -64,11 +75,12 @@ const Stacks: Stack[] = [
       'spring-cloud/spring-cloud-gateway',
       'spring-cloud/spring-cloud-sleuth',
     ],
-    predefined: true,
   },
   {
     id: 'kubernetes',
     name: 'Kubernetes',
+    nameChinese: 'Kubernetes 管理',
+    type: StackType.Backend,
     repos: [
       'kubernetes/minikube',
       'rancher/rancher',
@@ -78,17 +90,19 @@ const Stacks: Stack[] = [
       'openshift/origin',
       'gardener/gardener',
     ],
-    predefined: true,
   },
   {
     id: 'data-processing',
     name: 'Data Processing',
+    nameChinese: '数据处理',
+    type: StackType.Backend,
     repos: ['apache/spark', 'apache/kafka', 'apache/storm', 'apache/Beam', 'apache/Flink', 'apache/pulsar', 'antirez/redis'],
-    predefined: true,
   },
   {
     id: 'cluster-db',
     name: 'Cluster Database',
+    nameChinese: '分布式数据库',
+    type: StackType.Backend,
     repos: [
       'mongodb/mongo',
       'apache/cassandra',
@@ -98,11 +112,12 @@ const Stacks: Stack[] = [
       'ravendb/ravendb',
       'apache/couchdb',
     ],
-    predefined: true,
   },
   {
     id: 'time-series-db',
     name: 'TimeSeries Database',
+    nameChinese: '时间序列数据库',
+    type: StackType.Backend,
     repos: [
       'prometheus/prometheus',
       'influxdata/influxdb',
@@ -113,25 +128,12 @@ const Stacks: Stack[] = [
       'timescale/timescaledb',
       'taosdata/TDengine',
     ],
-    predefined: true,
-  },
-  {
-    id: 'client-db',
-    name: 'Client Database',
-    repos: [
-      'louischatriot/nedb',
-      'pubkey/rxdb',
-      'pouchdb/pouchdb',
-      'objectbox/objectbox-java',
-      'realm/realm-cocoa',
-      'Tencent/wcdb',
-      'ccgus/fmdb',
-    ],
-    predefined: true,
   },
   {
     id: 'crawler',
     name: 'Crawler',
+    nameChinese: '爬虫',
+    type: StackType.Backend,
     repos: [
       'scrapy/scrapy',
       'code4craft/webmagic',
@@ -147,23 +149,65 @@ const Stacks: Stack[] = [
       'matthewmueller/x-ray',
       'simplecrawler/simplecrawler',
     ],
-    predefined: true,
+  },
+  {
+    id: 'mq',
+    name: 'Message Queue',
+    nameChinese: '消息队列',
+    type: StackType.Backend,
+    repos: [
+      'rabbitmq/rabbitmq-server',
+      'RichardKnop/machinery',
+      'nats-io/nats-server',
+      'fireworq/fireworq',
+      'OptimalBits/bull',
+      'agenda/agenda',
+      'celery/celery',
+      'nsqio/nsq',
+      'travisjeffery/jocko',
+    ],
   },
   {
     id: 'image-server',
     name: 'Image Server',
+    type: StackType.Backend,
     repos: ['imgproxy/imgproxy', 'h2non/imaginary', 'buaazp/zimg', 'imazen/imageflow'],
-    predefined: true,
+  },
+  {
+    id: 'slack',
+    name: 'Slack Like',
+    type: StackType.Backend,
+    repos: [
+      'RocketChat/Rocket.Chat',
+      'withspectrum/spectrum',
+      'vector-im/riot-web',
+      'mattermost/mattermost-server',
+      'wireapp/wire-server',
+      'zulip/zulip',
+    ],
+  },
+  {
+    id: 'forum',
+    name: 'Forum',
+    nameChinese: '社区',
+    type: StackType.Backend,
+    repos: [
+      'flarum/flarum',
+      'withspectrum/spectrum',
+      'discourse/discourse',
+      'NodeBB/NodeBB',
+    ],
   },
   {
     id: 'webfront-frameworks',
     name: 'WebFront Frameworks',
+    type: StackType.Frontend,
     repos: ['facebook/react', 'vuejs/vue', 'angular/angular', 'sveltejs/svelte', 'emberjs/ember.js', 'jquery/jquery'],
-    predefined: true,
   },
   {
     id: 'react-ui',
     name: 'React UI',
+    type: StackType.Frontend,
     repos: [
       'ant-design/ant-design',
       'mui-org/material-ui',
@@ -176,11 +220,11 @@ const Stacks: Stack[] = [
       'grommet/grommet',
       'JetBrains/ring-ui',
     ],
-    predefined: true,
   },
   {
     id: 'vue-ui',
     name: 'Vue UI',
+    type: StackType.Frontend,
     repos: [
       'ElemeFE/element',
       'ElemeFE/mint-ui',
@@ -190,17 +234,17 @@ const Stacks: Stack[] = [
       'vuetifyjs/vuetify',
       'vueComponent/ant-design-vue',
     ],
-    predefined: true,
   },
   {
     id: 'angular-ui',
     name: 'Angular UI',
+    type: StackType.Frontend,
     repos: ['ionic-team/ionic', 'primefaces/primeng', 'akveo/nebular', 'NG-ZORRO/ng-zorro-antd', 'angular/components'],
-    predefined: true,
   },
   {
     id: 'non-dependent-ui',
     name: 'Non-dependent UI',
+    type: StackType.Frontend,
     repos: [
       'Dogfalo/materialize',
       'google/material-design-lite',
@@ -213,11 +257,12 @@ const Stacks: Stack[] = [
       'basscss/basscss',
       'foundation/foundation-sites',
     ],
-    predefined: true,
   },
   {
     id: 'static-web',
     name: 'Static Web',
+    nameChinese: '静态网站',
+    type: StackType.Frontend,
     repos: [
       'zeit/next.js',
       'nuxt/nuxt.js',
@@ -229,25 +274,12 @@ const Stacks: Stack[] = [
       'saberland/saber',
       'docpad/docpad',
     ],
-    predefined: true,
-  },
-  {
-    id: 'wechat-mini-app',
-    name: 'Wechat Mini App',
-    repos: [
-      'Meituan-Dianping/mpvue',
-      'NervJS/taro',
-      'Tencent/omi',
-      'didi/chameleon',
-      'dcloudio/uni-app',
-      'remaxjs/remax',
-      'didi/mpx',
-    ],
-    predefined: true,
   },
   {
     id: 'web-chart',
     name: 'Web Chart',
+    nameChinese: 'Web 图表',
+    type: StackType.Frontend,
     repos: [
       'antvis/g2',
       'antvis/G6',
@@ -265,35 +297,39 @@ const Stacks: Stack[] = [
       'hshoff/vx',
       'timqian/chart.xkcd',
     ],
-    predefined: true,
   },
   {
-    id: 'slack',
-    name: 'Slack Like',
+    id: 'wechat-mini-app',
+    name: 'Wechat Mini App',
+    nameChinese: '微信小程序',
+    type: StackType.Frontend,
     repos: [
-      'RocketChat/Rocket.Chat',
-      'withspectrum/spectrum',
-      'vector-im/riot-web',
-      'mattermost/mattermost-server',
-      'wireapp/wire-server',
-      'zulip/zulip',
+      'Meituan-Dianping/mpvue',
+      'NervJS/taro',
+      'Tencent/omi',
+      'didi/chameleon',
+      'dcloudio/uni-app',
+      'remaxjs/remax',
+      'didi/mpx',
     ],
-    predefined: true,
   },
   {
-    id: 'forum',
-    name: 'Forum',
+    id: 'client-db',
+    name: 'Client Database',
+    nameChinese: '客户端数据库',
+    type: StackType.Frontend,
     repos: [
-      'flarum/flarum',
-      'withspectrum/spectrum',
-      'discourse/discourse',
-      'NodeBB/NodeBB',
+      'louischatriot/nedb',
+      'pubkey/rxdb',
+      'pouchdb/pouchdb',
+      'objectbox/objectbox-java',
+      'realm/realm-cocoa',
+      'Tencent/wcdb',
+      'ccgus/fmdb',
     ],
-    predefined: true,
-  }
+  },
 ]
 
-// MQ, Sub/Push
 // console.log(JSON.stringify(Stacks))
 
 export default Stacks

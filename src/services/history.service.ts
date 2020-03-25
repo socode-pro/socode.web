@@ -7,14 +7,8 @@ import utc from 'dayjs/plugin/utc'
 
 dayjs.extend(utc)
 
-const GITHUB_TOKENS = [
-  '6d8b8c14c39f343ab4b8c84ae384b672777bc36d', // jzc
-  '973b01056d698b275affa2f5b7afa419c4e7ffe7', // xiong
-  'c62e196cb1817c6870849b3cd928dfe9d1744f3f', // qijianli
-  'acd55b5ae8abebce3d25c2a73660d8c4f894443f', // xyt
-  'a541f3ef93c040d961260c1b956573caadb6674e', // cff
-  '2a42786e6e3c84648f951b13ebbc5772f9015464', // lbb
-]
+const GITHUB_TOKENS = process.env.REACT_APP_GITHUB_TOKENS?.split(',') || []
+
 let tokenIndex = -1
 const getToken = (): string => {
   if (tokenIndex + 1 >= GITHUB_TOKENS.length) {

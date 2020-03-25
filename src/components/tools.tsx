@@ -4,7 +4,6 @@ import cs from 'classnames'
 import Fuse from 'fuse.js'
 import { Link, ToolCategory, Grids } from '../utils/tools_data'
 import css from './tools.module.scss'
-import * as config from '../config'
 
 interface Props {
   query: string
@@ -33,7 +32,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
   useEffect(() => {
     const init = async (): Promise<void> => {
       try {
-        const data = await ky.get(`${config.keyshost()}/toolsgrids.json`).json<Array<Link>>()
+        const data = await ky.get(`${process.env.REACT_APP_KEYS_HOST}/toolsgrids.json`).json<Array<Link>>()
         if (data !== null) {
           setGrids(data)
         }

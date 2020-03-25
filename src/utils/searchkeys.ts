@@ -43,7 +43,7 @@ export const isAvoidKey = (key: SKey): boolean =>
   !!key.readmes ||
   key.code === 'cheatsheets' ||
   key.code === 'tools' ||
-  key.code === 'starhistory'
+  key.code === 'github_stars'
 
 const SKeys: SKey[] = [
   {
@@ -1395,7 +1395,7 @@ const SKeys: SKey[] = [
     shortkeys: 'sc',
     icon: 'socode.png',
     bylang: true,
-    availableLang: InterfaceLanguage.中文,
+    // availableLang: InterfaceLanguage.中文,
     usage: true,
     tooltips: '给程序员用的问答搜索',
   },
@@ -1429,14 +1429,13 @@ const SKeys: SKey[] = [
     tooltips: 'Q&A communities',
   },
   {
-    code: 'starhistory',
-    name: 'StarHistory',
-    shortkeys: 'sh',
+    code: 'github_stars',
+    name: 'Gtihub Stars',
+    shortkeys: 'gs',
     usage: true,
-    icon: 'star.png',
-    homelink: 'https://star-history.t9t.io',
-    template: 'https://star-history.t9t.io/#%s',
-    tooltips: 'star history graph comparision of github repos.'
+    icon: 'github-stars.svg',
+    homelink: 'https://github-stars.socode.pro',
+    tooltips: 'comparison of star trend data for multiple GitHub repository'
   },
   {
     code: 'swift',

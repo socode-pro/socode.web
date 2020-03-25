@@ -405,6 +405,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               currentKey.devdocs ||
               currentKey.template ||
               currentKey.readmes ||
+              currentKey.code === 'github_stars' ||
               currentKey.code === 'socode' ||
               currentKey.code === 'tools' ||
               currentKey.code === 'cheatsheets') && (
@@ -672,7 +673,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
           {!displayKeys && currentKey.code === 'cheatsheets' && <CheatSheets query={squery} />}
           {!displayKeys && currentKey.code === 'tools' && <Tools query={squery} />}
-          {!displayKeys && currentKey.code === 'starhistory' && (
+          {!displayKeys && currentKey.code === 'github_stars' && (
             <Suspense fallback={<Loader1 type={2} />}>
               <StarHistory query={squery} />
             </Suspense>

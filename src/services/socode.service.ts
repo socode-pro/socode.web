@@ -1,5 +1,4 @@
 import ky from 'ky'
-import * as config from '../config'
 import Language from '../utils/language'
 
 const api = ky.extend({
@@ -133,7 +132,7 @@ export const search = async ({
   const sites = SitesCN
   // const sites = searchLanguage === Language.中文_简体 ? SitesCN : Sites
 
-  const q = config.ignoreSites() ? query : `${query} site:${sites.join(' OR site:')}`
+  const q = `${query} site:${sites.join(' OR site:')}`
   // const q = `${query} -site:${ExcludeSites.join(' AND -site:')}`
 
   let apiconfig = {}
@@ -158,7 +157,7 @@ export const search = async ({
     sparams.set('format', 'json')
     sparams.set('pageno', pageno.toString())
 
-    const data = await api.post(config.host(), { body: sparams, ...apiconfig }).json<SocodeResult>()
+    const data = await api.post(process.env.REACT_APP_SEARCH_HOST || '', { body: sparams, ...apiconfig }).json<SocodeResult>()
 
     if (data.unresponsive_engines.length) {
       const unresponsive = JSON.stringify(data.unresponsive_engines)

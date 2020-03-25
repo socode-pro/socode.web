@@ -10,7 +10,7 @@ import css from './brand.module.scss'
 
 const words = [
   { value: 'Cheat Sheets', code: 'cheatsheets' },
-  { value: 'repositories star-history', code: 'starhistory' },
+  { value: 'repositories star growth', code: 'github_stars' },
   { value: 'Public APIs', code: 'public_apis' },
   { value: 'programming pacakges', code: 'npm' },
 ]
