@@ -297,7 +297,7 @@ const History: React.FC<Props> = ({ query }: Props): JSX.Element => {
       </div>
       <div className={cs('column', 'pos-relative')}>
         <div className={css.topbar}>
-          {currentStack && <a className={cs('button', 'is-info', 'is-small', 'mgr10', css.github)} onClick={downloadImage}>
+          {currentStack && <a className={cs('button', 'is-info', 'is-small', 'mgr10')} onClick={downloadImage}>
             <i className='fa-image mgr5' />
             Download Image
           </a>}
