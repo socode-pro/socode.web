@@ -142,6 +142,11 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   @extend .far;
   @extend .fa-window-close;
 }
+.fa-image {
+  @extend %fa-icon;
+  @extend .far;
+  @extend .fa-image;
+}
 // .fa-up {
 //   @extend %fa-icon;
 //   @extend .fas;
