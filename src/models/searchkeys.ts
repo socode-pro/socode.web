@@ -4,7 +4,6 @@ import ky from 'ky'
 import Fuse from 'fuse.js'
 import SKeys, { SKey } from '../utils/searchkeys'
 import { StoreModel } from './index'
-import * as config from '../config'
 
 const fuseOptions: Fuse.FuseOptions<SKey> = {
   keys: ['name', 'shortkeys'],
@@ -54,7 +53,7 @@ const searchKeysModel: SearchKeysModel = {
   }),
   initialKeys: thunk(async actions => {
     try {
-      const skeys = await ky.get(`${config.keyshost()}/searchkeys.json`).json<Array<SKey>>()
+      const skeys = await ky.get(`${process.env.REACT_APP_KEYS_HOST}/searchkeys.json`).json<Array<SKey>>()
       if (skeys !== null) {
         actions.setKeys(skeys)
       }

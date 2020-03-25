@@ -3,7 +3,6 @@ import ky from 'ky'
 import Fuse from 'fuse.js'
 import groupBy from 'lodash/groupBy'
 import { StoreModel } from './index'
-import * as config from '../config'
 
 const fuseOptions: Fuse.FuseOptions<DevDocEntrie> = {
   keys: ['name'],
@@ -83,7 +82,7 @@ const devdocsModel: DevdocsModel = {
   }),
   initialMetas: thunk(async (actions) => {
     try {
-      const metas = await ky.get(`${config.dochost()}/docs.json`).json<DevDocMeta[]>()
+      const metas = await ky.get(`${process.env.REACT_APP_DOC_HOST}/docs.json`).json<DevDocMeta[]>()
       if (metas !== null) {
         actions.setMetas(metas)
       }
@@ -113,7 +112,7 @@ const devdocsModel: DevdocsModel = {
         }
       }
 
-      const indexJson = await ky.get(`${config.dochost()}/${slug}/index.json?${meta.mtime}`).json<DevDocIndex>()
+      const indexJson = await ky.get(`${process.env.REACT_APP_DOC_HOST}/${slug}/index.json?${meta.mtime}`).json<DevDocIndex>()
       if (indexJson !== null) {
         actions.setIndexs({ slug: meta.slug, index: indexJson.entries })
         getStoreActions().search.setExpandView(true)
@@ -170,7 +169,7 @@ const devdocsModel: DevdocsModel = {
         throw new Error('meta null')
       }
       actions.setDocLoading(true)
-      const doc = await ky.get(`${config.dochost()}/${slug}/${path.split('#')[0]}.html?${meta.mtime}`).text()
+      const doc = await ky.get(`${process.env.REACT_APP_DOC_HOST}/${slug}/${path.split('#')[0]}.html?${meta.mtime}`).text()
       if (doc !== null) {
         actions.setDocs({ slug, path, doc })
       }

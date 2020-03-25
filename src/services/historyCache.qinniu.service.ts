@@ -1,7 +1,6 @@
 import ky from 'ky'
 import dayjs from 'dayjs'
 import { Repository, getStarHistory, fetchCurrentStars } from './history.service'
-import * as config from '../config'
 
 interface HistoryGetParam {
   repo: string
@@ -10,16 +9,22 @@ interface HistoryGetParam {
 }
 
 export const getRepoData = async ({ repo, region, githubToken }: HistoryGetParam): Promise<Repository | null> => {
+  if (!process.env.REACT_APP_CATCH) return null
+  const domain = region === 'CN'? process.env.REACT_APP_CATCH_CN: process.env.REACT_APP_CATCH
+
   try {
-    const repository = await ky.get(`https://${region === 'CN'? 'os': 'os-us'}.socode.pro/${repo.replace('/', '_')}.json`).json<Repository>()
-    if (
-      dayjs(repository.lastRefreshDate)
-        .add(7, 'day')
-        .isBefore(dayjs())
-    ) {
-      return fetchCurrentStars(repository, githubToken)
+    const json = await ky.get(`${domain}/${repo.replace('/', '_')}.json`).json<Repository>()
+    if (dayjs(json.lastRefreshDate).add(7, 'day').isBefore(dayjs())) {
+      console.log(`base:requiredCacheUpdate:${repo}:${json.lastRefreshDate}`)
+
+      const jsonNocache = await ky.get(`${domain}/${repo.replace('/', '_')}.json?${dayjs().unix()}`).json<Repository>()
+      if (dayjs(jsonNocache.lastRefreshDate).add(7, 'day').isBefore(dayjs())) {
+        console.log(`nocache:requiredCacheUpdate:${repo}:${jsonNocache.lastRefreshDate}`)
+        return fetchCurrentStars(jsonNocache, githubToken)
+      }
+      return jsonNocache
     }
-    return repository
+    return json
   } catch (err) {
     return getStarHistory(repo, githubToken)
   }
@@ -27,9 +32,10 @@ export const getRepoData = async ({ repo, region, githubToken }: HistoryGetParam
 
 export const saveRepoToStore = async (repo: Repository): Promise<void> => {
   repo.requiredCacheUpdate = false
+  if (!process.env.REACT_APP_CATCH_POST) return
 
   try {
-    await ky.post(`${config.nesthost()}/qiniu`, { json: repo })
+    await ky.post(process.env.REACT_APP_CATCH_POST || '', { json: repo })
   } catch (err) {
     console.error('saveRepoToStore:', err)
   }
@@ -37,12 +43,14 @@ export const saveRepoToStore = async (repo: Repository): Promise<void> => {
 
 export const removeRepoFromStore = async (repo: Repository | undefined): Promise<void> => {
   if (!repo) return
+
   repo.requiredCacheUpdate = true
+  if (!process.env.REACT_APP_CATCH_POST) return
 
   try {
     const sparams = new URLSearchParams()
     sparams.set('key', `${repo.name.replace('/', '_')}.json`)
-    await ky.delete(`${config.nesthost()}/qiniu`, { body: sparams })
+    await ky.delete(process.env.REACT_APP_CATCH_POST || '', { body: sparams })
   } catch (err) {
     console.error('removeRepoFromStore:', err)
   }
