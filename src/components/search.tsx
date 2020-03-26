@@ -12,6 +12,7 @@ import Awesome from './awesome'
 import Readme from './readme'
 import Devdocs from './devdocs'
 import Slogan from './slogan'
+import Trending from './trending'
 import Language, { ProgramLanguage } from '../utils/language'
 import { SKey, isAvoidKey } from '../utils/searchkeys'
 import useHotkeys from '../utils/useHotkeys'
@@ -809,6 +810,8 @@ const SearchInput: React.FC = (): JSX.Element => {
 
           {result === null && currentKey.name === 'socode' && <Slogan />}
         </animated.div>
+
+        <Trending />
       </div>
     </>
   )

@@ -13,7 +13,6 @@ import { Repository } from '../services/stars.service'
 import { InterfaceLanguage } from '../utils/language'
 import css from './stars.module.scss'
 import Loader from './loader/loader1'
-import { ReactComponent as Github } from '../images/github.svg'
 
 const fuseOptions: Fuse.FuseOptions<Stack> = {
   keys: ['name', 'repos'],
@@ -42,7 +41,7 @@ interface Props {
   query: string
 }
 
-const History: React.FC<Props> = ({ query }: Props): JSX.Element => {
+const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
   // const initialPresetStacks = useStoreActions(actions => actions.stars.initialPresetStacks)
   const initialCurrentStack = useStoreActions(actions => actions.stars.initialCurrentStack)
   const estimateRegion = useStoreActions(actions => actions.storage.estimateRegion)
@@ -314,4 +313,4 @@ const History: React.FC<Props> = ({ query }: Props): JSX.Element => {
   )
 }
 
-export default History
+export default Stars

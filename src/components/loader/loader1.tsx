@@ -2,8 +2,10 @@ import React from 'react'
 import cs from 'classnames'
 import css from './loader1.module.scss'
 
+type Params = { type: number, gray?: boolean }
+
 // https://codepen.io/Katrine-Marie/pen/pJgZBo
-const Loader1: React.FC<{ type: number }> = ({ type }: { type: number }): JSX.Element => {
+const Loader1: React.FC<Params> = ({ type, gray }: Params): JSX.Element => {
 
   return (
     <>
@@ -16,7 +18,7 @@ const Loader1: React.FC<{ type: number }> = ({ type }: { type: number }): JSX.El
         </defs>
       </svg>
 
-      {type === 1 && <div className={cs(css.container, css.goo1)}>
+      {type === 1 && <div className={cs(css.container, css.goo1, { [css.gray]: gray })}>
         <div />
         <div />
         <div />
@@ -24,7 +26,7 @@ const Loader1: React.FC<{ type: number }> = ({ type }: { type: number }): JSX.El
         <div />
       </div>}
 
-      {type === 2 && <div className={cs(css.container, css.goo2)}>
+      {type === 2 && <div className={cs(css.container, css.goo2, { [css.gray]: gray })}>
         <div />
         <div />
         <div />

@@ -28,13 +28,13 @@ const Slogan: React.FC = (): JSX.Element => {
 
   return (
     <div className={css.oauthbar}>
-      <a className={cs('button', 'is-danger', 'is-small')} onClick={GithubOAuth}>
+      <a className={cs('button', 'is-warning', 'is-small')} onClick={GithubOAuth}>
         <Github className={css.gicon} />
         OAuth for token
       </a>
       <div className={cs('dropdown is-right', css.scdropdown, { 'is-active': displayTips })}>
         <span className={css.why} onClick={() => setDisplayTips(!displayTips)}>
-          why
+          {/* why */}
           <i className={cs(css.scicon, 'fa-question')} />
         </span>
 
