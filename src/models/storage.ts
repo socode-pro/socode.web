@@ -18,15 +18,17 @@ export interface SettingsType {
 }
 
 const defaultSettings = (): SettingsType => {
-  const settings = localStorage.getItem('settings')
-  if (settings) {
-    return JSON.parse(settings)
-  }
-  return {
+  const defaultValue = {
     language: navigator.language.startsWith(InterfaceLanguage.中文) ? InterfaceLanguage.中文 : InterfaceLanguage.English,
     openNewTab: true,
     displayTrending: true,
   }
+
+  const settings = localStorage.getItem('settings')
+  if (settings) {
+    return { ...defaultValue, ...JSON.parse(settings) }
+  }
+  return defaultValue
 }
 
 export interface StorageModel {
