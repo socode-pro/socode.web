@@ -67,8 +67,8 @@ const SearchInput: React.FC = (): JSX.Element => {
   const setSearchLanguage = useStoreActions(actions => actions.search.setSearchLanguageThunk)
   const docLanguage = useStoreState<Language>(state => state.search.docLanguage)
   const setDocLanguage = useStoreActions(actions => actions.search.setDocLanguage)
-  const programLanguage = useStoreState<ProgramLanguage>(state => state.search.programLanguage)
-  const setProgramLanguage = useStoreActions(actions => actions.search.setProgramLanguage)
+  const programLanguage = useStoreState<ProgramLanguage>(state => state.storage.programLanguage)
+  const setProgramLanguage = useStoreActions(actions => actions.storage.setProgramLanguage)
 
   const result = useStoreState<SocodeResult | null>(state => state.search.result)
   const npmResult = useStoreState<NpmsResult | null>(state => state.search.npmResult)

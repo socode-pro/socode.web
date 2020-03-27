@@ -1,23 +1,25 @@
 import React, { useEffect } from 'react'
 import cs from 'classnames'
 import { useStoreActions, useStoreState } from '../utils/hooks'
-import { TrendingRange } from '../models/trending'
+import { TrendingSince } from '../models/trending'
 import { IntEnumObjects, StringEnumObjects } from '../utils/assist'
 import { ProgramLanguage, TrendingSpokenLanguage } from '../utils/language'
 import css from './trending.module.scss'
 import Loader from './loader/loader1'
 
-const trendingRangeOptions = StringEnumObjects(TrendingRange)
+const trendingSinceOptions = StringEnumObjects(TrendingSince)
 const programLanguageOptions = IntEnumObjects(ProgramLanguage, 'language:')
 const spokenLanguageOptions = StringEnumObjects(TrendingSpokenLanguage, 'spoken:')
 
 const Trending: React.FC = (): JSX.Element => {
-  const { loading, repositories, language, spoken, since, url } = useStoreState(state => state.trending)
-  const { setLanguage, setSpoken, setSince, fetch } = useStoreActions(actions => actions.trending)
+  const { loading, repositories, spoken, since, url } = useStoreState(state => state.trending)
+  const { setSpoken, setSince, fetch } = useStoreActions(actions => actions.trending)
+  const { programLanguage } = useStoreState(state => state.storage)
+  const setProgramLanguage = useStoreActions(actions => actions.storage.setProgramLanguage)
 
   useEffect(() => {
     fetch()
-  }, [fetch, language, since, spoken])
+  }, [fetch, programLanguage, since, spoken])
 
   return (
     <div className={cs(css.trending)}>
@@ -32,7 +34,7 @@ const Trending: React.FC = (): JSX.Element => {
           </select>
         </div>
         <div className='select is-small'>
-          <select value={language} onChange={e => setLanguage(parseInt(e.target.value, 10))}>
+          <select value={programLanguage} onChange={e => setProgramLanguage(parseInt(e.target.value, 10))}>
             {programLanguageOptions.map(o => (
               <option key={o.value} value={o.value}>
                 {o.label}
@@ -41,8 +43,8 @@ const Trending: React.FC = (): JSX.Element => {
           </select>
         </div>
         <div className='select is-small'>
-          <select value={since} onChange={e => setSince(e.target.value as TrendingRange)}>
-            {trendingRangeOptions.map(o => (
+          <select value={since} onChange={e => setSince(e.target.value as TrendingSince)}>
+            {trendingSinceOptions.map(o => (
               <option key={o.value} value={o.value}>
                 {o.label}
               </option>
@@ -60,8 +62,9 @@ const Trending: React.FC = (): JSX.Element => {
               <a href={r.url} target='_blank' rel='noopener noreferrer'>
                 {r.author}/{r.name}
               </a>
-              <span className={css.righter}>
-                <span className={css.stars}><span className={css.allstars}>★{r.stars}</span>+{r.currentPeriodStars}</span>
+              <span className={css.stars}>
+                <span className={css.allstars}>★{r.stars}</span>
+                +{r.currentPeriodStars}
               </span>
             </h4>
             <p className={css.description}>
@@ -71,7 +74,7 @@ const Trending: React.FC = (): JSX.Element => {
         ))}
       </ul>}
 
-      <a className={css.more} href={url} target='_blank' rel='noopener noreferrer'>READ MORE...</a>
+      {!loading && <a className={css.more} href={url} target='_blank' rel='noopener noreferrer'>READ MORE...</a>}
     </div>
   )
 }

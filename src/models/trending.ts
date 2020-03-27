@@ -1,8 +1,9 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy'
 import { fetchRepositories, languages, spokenLanguages } from '@huchenme/github-trending'
 import { ProgramLanguage, TrendingSpokenLanguage } from '../utils/language'
+import { StoreModel } from './index'
 
-export enum TrendingRange {
+export enum TrendingSince {
   Daily = 'daily',
   Weekly = 'weekly',
   Monthly = 'monthly',
@@ -33,19 +34,16 @@ export interface TrendingModel {
   repositories: Array<Repository>
   setRepositorys: Action<TrendingModel, Array<Repository>>
 
-  language: ProgramLanguage
-  setLanguage: Action<TrendingModel, ProgramLanguage>
-
   spoken: TrendingSpokenLanguage
   setSpoken: Action<TrendingModel, TrendingSpokenLanguage>
 
-  since: TrendingRange
-  setSince: Action<TrendingModel, TrendingRange>
+  since: TrendingSince
+  setSince: Action<TrendingModel, TrendingSince>
 
   url: string
   setUrl: Action<TrendingModel, string>
   
-  fetch: Thunk<TrendingModel>
+  fetch: Thunk<TrendingModel, void, void, StoreModel>
 }
 
 const trendingModel: TrendingModel = {
@@ -59,19 +57,13 @@ const trendingModel: TrendingModel = {
     state.repositories = payload
   }),
 
-  language: parseInt(localStorage.getItem('programLanguage') || '0', 10),
-  setLanguage: action((state, payload) => {
-    state.language = payload
-    localStorage.setItem('programLanguage', payload.toString())
-  }),
-
   spoken: localStorage.getItem('trendingSpokenLanguage') as TrendingSpokenLanguage || TrendingSpokenLanguage.All,
   setSpoken: action((state, payload) => {
     state.spoken = payload
     localStorage.setItem('trendingSpokenLanguage', payload)
   }),
 
-  since: localStorage.getItem('trendingRange') as TrendingRange || TrendingRange.Daily,
+  since: localStorage.getItem('trendingRange') as TrendingSince || TrendingSince.Daily,
   setSince: action((state, payload) => {
     state.since = payload
     localStorage.setItem('trendingRange', payload)
@@ -82,10 +74,12 @@ const trendingModel: TrendingModel = {
     state.url = payload
   }),
 
-  fetch: thunk(async (actions, target, { getState }) => {
-    const { language, spoken, since } = getState()
+  fetch: thunk(async (actions, target, { getState, getStoreState }) => {
+    const { spoken, since } = getState()
+    const { programLanguage } = getStoreState().storage
+
     actions.setLoading(true)
-    const parms = language === ProgramLanguage.All ? { spoken, since } : { spoken, since, language: ProgramLanguage[language] }
+    const parms = programLanguage === ProgramLanguage.All ? { spoken, since } : { spoken, since, language: ProgramLanguage[programLanguage] }
     try {
       const data = await fetchRepositories(parms)
       actions.setRepositorys(data.slice(0,12))
@@ -95,7 +89,7 @@ const trendingModel: TrendingModel = {
     actions.setLoading(false)
     
     let url = 'https://github.com/trending/'
-    const languageJson = languages.find(l => l.name === ProgramLanguage[language])
+    const languageJson = languages.find(l => l.name === ProgramLanguage[programLanguage])
     if (languageJson) {
       url += languageJson.urlParam
     }
