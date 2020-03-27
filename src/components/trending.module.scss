@@ -25,7 +25,6 @@ div.trending {
 
 ul.result {
   li {
-    text-shadow: 0 0 $dh-text;
     margin-top: 15px;
     line-height: 1.4;
   }
@@ -33,19 +32,24 @@ ul.result {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    a {
+      text-shadow: 0 0 $dh-text;
+      transition: color 0.4s ease-in-out;
+    }
     .stars {
+      font-family: $font-mono;
       font-size: 0.8em;
       background-color: #fff;
       border: 1px solid #e5e8ed;
       border-radius: 4px;
       box-shadow: 0 1px 0 rgba(0,0,0,.2), 0 0 0 2px #fff inset;
       padding: 2px 4px;
-      color: $grey;
+        color: $grey-light;
       .allstars {
         // padding: 0px 2px;
         // background-color: $dh-body;
         // border-radius: 4px;
-        color: $grey-light;
+        color: $grey;
         margin-right: 4px;
       }
     }

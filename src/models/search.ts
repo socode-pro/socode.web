@@ -57,9 +57,6 @@ export interface SearchModel {
   docLanguage: Language
   setDocLanguage: Action<SearchModel, Language>
 
-  programLanguage: ProgramLanguage
-  setProgramLanguage: Action<SearchModel, ProgramLanguage>
-
   onCurrentKey: ActionOn<SearchModel, StoreModel>
   onInitialCurrentKey: ThunkOn<SearchModel, void, StoreModel>
 }
@@ -186,7 +183,8 @@ const searchModel: SearchModel = {
 
   lunchUrl: thunk((state, payload, { getStoreState, getState }) => {
     state.error = null
-    const { query, searchLanguage, programLanguage } = getState()
+    const { query, searchLanguage } = getState()
+    const { programLanguage } = getStoreState().storage
     const { currentKey } = getStoreState().searchKeys
     let url: string| undefined = ''
 
@@ -221,12 +219,6 @@ const searchModel: SearchModel = {
   setDocLanguage: action((state, payload) => {
     state.docLanguage = payload
     localStorage.setItem('docLanguage', payload)
-  }),
-
-  programLanguage: parseInt(localStorage.getItem('programLanguage') || '0', 10),
-  setProgramLanguage: action((state, payload) => {
-    state.programLanguage = payload
-    localStorage.setItem('programLanguage', payload.toString())
   }),
 
   onCurrentKey: actionOn(

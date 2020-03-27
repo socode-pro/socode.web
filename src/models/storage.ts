@@ -1,8 +1,7 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy'
 import ky from 'ky'
 import dayjs from 'dayjs'
-// import { TrendingParam } from '../services/trending'
-import { InterfaceLanguage } from '../utils/language'
+import { InterfaceLanguage, ProgramLanguage } from '../utils/language'
 import { warn } from '../utils/toast'
 
 export enum DarkMode {
@@ -14,8 +13,8 @@ export enum DarkMode {
 export interface SettingsType {
   language?: InterfaceLanguage
   openNewTab?: boolean
-  darkMode?: DarkMode
   displayTrending?: boolean
+  darkMode?: DarkMode
 }
 
 const defaultSettings = (): SettingsType => {
@@ -34,6 +33,9 @@ export interface StorageModel {
   settings: SettingsType
   setSettings: Action<StorageModel, SettingsType>
 
+  programLanguage: ProgramLanguage
+  setProgramLanguage: Action<StorageModel, ProgramLanguage>
+
   githubToken: string
   setGithubToken: Action<StorageModel, string>
 
@@ -48,6 +50,12 @@ const storageModel: StorageModel = {
   setSettings: action((state, payload) => {
     state.settings = { ...state.settings, ...payload }
     localStorage.setItem('settings', JSON.stringify(state.settings))
+  }),
+
+  programLanguage: parseInt(localStorage.getItem('programLanguage') || '0', 10),
+  setProgramLanguage: action((state, payload) => {
+    state.programLanguage = payload
+    localStorage.setItem('programLanguage', payload.toString())
   }),
 
   githubToken: localStorage.getItem('githubToken') || '',
