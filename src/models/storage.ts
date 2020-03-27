@@ -15,7 +15,7 @@ export interface SettingsType {
   language?: InterfaceLanguage
   openNewTab?: boolean
   darkMode?: DarkMode
-  displayAwesome?: boolean
+  displayTrending?: boolean
 }
 
 const defaultSettings = (): SettingsType => {
@@ -26,7 +26,7 @@ const defaultSettings = (): SettingsType => {
   return {
     language: navigator.language.startsWith(InterfaceLanguage.中文) ? InterfaceLanguage.中文 : InterfaceLanguage.English,
     openNewTab: true,
-    displayAwesome: false,
+    displayTrending: true,
   }
 }
 

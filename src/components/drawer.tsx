@@ -17,7 +17,7 @@ const languageOptions = StringEnumObjects(InterfaceLanguage)
 const Drawer: React.FC = (): JSX.Element => {
   const setSettings = useStoreActions(actions => actions.storage.setSettings)
   const setGithubToken = useStoreActions(actions => actions.storage.setGithubToken)
-  const { language, openNewTab, displayAwesome } = useStoreState<SettingsType>(state => state.storage.settings)
+  const { language, openNewTab, displayTrending } = useStoreState<SettingsType>(state => state.storage.settings)
   const githubToken = useStoreState<string>(state => state.storage.githubToken)
 
   const [shortcut, setShortcut] = useState(false)
@@ -205,12 +205,12 @@ const Drawer: React.FC = (): JSX.Element => {
               <div className={css.field}>
                 <input
                   className='is-checkradio is-circle'
-                  id='displayawesome'
+                  id='displaytrending'
                   type='checkbox'
-                  checked={displayAwesome}
-                  onChange={e => setSettings({ displayAwesome: e.target.checked })}
+                  checked={displayTrending}
+                  onChange={e => setSettings({ displayTrending: e.target.checked })}
                 />
-                <label htmlFor='displayawesome'>{useIntl(Words.DisplayAwesome)}</label>
+                <label htmlFor='displaytrending'>{useIntl(Words.DisplayTrending)}</label>
               </div>
             </li>
 

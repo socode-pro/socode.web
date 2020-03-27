@@ -286,6 +286,12 @@ export const Grids: Array<Link> = [
     elite: true,
   },
   {
+    name: 'Git Command Explorer',
+    href: 'https://gitexplorer.com/',
+    category: ToolCategory.Generator,
+    elite: true,
+  },
+  {
     name: 'Stylelint Generator',
     href: 'https://maximgatilin.github.io/stylelint-config',
     label: 'css',

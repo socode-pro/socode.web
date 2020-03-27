@@ -34,6 +34,22 @@ export const navigatorLanguage = (navigator: string): Language => {
   return Language.English
 }
 
+export enum TrendingSpokenLanguage {
+  All = '',
+  English = 'English',
+  中文 = 'Chinese',
+  Português = 'Portuguese',
+  日本語 = 'Japanese',
+  русский = 'Russian',
+  Español = 'Spanish, Castilian',
+  Deutsche = 'German',
+  français = 'French',
+  Italiano = 'Italian',
+  한국어 = 'Korean',
+  العربية = 'Arabic',
+  Polski = 'Polish',
+}
+
 // https://githut.info/
 export enum ProgramLanguage {
   'All',

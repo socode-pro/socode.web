@@ -79,7 +79,8 @@ const SearchInput: React.FC = (): JSX.Element => {
   const clearResult = useStoreActions(actions => actions.search.clearResult)
   const lunchUrlAction = useStoreActions(actions => actions.search.lunchUrl)
 
-  const { language, displayAwesome } = useStoreState<SettingsType>(state => state.storage.settings)
+  const { language, displayTrending } = useStoreState<SettingsType>(state => state.storage.settings)
+  const [awesomeOrDevdoc, setAwesomeOrDevdoc] = useState<boolean>(true)
 
   // const initialKeys = useStoreActions(actions => actions.searchKeys.initialKeys)
   const initialCurrentKey = useStoreActions(actions => actions.searchKeys.initialCurrentKey)
@@ -333,23 +334,15 @@ const SearchInput: React.FC = (): JSX.Element => {
                   />
                 )}
                 {key.devdocs && (
-                  <a
-                    href={`https://devdocs.io/${key.devdocs}`}
-                    onClick={e => e.stopPropagation()}
+                  <i
+                    onClick={() => setAwesomeOrDevdoc(false)}
                     className={cs('fa-devdocs', css.kicon)}
-                    aria-label='awesome'
-                    target='_blank'
-                    rel='noopener noreferrer'
                   />
                 )}
                 {key.awesome && (
-                  <a
-                    href={`https://github.com/${key.awesome}`}
-                    onClick={e => e.stopPropagation()}
+                  <i
+                    onClick={() => setAwesomeOrDevdoc(true)}
                     className={cs('fa-cubes', css.kicon)}
-                    aria-label='awesome'
-                    target='_blank'
-                    rel='noopener noreferrer'
                   />
                 )}
                 <i
@@ -425,15 +418,11 @@ const SearchInput: React.FC = (): JSX.Element => {
                 }}
                 onChange={handleQueryChange}
                 placeholder={
-                  displayKeys
-                    ? 'filter...'
-                    : currentKey.devdocs
-                    ? 'menu search...'
-                    : currentKey.readmes
-                    ? currentKey.readmes.searched
-                      ? 'content search...'
-                      : 'no search...'
-                    : ''
+                  displayKeys? 'filter...'
+                    : awesomeOrDevdoc? 'awesome search...'
+                      : currentKey.devdocs? 'menu search...'
+                        : currentKey.readmes ? (currentKey.readmes.searched ? 'content search...' : 'no search...')
+                          : ''
                 }
                 ref={inputEl} // https://stackoverflow.com/a/48656310/346701
                 // onKeyPress={handleQueryKeyPress}
@@ -484,23 +473,15 @@ const SearchInput: React.FC = (): JSX.Element => {
               />
             )}
             {!displayKeys && currentKey.devdocs && (
-              <a
-                href={`https://devdocs.io/${currentKey.devdocs}`}
-                onClick={e => e.stopPropagation()}
-                className={cs('fa-devdocs', css.kicon)}
-                aria-label='devdocs'
-                target='_blank'
-                rel='noopener noreferrer'
+              <i
+                onClick={e => setAwesomeOrDevdoc(false)}
+                className={cs('fa-devdocs', css.kicon, { [css.active]: !awesomeOrDevdoc })}
               />
             )}
             {!displayKeys && currentKey.awesome && (
-              <a
-                href={`https://github.com/${currentKey.awesome}`}
-                onClick={e => e.stopPropagation()}
-                className={cs('fa-cubes', css.kicon)}
-                aria-label='awesome'
-                target='_blank'
-                rel='noopener noreferrer'
+              <i
+                onClick={e => setAwesomeOrDevdoc(true)}
+                className={cs('fa-cubes', css.kicon, { [css.active]: awesomeOrDevdoc })}
               />
             )}
 
@@ -679,8 +660,9 @@ const SearchInput: React.FC = (): JSX.Element => {
               <GithubStars query={squery} />
             </Suspense>
           )}
-          {!displayKeys && displayAwesome && currentKey.awesome && !currentKey.devdocs && (
-            <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} />
+          {!displayKeys && !awesomeOrDevdoc && currentKey.devdocs && <Devdocs slug={currentKey.devdocs} query={squery} />}
+          {!displayKeys && awesomeOrDevdoc && currentKey.awesome && (
+            <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} query={squery} />
           )}
           {!displayKeys && currentKey.readmes && (
             <Readme
@@ -689,7 +671,6 @@ const SearchInput: React.FC = (): JSX.Element => {
               query={currentKey.readmes.searched ? squery : undefined}
             />
           )}
-          {!displayKeys && currentKey.devdocs && <Devdocs slug={currentKey.devdocs} query={squery} />}
 
           {error !== null && <div className={css.error}>{error instanceof String ? error : error.message}</div>}
 
@@ -811,7 +792,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           {result === null && currentKey.name === 'socode' && <Slogan />}
         </animated.div>
 
-        <Trending />
+        {displayTrending && !displayKeys && !loading && <Trending />}
       </div>
     </>
   )

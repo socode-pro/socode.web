@@ -1,6 +1,68 @@
 @import '../styles/variable';
 
 div.trending {
-  margin-top: 84px;
-  padding: 15px;
+  margin: 124px auto 20px;
+  max-width: 768px;
+  font-family: $font-mono;
+}
+
+.header {
+  text-align: right;
+  .selname {
+    font-size: 0.75rem;
+  }
+  select {
+    font-family: $font-mono;
+    background-color: transparent !important;
+    border-color: transparent !important;
+  }
+  :global(.select) {
+    &::after {
+      border-color: transparent !important;
+    }
+  }
+}
+
+ul.result {
+  li {
+    text-shadow: 0 0 $dh-text;
+    margin-top: 15px;
+    line-height: 1.4;
+  }
+  h4 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .stars {
+      font-size: 0.8em;
+      background-color: #fff;
+      border: 1px solid #e5e8ed;
+      border-radius: 4px;
+      box-shadow: 0 1px 0 rgba(0,0,0,.2), 0 0 0 2px #fff inset;
+      padding: 2px 4px;
+      color: $grey;
+      .allstars {
+        // padding: 0px 2px;
+        // background-color: $dh-body;
+        // border-radius: 4px;
+        color: $grey-light;
+        margin-right: 4px;
+      }
+    }
+  }
+  .description {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  span.language {
+    color: $grey;
+    font-size: 0.8em;
+    margin-right: 6px;
+  }
+}
+
+a.more {
+  display: inline-block;
+  margin-top: 15px;
 }
