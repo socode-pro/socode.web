@@ -7,7 +7,7 @@ export enum Words {
   ASearchEngineForProgrammers = 'A search engine for programmers',
   ProgrammersStartPage = "Programmer's start page",
   OpenNewTab = 'Open search page in a new tab',
-  DisplayAwesome = 'Display Awesome',
+  DisplayTrending = 'Display Github Trending',
   PrivacyPolicy = 'Privacy Policy',
   Shortcut = 'Shortcut',
   OpenKeyboardShortcuts = 'Open keyboard shortcuts help',
@@ -32,8 +32,8 @@ const useIntl = (words: Words): string => {
         case Words.OpenNewTab:
           setContent('在新窗口打开搜索页面')
           break
-        case Words.DisplayAwesome:
-          setContent('自动显示 Awesome')
+        case Words.DisplayTrending:
+          setContent('显示 Github Trending')
           break
         case Words.ProgrammersStartPage:
           setContent('程序员的起始页')

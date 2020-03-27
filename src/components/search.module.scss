@@ -244,14 +244,14 @@
       }
     }
 
-    a.kicon {
+    a.kicon, i.kicon {
       display: none;
     }
 
     &:hover {
       background-color: $white-duck;
       i.thumbtack,
-      a.kicon {
+      a.kicon, i.kicon {
         display: inline-block;
       }
       .shortkeys {
@@ -304,11 +304,15 @@
   }
 }
 
-a.kicon {
+a.kicon, i.kicon {
   @include ms-respond(font-size, 1);
   color: $grey-light;
   margin-right: 8px;
+  cursor: pointer;
   &:hover {
+    color: $primary;
+  }
+  &.active {
     color: $primary;
   }
 }
