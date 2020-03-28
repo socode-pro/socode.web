@@ -52,3 +52,9 @@
     }
   }
 }
+
+:global(body.socode_ext) {
+  .extwapper {
+    display: none;
+  }
+}
