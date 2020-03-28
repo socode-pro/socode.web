@@ -77,10 +77,15 @@ const trendingModel: TrendingModel = {
   fetch: thunk(async (actions, target, { getState, getStoreState }) => {
     const { spoken, since } = getState()
     const { programLanguage } = getStoreState().storage
+    
+    const language =  ProgramLanguage[programLanguage].toLowerCase().replace(' ', '-').replace('#', '%23')
 
     actions.setLoading(true)
-    const parms = programLanguage === ProgramLanguage.All ? { spoken, since } : { spoken, since, language: ProgramLanguage[programLanguage] }
+    const parms = programLanguage === ProgramLanguage.All ?
+      { spokenLanguageCode: spoken, since } :
+      { spokenLanguageCode: spoken, since, language }
     try {
+      console.log(parms)
       const data = await fetchRepositories(parms)
       actions.setRepositorys(data.slice(0,12))
     } catch (err) {
@@ -89,7 +94,7 @@ const trendingModel: TrendingModel = {
     actions.setLoading(false)
     
     let url = 'https://github.com/trending/'
-    const languageJson = languages.find(l => l.name === ProgramLanguage[programLanguage])
+    const languageJson = languages.find(l => l.name === language)
     if (languageJson) {
       url += languageJson.urlParam
     }
