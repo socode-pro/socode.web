@@ -1,5 +1,5 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy'
-import { fetchRepositories, languages, spokenLanguages } from '@huchenme/github-trending'
+import { fetchRepositories } from '@huchenme/github-trending'
 import { ProgramLanguage, TrendingSpokenLanguage } from '../utils/language'
 import { StoreModel } from './index'
 
@@ -85,7 +85,6 @@ const trendingModel: TrendingModel = {
       { spokenLanguageCode: spoken, since } :
       { spokenLanguageCode: spoken, since, language }
     try {
-      console.log(parms)
       const data = await fetchRepositories(parms)
       actions.setRepositorys(data.slice(0,12))
     } catch (err) {
@@ -94,15 +93,13 @@ const trendingModel: TrendingModel = {
     actions.setLoading(false)
     
     let url = 'https://github.com/trending/'
-    const languageJson = languages.find(l => l.name === language)
-    if (languageJson) {
-      url += languageJson.urlParam
+    if (language) {
+      url += language
     }
     const params = new URLSearchParams()
     params.set('since', since)
-    const spokenJson = spokenLanguages.find(l => l.name === spoken)
-    if (spokenJson) {
-      params.set('spoken_language_code', spokenJson.urlParam)
+    if (spoken) {
+      params.set('spoken_language_code', spoken)
     }
     actions.setUrl(`${url}?${params.toString()}`)
   }),
