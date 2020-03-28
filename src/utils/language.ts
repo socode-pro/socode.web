@@ -36,18 +36,18 @@ export const navigatorLanguage = (navigator: string): Language => {
 
 export enum TrendingSpokenLanguage {
   All = '',
-  English = 'English',
-  中文 = 'Chinese',
-  Português = 'Portuguese',
-  日本語 = 'Japanese',
-  русский = 'Russian',
-  Español = 'Spanish, Castilian',
-  Deutsche = 'German',
-  français = 'French',
-  Italiano = 'Italian',
-  한국어 = 'Korean',
-  العربية = 'Arabic',
-  Polski = 'Polish',
+  English = 'en',
+  中文 = 'zh',
+  Português = 'pt',
+  日本語 = 'ja',
+  русский = 'ru',
+  Español = 'es',
+  Deutsche = 'de',
+  français = 'fr',
+  Italiano = 'it',
+  한국어 = 'ko',
+  العربية = 'ar',
+  Polski = 'pl',
 }
 
 // https://githut.info/
