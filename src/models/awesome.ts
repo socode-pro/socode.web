@@ -3,6 +3,9 @@ import ky from 'ky'
 import dayjs from 'dayjs'
 
 export interface AwesomeModel {
+  loading: boolean
+  setLoading: Action<AwesomeModel, boolean>
+
   markdown: string
   setMarkdown: Action<AwesomeModel, string>
   // setMarkdownStorage: Action<AwesomeModel, { name: string; markdown: string }>
@@ -10,6 +13,11 @@ export interface AwesomeModel {
 }
 
 const awesomeModel: AwesomeModel = {
+  loading: false,
+  setLoading: action((state, payload) => {
+    state.loading = payload
+  }),
+
   markdown: '',
   setMarkdown: action((state, payload) => {
     state.markdown = payload
@@ -24,6 +32,7 @@ const awesomeModel: AwesomeModel = {
   //   }
   // }),
   getMarkdown: thunk(async (actions, payload) => {
+    actions.setLoading(true)
     try {
       // const time = localStorage.getItem(`awesome_${payload.name}_time`)
       // if (
@@ -37,15 +46,14 @@ const awesomeModel: AwesomeModel = {
       //     actions.setMarkdown(markdown || '')
       //     return
       //   }
-      // }
-
-      const markdown = await ky.get(`https://raw.githubusercontent.com/${payload.awesome}/master/readme.md`).text()
+      // }     
+      const markdown = await ky.get(`https://raw.githubusercontent.com/${payload.awesome}/master/README.md`).text()
       // await actions.setMarkdownStorage({ name: payload.name, markdown })
       await actions.setMarkdown(markdown)
     } catch (err) {
       if (err.response?.status === 404) {
         try {
-          const markdown = await ky.get(`https://raw.githubusercontent.com/${payload.awesome}/master/README.md`).text()
+          const markdown = await ky.get(`https://raw.githubusercontent.com/${payload.awesome}/master/readme.md`).text()
           // await actions.setMarkdownStorage({ name: payload.name, markdown })
           await actions.setMarkdown(markdown)
         } catch (e) {
@@ -55,6 +63,7 @@ const awesomeModel: AwesomeModel = {
         console.warn('AwesomeModel.getMarkdown', err)
       }
     }
+    actions.setLoading(false)
   }),
 }
 

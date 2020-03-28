@@ -5,6 +5,7 @@ import Fuse from 'fuse.js'
 import { transRelationHref } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import css from './awesome.module.scss'
+import Loader from './loader/loader1'
 
 interface SearchItem {
   index: number
@@ -46,6 +47,7 @@ const Awesome: React.FC<Props> = ({ name, awesome, query }: Props): JSX.Element 
   const [markup, setMarkup] = useState<string | null>(null)
   const [querying, setQuerying] = useState<boolean>(false)
 
+  const loading = useStoreState<boolean>(state => state.devdocs.loading)
   const markdown = useStoreState<string>(state => state.awesome.markdown)
   const getMarkdown = useStoreActions(actions => actions.awesome.getMarkdown)
 
@@ -103,6 +105,10 @@ const Awesome: React.FC<Props> = ({ name, awesome, query }: Props): JSX.Element 
     }
     setQuerying(!!query)
   }, [query])
+
+  if (loading) {
+    return <Loader type={2} />
+  }
 
   // https://www.re[markdown]it.com/r/reactjs/comments/8k49m3/can_i_render_a_dom_element_inside_jsx/dz5cexl/
   return (
