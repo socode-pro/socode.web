@@ -160,13 +160,13 @@ const Drawer: React.FC = (): JSX.Element => {
                 href='https://t.me/SocodePro'
                 target='_blank'
                 rel='noopener noreferrer'>
-                <h3>telegram</h3>
+                <h3>Telegram</h3>
               </a>
             </li>
             <li>
               <a
                 className={cs(css.navlink, css.wechat)} onClick={() => setWechatQR(true)}>
-                <h3>wechat group</h3>
+                <h3>Wechat Group</h3>
               </a>
             </li>
           </ul>
@@ -305,7 +305,7 @@ const Drawer: React.FC = (): JSX.Element => {
         <button className='modal-close is-large' type='button' aria-label='close' onClick={() => setShortcut(false)} />
       </div>
 
-      <div className={cs('modal', { 'is-active': wechatQR })}>
+      {wechatQR && <div className={cs('modal', 'is-active')}>
         <div className='modal-background' onClick={() => setWechatQR(false)} />
         <div className={cs('modal-card', css.wechatqr)}>
           <header className='modal-card-head'>
@@ -315,7 +315,7 @@ const Drawer: React.FC = (): JSX.Element => {
           <img src={wechatQRUrl} alt='wechat' />
         </div>
         <button className='modal-close is-large' type='button' aria-label='close' onClick={() => setWechatQR(false)} />
-      </div>
+      </div>}
 
       <div className={cs('mask', { 'dis-none': !active })} onClick={() => setActive(false)} />
     </>
