@@ -87,21 +87,21 @@ const trendingModel: TrendingModel = {
     try {
       const data = await fetchRepositories(parms)
       actions.setRepositorys(data.slice(0,12))
+
+      let url = 'https://github.com/trending/'
+      if (programLanguage !== ProgramLanguage.All) {
+        url += language
+      }
+      const params = new URLSearchParams()
+      params.set('since', since)
+      if (spoken) {
+        params.set('spoken_language_code', spoken)
+      }
+      actions.setUrl(`${url}?${params.toString()}`)
     } catch (err) {
       console.error(err)
     }
     actions.setLoading(false)
-    
-    let url = 'https://github.com/trending/'
-    if (language) {
-      url += language
-    }
-    const params = new URLSearchParams()
-    params.set('since', since)
-    if (spoken) {
-      params.set('spoken_language_code', spoken)
-    }
-    actions.setUrl(`${url}?${params.toString()}`)
   }),
 }
 
