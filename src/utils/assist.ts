@@ -88,3 +88,9 @@ export const generateUuid = (): string => {
 
 export const isChrome = !!(window as any).chrome && (!!(window as any).chrome.webstore || !!(window as any).chrome.runtime)
 export const isEdgeChromium = isChrome && (navigator.userAgent.indexOf('Edg') !== -1)
+
+// https://stackoverflow.com/a/52695341/346701
+export const isInStandaloneMode = 
+  window.matchMedia('(display-mode: standalone)').matches
+  || (window.navigator as any).standalone
+  || document.referrer.includes('android-app://')
