@@ -419,7 +419,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                 onChange={handleQueryChange}
                 placeholder={
                   displayKeys? 'filter...'
-                    : awesomeOrDevdoc? 'awesome search...'
+                    : currentKey.awesome && awesomeOrDevdoc? 'awesome search...'
                       : currentKey.devdocs? 'menu search...'
                         : currentKey.readmes ? (currentKey.readmes.searched ? 'content search...' : 'no search...')
                           : ''
