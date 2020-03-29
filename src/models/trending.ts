@@ -1,5 +1,5 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy'
-import { fetchRepositories } from '@huchenme/github-trending'
+import ky from 'ky'
 import dayjs from 'dayjs'
 import { ProgramLanguage, TrendingSpokenLanguage } from '../utils/language'
 import { StoreModel } from './index'
@@ -91,9 +91,13 @@ const trendingModel: TrendingModel = {
     } else {
       actions.setLoading(true)
       try {
-        const data = await fetchRepositories(programLanguage === ProgramLanguage.All ?
-          { spokenLanguageCode: spoken, since } :
-          { spokenLanguageCode: spoken, since, language })
+        const searchParams = new URLSearchParams()
+        searchParams.set('spoken_language_code', spoken)
+        searchParams.set('since', since)
+        if (programLanguage !== ProgramLanguage.All) {
+          searchParams.set('language', language)
+        }
+        const data = await ky.get('https://github-trending-api.now.sh/repositories', { searchParams }).json<Array<Repository>>()
         localStorage.setItem('repos_params', spoken + language + since)
         localStorage.setItem('repos_times', dayjs().toJSON())
         localStorage.setItem('repos', JSON.stringify(data.slice(0,12)))
