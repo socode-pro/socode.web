@@ -1,5 +1,6 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy'
 import { fetchRepositories } from '@huchenme/github-trending'
+import dayjs from 'dayjs'
 import { ProgramLanguage, TrendingSpokenLanguage } from '../utils/language'
 import { StoreModel } from './index'
 
@@ -57,16 +58,16 @@ const trendingModel: TrendingModel = {
     state.repositories = payload
   }),
 
-  spoken: localStorage.getItem('trendingSpokenLanguage') as TrendingSpokenLanguage || TrendingSpokenLanguage.All,
+  spoken: localStorage.getItem('trendingSpoken') as TrendingSpokenLanguage || TrendingSpokenLanguage.All,
   setSpoken: action((state, payload) => {
     state.spoken = payload
-    localStorage.setItem('trendingSpokenLanguage', payload)
+    localStorage.setItem('trendingSpoken', payload)
   }),
 
-  since: localStorage.getItem('trendingRange') as TrendingSince || TrendingSince.Daily,
+  since: localStorage.getItem('trendingSince') as TrendingSince || TrendingSince.Daily,
   setSince: action((state, payload) => {
     state.since = payload
-    localStorage.setItem('trendingRange', payload)
+    localStorage.setItem('trendingSince', payload)
   }),
 
   url: 'https://github.com/trending',
@@ -77,31 +78,38 @@ const trendingModel: TrendingModel = {
   fetch: thunk(async (actions, target, { getState, getStoreState }) => {
     const { spoken, since } = getState()
     const { programLanguage } = getStoreState().storage
-    
     const language =  ProgramLanguage[programLanguage].toLowerCase().replace(' ', '-').replace('#', '%23')
 
-    actions.setLoading(true)
-    const parms = programLanguage === ProgramLanguage.All ?
-      { spokenLanguageCode: spoken, since } :
-      { spokenLanguageCode: spoken, since, language }
-    try {
-      const data = await fetchRepositories(parms)
-      actions.setRepositorys(data.slice(0,12))
-
-      let url = 'https://github.com/trending/'
-      if (programLanguage !== ProgramLanguage.All) {
-        url += language
+    const params = localStorage.getItem('repos_params')
+    const times = localStorage.getItem('repos_times')
+    if (
+      params && params === spoken + language + since &&
+      times && dayjs(times).add(2, 'hour').isAfter(dayjs())
+    ) {
+      const repos = JSON.parse(localStorage.getItem('repos') || '[]')
+      actions.setRepositorys(repos)
+    } else {
+      actions.setLoading(true)
+      try {
+        const data = await fetchRepositories(programLanguage === ProgramLanguage.All ?
+          { spokenLanguageCode: spoken, since } :
+          { spokenLanguageCode: spoken, since, language })
+        localStorage.setItem('repos_params', spoken + language + since)
+        localStorage.setItem('repos_times', dayjs().toJSON())
+        localStorage.setItem('repos', JSON.stringify(data.slice(0,12)))
+        actions.setRepositorys(data.slice(0,12))
+      } catch (err) {
+        console.error(err)
       }
-      const params = new URLSearchParams()
-      params.set('since', since)
-      if (spoken) {
-        params.set('spoken_language_code', spoken)
-      }
-      actions.setUrl(`${url}?${params.toString()}`)
-    } catch (err) {
-      console.error(err)
+      actions.setLoading(false)
     }
-    actions.setLoading(false)
+
+    const urlparams = new URLSearchParams()
+    urlparams.set('since', since)
+    if (spoken) {
+      urlparams.set('spoken_language_code', spoken)
+    }
+    actions.setUrl(`https://github.com/trending/${programLanguage !== ProgramLanguage.All? language: ''}?${urlparams.toString()}`)
   }),
 }
 
