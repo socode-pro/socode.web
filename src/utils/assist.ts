@@ -94,3 +94,5 @@ export const isInStandaloneMode =
   window.matchMedia('(display-mode: standalone)').matches
   || (window.navigator as any).standalone
   || document.referrer.includes('android-app://')
+
+export const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1
