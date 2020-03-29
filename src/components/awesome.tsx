@@ -47,7 +47,7 @@ const Awesome: React.FC<Props> = ({ name, awesome, query }: Props): JSX.Element 
   const [markup, setMarkup] = useState<string | null>(null)
   const [querying, setQuerying] = useState<boolean>(false)
 
-  const loading = useStoreState<boolean>(state => state.devdocs.loading)
+  const loading = useStoreState<boolean>(state => state.awesome.loading)
   const markdown = useStoreState<string>(state => state.awesome.markdown)
   const getMarkdown = useStoreActions(actions => actions.awesome.getMarkdown)
 
