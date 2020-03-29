@@ -16,7 +16,7 @@ import Trending from './trending'
 import Language, { ProgramLanguage } from '../utils/language'
 import { SKey, isAvoidKey } from '../utils/searchkeys'
 import useHotkeys from '../utils/useHotkeys'
-import { StringEnumObjects, IntEnumObjects, winSearchParams } from '../utils/assist'
+import { StringEnumObjects, IntEnumObjects, winSearchParams, isFirefox } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { SearchTimeRange, SocodeResult } from '../services/socode.service'
 import { NpmsResult } from '../services/npms.service'
@@ -130,16 +130,19 @@ const SearchInput: React.FC = (): JSX.Element => {
     [debounceSuggeste, displayKeys, setKquery, setSquery]
   )
 
-  // const handleQueryKeyPress = useCallback((e) => {
-  //   if (e.key === 'Enter') {
-  //   }
-  // }, [searchSubmit])
-
   const clearResultAll = useCallback(() => {
     setSuggesteIndex(-1)
     setSuggeste(null)
     clearResult()
   }, [clearResult])
+
+  const handleQueryKeyPress = useCallback((e) => {
+    if (isFirefox && e.key === 'Enter') {
+      clearResultAll()
+      search()
+      e.target?.blur()
+    }
+  }, [clearResultAll, search])
 
   const handlerSearch = useCallback(
     e => {
@@ -418,14 +421,14 @@ const SearchInput: React.FC = (): JSX.Element => {
                 }}
                 onChange={handleQueryChange}
                 placeholder={
-                  displayKeys? 'filter...'
-                    : currentKey.awesome && awesomeOrDevdoc? 'awesome search...'
-                      : currentKey.devdocs? 'menu search...'
+                  displayKeys ? 'filter...'
+                    : currentKey.awesome && awesomeOrDevdoc ? 'awesome search...'
+                      : currentKey.devdocs ? 'menu search...'
                         : currentKey.readmes ? (currentKey.readmes.searched ? 'content search...' : 'no search...')
                           : ''
                 }
                 ref={inputEl} // https://stackoverflow.com/a/48656310/346701
-                // onKeyPress={handleQueryKeyPress}
+                onKeyPress={isFirefox ? handleQueryKeyPress : () => undefined}
               />
             )}
 
