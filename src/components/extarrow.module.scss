@@ -23,6 +23,9 @@
     &.edge {
       background: url(../images/icons8-edge.svg) left/contain no-repeat;
     }
+    &.firefox {
+      background: url(../images/icons8-firefox.svg) left/contain no-repeat;
+    }
     @include stretched-link;
     h3 {
       @include underline();
