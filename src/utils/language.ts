@@ -22,8 +22,8 @@ export enum InterfaceLanguage {
 
 export const navigatorLanguage = (navigator: string): Language => {
   if (navigator.startsWith(Language.English)) return Language.English
-  if (navigator.startsWith(Language.中文_繁體)) return Language.中文_简体
-  if (navigator.startsWith(Language.中文_简体) || navigator.startsWith('zh')) return Language.中文_简体
+  if (navigator.startsWith(Language.中文_繁體)) return Language.中文_繁體
+  if (navigator.startsWith('zh')) return Language.中文_简体
   if (navigator.startsWith(Language.Português)) return Language.Português
   if (navigator.startsWith(Language.日本語)) return Language.日本語
   if (navigator.startsWith(Language.русский)) return Language.русский
