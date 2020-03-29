@@ -1,9 +1,14 @@
 @import '../styles/variable';
 
 div.trending {
-  margin: 124px auto 0;
-  max-width: 768px;
-  font-family: $font-mono;
+  position: absolute;
+  top: calc(124px + 112px); // Brand 112px
+  width: 100%;
+  & > div.container {
+    margin: 0 auto;
+    max-width: 768px;
+    font-family: $font-mono;
+  }
 }
 
 .header {
