@@ -1043,8 +1043,21 @@ const SKeys: SKey[] = [
     devdocs: 'node',
     // template: 'https://google.com/search?q=%s%20site:nodejs.org',
   },
+  // {
+  //   code: 'npm',
+  //   name: 'npm',
+  //   hideName: true,
+  //   shortkeys: 'npm',
+  //   icon: 'npm.svg',
+  //   backgroundSize: '86%',
+  //   width: 60,
+  //   homelink: 'https://www.npmjs.com',
+  //   template: 'https://npms.io/search?q=%s',
+  //   usage: true,
+  //   tooltips: 'npms.io: a better and open source search for node packages'
+  // },
   {
-    code: 'npm',
+    code: 'npm2',
     name: 'npm',
     hideName: true,
     shortkeys: 'npm',
@@ -1052,10 +1065,9 @@ const SKeys: SKey[] = [
     backgroundSize: '86%',
     width: 60,
     homelink: 'https://www.npmjs.com',
-    template: 'https://npms.io/search?q=%s',
+    template: 'https://www.npmjs.com/search?q=%s',
     usage: true,
-    tooltips: 'npms.io: a better and open source search for node packages'
-  }, // todo: inject result
+  },
   { code: 'nuget', name: 'NuGet', shortkeys: 'ng', icon: 'nuget.svg', template: 'https://nuget.org/packages?q=%s' },
   {
     code: 'perl',
