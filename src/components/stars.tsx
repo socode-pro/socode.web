@@ -45,12 +45,12 @@ interface Props {
 const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
   // const initialPresetStacks = useStoreActions(actions => actions.stars.initialPresetStacks)
   const initialCurrentStack = useStoreActions(actions => actions.stars.initialCurrentStack)
-  const estimateRegion = useStoreActions(actions => actions.storage.estimateRegion)
+  // const estimateRegion = useStoreActions(actions => actions.storage.estimateRegion)
   useEffect(() => {
     // initialPresetStacks()
     initialCurrentStack()
-    estimateRegion()
-  }, [initialCurrentStack, estimateRegion])
+    // estimateRegion()
+  }, [initialCurrentStack])
 
   const language = useStoreState<InterfaceLanguage | undefined>(state => state.storage.settings.language)
   const githubToken = useStoreState<string>(state => state.storage.githubToken)

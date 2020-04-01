@@ -67,8 +67,12 @@ const SearchInput: React.FC = (): JSX.Element => {
   const setSearchLanguage = useStoreActions(actions => actions.search.setSearchLanguageThunk)
   const docLanguage = useStoreState<Language>(state => state.search.docLanguage)
   const setDocLanguage = useStoreActions(actions => actions.search.setDocLanguage)
+
   const programLanguage = useStoreState<ProgramLanguage>(state => state.storage.programLanguage)
+  const region = useStoreState<string>(state => state.storage.region)
   const setProgramLanguage = useStoreActions(actions => actions.storage.setProgramLanguage)
+  const { language, displayTrending } = useStoreState<SettingsType>(state => state.storage.settings)
+  const [awesomeOrDevdoc, setAwesomeOrDevdoc] = useState<boolean>(true)
 
   const result = useStoreState<SocodeResult | null>(state => state.search.result)
   const npmResult = useStoreState<NpmsResult | null>(state => state.search.npmResult)
@@ -79,15 +83,14 @@ const SearchInput: React.FC = (): JSX.Element => {
   const clearResult = useStoreActions(actions => actions.search.clearResult)
   const lunchUrlAction = useStoreActions(actions => actions.search.lunchUrl)
 
-  const { language, displayTrending } = useStoreState<SettingsType>(state => state.storage.settings)
-  const [awesomeOrDevdoc, setAwesomeOrDevdoc] = useState<boolean>(true)
-
   // const initialKeys = useStoreActions(actions => actions.searchKeys.initialKeys)
   const initialCurrentKey = useStoreActions(actions => actions.searchKeys.initialCurrentKey)
+  const estimateRegion = useStoreActions(actions => actions.storage.estimateRegion)
   useEffect(() => {
     // initialKeys()
     initialCurrentKey()
-  }, [initialCurrentKey])
+    estimateRegion()
+  }, [initialCurrentKey, estimateRegion])
 
   const dsConfig = useMemo(() => {
     if (currentKey && currentKey.docsearch) {
@@ -299,6 +302,12 @@ const SearchInput: React.FC = (): JSX.Element => {
           if (key.disableLang) {
             return key.disableLang !== language
           }
+          if (key.forCN && region !== 'CN') {
+            return false
+          }
+          if (key.forCN === false && region === 'CN') {
+            return false
+          }
           return true
         })
         .map(key => {
@@ -364,7 +373,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           )
         })
     },
-    [language, changeKey, addPin, removePin]
+    [region, language, changeKey, removePin, addPin]
   )
 
   useHotkeys(
