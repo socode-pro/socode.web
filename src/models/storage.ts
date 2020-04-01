@@ -69,13 +69,14 @@ const storageModel: StorageModel = {
   region: '',
   setRegion: action((state, payload) => {
     state.region = payload
+    console.log(`region ${payload}`)
     localStorage.setItem('region', JSON.stringify({ value: payload, time: dayjs().toJSON()}))
   }),
   estimateRegion: thunk(async (actions) => {
     const region = localStorage.getItem('region')
     if (region) {
       const { value, time } = JSON.parse(region)
-      if (time && dayjs(time).add(7, 'day').isAfter(dayjs())) {
+      if (time && dayjs(time).add(1, 'day').isAfter(dayjs())) {
         actions.setRegion(value || '')
         return
       }
