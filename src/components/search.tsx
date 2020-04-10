@@ -72,7 +72,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const region = useStoreState<string>(state => state.storage.region)
   const setProgramLanguage = useStoreActions(actions => actions.storage.setProgramLanguage)
   const { language, displayTrending } = useStoreState<SettingsType>(state => state.storage.settings)
-  const [awesomeOrDevdoc, setAwesomeOrDevdoc] = useState<boolean>(true)
+  const [awesomeOrDevdoc, setAwesomeOrDevdoc] = useState<boolean>(false)
 
   const result = useStoreState<SocodeResult | null>(state => state.search.result)
   const npmResult = useStoreState<NpmsResult | null>(state => state.search.npmResult)
