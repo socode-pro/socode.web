@@ -441,7 +441,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               />
             )}
 
-            {!displayKeys && dsConfig && docsearchHack && (
+            {dsConfig && docsearchHack && (
               <div key={currentKey.code} className={cs(css.docsearch)}>
                 <input
                   type='search'
