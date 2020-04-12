@@ -205,6 +205,62 @@ const SKeys: SKey[] = [
     devdocs: 'clojure~1.10',
   },
   {
+    code: 'command',
+    name: 'The Art of Command Line',
+    shortkeys: 'cl',
+    icon: 'command.png',
+    homelink: 'https://github.com/jlevy/the-art-of-command-line',
+    readmes: {
+      base: 'jlevy/the-art-of-command-line',
+      paths: [
+        {
+          lang: Language.English,
+          path: '/README.md',
+        },
+        {
+          lang: Language.Español,
+          path: '/README-es.md',
+        },
+        {
+          lang: Language.français,
+          path: '/README-fr.md',
+        },
+        {
+          lang: Language.Italiano,
+          path: '/README-it.md',
+        },
+        {
+          lang: Language.Português,
+          path: '/README-pt_BR.md',
+        },
+        {
+          lang: Language.中文_简体,
+          path: '/README-zh.md',
+        },
+        {
+          lang: Language.中文_繁體,
+          path: '/README-zh-Hant.md',
+        },
+        {
+          lang: Language.日本語,
+          path: '/README-ja.md',
+        },
+        {
+          lang: Language.한국어,
+          path: '/README-ko.md',
+        },
+        {
+          lang: Language.Deutsche,
+          path: '/README-de.md',
+        },
+        {
+          lang: Language.русский,
+          path: '/README-ru.md',
+        },
+      ],
+    },
+  },
+  {
     code: 'composer',
     name: 'Composer',
     shortkeys: 'cp',
