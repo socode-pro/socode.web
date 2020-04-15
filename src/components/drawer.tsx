@@ -171,6 +171,15 @@ const Drawer: React.FC = (): JSX.Element => {
             </li>
             <li>
               <a
+                className={cs(css.navlink, css.producthunt)}
+                href='https://www.producthunt.com/posts/socode-pro'
+                target='_blank'
+                rel='noopener noreferrer'>
+                <h3>Product Hunt</h3>
+              </a>
+            </li>
+            <li>
+              <a
                 className={cs(css.navlink, css.email)} href='mailto:elliotreborn@gmail.com'>
                 <i className={cs(css.iemail, 'fa-email')} />
                 <h3>Email</h3>

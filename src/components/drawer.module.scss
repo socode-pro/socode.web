@@ -81,16 +81,20 @@
     &.shortcut {
       background: #fff url(../images/icons8-keyboard-100.png) left 0.5em center/50px 50px no-repeat;
     }
-    &.spectrum {
-      background: #fff url(../images/spectrum.svg) left 0.7em center/30px 30px no-repeat;
-      padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
-    }
+    // &.spectrum {
+    //   background: #fff url(../images/spectrum.svg) left 0.7em center/30px 30px no-repeat;
+    //   padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
+    // }
     &.discord {
       background: #fff url(../images/discord.svg) left 0.6em center/30px 30px no-repeat;
       padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
     }
     &.telegram {
       background: #fff url(../images/telegram.svg) left 0.9em center/22px 22px no-repeat;
+      padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
+    }
+    &.producthunt {
+      background: #fff url(../images/producthunt.svg) left 0.9em center/22px 22px no-repeat;
       padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
     }
     &.wechat {
