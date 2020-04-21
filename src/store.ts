@@ -1,4 +1,4 @@
-import { createStore, persist } from 'easy-peasy'
+import { createStore, persist, PersistConfig } from 'easy-peasy'
 import model from './models'
 import * as searchService from './services/socode.service'
 import * as npmsService from './services/npms.service'
@@ -14,7 +14,11 @@ export interface Injections {
   starsService: typeof starsService
 }
 
-const store = createStore(persist(model), {
+const persistConfig: PersistConfig<typeof model> = {
+  blacklist: ['trending'],
+}
+
+const store = createStore(persist(model, persistConfig), {
   // 👇 provide injections to our store
   injections: { searchService, npmsService, starsService } as Injections,
 })
