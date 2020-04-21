@@ -1,4 +1,4 @@
-import { Action, action, Thunk, thunk } from 'easy-peasy'
+import { Action, action, Thunk, thunk, ThunkOn, thunkOn } from 'easy-peasy'
 import ky from 'ky'
 import dayjs from 'dayjs'
 import { ProgramLanguage, TrendingSpokenLanguage } from '../utils/language'
@@ -43,8 +43,9 @@ export interface TrendingModel {
 
   url: string
   setUrl: Action<TrendingModel, string>
-  
+
   fetch: Thunk<TrendingModel, void, void, StoreModel>
+  onFetchParamsChanged: ThunkOn<TrendingModel, void, StoreModel>
 }
 
 const trendingModel: TrendingModel = {
@@ -116,6 +117,17 @@ const trendingModel: TrendingModel = {
     }
     actions.setUrl(`https://github.com/trending/${programLanguage !== ProgramLanguage.All? language: ''}?${urlparams.toString()}`)
   }),
+
+  onFetchParamsChanged: thunkOn(
+    (actions, storeActions) => [
+      actions.setSpoken,
+      actions.setSince,
+      storeActions.storage.setProgramLanguage,
+    ],
+    (actions, target, { getState }) => {
+      actions.fetch()
+    },
+  ),
 }
 
 export default trendingModel
