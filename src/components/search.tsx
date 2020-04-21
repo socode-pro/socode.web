@@ -266,7 +266,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         apiKey: dsConfig.apiKey,
         indexName: dsConfig.indexName,
         inputSelector: `#docsearch_${currentKey.code}`,
-        algoliaOptions: { ...dsConfig.algoliaOptions, hitsPerPage: 10 },
+        algoliaOptions: { ...dsConfig.algoliaOptions, hitsPerPage: 7 },
         handleSelected: (input, event, suggestion) => {
           window.open(suggestion.url, '_blank')?.focus()
         },
