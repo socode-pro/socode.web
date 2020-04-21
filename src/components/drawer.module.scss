@@ -12,6 +12,12 @@
 }
 
 .drawer {
+  overflow: auto;
+  &::-webkit-scrollbar-track {
+    background: $white;
+    border: 1px solid $white;
+  }
+
   width: 380px;
   position: fixed;
   right: 0;
@@ -28,12 +34,8 @@
     transform: translateX(0%);
   }
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   .jacket {
     padding: 20px;
-    flex-grow: 1;
   }
   .skirt {
     padding: 20px 20px 20px;
