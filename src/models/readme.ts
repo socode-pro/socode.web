@@ -3,49 +3,55 @@ import ky from 'ky'
 import dayjs from 'dayjs'
 
 export interface ReadmeModel {
+  loading: boolean
+  setLoading: Action<ReadmeModel, boolean>
+
   markdown: string
-  setMarkdown: Action<ReadmeModel, string>
-  setMarkdownStorage: Action<ReadmeModel, { name: string; readme: string }>
+  setMarkdown: Action<ReadmeModel, { name: string; readme: string; storage?: boolean }>
   getMarkdown: Thunk<ReadmeModel, { base: string; path: string }>
 }
 
 const readmeModel: ReadmeModel = {
-  markdown: '',
-  setMarkdown: action((state, payload) => {
-    state.markdown = payload
+  loading: false,
+  setLoading: action((state, payload) => {
+    state.loading = payload
   }),
-  setMarkdownStorage: action((state, { name, readme }) => {
-    try {
+
+  markdown: '',
+  setMarkdown: action((state, { name, readme, storage }) => {
+    state.markdown = readme
+    if (storage) {
       localStorage.setItem(`readme_${name}`, readme)
-      state.markdown = readme
       localStorage.setItem(`readme_${name}_time`, dayjs().toJSON())
-    } catch (err) {
-      console.error(err)
     }
   }),
   getMarkdown: thunk(async (actions, { base, path }) => {
     if (!path) return
+    actions.setLoading(true)
+
     const name = base + path
     try {
-      const time = localStorage.getItem(`readme_${name}_time`)
-      if (
-        time &&
-        dayjs(time)
-          .add(1, 'day')
-          .isAfter(dayjs())
-      ) {
-        const markdown = localStorage.getItem(`readme_${name}`)
-        if (markdown) {
-          actions.setMarkdown(markdown || '')
-          return
-        }
-      }
+      // const time = localStorage.getItem(`readme_${name}_time`)
+      // if (
+      //   time &&
+      //   dayjs(time)
+      //     .add(1, 'day')
+      //     .isAfter(dayjs())
+      // ) {
+      //   const markdown = localStorage.getItem(`readme_${name}`)
+      //   if (markdown) {
+      //     actions.setMarkdown({ name, readme: markdown || '' })
+      //     actions.setLoading(false)
+      //     return
+      //   }
+      // }
 
       const markdown = await ky.get(`https://raw.githubusercontent.com/${base}/master${path}`).text()
-      actions.setMarkdownStorage({ name, readme: markdown })
+      actions.setMarkdown({ name, readme: markdown || '', storage: true })
     } catch (err) {
       console.warn('ReadmeModel.getMarkdown', err)
     }
+    actions.setLoading(false)
   }),
 }
 
