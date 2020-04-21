@@ -61,9 +61,7 @@
   & > .prefix {
     @include ms-respond(font-size, 0);
     display: block;
-    font-weight: 400;
     user-select: none;
-    line-height: 1.5em;
     padding: 2px 8px;
     border-radius: 3px;
     color: rgba($dh-mute, 0.5);
