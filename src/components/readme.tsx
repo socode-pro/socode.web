@@ -6,6 +6,7 @@ import { transRelationHref } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import Language from '../utils/language'
 import css from './readme.module.scss'
+import Loader from './loader/loader1'
 
 interface Item {
   index: number
@@ -77,6 +78,7 @@ const Readme: React.FC<Props> = ({ base, paths, query }: Props): JSX.Element => 
   const docLanguage = useStoreState<Language>(state => state.search.docLanguage)
   const setDocLanguage = useStoreActions(actions => actions.search.setDocLanguage)
 
+  const loading = useStoreState<boolean>(state => state.readme.loading)
   const markdown = useStoreState<string>(state => state.readme.markdown)
   const getMarkdown = useStoreActions(actions => actions.readme.getMarkdown)
 
@@ -142,6 +144,10 @@ const Readme: React.FC<Props> = ({ base, paths, query }: Props): JSX.Element => 
     }
     setQuerying(!!query)
   }, [base, query])
+
+  if (loading) {
+    return <Loader type={2} />
+  }
 
   return (
     <>

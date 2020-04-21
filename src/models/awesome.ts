@@ -44,6 +44,7 @@ const awesomeModel: AwesomeModel = {
       //   const markdown = localStorage.getItem(`awesome_${payload.name}`)
       //   if (markdown) {
       //     actions.setMarkdown(markdown || '')
+      //     actions.setLoading(false)
       //     return
       //   }
       // }     

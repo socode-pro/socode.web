@@ -117,16 +117,19 @@ const searchKeysModel: SearchKeysModel = {
     localStorage.setItem('currentKey', payload.code)
   }),
   initialCurrentKey: action((state) => {
-    let key
     const params = new URLSearchParams(window.location.search)
+
     if (params.has('k')) {
-      key = state.keys.find(k => k.code === params.get('k'))
+      const key = state.keys.find(k => k.code === params.get('k'))
+      if (key) {
+        state.currentKey = key
+        return
+      }
     }
-    if (!key) {
-      const code = localStorage.getItem('currentKey')
-      key = state.keys.find(k => k.code === code)
-    }
-    if (key) {
+
+    const code = localStorage.getItem('currentKey')
+    const key = state.keys.find(k => k.code === code)
+    if (key && !key.devdocs) {
       state.currentKey = key
     }
   }),
