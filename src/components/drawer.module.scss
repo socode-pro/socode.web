@@ -94,8 +94,9 @@
       padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
     }
     &.producthunt {
-      background: #fff url(../images/producthunt.svg) left 0.9em center/22px 22px no-repeat;
-      padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
+      background: #fafafa url(../images/producthunt.svg) center/22px 22px no-repeat;
+      padding: 0.5em 0.5em 0.5em calc(0.5em + 22px);
+      // padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
     }
     &.wechat {
       background: #fff url(../images/wechat.svg) left 0.9em center/22px 22px no-repeat;

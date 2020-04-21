@@ -1,4 +1,4 @@
-import { Action, action, Thunk, thunk, ThunkOn, thunkOn } from 'easy-peasy'
+import { Action, action, Thunk, thunk, ThunkOn, thunkOn, Computed, computed } from 'easy-peasy'
 import ky from 'ky'
 import dayjs from 'dayjs'
 import { ProgramLanguage, TrendingSpokenLanguage } from '../utils/language'
@@ -34,6 +34,7 @@ export interface TrendingModel {
 
   repositories: Array<Repository>
   setRepositorys: Action<TrendingModel, Array<Repository>>
+  list: Computed<TrendingModel, Array<Repository>>
 
   spoken: TrendingSpokenLanguage
   setSpoken: Action<TrendingModel, TrendingSpokenLanguage>
@@ -43,6 +44,9 @@ export interface TrendingModel {
 
   url: string
   setUrl: Action<TrendingModel, string>
+
+  expanded: boolean
+  onReadMore: Action<TrendingModel>
 
   fetch: Thunk<TrendingModel, void, void, StoreModel>
   onFetchParamsChanged: ThunkOn<TrendingModel, void, StoreModel>
@@ -58,6 +62,9 @@ const trendingModel: TrendingModel = {
   setRepositorys: action((state, payload) => {
     state.repositories = payload
   }),
+  list: computed(state =>
+    state.expanded ? state.repositories : state.repositories.slice(0, 10)
+  ),
 
   spoken: localStorage.getItem('trendingSpoken') as TrendingSpokenLanguage || TrendingSpokenLanguage.All,
   setSpoken: action((state, payload) => {
@@ -74,6 +81,15 @@ const trendingModel: TrendingModel = {
   url: 'https://github.com/trending',
   setUrl: action((state, payload) => {
     state.url = payload
+  }),
+
+  expanded: false,
+  onReadMore: action((state) => {
+    if (state.expanded) {
+      window.open(state.url, '_blank')?.focus()
+    } else {
+      state.expanded = true
+    }
   }),
 
   fetch: thunk(async (actions, target, { getState, getStoreState }) => {
@@ -100,7 +116,7 @@ const trendingModel: TrendingModel = {
           searchParams.set('language', language)
         }
         const data = await ky.get('https://github-trending-api.now.sh/repositories', { searchParams }).json<Array<Repository>>()
-        actions.setRepositorys(data.slice(0,12))
+        actions.setRepositorys(data)
         // localStorage.setItem('repos_params', spoken + language + since)
         // localStorage.setItem('repos_times', dayjs().toJSON())
         // localStorage.setItem('repos', JSON.stringify(data.slice(0,12)))

@@ -171,15 +171,6 @@ const Drawer: React.FC = (): JSX.Element => {
             </li>
             <li>
               <a
-                className={cs(css.navlink, css.producthunt)}
-                href='https://www.producthunt.com/posts/socode-pro'
-                target='_blank'
-                rel='noopener noreferrer'>
-                <h3>Product Hunt</h3>
-              </a>
-            </li>
-            <li>
-              <a
                 className={cs(css.navlink, css.email)} href='mailto:elliotreborn@gmail.com'>
                 <i className={cs(css.iemail, 'fa-email')} />
                 <h3>Email</h3>
@@ -248,16 +239,21 @@ const Drawer: React.FC = (): JSX.Element => {
         </aside>
         <footer className={cs('menu', css.skirt)}>
           <p className='menu-label'>Footer</p>
+            <a
+              className={cs(css.navlink, css.producthunt)}
+              href='https://www.producthunt.com/posts/socode-pro'
+              target='_blank'
+              rel='noopener noreferrer'>
+              {/* <h3>Product Hunt</h3> */}
+            </a>
+            <a
+              className={cs(css.navlink, css.twitter)}
+              href='https://twitter.com/socode7'
+              target='_blank'
+              rel='noopener noreferrer'>
+              {/* <h3>twitter</h3> */}
+            </a>
             {/* <a>投放广告</a> */}
-            {language !== InterfaceLanguage.中文 && (
-              <a
-                className={cs(css.navlink, css.twitter)}
-                href='https://twitter.com/socode7'
-                target='_blank'
-                rel='noopener noreferrer'>
-                {/* <h3>twitter</h3> */}
-              </a>
-            )}
             {language === InterfaceLanguage.中文 && (
               <p>
                 <a href='http://beian.miit.gov.cn/state/outPortal/loginPortal.action'>苏ICP备18044337号-2</a>

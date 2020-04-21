@@ -12,8 +12,8 @@ const programLanguageOptions = IntEnumObjects(ProgramLanguage, 'language:')
 const spokenLanguageOptions = StringEnumObjects(TrendingSpokenLanguage, 'spoken:')
 
 const Trending: React.FC = (): JSX.Element => {
-  const { loading, repositories, spoken, since, url } = useStoreState(state => state.trending)
-  const { setSpoken, setSince, fetch } = useStoreActions(actions => actions.trending)
+  const { loading, list, spoken, since } = useStoreState(state => state.trending)
+  const { setSpoken, setSince, fetch, onReadMore } = useStoreActions(actions => actions.trending)
   const { programLanguage } = useStoreState(state => state.storage)
   const setProgramLanguage = useStoreActions(actions => actions.storage.setProgramLanguage)
 
@@ -57,7 +57,7 @@ const Trending: React.FC = (): JSX.Element => {
         {loading && <Loader type={2} gray />}
 
         {!loading && <ul className={css.result}>
-          {repositories.map(r => (
+          {list.map(r => (
             <li key={r.author + r.name}>
               <h4>
                 <a href={r.url} target='_blank' rel='noopener noreferrer'>
@@ -75,7 +75,7 @@ const Trending: React.FC = (): JSX.Element => {
           ))}
         </ul>}
 
-        {!loading && <a className={css.more} href={url} target='_blank' rel='noopener noreferrer'>READ MORE...</a>}
+        {!loading && <a className={css.more} onClick={() => onReadMore()}>READ MORE...</a>}
       </div>
     </div>
   )
