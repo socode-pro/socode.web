@@ -27,6 +27,7 @@ export interface SKey {
     indexName: string
     algoliaOptions?: object
     lang: Language
+    byAutocomplete?: boolean
   }>
   readmes?: {
     base: string
@@ -1283,6 +1284,17 @@ const SKeys: SKey[] = [
   },
   { code: 'pypi', name: 'PyPI', shortkeys: 'pp', icon: 'pypi.svg', template: 'https://pypi.org/search/?q=%s' },
   {
+    code: 'rails',
+    name: 'Rails',
+    hideName: true,
+    width: 100,
+    shortkeys: 'ra',
+    icon: 'rails.svg',
+    homelink: 'https://www.ruby-lang.org',
+    awesome: 'markets/awesome-ruby',
+    devdocs: 'rails~6.0',
+  },
+  {
     code: 'react',
     name: 'React',
     shortkeys: 'ra',
@@ -1375,15 +1387,20 @@ const SKeys: SKey[] = [
     devdocs: 'redis',
   },
   {
-    code: 'rails',
-    name: 'Rails',
-    hideName: true,
-    width: 100,
-    shortkeys: 'ra',
-    icon: 'rails.svg',
-    homelink: 'https://www.ruby-lang.org',
-    awesome: 'markets/awesome-ruby',
-    devdocs: 'rails~6.0',
+    code: 'rework',
+    name: 'Rework',
+    shortkeys: 'rw',
+    icon: 'rework.png',
+    homelink: 'https://rework.tools/',
+    docsearch: [
+      {
+        lang: Language.English,
+        appId: 'ECKYRBEJ9P',
+        apiKey: 'bbc3b58a38aed11bb41e9170140883bd',
+        indexName: 'rework.tools',
+        byAutocomplete: true
+      },
+    ],
   },
   {
     code: 'ruby',

@@ -3,6 +3,8 @@ import { useSpring, animated } from 'react-spring'
 import dayjs from 'dayjs'
 import debounce from 'lodash/debounce'
 import docsearch from 'docsearch.js'
+import algoliasearch from 'algoliasearch'
+import autocomplete from 'autocomplete.js'
 import cs from 'classnames'
 import Highlighter from 'react-highlight-words'
 import Brand from './brand'
@@ -28,6 +30,17 @@ import Loader1 from './loader/loader1'
 import { ReactComponent as Github } from '../images/github.svg'
 
 const GithubStars = lazy(() => import('./stars'))
+
+const suggestion = (data): string => {
+  const template = `<a href='${data.permalink}' class='rework-item tile' target='_blank'>
+    <div class='tile-icon'><img src='${data.image}'/></div>
+    <div class='tile-content'>
+      <h2 class='tile-title'>${data.title}</h2>
+      <h3 class='tile-subtitle'>${data.description}</h3>
+    </div>
+  </a>`
+  return template 
+}
 
 const languageOptions = StringEnumObjects(Language)
 const programLanguageOptions = IntEnumObjects(ProgramLanguage)
@@ -238,45 +251,60 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    if (dsConfig && docsearchHack) {
-      let customConfig = {}
-      if (currentKey.code === 'eslint' && dsConfig.lang === Language.中文_简体) {
-        customConfig = {
-          transformData: hits => {
-            return hits.map(hit => {
-              hit.url = hit.url.replace('https://eslint.org', 'https://cn.eslint.org')
-              return hit
-            })
-          }
-        }
-      } else if (currentKey.code === 'gradle') {
-        customConfig = {
-          transformData: hits => {
-            return hits.map(hit => {
-              if (hit.anchor.substring(0, 10) === 'org.gradle') {
-                hit.hierarchy.lvl0 = 'DSL Reference'
-              }
-              return hit
-            })
-          }
+    if (!dsConfig || !docsearchHack) return
+
+    if (dsConfig.byAutocomplete) {
+      const client = algoliasearch(dsConfig.appId, dsConfig.apiKey)
+      const index = client.initIndex(dsConfig.indexName)
+      autocomplete(`#docsearch_${currentKey.code}`, {
+        hint: false,
+        // debug: true,
+      }, [{
+          source: autocomplete.sources.hits(index, { hitsPerPage: 10 }),
+          templates: { suggestion }
+      }])
+      return
+    }
+
+    let customConfig = {}
+    if (currentKey.code === 'eslint' && dsConfig.lang === Language.中文_简体) {
+      customConfig = {
+        transformData: hits => {
+          return hits.map(hit => {
+            hit.url = hit.url.replace('https://eslint.org', 'https://cn.eslint.org')
+            return hit
+          })
         }
       }
-      docsearch({
-        appId: dsConfig.appId,
-        apiKey: dsConfig.apiKey,
-        indexName: dsConfig.indexName,
-        inputSelector: `#docsearch_${currentKey.code}`,
-        algoliaOptions: { ...dsConfig.algoliaOptions, hitsPerPage: 7 },
-        handleSelected: (input, event, suggestion) => {
-          window.open(suggestion.url, '_blank')?.focus()
-        },
-        autocompleteOptions: {
-          tabAutocomplete: false,
-        },
-        debug: false,
-        ...customConfig
-      })
+    } else if (currentKey.code === 'gradle') {
+      customConfig = {
+        transformData: hits => {
+          return hits.map(hit => {
+            if (hit.anchor.substring(0, 10) === 'org.gradle') {
+              hit.hierarchy.lvl0 = 'DSL Reference'
+            }
+            return hit
+          })
+        }
+      }
     }
+
+    docsearch({
+      appId: dsConfig.appId,
+      apiKey: dsConfig.apiKey,
+      indexName: dsConfig.indexName,
+      inputSelector: `#docsearch_${currentKey.code}`,
+      algoliaOptions: { ...dsConfig.algoliaOptions, hitsPerPage: 7 },
+      handleSelected: (input, event, data) => {
+        window.open(data.url, '_blank')?.focus()
+      },
+      autocompleteOptions: {
+        tabAutocomplete: false,
+        hint: false,
+      },
+      debug: false,
+      ...customConfig
+    })
   }, [currentKey.code, docsearchHack, dsConfig])
 
   const changeKey = useCallback(

@@ -8,7 +8,7 @@
     "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "^10.0.1",
     "@testing-library/user-event": "^10.0.0",
-    "algoliasearch": "^4.1.0",
+    "algoliasearch": "^3.25.1",
     "bulma": "^0.8.1",
     "bulma-checkradio": "^1.1.1",
     "bulma-toast": "^1.5.4",
