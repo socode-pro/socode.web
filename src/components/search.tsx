@@ -9,6 +9,7 @@ import cs from 'classnames'
 import Highlighter from 'react-highlight-words'
 import Brand from './brand'
 import CheatSheets from './cheatsheets'
+import Rework from './rework'
 import Tools from './tools'
 import Awesome from './awesome'
 import Readme from './readme'
@@ -473,7 +474,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               <div key={currentKey.code} className={cs(css.docsearch)}>
                 <input
                   type='search'
-                  placeholder='document search...'
+                  placeholder='search...'
                   className={cs(css.input)}
                   spellCheck={false}
                   autoFocus
@@ -694,6 +695,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           )}
 
           {!displayKeys && currentKey.code === 'cheatsheets' && <CheatSheets query={squery} />}
+          {!displayKeys && currentKey.code === 'rework' && <Rework />}
           {!displayKeys && currentKey.code === 'tools' && <Tools query={squery} />}
           {!displayKeys && currentKey.code === 'github_stars' && (
             <Suspense fallback={<Loader1 type={2} />}>
