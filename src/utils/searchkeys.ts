@@ -1102,10 +1102,10 @@ const SKeys: SKey[] = [
     // template: 'https://google.com/search?q=%s%20site:nodejs.org',
   },
   {
-    code: 'npm',
-    name: 'npm',
+    code: 'npms',
+    name: 'npms.io',
     hideName: true,
-    shortkeys: 'npm',
+    shortkeys: 'npms',
     icon: 'npm.svg',
     backgroundSize: '86%',
     width: 60,
@@ -1116,8 +1116,8 @@ const SKeys: SKey[] = [
     tooltips: 'npms.io: a better and open source search for node packages'
   },
   {
-    code: 'npm_official',
-    name: 'npm official',
+    code: 'npm',
+    name: 'npm',
     hideName: true,
     shortkeys: 'npm',
     icon: 'npm.svg',
@@ -1126,7 +1126,6 @@ const SKeys: SKey[] = [
     homelink: 'https://www.npmjs.com',
     template: 'https://www.npmjs.com/search?q=%s',
     forCN: true,
-    usage: true,
   },
   { code: 'nuget', name: 'NuGet', shortkeys: 'ng', icon: 'nuget.svg', template: 'https://nuget.org/packages?q=%s' },
   {
@@ -1288,7 +1287,7 @@ const SKeys: SKey[] = [
     name: 'Rails',
     hideName: true,
     width: 100,
-    shortkeys: 'ra',
+    shortkeys: 'rl',
     icon: 'rails.svg',
     homelink: 'https://www.ruby-lang.org',
     awesome: 'markets/awesome-ruby',
@@ -1390,8 +1389,10 @@ const SKeys: SKey[] = [
     code: 'rework',
     name: 'Rework',
     shortkeys: 'rw',
+    usage: true,
     icon: 'rework.png',
     homelink: 'https://rework.tools/',
+    tooltips: '效率工具导航',
     docsearch: [
       {
         lang: Language.English,
@@ -1539,7 +1540,6 @@ const SKeys: SKey[] = [
   {
     code: 'tldr',
     name: 'tldr',
-    usage: true,
     shortkeys: 'tl',
     icon: 'tldr.svg',
     hideName: true,
