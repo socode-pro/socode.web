@@ -1,4 +1,5 @@
 import { Action, action, Thunk, thunk, Computed, computed, ActionOn, actionOn, ThunkOn, thunkOn } from 'easy-peasy'
+import dayjs from 'dayjs'
 import { Injections } from '../store'
 import { StoreModel } from './index'
 import Language, { ProgramLanguage, navigatorLanguage } from '../utils/language'
@@ -9,6 +10,19 @@ import { isAvoidKey } from '../utils/searchkeys'
 
 export interface SMError {
   message: string
+}
+
+const defaultDisplaySubtitle = (): boolean => {
+  const value = localStorage.getItem('displaySubtitle')
+  if (value === null) {
+    const time = localStorage.getItem('displaySubtitleFirstTime')
+    if (!time) {
+      localStorage.setItem('displaySubtitleFirstTime', dayjs().toJSON())
+    } else {
+      return dayjs(time).add(10, 'minute').isAfter(dayjs())    
+    }
+  }
+  return value !== 'false'
 }
 
 export interface SearchModel {
@@ -67,7 +81,7 @@ const searchModel: SearchModel = {
     state.expandView = payload
   }),
 
-  displaySubtitle: localStorage.getItem('displaySubtitle') !== 'false',
+  displaySubtitle: defaultDisplaySubtitle(),
   setDisplaySubtitle: action((state, payload) => {
     state.displaySubtitle = payload
     localStorage.setItem('displaySubtitle', payload.toString())
