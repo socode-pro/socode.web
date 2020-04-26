@@ -54,9 +54,9 @@ const Brand: React.FC = (): JSX.Element => {
         typingDoc.innerHTML = text.substring(0, index + 1)
         setTimeout(() => {
           add(text, index + 1, uu)
-        }, 100)
+        }, 50)
       } else {
-        setTimeout(uu, 3000)
+        setTimeout(uu, 5000)
       }
     }
 
@@ -66,7 +66,7 @@ const Brand: React.FC = (): JSX.Element => {
         typingDoc.innerHTML = text.substring(0, index - 1)
         setTimeout(() => {
           reduce(index - 1, ii)
-        }, 100)
+        }, 50)
       } else {
         setTimeout(ii, 100)
       }
@@ -88,7 +88,7 @@ const Brand: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (displaySubtitle) {
-      window.setTimeout(typingTimer, 5000)
+      window.setTimeout(typingTimer, 7000)
     }
   }, [displaySubtitle, typingTimer])
 
