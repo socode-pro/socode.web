@@ -26,10 +26,11 @@ const Brand: React.FC = (): JSX.Element => {
   const [flipIn, setFlipIn] = useState(displaySubtitle)
   // const dark = useMediaPredicate('(prefers-color-scheme: dark)')
   // const titleColor = dark? 'rgba(153, 136, 119, 0.5)': 'rgba(102, 119, 136, 0.5)'
-  const titleColor = 'rgba(102, 119, 136, 0.5)'
+
+  // const titleColor = 'rgba(102, 119, 136, 0.5)'
 
   const { color, rotate } = useSpring({
-    color: displaySubtitle ? '#FA7C91' : titleColor,
+    // color: displaySubtitle ? '#FA7C91' : titleColor,
     rotate: displaySubtitle ? 90 : 0,
   })
 
@@ -101,40 +102,38 @@ const Brand: React.FC = (): JSX.Element => {
       setFlipIn(true)
       setDisplaySubtitle(true)
     }
-
-    setFlipIn(!flipIn)
-  }, [displaySubtitle, flipIn, setDisplaySubtitle])
+  }, [displaySubtitle, setDisplaySubtitle])
 
   return (
     <>
       <div className={cs(css.brand)}>
-        <a href='/'>$OCODE</a>
-        .PR
+        <a href='/'>$OCODE</a>.PR
         <animated.i
           className={cs(css.toggle)}
           onClick={onToggle}
-          onKeyPress={onToggle}
+          // onKeyPress={onToggle}
           style={{
             // transform: to([rotate, xys], (r, _xys):string => `rotate(${r}deg) perspective(60px) rotateX(${_xys[0]}deg) rotateY(${_xys[1]}deg) scale(${_xys[2]})`),
             transform: to([rotate], (r): string => `rotate(${r}deg)`),
-            color,
+            // color,
           }}
           // onMouseMove={({ clientX: x, clientY: y }) => setXys({ xys: [-(y - 500)/20, (x - 500)/20, 1.1] })}
           // onMouseLeave={() => setXys({ xys: [0, 0, 1] })}
         />
       </div>
+
       {displaySubtitle && <div className={css.subtitle} onClick={onToggle}>
+        <div className={cs(css.text, 'animated', { flipInX: flipIn, flipOutX: !flipIn })}>
 
-        {language === InterfaceLanguage.English && <div
-          className={cs(css.text, 'animated', { flipInX: flipIn, flipOutX: !flipIn })}>
-          Search <span onClick={onWord} className={cs(css.adjective, 'typing')}>programming documents</span> in a quick and comfortable input box.
-        </div>}
+          {language === InterfaceLanguage.中文 && <>
+            在快捷舒适的输入框中搜索 <span onClick={onWord} className={cs(css.adjective, 'typing')}>programming documents</span>
+          </>}
 
-        {language === InterfaceLanguage.中文 && <div
-          className={cs(css.text, 'animated', { flipInX: flipIn, flipOutX: !flipIn })}>
-          在快捷舒适的输入框中搜索 <span onClick={onWord} className={cs(css.adjective, 'typing')}>programming documents</span>
-        </div>}
+          {language === InterfaceLanguage.English && <>
+            Search <span onClick={onWord} className={cs(css.adjective, 'typing')}>programming documents</span> in a quick and comfortable input box.
+          </>}
 
+        </div>
       </div>}
     </>
   )
