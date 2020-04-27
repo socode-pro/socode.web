@@ -18,6 +18,7 @@ import Slogan from './slogan'
 import Trending from './trending'
 import Language, { ProgramLanguage } from '../utils/language'
 import { SKey, isAvoidKey } from '../utils/searchkeys'
+import { rework, electron, ember } from '../utils/algolia_template'
 import useHotkeys from '../utils/useHotkeys'
 import { StringEnumObjects, IntEnumObjects, winSearchParams, isFirefox } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
@@ -31,17 +32,6 @@ import Loader1 from './loader/loader1'
 import { ReactComponent as Github } from '../images/github.svg'
 
 const GithubStars = lazy(() => import('./stars'))
-
-const suggestion = (data): string => {
-  const template = `<a href='${data.permalink}' class='rework-item tile' target='_blank'>
-    <div class='tile-icon'><img src='${data.image}'/></div>
-    <div class='tile-content'>
-      <h2 class='tile-title'>${data.title}</h2>
-      <h3 class='tile-subtitle'>${data.description}</h3>
-    </div>
-  </a>`
-  return template 
-}
 
 const languageOptions = StringEnumObjects(Language)
 const programLanguageOptions = IntEnumObjects(ProgramLanguage)
@@ -257,11 +247,19 @@ const SearchInput: React.FC = (): JSX.Element => {
     if (dsConfig.byAutocomplete) {
       const client = algoliasearch(dsConfig.appId, dsConfig.apiKey)
       const index = client.initIndex(dsConfig.indexName)
+
+      let suggestion = rework
+      if (currentKey.code === 'electron') {
+        suggestion = electron
+      } else if (currentKey.code === 'ember') {
+        suggestion = ember
+      }
+
       autocomplete(`#docsearch_${currentKey.code}`, {
         hint: false,
         // debug: true,
       }, [{
-          source: autocomplete.sources.hits(index, { hitsPerPage: 10 }),
+          source: autocomplete.sources.hits(index, { ...dsConfig.algoliaOptions, hitsPerPage: 10 }),
           templates: { suggestion }
       }])
       return
