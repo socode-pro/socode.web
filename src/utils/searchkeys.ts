@@ -1,8 +1,18 @@
 import Language, { InterfaceLanguage } from './language'
 
+export enum SKeyCategory {
+  Search,
+  Tools,
+  CheatSheets,
+  Document,
+  Collection,
+  Learn,
+}
+
 export interface SKey {
   code: string
   name: string
+  category?: SKeyCategory
   pin?: boolean
   usage?: boolean
   hideName?: boolean
@@ -39,7 +49,7 @@ export interface SKey {
   }
 }
 
-export const isAvoidKey = (key: SKey): boolean =>
+export const UnSearchableKey = (key: SKey): boolean =>
   !!key.docsearch ||
   !!key.devdocs ||
   !!key.readmes ||
@@ -51,6 +61,7 @@ const SKeys: SKey[] = [
   {
     code: '_30seconds',
     name: '30 seconds of code',
+    category: SKeyCategory.Tools,
     shortkeys: '3s',
     icon: '30secondsofcode.png',
     template: 'https://www.30secondsofcode.org/?keyphrase=%s',
@@ -58,6 +69,7 @@ const SKeys: SKey[] = [
   {
     code: 'android',
     name: 'Android',
+    category: SKeyCategory.Document,
     shortkeys: 'ad',
     icon: 'android.svg',
     homelink: 'https://developer.android.com',
@@ -67,6 +79,7 @@ const SKeys: SKey[] = [
   {
     code: 'angular',
     name: 'Angular',
+    category: SKeyCategory.Document,
     shortkeys: 'ng',
     icon: 'angular.svg',
     homelink: 'https://angular.io',
@@ -76,6 +89,7 @@ const SKeys: SKey[] = [
   {
     code: 'ansible',
     name: 'Ansible',
+    category: SKeyCategory.Document,
     shortkeys: 'as',
     icon: 'ansible.svg',
     devdocs: 'ansible~2.9',
@@ -83,6 +97,7 @@ const SKeys: SKey[] = [
   {
     code: 'apache',
     name: 'Apache',
+    category: SKeyCategory.Document,
     shortkeys: 'apc',
     icon: 'apache.png',
     devdocs: 'apache_http_server',
@@ -90,6 +105,7 @@ const SKeys: SKey[] = [
   {
     code: 'apple',
     name: 'Apple Developer',
+    category: SKeyCategory.Document,
     shortkeys: 'ap',
     icon: 'apple.svg',
     homelink: 'https://developer.apple.com',
@@ -98,6 +114,7 @@ const SKeys: SKey[] = [
   {
     code: 'awesome_cheatsheet',
     name: 'Awesome Cheatsheet',
+    category: SKeyCategory.CheatSheets,
     shortkeys: 'ac',
     icon: 'awesome.svg',
     homelink: 'https://github.com/detailyang/awesome-cheatsheet',
@@ -117,6 +134,7 @@ const SKeys: SKey[] = [
   {
     code: 'aws',
     name: 'AWS',
+    category: SKeyCategory.Document,
     shortkeys: 'aws',
     icon: 'aws.svg',
     hideName: true,
@@ -128,6 +146,7 @@ const SKeys: SKey[] = [
   {
     code: 'babel',
     name: 'Babel',
+    category: SKeyCategory.Document,
     shortkeys: 'bb',
     icon: 'babel.svg',
     hideName: true,
@@ -146,6 +165,7 @@ const SKeys: SKey[] = [
   {
     code: 'bash',
     name: 'Bash',
+    category: SKeyCategory.Document,
     shortkeys: 'bs',
     icon: 'bash.svg',
     devdocs: 'bash',
@@ -153,6 +173,7 @@ const SKeys: SKey[] = [
   {
     code: 'bootstrap',
     name: 'Bootstrap',
+    category: SKeyCategory.Document,
     shortkeys: 'bts',
     icon: 'bootstrap.svg',
     homelink: 'https://getbootstrap.com',
@@ -168,6 +189,7 @@ const SKeys: SKey[] = [
   {
     code: 'bundlephobia',
     name: 'Bundlephobia',
+    category: SKeyCategory.Tools,
     shortkeys: 'bp',
     usage: true,
     icon: 'bundlephobia.svg',
@@ -177,6 +199,7 @@ const SKeys: SKey[] = [
   {
     code: 'c_lang',
     name: 'C',
+    category: SKeyCategory.Document,
     shortkeys: 'c',
     icon: 'c_lang.svg',
     devdocs: 'c',
@@ -184,6 +207,7 @@ const SKeys: SKey[] = [
   {
     code: 'cpp',
     name: 'C++',
+    category: SKeyCategory.Document,
     shortkeys: 'cpp',
     icon: 'cpp.svg',
     devdocs: 'cpp',
@@ -191,14 +215,20 @@ const SKeys: SKey[] = [
   {
     code: 'caniuse',
     name: 'Can I use',
+    category: SKeyCategory.Tools,
     shortkeys: 'ciu',
     icon: 'caniuse.svg',
     template: 'https://caniuse.com/#search=%s',
   }, // todo: inject result
-  { code: 'cargo', name: 'cargo', shortkeys: 'cg', icon: 'Cargo.png', template: 'https://crates.io/search?q=%s' },
+  {
+    code: 'cargo', name: 'cargo',
+    category: SKeyCategory.Search,
+    shortkeys: 'cg', icon: 'Cargo.png', template: 'https://crates.io/search?q=%s'
+  },
   {
     code: 'clojure',
     name: 'Clojure',
+    category: SKeyCategory.Document,
     shortkeys: 'cj',
     icon: 'clojure.svg',
     homelink: 'https://clojure.org',
@@ -208,6 +238,7 @@ const SKeys: SKey[] = [
   {
     code: 'command',
     name: 'The Art of Command Line',
+    category: SKeyCategory.Learn,
     shortkeys: 'cl',
     icon: 'command.png',
     homelink: 'https://github.com/jlevy/the-art-of-command-line',
@@ -264,6 +295,7 @@ const SKeys: SKey[] = [
   {
     code: 'composer',
     name: 'Composer',
+    category: SKeyCategory.Search,
     shortkeys: 'cp',
     icon: 'composer.png',
     template: 'https://packagist.org/?query=%s',
@@ -272,15 +304,21 @@ const SKeys: SKey[] = [
     code: 'cocoapods',
     name: 'CocoaPods',
     hideName: true,
+    category: SKeyCategory.Search,
     shortkeys: 'cc',
     icon: 'cocoapods.png',
     width: 110,
     template: 'https://cocoacontrols.com/search?q=%s',
   },
-  { code: 'cheatsheets', name: 'CheatSheets', shortkeys: 'cs', icon: 'devhints.png', usage: true },
+  {
+    code: 'cheatsheets', name: 'CheatSheets',
+    category: SKeyCategory.CheatSheets,
+    shortkeys: 'cs', icon: 'devhints.png', usage: true
+  },
   {
     code: 'crystal',
     name: 'Crystal',
+    category: SKeyCategory.Document,
     shortkeys: 'crs',
     icon: 'crystal.svg',
     homelink: 'https://crystal-lang.org',
@@ -290,6 +328,7 @@ const SKeys: SKey[] = [
   {
     code: 'css',
     name: 'css',
+    category: SKeyCategory.Document,
     shortkeys: 'css',
     icon: 'css.svg',
     devdocs: 'css',
@@ -297,6 +336,7 @@ const SKeys: SKey[] = [
   {
     code: 'dart',
     name: 'Dart',
+    category: SKeyCategory.Document,
     shortkeys: 'dt',
     icon: 'dart.svg',
     homelink: 'https://dart.dev',
@@ -306,6 +346,7 @@ const SKeys: SKey[] = [
   {
     code: 'dayjs',
     name: 'dayjs',
+    category: SKeyCategory.Document,
     shortkeys: 'day',
     icon: 'dayjs.png',
     docsearch: [
@@ -326,6 +367,7 @@ const SKeys: SKey[] = [
   {
     code: 'django',
     name: 'Django',
+    category: SKeyCategory.Document,
     shortkeys: 'dj',
     hideName: true,
     width: 100,
@@ -337,6 +379,7 @@ const SKeys: SKey[] = [
   {
     code: 'druid',
     name: 'druid',
+    category: SKeyCategory.Document,
     shortkeys: 'du',
     icon: 'druid.png',
     hideName: true,
@@ -354,6 +397,7 @@ const SKeys: SKey[] = [
     code: 'docker',
     name: 'Docker',
     hideName: true,
+    category: SKeyCategory.Document,
     shortkeys: 'dk',
     icon: 'docker.svg',
     width: 100,
@@ -365,6 +409,7 @@ const SKeys: SKey[] = [
   {
     code: 'duckduckgo',
     name: 'Duckduckgo',
+    category: SKeyCategory.Search,
     usage: true,
     shortkeys: 'dd',
     icon: 'duckduckgo.svg',
@@ -375,6 +420,7 @@ const SKeys: SKey[] = [
   {
     name: 'Electron',
     code: 'electron',
+    category: SKeyCategory.Document,
     shortkeys: 'et',
     icon: 'electron.svg',
     homelink: 'https://www.electronjs.org',
@@ -393,6 +439,7 @@ const SKeys: SKey[] = [
   {
     code: 'elixir',
     name: 'Elixir',
+    category: SKeyCategory.Document,
     shortkeys: 'ex',
     icon: 'elixir.png',
     homelink: 'https://elixir-lang.org/',
@@ -402,6 +449,7 @@ const SKeys: SKey[] = [
   {
     code: 'ember',
     name: 'Ember',
+    category: SKeyCategory.Document,
     shortkeys: 'eb',
     icon: 'ember.svg',
     hideName: true,
@@ -422,6 +470,7 @@ const SKeys: SKey[] = [
   {
     code: 'eslint',
     name: 'ESLint',
+    category: SKeyCategory.Document,
     shortkeys: 'es',
     icon: 'eslint.svg',
     homelink: 'https://eslint.org',
@@ -444,6 +493,7 @@ const SKeys: SKey[] = [
   {
     code: 'erlang',
     name: 'Erlang',
+    category: SKeyCategory.Document,
     shortkeys: 'el',
     icon: 'erlang.png',
     homelink: 'https://www.erlang.org',
@@ -452,6 +502,7 @@ const SKeys: SKey[] = [
   {
     code: 'explainshell',
     name: 'explainshell',
+    category: SKeyCategory.Tools,
     usage: true,
     shortkeys: 'she',
     icon: 'shell.png',
@@ -461,6 +512,7 @@ const SKeys: SKey[] = [
   {
     code: 'express',
     name: 'Express',
+    category: SKeyCategory.Document,
     shortkeys: 'ep',
     icon: 'expressjs.png',
     homelink: 'https://expressjs.com',
@@ -477,6 +529,7 @@ const SKeys: SKey[] = [
   {
     code: 'fastify',
     name: 'fastify',
+    category: SKeyCategory.Document,
     shortkeys: 'ff',
     icon: 'fastify.png',
     hideName: true,
@@ -494,6 +547,7 @@ const SKeys: SKey[] = [
   {
     code: 'flask',
     name: 'Flask',
+    category: SKeyCategory.Document,
     shortkeys: 'fl',
     icon: 'flask.png',
     homelink: 'https://flask.palletsprojects.com',
@@ -503,6 +557,7 @@ const SKeys: SKey[] = [
   {
     code: 'flutter',
     name: 'Flutter',
+    category: SKeyCategory.Document,
     shortkeys: 'ft',
     icon: 'flutter.svg',
     // hideName: true,
@@ -514,6 +569,7 @@ const SKeys: SKey[] = [
   {
     code: 'fontawesome',
     name: 'Font Awesome',
+    category: SKeyCategory.Tools,
     shortkeys: 'fa',
     icon: 'fontawesome.svg',
     homelink: 'https://fontawesome.com',
@@ -522,6 +578,7 @@ const SKeys: SKey[] = [
   {
     code: 'free_programming_books',
     name: 'Books',
+    category: SKeyCategory.Collection,
     shortkeys: 'fpb',
     usage: true,
     icon: 'free_programming_books.png',
@@ -586,6 +643,7 @@ const SKeys: SKey[] = [
   {
     code: 'g2',
     name: 'G2',
+    category: SKeyCategory.Search,
     shortkeys: 'g2',
     icon: 'g2.svg',
     homelink: 'https://www.g2.com/',
@@ -595,6 +653,7 @@ const SKeys: SKey[] = [
   {
     code: 'gatsby',
     name: 'Gatsby',
+    category: SKeyCategory.Document,
     shortkeys: 'gb',
     icon: 'gatsby.svg',
     hideName: true,
@@ -612,6 +671,7 @@ const SKeys: SKey[] = [
   {
     code: 'git',
     name: 'git docs',
+    category: SKeyCategory.Document,
     usage: true,
     shortkeys: 'git',
     icon: 'git.svg',
@@ -620,6 +680,7 @@ const SKeys: SKey[] = [
   {
     code: 'github',
     name: 'Github',
+    category: SKeyCategory.Search,
     shortkeys: 'gh',
     icon: 'github.svg',
     template: 'https://github.com/search?l=%pl&q=%s',
@@ -630,17 +691,23 @@ const SKeys: SKey[] = [
   {
     code: 'go',
     name: 'Go',
+    category: SKeyCategory.Document,
     shortkeys: 'go',
     icon: 'golang.png',
     homelink: 'https://golang.org',
     awesome: 'avelino/awesome-go',
     devdocs: 'go',
-    // template: 'https://golang.org/search?q=%s',
+    template: 'https://golang.org/search?q=%s',
   },
-  { code: 'godoc', name: 'GoDoc', shortkeys: 'god', icon: 'godoc.png', template: 'https://godoc.org/?q=%s' },
+  {
+    code: 'godoc', name: 'GoDoc',
+    category: SKeyCategory.Search,
+    shortkeys: 'god', icon: 'godoc.png', template: 'https://godoc.org/?q=%s'
+  },
   {
     code: 'googledev',
     name: 'Google Developers',
+    category: SKeyCategory.Document,
     shortkeys: 'ggd',
     icon: 'googledev.svg',
     disableLang: InterfaceLanguage.中文,
@@ -653,6 +720,7 @@ const SKeys: SKey[] = [
   {
     code: 'google',
     name: 'Google',
+    category: SKeyCategory.Search,
     shortkeys: 'gg',
     icon: 'google.png',
     template: 'https://google.com/search?q=%s&hl=%l',
@@ -663,6 +731,7 @@ const SKeys: SKey[] = [
   {
     code: 'gradle',
     name: 'Gradle',
+    category: SKeyCategory.Document,
     shortkeys: 'gd',
     icon: 'gradle.svg',
     hideName: true,
@@ -681,6 +750,7 @@ const SKeys: SKey[] = [
   {
     code: 'grafana',
     name: 'grafana',
+    category: SKeyCategory.Document,
     shortkeys: 'gf',
     icon: 'grafana.svg',
     hideName: true,
@@ -699,6 +769,7 @@ const SKeys: SKey[] = [
   {
     code: 'graphql',
     name: 'graphql',
+    category: SKeyCategory.Document,
     shortkeys: 'gq',
     icon: 'graphql.svg',
     homelink: 'https://graphql.org',
@@ -714,6 +785,7 @@ const SKeys: SKey[] = [
   {
     code: 'gulp',
     name: 'Gulp',
+    category: SKeyCategory.Document,
     shortkeys: 'gp',
     icon: 'gulp.svg',
     backgroundPosition: 'left center',
@@ -729,6 +801,7 @@ const SKeys: SKey[] = [
   {
     code: 'haskell',
     name: 'Haskell',
+    category: SKeyCategory.Document,
     shortkeys: 'hs',
     icon: 'haskell.svg',
     homelink: 'https://www.haskell.org',
@@ -737,6 +810,7 @@ const SKeys: SKey[] = [
   {
     code: 'hex',
     name: 'hex',
+    category: SKeyCategory.Search,
     shortkeys: 'hex',
     icon: 'hex.png',
     template: 'https://hex.pm/packages?search=%s',
@@ -744,6 +818,7 @@ const SKeys: SKey[] = [
   {
     code: 'hugo',
     name: 'Hugo',
+    category: SKeyCategory.Document,
     shortkeys: 'hg',
     icon: 'hugo.svg',
     hideName: true,
@@ -759,6 +834,7 @@ const SKeys: SKey[] = [
   {
     code: 'html',
     name: 'HTML',
+    category: SKeyCategory.Document,
     shortkeys: 'html',
     icon: 'html.svg',
     devdocs: 'html',
@@ -766,6 +842,7 @@ const SKeys: SKey[] = [
   {
     code: 'influxdata',
     name: 'InfluxDB',
+    category: SKeyCategory.Document,
     shortkeys: 'id',
     icon: 'influxdata.svg',
     homelink: 'https://www.influxdata.com',
@@ -774,6 +851,7 @@ const SKeys: SKey[] = [
   {
     code: 'iconfont',
     name: 'Iconfont',
+    category: SKeyCategory.Tools,
     shortkeys: 'if',
     icon: 'iconfont.svg',
     template: 'https://www.iconfont.cn/search/index?searchType=icon&fromCollection=1&q=%s',
@@ -781,6 +859,7 @@ const SKeys: SKey[] = [
   {
     code: 'java',
     name: 'Java',
+    category: SKeyCategory.Document,
     shortkeys: 'jv',
     icon: 'java.png',
     awesome: 'akullpp/awesome-java',
@@ -790,6 +869,7 @@ const SKeys: SKey[] = [
   {
     code: 'javascript',
     name: 'Javascript',
+    category: SKeyCategory.Document,
     shortkeys: 'js',
     icon: 'javascript.svg',
     awesome: 'sorrycc/awesome-javascript',
@@ -798,6 +878,7 @@ const SKeys: SKey[] = [
   {
     code: 'jekyll',
     name: 'Jekyll',
+    category: SKeyCategory.Document,
     shortkeys: 'jk',
     icon: 'jekyll.svg',
     hideName: true,
@@ -815,6 +896,7 @@ const SKeys: SKey[] = [
   {
     code: 'jenkinsx',
     name: 'Jenkins X',
+    category: SKeyCategory.Document,
     shortkeys: 'jk',
     icon: 'jenkinsx.svg',
     homelink: 'https://jenkins-x.io',
@@ -830,6 +912,7 @@ const SKeys: SKey[] = [
   {
     code: 'jquery',
     name: 'jquery',
+    category: SKeyCategory.Document,
     shortkeys: 'jq',
     icon: 'jquery.png',
     hideName: true,
@@ -847,6 +930,7 @@ const SKeys: SKey[] = [
   {
     code: 'jscoach',
     name: 'JS.coach',
+    category: SKeyCategory.Search,
     shortkeys: 'jc',
     usage: true,
     icon: 'jscoach.svg',
@@ -856,6 +940,7 @@ const SKeys: SKey[] = [
   {
     code: 'jsdelivr',
     name: 'jsDelivr',
+    category: SKeyCategory.Tools,
     shortkeys: 'jd',
     icon: 'jsdelivr.svg',
     hideName: true,
@@ -865,6 +950,7 @@ const SKeys: SKey[] = [
   {
     code: 'koa',
     name: 'koa',
+    category: SKeyCategory.Document,
     hideName: true,
     width: 80,
     shortkeys: 'koa',
@@ -876,12 +962,13 @@ const SKeys: SKey[] = [
   {
     code: 'kotlin',
     name: 'Kotlin',
+    category: SKeyCategory.Document,
     shortkeys: 'kl',
     icon: 'kotlin.svg',
     homelink: 'https://kotlinlang.org',
     awesome: 'KotlinBy/awesome-kotlin',
     devdocs: 'kotlin',
-    // docsearch: {
+    // docsearch: { // todo build
     //   appId: '7961PKYRXV',
     //   apiKey: '604fa45d89af86bdf9eed4cc862b2d0b',
     //   indexName: 'prod_KOTLINLANG',
@@ -895,6 +982,7 @@ const SKeys: SKey[] = [
   {
     code: 'laravel',
     name: 'Laravel',
+    category: SKeyCategory.Document,
     shortkeys: 'lar',
     icon: 'laravel.svg',
     homelink: 'https://laravel.com',
@@ -913,6 +1001,7 @@ const SKeys: SKey[] = [
   {
     code: 'leancloud',
     name: 'LeanCloud',
+    category: SKeyCategory.Document,
     shortkeys: 'lc',
     icon: 'leancloud.png',
     availableLang: InterfaceLanguage.中文,
@@ -931,6 +1020,7 @@ const SKeys: SKey[] = [
   {
     code: 'learn_regex',
     name: 'Learn Regex',
+    category: SKeyCategory.Learn,
     usage: true,
     shortkeys: 'lr',
     icon: 'regex.svg',
@@ -980,6 +1070,7 @@ const SKeys: SKey[] = [
   {
     code: 'less',
     name: 'less',
+    category: SKeyCategory.Document,
     hideName: true,
     width: 80,
     shortkeys: 'ls',
@@ -990,6 +1081,7 @@ const SKeys: SKey[] = [
   {
     code: 'lodash',
     name: 'lodash',
+    category: SKeyCategory.Document,
     shortkeys: 'ld',
     icon: 'lodash.svg',
     homelink: 'https://lodash.com',
@@ -998,6 +1090,7 @@ const SKeys: SKey[] = [
   {
     code: 'lua',
     name: 'lua',
+    category: SKeyCategory.Document,
     shortkeys: 'lua',
     icon: 'lua.svg',
     homelink: 'https://www.lua.org',
@@ -1006,6 +1099,7 @@ const SKeys: SKey[] = [
   {
     code: 'markdown',
     name: 'Markdown',
+    category: SKeyCategory.Document,
     shortkeys: 'md',
     icon: 'markdown.svg',
     backgroundPosition: 'left center',
@@ -1014,6 +1108,7 @@ const SKeys: SKey[] = [
   {
     code: 'mariadb',
     name: 'MariaDB',
+    category: SKeyCategory.Document,
     shortkeys: 'mdb',
     icon: 'mariadb.svg',
     homelink: 'https://mariadb.org',
@@ -1022,6 +1117,7 @@ const SKeys: SKey[] = [
   {
     code: 'maven',
     name: 'Maven Repository',
+    category: SKeyCategory.Search,
     hideName: true,
     shortkeys: 'mv',
     icon: 'maven.png',
@@ -1032,6 +1128,7 @@ const SKeys: SKey[] = [
   {
     code: 'meteor',
     name: 'Meteor',
+    category: SKeyCategory.Document,
     shortkeys: 'mt',
     icon: 'meteor.svg',
     homelink: 'https://www.meteor.com',
@@ -1040,6 +1137,7 @@ const SKeys: SKey[] = [
   {
     code: 'material',
     name: 'Material-UI',
+    category: SKeyCategory.Document,
     shortkeys: 'mu',
     icon: 'material.svg',
     homelink: 'https://material-ui.com',
@@ -1055,6 +1153,7 @@ const SKeys: SKey[] = [
   {
     code: 'mongodb',
     name: 'MongoDB',
+    category: SKeyCategory.Document,
     shortkeys: 'mg',
     icon: 'mongodb.svg',
     hideName: true,
@@ -1066,6 +1165,7 @@ const SKeys: SKey[] = [
   {
     code: 'dotnet',
     name: '.NET',
+    category: SKeyCategory.Document,
     shortkeys: 'net',
     icon: 'microsoft.png',
     awesome: 'quozd/awesome-dotnet',
@@ -1076,6 +1176,7 @@ const SKeys: SKey[] = [
   {
     code: 'netlify',
     name: 'netlify',
+    category: SKeyCategory.Document,
     shortkeys: 'nl',
     icon: 'netlify.svg',
     homelink: 'https://www.netlify.com',
@@ -1091,6 +1192,7 @@ const SKeys: SKey[] = [
   {
     code: 'nestjs',
     name: 'nestjs',
+    category: SKeyCategory.Document,
     shortkeys: 'ns',
     icon: 'nestjs.svg',
     homelink: 'https://nestjs.com',
@@ -1106,6 +1208,7 @@ const SKeys: SKey[] = [
   {
     code: 'nginx',
     name: 'NGINX',
+    category: SKeyCategory.Document,
     hideName: true,
     width: 100,
     backgroundSize: '86%',
@@ -1117,17 +1220,19 @@ const SKeys: SKey[] = [
   {
     code: 'node',
     name: 'Node.js',
+    category: SKeyCategory.Document,
     shortkeys: 'nd',
     icon: 'nodejs.svg',
     backgroundPosition: 'left center',
     homelink: 'https://nodejs.org',
     awesome: 'sindresorhus/awesome-nodejs',
     devdocs: 'node',
-    // template: 'https://google.com/search?q=%s%20site:nodejs.org',
+    template: 'https://google.com/search?q=%s%20site:nodejs.org',
   },
   {
     code: 'npms',
     name: 'npms.io',
+    category: SKeyCategory.Search,
     hideName: true,
     shortkeys: 'npms',
     icon: 'npm.svg',
@@ -1142,6 +1247,7 @@ const SKeys: SKey[] = [
   {
     code: 'npm',
     name: 'npm',
+    category: SKeyCategory.Search,
     hideName: true,
     shortkeys: 'npm',
     icon: 'npm.svg',
@@ -1151,10 +1257,15 @@ const SKeys: SKey[] = [
     template: 'https://www.npmjs.com/search?q=%s',
     forCN: true,
   },
-  { code: 'nuget', name: 'NuGet', shortkeys: 'ng', icon: 'nuget.svg', template: 'https://nuget.org/packages?q=%s' },
+  {
+    code: 'nuget', name: 'NuGet',
+    category: SKeyCategory.Search,
+    shortkeys: 'ng', icon: 'nuget.svg', template: 'https://nuget.org/packages?q=%s'
+  },
   {
     code: 'perl',
     name: 'Perl',
+    category: SKeyCategory.Document,
     shortkeys: 'pl',
     icon: 'perl.svg',
     homelink: 'https://www.perl.org',
@@ -1163,6 +1274,7 @@ const SKeys: SKey[] = [
   {
     code: 'pipenv',
     name: 'pipenv',
+    category: SKeyCategory.Document,
     shortkeys: 'pe',
     icon: 'pipenv.png',
     homelink: 'https://pipenv.kennethreitz.org',
@@ -1177,6 +1289,7 @@ const SKeys: SKey[] = [
   {
     code: 'phoenix',
     name: 'Phoenix',
+    category: SKeyCategory.Document,
     shortkeys: 'px',
     icon: 'phoenix.svg',
     homelink: 'http://www.phoenixframework.org/',
@@ -1185,6 +1298,7 @@ const SKeys: SKey[] = [
   {
     code: 'php',
     name: 'PHP',
+    category: SKeyCategory.Document,
     hideName: true,
     width: 80,
     shortkeys: 'php',
@@ -1196,6 +1310,7 @@ const SKeys: SKey[] = [
   {
     code: 'play',
     name: 'play',
+    category: SKeyCategory.Document,
     shortkeys: 'pl',
     icon: 'play.svg',
     hideName: true,
@@ -1213,6 +1328,7 @@ const SKeys: SKey[] = [
   {
     code: 'postgresql',
     name: 'PostgreSQL',
+    category: SKeyCategory.Document,
     shortkeys: 'pg',
     icon: 'postgresql.svg',
     homelink: 'https://www.postgresql.org',
@@ -1222,6 +1338,7 @@ const SKeys: SKey[] = [
   {
     code: 'prettier',
     name: 'prettier',
+    category: SKeyCategory.Document,
     shortkeys: 'pr',
     icon: 'prettier.png',
     homelink: 'https://prettier.io',
@@ -1236,6 +1353,7 @@ const SKeys: SKey[] = [
   {
     code: 'public_apis',
     name: 'Public APIs',
+    category: SKeyCategory.Collection,
     shortkeys: 'pa',
     icon: 'api.svg',
     usage: true,
@@ -1255,6 +1373,7 @@ const SKeys: SKey[] = [
   {
     code: 'puppeteer',
     name: 'Puppeteer',
+    category: SKeyCategory.Document,
     shortkeys: 'pp',
     icon: 'puppeteer.svg',
     homelink: 'https://pptr.dev',
@@ -1264,16 +1383,18 @@ const SKeys: SKey[] = [
   {
     code: 'python',
     name: 'Python',
+    category: SKeyCategory.Document,
     shortkeys: 'py',
     icon: 'python.svg',
     homelink: 'https://python.org',
     awesome: 'vinta/awesome-python',
     devdocs: 'python~3.8',
-    // template: 'https://python.org/search/?q=%s',
+    template: 'https://python.org/search/?q=%s',
   },
   {
     code: 'python_cheatsheet',
     name: 'Python Cheatsheet',
+    category: SKeyCategory.CheatSheets,
     shortkeys: 'pc',
     icon: 'python.svg',
     homelink: 'https://gto76.github.io/python-cheatsheet/',
@@ -1291,6 +1412,7 @@ const SKeys: SKey[] = [
   {
     code: 'pytouch',
     name: 'PyTouch',
+    category: SKeyCategory.Document,
     shortkeys: 'pt',
     icon: 'pytouch.svg',
     hideName: true,
@@ -1305,10 +1427,15 @@ const SKeys: SKey[] = [
       },
     ],
   },
-  { code: 'pypi', name: 'PyPI', shortkeys: 'pp', icon: 'pypi.svg', template: 'https://pypi.org/search/?q=%s' },
+  {
+    code: 'pypi', name: 'PyPI',
+    category: SKeyCategory.Document,
+    shortkeys: 'pp', icon: 'pypi.svg', template: 'https://pypi.org/search/?q=%s'
+  },
   {
     code: 'rails',
     name: 'Rails',
+    category: SKeyCategory.Document,
     hideName: true,
     width: 100,
     shortkeys: 'rl',
@@ -1320,6 +1447,7 @@ const SKeys: SKey[] = [
   {
     code: 'react',
     name: 'React',
+    category: SKeyCategory.Document,
     shortkeys: 'ra',
     usage: true,
     icon: 'react.svg',
@@ -1387,6 +1515,7 @@ const SKeys: SKey[] = [
   {
     code: 'react_native',
     name: 'React Native',
+    category: SKeyCategory.Document,
     shortkeys: 'ran',
     icon: 'react.svg',
     bylang: true,
@@ -1404,6 +1533,7 @@ const SKeys: SKey[] = [
   {
     code: 'redis',
     name: 'Redis',
+    category: SKeyCategory.Document,
     shortkeys: 'rd',
     icon: 'redis.svg',
     homelink: 'https://redis.io',
@@ -1412,6 +1542,7 @@ const SKeys: SKey[] = [
   {
     code: 'rework',
     name: 'Rework',
+    category: SKeyCategory.Collection,
     shortkeys: 'rw',
     usage: true,
     icon: 'rework.png',
@@ -1430,16 +1561,18 @@ const SKeys: SKey[] = [
   {
     code: 'ruby',
     name: 'Ruby',
+    category: SKeyCategory.Document,
     shortkeys: 'rb',
     icon: 'ruby.svg',
     homelink: 'https://www.ruby-lang.org',
     awesome: 'markets/awesome-ruby',
     devdocs: 'ruby~2.6',
-    // template: 'https://cse.google.com/cse?q=%s&cx=013598269713424429640%3Ag5orptiw95w',
+    template: 'https://cse.google.com/cse?q=%s&cx=013598269713424429640%3Ag5orptiw95w',
   },
   {
     code: 'rubygems',
     name: 'RubyGems',
+    category: SKeyCategory.Search,
     shortkeys: 'rg',
     icon: 'rubygems.jpg',
     template: 'https://rubygems.org/search?query=%s',
@@ -1447,16 +1580,18 @@ const SKeys: SKey[] = [
   {
     code: 'rust',
     name: 'Rust',
+    category: SKeyCategory.Document,
     shortkeys: 'rs',
     icon: 'rust.svg',
     homelink: 'https://rust-lang.org',
     awesome: 'rust-unofficial/awesome-rust',
     devdocs: 'rust',
-    // template: 'https://doc.rust-lang.org/alloc/index.html?search=%s',
+    template: 'https://doc.rust-lang.org/alloc/index.html?search=%s',
   },
   {
     code: 'sass',
     name: 'Sass',
+    category: SKeyCategory.Document,
     shortkeys: 'ss',
     icon: 'sass.svg',
     devdocs: 'sass',
@@ -1471,6 +1606,7 @@ const SKeys: SKey[] = [
   {
     code: 'scala',
     name: 'scala',
+    category: SKeyCategory.Document,
     shortkeys: 'scl',
     icon: 'scala.png',
     hideName: true,
@@ -1490,6 +1626,7 @@ const SKeys: SKey[] = [
   {
     code: 'serverless',
     name: 'serverless',
+    category: SKeyCategory.Document,
     shortkeys: 'sl',
     icon: 'serverless.svg',
     homelink: 'https://serverless.com',
@@ -1505,6 +1642,7 @@ const SKeys: SKey[] = [
   {
     code: 'socode',
     name: 'socode',
+    category: SKeyCategory.Search,
     shortkeys: 'sc',
     icon: 'socode.png',
     bylang: true,
@@ -1515,6 +1653,7 @@ const SKeys: SKey[] = [
   {
     code: 'spotify',
     name: 'Spotify',
+    category: SKeyCategory.Document,
     hideName: true,
     width: 100,
     shortkeys: 'sp',
@@ -1525,6 +1664,7 @@ const SKeys: SKey[] = [
   {
     code: 'sqlite',
     name: 'SQLite',
+    category: SKeyCategory.Document,
     hideName: true,
     width: 80,
     shortkeys: 'sql',
@@ -1535,6 +1675,7 @@ const SKeys: SKey[] = [
   {
     code: 'stackexchange',
     name: 'StackExchange',
+    category: SKeyCategory.Search,
     usage: true,
     shortkeys: 'se',
     icon: 'stackexchange.png',
@@ -1544,6 +1685,7 @@ const SKeys: SKey[] = [
   {
     code: 'github_stars',
     name: 'Gtihub Stars',
+    category: SKeyCategory.Tools,
     shortkeys: 'gs',
     usage: true,
     icon: 'github-stars.svg',
@@ -1553,6 +1695,7 @@ const SKeys: SKey[] = [
   {
     code: 'swift',
     name: 'Swift',
+    category: SKeyCategory.Document,
     shortkeys: 'sw',
     icon: 'swift.svg',
     hideName: true,
@@ -1564,6 +1707,7 @@ const SKeys: SKey[] = [
   {
     code: 'tldr',
     name: 'tldr',
+    category: SKeyCategory.Tools,
     shortkeys: 'tl',
     icon: 'tldr.svg',
     hideName: true,
@@ -1574,6 +1718,7 @@ const SKeys: SKey[] = [
   {
     code: 'taro',
     name: 'Taro',
+    category: SKeyCategory.Document,
     shortkeys: 'tr',
     icon: 'taro.png',
     availableLang: InterfaceLanguage.中文,
@@ -1589,6 +1734,7 @@ const SKeys: SKey[] = [
   {
     code: 'tensorflow_python',
     name: 'Tensorflow Python',
+    category: SKeyCategory.Document,
     shortkeys: 'tf',
     icon: 'tensorflow.svg',
     homelink: 'https://www.tensorflow.org',
@@ -1598,6 +1744,7 @@ const SKeys: SKey[] = [
   {
     code: 'tools',
     name: 'Tools Tiles',
+    category: SKeyCategory.Tools,
     usage: true,
     shortkeys: 'tt',
     icon: 'tiles.png',
@@ -1605,6 +1752,7 @@ const SKeys: SKey[] = [
   {
     code: 'typescript',
     name: 'Typescript',
+    category: SKeyCategory.Document,
     shortkeys: 'ts',
     icon: 'typescript.svg',
     hideName: true,
@@ -1623,6 +1771,7 @@ const SKeys: SKey[] = [
   {
     code: 'utf',
     name: 'UTF8 Icons',
+    category: SKeyCategory.Tools,
     hideName: true,
     width: 80,
     shortkeys: 'utf',
@@ -1632,6 +1781,7 @@ const SKeys: SKey[] = [
   {
     code: 'vue',
     name: 'Vue',
+    category: SKeyCategory.Document,
     shortkeys: 'vue',
     usage: true,
     icon: 'vue.png',
@@ -1678,6 +1828,7 @@ const SKeys: SKey[] = [
   {
     code: 'webpack',
     name: 'Webpack',
+    category: SKeyCategory.Document,
     shortkeys: 'wp',
     icon: 'webpack.svg',
     hideName: true,
@@ -1696,6 +1847,7 @@ const SKeys: SKey[] = [
   {
     code: 'yarn',
     name: 'yarn',
+    category: SKeyCategory.Document,
     shortkeys: 'yr',
     icon: 'yarn.svg',
     homelink: 'https://yarnpkg.com',
