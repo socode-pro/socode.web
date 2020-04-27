@@ -17,7 +17,7 @@ import Devdocs from './devdocs'
 import Slogan from './slogan'
 import Trending from './trending'
 import Language, { ProgramLanguage } from '../utils/language'
-import { SKey, isAvoidKey } from '../utils/searchkeys'
+import { SKey, UnSearchableKey } from '../utils/searchkeys'
 import { rework, electron, ember } from '../utils/algolia_template'
 import useHotkeys from '../utils/useHotkeys'
 import { StringEnumObjects, IntEnumObjects, winSearchParams, isFirefox } from '../utils/assist'
@@ -115,7 +115,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const debounceSuggeste = useCallback(
     debounce<(value: string) => Promise<void>>(async value => {
       setSuggesteIndex(-1)
-      if (!value || isAvoidKey(currentKey)) {
+      if (!value || UnSearchableKey(currentKey)) {
         setSuggeste(null)
         return
       }
@@ -572,7 +572,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             suggeste !== null &&
             suggeste.words.length > 0 &&
             suggeste.key === currentKey.code &&
-            !isAvoidKey(currentKey) && (
+            !UnSearchableKey(currentKey) && (
               <div className={cs(css.suggeste, 'dropdown is-active')} style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
                 <div className='dropdown-menu'>
                   <div className='dropdown-content'>

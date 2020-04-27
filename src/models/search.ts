@@ -6,7 +6,7 @@ import Language, { ProgramLanguage, navigatorLanguage } from '../utils/language'
 import { winSearchParams } from '../utils/assist'
 import { SocodeResult, SearchTimeRange } from '../services/socode.service'
 import { NpmsResult } from '../services/npms.service'
-import { isAvoidKey } from '../utils/searchkeys'
+import { UnSearchableKey } from '../utils/searchkeys'
 
 export interface SMError {
   message: string
@@ -163,7 +163,7 @@ const searchModel: SearchModel = {
     const { currentKey } = getStoreState().searchKeys
     winSearchParams({ query })
 
-    if (!query || isAvoidKey(currentKey)) {
+    if (!query || UnSearchableKey(currentKey)) {
       actions.clearResult()
       return
     }
