@@ -59,7 +59,7 @@
   }
 
   & > .prefix {
-    @include ms-respond(font-size, 0);
+    @include ms-respond(font-size, 1);
     display: block;
     user-select: none;
     padding: 2px 8px;
@@ -69,11 +69,15 @@
     box-shadow: 0 1px 1px rgba($dh-mute, 0.25);
     cursor: pointer;
     font-family: $font-mono;
+    &:hover {
+      background: rgba($dh-body, 0.8);
+      box-shadow: 0 1px 1px rgba($dh-mute, 0.4);
+    }
     &:active {
       box-shadow: none;
     }
     &.displayKeys {
-      color: rgba($dh-body, 0.75);
+      color: $white;
       background: rgba($dh-mute, 0.5);
       box-shadow: 0 1px 1px rgba($dh-text, 0.25);
     }

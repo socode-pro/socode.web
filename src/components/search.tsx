@@ -44,8 +44,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [dquery, setDquery] = useState('')
   const [suggeste, setSuggeste] = useState<{ words: Array<SuggestItem>; key: string } | null>(null)
   const [suggesteIndex, setSuggesteIndex] = useState(-1)
-  const [displayKeys, setDisplayKeys] = useState(false)
-
+  
   const keys = useStoreState<Array<SKey>>(state => state.searchKeys.keys)
   const pinKeys = useStoreState<Array<SKey>>(state => state.searchKeys.pinKeys)
   const usageKeys = useStoreState<Array<SKey>>(state => state.searchKeys.usageKeys)
@@ -59,6 +58,8 @@ const SearchInput: React.FC = (): JSX.Element => {
   const removePin = useStoreActions(actions => actions.searchKeys.removePin)
   const displayMore = useStoreState<boolean>(state => state.searchKeys.displayMore)
   const setDisplayMore = useStoreActions(actions => actions.searchKeys.setDisplayMore)
+  const displayKeys = useStoreState<boolean>(state => state.searchKeys.displayKeys)
+  const setDisplayKeys = useStoreActions(actions => actions.searchKeys.setDisplayKeys)
 
   const squery = useStoreState<string>(state => state.search.query)
   const setSquery = useStoreActions(actions => actions.search.setQuery)
@@ -457,7 +458,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                 }}
                 onChange={handleQueryChange}
                 placeholder={
-                  displayKeys ? 'filter...'
+                  displayKeys ? 'select search engine...'
                     : currentKey.awesome && awesomeOrDevdoc ? 'awesome search...'
                       : currentKey.devdocs ? 'menu search...'
                         : currentKey.readmes ? (currentKey.readmes.searched ? 'content search...' : 'no search...')

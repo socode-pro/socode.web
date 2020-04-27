@@ -11,11 +11,6 @@ const fuseOptions: Fuse.FuseOptions<SKey> = {
   maxPatternLength: 8,
 }
 
-const defaultDisplayMore = (): boolean => {
-  const value = localStorage.getItem('displayMore')
-  return value? value !== 'false': false
-}
-
 export interface SearchKeysModel {
   kquery: string
   setKquery: Action<SearchKeysModel, string>
@@ -33,12 +28,15 @@ export interface SearchKeysModel {
   usageKeys: Computed<SearchKeysModel, Array<SKey>>
   moreKeys: Computed<SearchKeysModel, Array<SKey>>
 
-  displayMore: boolean
-  setDisplayMore: Action<SearchKeysModel, boolean>
-
   currentKey: SKey
   setCurrentKey: Action<SearchKeysModel, SKey>
   initialCurrentKey: Action<SearchKeysModel>
+
+  displayMore: boolean
+  setDisplayMore: Action<SearchKeysModel, boolean>
+
+  displayKeys: boolean
+  setDisplayKeys: Action<SearchKeysModel, boolean>
 }
 
 const searchKeysModel: SearchKeysModel = {
@@ -105,12 +103,6 @@ const searchKeysModel: SearchKeysModel = {
     state.computedKeys.filter(k => !k.pin && !k.usage)
   ),
 
-  displayMore: defaultDisplayMore(),
-  setDisplayMore: action((state, payload) => {
-    state.displayMore = payload
-    localStorage.setItem('displayMore', payload.toString())
-  }),
-
   currentKey: SKeys.find(k => k.code === 'github') || SKeys[0],
   setCurrentKey: action((state, payload) => {
     state.currentKey = payload
@@ -132,6 +124,18 @@ const searchKeysModel: SearchKeysModel = {
     if (key && !key.devdocs) {
       state.currentKey = key
     }
+  }),
+
+  displayMore: localStorage.getItem('displayKeys') === 'true',
+  setDisplayMore: action((state, payload) => {
+    state.displayMore = payload
+    localStorage.setItem('displayMore', payload.toString())
+  }),
+
+  displayKeys: localStorage.getItem('displayKeys') !== 'false',
+  setDisplayKeys: action((state, payload) => {
+    state.displayKeys = payload
+    localStorage.setItem('displayKeys', payload.toString())
   }),
 }
 
