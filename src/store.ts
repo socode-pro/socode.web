@@ -19,8 +19,12 @@ const persistConfig: PersistConfig<typeof model> = {
 }
 
 const store = createStore(persist(model, persistConfig), {
+  injections: { searchService, npmsService, starsService } as Injections,
+})
+
+const debugStore = createStore(model, {
   // 👇 provide injections to our store
   injections: { searchService, npmsService, starsService } as Injections,
 })
 
-export default store
+export default process.env.NODE_ENV === 'production'? store: debugStore

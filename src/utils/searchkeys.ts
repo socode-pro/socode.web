@@ -313,6 +313,13 @@ const SKeys: SKey[] = [
         lang: Language.English,
         apiKey: '015f468476ca8256cf1c8e8fb6d82cc3',
         indexName: 'dayjs',
+        algoliaOptions: {'facetFilters': ['language:en'] }
+      },
+      {
+        lang: Language.中文_简体,
+        apiKey: '015f468476ca8256cf1c8e8fb6d82cc3',
+        indexName: 'dayjs',
+        algoliaOptions: {'facetFilters': ['language:zh-CN'] }
       },
     ],
   },
@@ -373,11 +380,15 @@ const SKeys: SKey[] = [
     homelink: 'https://www.electronjs.org',
     awesome: 'sindresorhus/awesome-electron',
     devdocs: 'electron',
-    // docsearch: { // self build: https://github.com/algolia/docsearch/issues/184
-    //   appId: 'L9LD9GHGQJ',
-    //   apiKey: '24e7e99910a15eb5d9d93531e5682370',
-    //   indexName: 'apis', // and tutorials,packages,apps
-    // },
+    docsearch: [
+      {
+        lang: Language.English,
+        appId: 'L9LD9GHGQJ',
+        apiKey: '24e7e99910a15eb5d9d93531e5682370',
+        indexName: 'apis', // and tutorials,packages,apps
+        byAutocomplete: true
+      },
+    ],
   },
   {
     code: 'elixir',
@@ -397,11 +408,16 @@ const SKeys: SKey[] = [
     width: 76,
     homelink: 'https://www.emberjs.com',
     devdocs: 'ember',
-    // docsearch: { // self build
-    //   appId: 'Y1OMR4C7MF',
-    //   apiKey: '5d01c83734dc36754d9e94cbf6f8964d',
-    //   indexName: 'ember-guides',
-    // },
+    docsearch: [
+      {
+        lang: Language.English,
+        appId: 'Y1OMR4C7MF',
+        apiKey: '5d01c83734dc36754d9e94cbf6f8964d',
+        indexName: 'ember-guides',
+        byAutocomplete: true,
+        algoliaOptions: { facetFilters: [['version:v3.17.0']] },
+      },
+    ],
   },
   {
     code: 'eslint',
@@ -884,7 +900,15 @@ const SKeys: SKey[] = [
     homelink: 'https://laravel.com',
     awesome: 'chiraggude/awesome-laravel',
     devdocs: 'laravel~5.7',
-    // self build algolia
+    docsearch: [
+      {
+        lang: Language.English,
+        appId: 'BH4D9OD16A',
+        apiKey: '7dc4fe97e150304d1bf34f5043f178c4',
+        indexName: 'laravel',
+        algoliaOptions: { facetFilters: ['version:7.x'] },
+      },
+    ],
   },
   {
     code: 'leancloud',
