@@ -44,7 +44,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [dquery, setDquery] = useState('')
   const [suggeste, setSuggeste] = useState<{ words: Array<SuggestItem>; key: string } | null>(null)
   const [suggesteIndex, setSuggesteIndex] = useState(-1)
-  
+
   const keys = useStoreState<Array<SKey>>(state => state.searchKeys.keys)
   const pinKeys = useStoreState<Array<SKey>>(state => state.searchKeys.pinKeys)
   const usageKeys = useStoreState<Array<SKey>>(state => state.searchKeys.usageKeys)
@@ -458,7 +458,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                 }}
                 onChange={handleQueryChange}
                 placeholder={
-                  displayKeys ? 'select search engine...'
+                  displayKeys ? 'select resources...'
                     : currentKey.awesome && awesomeOrDevdoc ? 'awesome search...'
                       : currentKey.devdocs ? 'menu search...'
                         : currentKey.readmes ? (currentKey.readmes.searched ? 'content search...' : 'no search...')
