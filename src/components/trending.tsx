@@ -61,7 +61,7 @@ const Trending: React.FC = (): JSX.Element => {
             <li key={r.author + r.name}>
               <h4>
                 <a href={r.url} target='_blank' rel='noopener noreferrer'>
-                  {r.author}/{r.name}
+                  <span>{r.author}/</span>{r.name}
                 </a>
                 <span className={css.stars}>
                   <span className={css.allstars}>★{r.stars}</span>
