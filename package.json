@@ -1,6 +1,7 @@
 {
   "name": "socode.web",
   "version": "0.1.0",
+  "description": "Awesome Programming",
   "private": true,
   "homepage": "https://socode.pro",
   "scripts": {
