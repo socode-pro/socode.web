@@ -1,18 +1,57 @@
+import { useState, useEffect } from 'react'
+import { useStoreState } from './hooks'
+import { SettingsType } from '../models/storage'
 import Language, { InterfaceLanguage } from './language'
 
 export enum SKeyCategory {
-  Search,
-  Tools,
-  CheatSheets,
-  Document,
-  Collection,
-  Learn,
+  Search = 'SEARCH',
+  Tools = 'TOOLS',
+  CheatSheets = 'CHEAT SHEETS',
+  Document = 'DOCUMENT',
+  Collection = 'COLLECTION',
+  Learn = 'LEARN',
+}
+
+export const useSKeyCategoryIntl = (category: SKeyCategory): string => {
+  const [word, setWord] = useState('')
+  const { language } = useStoreState<SettingsType>(state => state.storage.settings)
+
+  useEffect(() => {
+    if (language === InterfaceLanguage.中文) {
+      switch (category) {
+        case SKeyCategory.Search:
+          setWord('搜索')
+          break
+        case SKeyCategory.Tools:
+          setWord('工具')
+          break
+        case SKeyCategory.CheatSheets:
+          setWord('Cheat Sheets')
+          break
+        case SKeyCategory.Document:
+          setWord('文档')
+          break
+        case SKeyCategory.Collection:
+          setWord('集合')
+          break
+        case SKeyCategory.Learn:
+          setWord('学习')
+          break
+        default:
+          break
+      }
+    } else {
+      setWord(category)
+    }
+  }, [language, category])
+
+  return word
 }
 
 export interface SKey {
   code: string
   name: string
-  category?: SKeyCategory
+  category: SKeyCategory
   pin?: boolean
   usage?: boolean
   hideName?: boolean
@@ -1548,6 +1587,7 @@ const SKeys: SKey[] = [
     icon: 'rework.png',
     homelink: 'https://rework.tools/',
     tooltips: '效率工具导航',
+    availableLang: InterfaceLanguage.中文,
     docsearch: [
       {
         lang: Language.English,

@@ -17,7 +17,7 @@ import Devdocs from './devdocs'
 import Slogan from './slogan'
 import Trending from './trending'
 import Language, { ProgramLanguage } from '../utils/language'
-import { SKey, UnSearchableKey } from '../utils/searchkeys'
+import { SKey, UnSearchableKey, SKeyCategory, useSKeyCategoryIntl } from '../utils/searchkeys'
 import { rework, electron, ember } from '../utils/algolia_template'
 import useHotkeys from '../utils/useHotkeys'
 import { StringEnumObjects, IntEnumObjects, winSearchParams, isFirefox } from '../utils/assist'
@@ -45,10 +45,21 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [suggeste, setSuggeste] = useState<{ words: Array<SuggestItem>; key: string } | null>(null)
   const [suggesteIndex, setSuggesteIndex] = useState(-1)
 
+  const searchIntl = useSKeyCategoryIntl(SKeyCategory.Search)
+  const toolsIntl = useSKeyCategoryIntl(SKeyCategory.Tools)
+  const cheatSheetsIntl = useSKeyCategoryIntl(SKeyCategory.CheatSheets)
+  const documentIntl = useSKeyCategoryIntl(SKeyCategory.Document)
+  const collectionIntl = useSKeyCategoryIntl(SKeyCategory.Collection)
+  const learnIntl = useSKeyCategoryIntl(SKeyCategory.Learn)
+
   const keys = useStoreState<Array<SKey>>(state => state.searchKeys.keys)
   const pinKeys = useStoreState<Array<SKey>>(state => state.searchKeys.pinKeys)
-  const usageKeys = useStoreState<Array<SKey>>(state => state.searchKeys.usageKeys)
-  const moreKeys = useStoreState<Array<SKey>>(state => state.searchKeys.moreKeys)
+  const searchKeys = useStoreState<Array<SKey>>(state => state.searchKeys.searchKeys)
+  const cheatSheetsKeys = useStoreState<Array<SKey>>(state => state.searchKeys.cheatSheetsKeys)
+  const collectionKeys = useStoreState<Array<SKey>>(state => state.searchKeys.collectionKeys)
+  const learnKeys = useStoreState<Array<SKey>>(state => state.searchKeys.learnKeys)
+  const toolsKeys = useStoreState<Array<SKey>>(state => state.searchKeys.toolsKeys)
+  const documentKeys = useStoreState<Array<SKey>>(state => state.searchKeys.documentKeys)
 
   const kquery = useStoreState<string>(state => state.searchKeys.kquery)
   const setKquery = useStoreActions(actions => actions.searchKeys.setKquery)
@@ -670,14 +681,40 @@ const SearchInput: React.FC = (): JSX.Element => {
                   <div className={css.kdesc}>PINNED</div>
                 </div>
               )}
-              {usageKeys.length > 0 && (
+              {searchKeys.length > 0 && (
                 <div className={cs(css.skgroup)}>
-                  {getKeysDom(usageKeys)}
+                  {getKeysDom(searchKeys)}
+                  <div className={css.kdesc}>{searchIntl}</div>
                 </div>
               )}
-              {(displayMore || kquery) && moreKeys.length > 0 && (
+              {cheatSheetsKeys.length > 0 && (
                 <div className={cs(css.skgroup)}>
-                  {getKeysDom(moreKeys)}
+                  {getKeysDom(cheatSheetsKeys)}
+                  <div className={css.kdesc}>{cheatSheetsIntl}</div>
+                </div>
+              )}
+              {collectionKeys.length > 0 && (
+                <div className={cs(css.skgroup)}>
+                  {getKeysDom(collectionKeys)}
+                  <div className={css.kdesc}>{collectionIntl}</div>
+                </div>
+              )}
+              {(displayMore || kquery) && learnKeys.length > 0 && (
+                <div className={cs(css.skgroup)}>
+                  {getKeysDom(learnKeys)}
+                  <div className={css.kdesc}>{learnIntl}</div>
+                </div>
+              )}
+              {(displayMore || kquery) && toolsKeys.length > 0 && (
+                <div className={cs(css.skgroup)}>
+                  {getKeysDom(toolsKeys)}
+                  <div className={css.kdesc}>{toolsIntl}</div>
+                </div>
+              )}
+              {(displayMore || kquery) && documentKeys.length > 0 && (
+                <div className={cs(css.skgroup)}>
+                  {getKeysDom(documentKeys)}
+                  <div className={css.kdesc}>{documentIntl}</div>
                 </div>
               )}
               {!displayMore && !kquery && (
