@@ -2,7 +2,7 @@ import { Action, action, Thunk, thunk, Computed, computed } from 'easy-peasy'
 import without from 'lodash/without'
 import ky from 'ky'
 import Fuse from 'fuse.js'
-import SKeys, { SKey } from '../utils/searchkeys'
+import SKeys, { SKey, SKeyCategory } from '../utils/searchkeys'
 import { StoreModel } from './index'
 
 const fuseOptions: Fuse.FuseOptions<SKey> = {
@@ -25,8 +25,12 @@ export interface SearchKeysModel {
   removePin: Action<SearchKeysModel, string>
 
   pinKeys: Computed<SearchKeysModel, Array<SKey>>
-  usageKeys: Computed<SearchKeysModel, Array<SKey>>
-  moreKeys: Computed<SearchKeysModel, Array<SKey>>
+  searchKeys: Computed<SearchKeysModel, Array<SKey>>
+  cheatSheetsKeys: Computed<SearchKeysModel, Array<SKey>>
+  collectionKeys: Computed<SearchKeysModel, Array<SKey>>
+  learnKeys: Computed<SearchKeysModel, Array<SKey>>
+  toolsKeys: Computed<SearchKeysModel, Array<SKey>>
+  documentKeys: Computed<SearchKeysModel, Array<SKey>>
 
   currentKey: SKey
   setCurrentKey: Action<SearchKeysModel, SKey>
@@ -67,17 +71,17 @@ const searchKeysModel: SearchKeysModel = {
       (state, storeState) => state.pins,
     ],
     (keys, kquery, pins) => {
-      let kk = keys
+      let ckeys = keys
       if (kquery) {
-        const fuse = new Fuse(kk, fuseOptions)
-        kk = fuse.search<SKey, false, false>(kquery)
+        const fuse = new Fuse(ckeys, fuseOptions)
+        ckeys = fuse.search<SKey, false, false>(kquery)
       }
       if (pins && pins.length) {
-        kk.forEach(k => {
+        ckeys.forEach(k => {
           k.pin = pins.includes(k.code)
         })
       }
-      return kk
+      return ckeys.sort((a) => a.usage? -1: 0)
     }
   ),
 
@@ -95,12 +99,28 @@ const searchKeysModel: SearchKeysModel = {
     state.computedKeys.filter(k => k.pin)
   ),
 
-  usageKeys: computed(state =>
-    state.computedKeys.filter(k => !k.pin && k.usage)
+  searchKeys: computed(state =>
+    state.computedKeys.filter(k => k.category === SKeyCategory.Search)
   ),
 
-  moreKeys: computed(state =>
-    state.computedKeys.filter(k => !k.pin && !k.usage)
+  cheatSheetsKeys: computed(state =>
+    state.computedKeys.filter(k => k.category === SKeyCategory.CheatSheets)
+  ),
+
+  collectionKeys: computed(state =>
+    state.computedKeys.filter(k => k.category === SKeyCategory.Collection)
+  ),
+
+  learnKeys: computed(state =>
+    state.computedKeys.filter(k => k.category === SKeyCategory.Learn)
+  ),
+
+  toolsKeys: computed(state =>
+    state.computedKeys.filter(k => k.category === SKeyCategory.Tools)
+  ),
+
+  documentKeys: computed(state =>
+    state.computedKeys.filter(k => k.category === SKeyCategory.Document)
   ),
 
   currentKey: SKeys.find(k => k.code === 'github') || SKeys[0],

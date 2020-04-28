@@ -207,12 +207,11 @@
   flex-wrap: wrap;
   align-content: flex-start;
   position: relative;
-  &:not(:first-child) {
-    border-top: solid 1px $white-ter;
-    padding-top: 10px;
-  }
+  border-top: solid 1px $white-ter;
+  margin-top: 20px;
+  padding-top: 5px;
   &:not(:last-child) {
-    padding-bottom: 10px;
+    padding-bottom: 25px;
   }
   .skeybox {
     cursor: pointer;
@@ -298,8 +297,8 @@
 
   .kdesc {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: -$fontsize * 1.6;
+    left: 0;
     background-color: $white-ter;
     color: $grey-light;
     padding: 0 0.5em;
