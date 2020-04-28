@@ -20,10 +20,10 @@ $modularscale: (
 );
 
 $primary: #745fb5;
-$primary-light: #9a6dbb;
-$primary-light2: lighten($primary-light, 15%);
-$primary-dark: #5f4aa1;
-$primary-dark2: darken($primary-dark, 15%);
+$primary-light: lighten($primary, 15%);
+$primary-dark: darken($primary, 15%);
+$primary2: #9a6dbb;
+$primary3: #5f4aa1;
 
 $secondary: #26648e;
 $secondary2: adjust-color($secondary, $lightness: 16%, $hue: -20deg);
@@ -36,7 +36,7 @@ $black-ter: hsl(0, 0%, 14%) !default;
 $grey-darker: hsl(0, 0%, 21%) !default;
 $grey-dark: hsl(0, 0%, 29%) !default;
 $grey: hsl(0, 0%, 48%) !default;
-$nobody: #bbb;
+$grey2: hsl(0, 0%, 60%) !default;
 $grey-light: hsl(0, 0%, 71%) !default;
 $grey-lighter: hsl(0, 0%, 86%) !default;
 $grey-lightest: hsl(0, 0%, 93%) !default;
