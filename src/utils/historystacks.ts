@@ -179,7 +179,6 @@ const Stacks: Stack[] = [
     type: StackType.Backend,
     repos: [
       'RocketChat/Rocket.Chat',
-      'withspectrum/spectrum',
       'vector-im/riot-web',
       'mattermost/mattermost-server',
       'wireapp/wire-server',
