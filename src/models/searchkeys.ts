@@ -146,7 +146,7 @@ const searchKeysModel: SearchKeysModel = {
     }
   }),
 
-  displayMore: localStorage.getItem('displayKeys') === 'true',
+  displayMore: localStorage.getItem('displayMore') === 'true',
   setDisplayMore: action((state, payload) => {
     state.displayMore = payload
     localStorage.setItem('displayMore', payload.toString())
