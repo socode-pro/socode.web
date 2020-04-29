@@ -359,7 +359,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           return (
             <div key={key.code} className={cs(css.skeybox, 'has-tooltip-multiline has-tooltip-warning')} {...tooltipProps} onClick={() => changeKey(key)}>
               <div className={css.skey}>
-                <div className={cs(css.skname)} style={{ backgroundImage: `url(/keys/${key.icon})`, ...key.backgroundProps }}>
+                <div className={cs(css.skname)} style={{ backgroundImage: `url(/keys/${key.icon})`, ...key.iconProps }}>
                   {key.hideName ? <>&nbsp;</> : key.name}
                 </div>
                 <div className={css.shortkeys}>
