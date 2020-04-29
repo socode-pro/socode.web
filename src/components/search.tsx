@@ -480,7 +480,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                 <input
                   type='search'
                   placeholder='search...'
-                  className={cs(css.input)}
+                  className={cs(css.input, { 'dis-none': displayKeys })}
                   spellCheck={false}
                   autoFocus
                   value={dquery}
