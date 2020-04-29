@@ -350,16 +350,6 @@ const SearchInput: React.FC = (): JSX.Element => {
           return true
         })
         .map(key => {
-          let styles: object = { backgroundImage: `url(/keys/${key.icon})` }
-          if (key.backgroundSize) {
-            styles = { ...styles, backgroundSize: key.backgroundSize }
-          }
-          if (key.backgroundPosition) {
-            styles = { ...styles, backgroundPosition: key.backgroundPosition }
-          }
-          if (key.width) {
-            styles = { ...styles, width: key.width }
-          }
           let tooltipProps = {}
           if (key.tooltipsCN && language === InterfaceLanguage.中文) {
             tooltipProps = { 'data-tooltip': key.tooltipsCN }
@@ -369,7 +359,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           return (
             <div key={key.code} className={cs(css.skeybox, 'has-tooltip-multiline has-tooltip-warning')} {...tooltipProps} onClick={() => changeKey(key)}>
               <div className={css.skey}>
-                <div className={cs(css.skname)} style={styles}>
+                <div className={cs(css.skname)} style={{ backgroundImage: `url(/keys/${key.icon})`, ...key.backgroundProps }}>
                   {key.hideName ? <>&nbsp;</> : key.name}
                 </div>
                 <div className={css.shortkeys}>
