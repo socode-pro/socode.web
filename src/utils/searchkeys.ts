@@ -57,7 +57,7 @@ export interface SKey {
   hideName?: boolean
   shortkeys: string
   icon: string
-  backgroundProps?: {
+  iconProps?: {
     backgroundSize?: string
     backgroundPosition?: string
     width?: number
@@ -164,7 +164,7 @@ const SKeys: SKey[] = [
     icon: 'awesome.svg',
     homelink: 'https://github.com/detailyang/awesome-cheatsheet',
     tooltips: 'List of useful cheatsheets',
-    backgroundProps: {
+    iconProps: {
       backgroundPosition: 'left center',
     },
     readmes: {
@@ -185,7 +185,7 @@ const SKeys: SKey[] = [
     shortkeys: 'aws',
     icon: 'aws.svg',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 60,
     },
     homelink: 'https://aws.amazon.com',
@@ -199,7 +199,7 @@ const SKeys: SKey[] = [
     shortkeys: 'bb',
     icon: 'babel.svg',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 60,
       backgroundPosition: 'left 0.2em center',
     },
@@ -363,7 +363,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Search,
     shortkeys: 'cc',
     icon: 'cocoapods.png',
-    backgroundProps: {
+    iconProps: {
       width: 110,
     },
     template: 'https://cocoacontrols.com/search?q=%s',
@@ -428,7 +428,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     shortkeys: 'dj',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 100,
     },
     homelink: 'https://www.djangoproject.com',
@@ -443,7 +443,7 @@ const SKeys: SKey[] = [
     shortkeys: 'du',
     icon: 'druid.png',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 82,
     },
     homelink: 'https://druid.apache.org',
@@ -462,7 +462,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     shortkeys: 'dk',
     icon: 'docker.svg',
-    backgroundProps: {
+    iconProps: {
       width: 100,
     },
     homelink: 'https://docs.docker.com',
@@ -517,7 +517,7 @@ const SKeys: SKey[] = [
     shortkeys: 'eb',
     icon: 'ember.svg',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 76,
     },
     homelink: 'https://www.emberjs.com',
@@ -600,7 +600,7 @@ const SKeys: SKey[] = [
     shortkeys: 'ff',
     icon: 'fastify.png',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 96,
     },
     homelink: 'https://www.fastify.io',
@@ -727,7 +727,7 @@ const SKeys: SKey[] = [
     shortkeys: 'gb',
     icon: 'gatsby.svg',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 108,
     },
     homelink: 'https://www.gatsbyjs.org',
@@ -784,7 +784,7 @@ const SKeys: SKey[] = [
     icon: 'googledev.svg',
     disableLang: InterfaceLanguage.中文,
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 140,
     },
     bylang: true,
@@ -809,7 +809,7 @@ const SKeys: SKey[] = [
     shortkeys: 'gd',
     icon: 'gradle.svg',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 88,
       backgroundPosition: 'left center',
     },
@@ -830,7 +830,7 @@ const SKeys: SKey[] = [
     shortkeys: 'gf',
     icon: 'grafana.svg',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 130,
     },
     homelink: 'https://grafana.com',
@@ -866,7 +866,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     shortkeys: 'gp',
     icon: 'gulp.svg',
-    backgroundProps: {
+    iconProps: {
       backgroundPosition: 'left center',
     },
     homelink: 'https://gulpjs.com',
@@ -902,7 +902,7 @@ const SKeys: SKey[] = [
     shortkeys: 'hg',
     icon: 'hugo.svg',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 110,
     },
     docsearch: [
@@ -964,7 +964,7 @@ const SKeys: SKey[] = [
     shortkeys: 'jk',
     icon: 'jekyll.svg',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 80,
     },
     homelink: 'https://jekyllrb.com',
@@ -1000,7 +1000,7 @@ const SKeys: SKey[] = [
     shortkeys: 'jq',
     icon: 'jquery.png',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 106,
     },
     homelink: 'https://jquery.com/',
@@ -1031,7 +1031,7 @@ const SKeys: SKey[] = [
     shortkeys: 'jd',
     icon: 'jsdelivr.svg',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 100,
     },
     template: 'https://www.jsdelivr.com/?query=%s',
@@ -1041,7 +1041,7 @@ const SKeys: SKey[] = [
     name: 'koa',
     category: SKeyCategory.Document,
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 80,
     },
     shortkeys: 'koa',
@@ -1097,7 +1097,7 @@ const SKeys: SKey[] = [
     icon: 'leancloud.png',
     availableLang: InterfaceLanguage.中文,
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 100,
       backgroundSize: '90%',
     },
@@ -1165,7 +1165,7 @@ const SKeys: SKey[] = [
     name: 'less',
     category: SKeyCategory.Document,
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 80,
     },
     shortkeys: 'ls',
@@ -1197,7 +1197,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     shortkeys: 'md',
     icon: 'markdown.svg',
-    backgroundProps: {
+    iconProps: {
       backgroundPosition: 'left center',
     },
     devdocs: 'markdown',
@@ -1218,7 +1218,7 @@ const SKeys: SKey[] = [
     hideName: true,
     shortkeys: 'mv',
     icon: 'maven.png',
-    backgroundProps: {
+    iconProps: {
       backgroundSize: '88%',
       width: 70,
     },
@@ -1256,7 +1256,7 @@ const SKeys: SKey[] = [
     shortkeys: 'mg',
     icon: 'mongodb.svg',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 110,
     },
     homelink: 'https://docs.mongodb.com',
@@ -1311,7 +1311,7 @@ const SKeys: SKey[] = [
     name: 'NGINX',
     category: SKeyCategory.Document,
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 100,
       backgroundSize: '86%',
     },
@@ -1326,7 +1326,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     shortkeys: 'nd',
     icon: 'nodejs.svg',
-    backgroundProps: {
+    iconProps: {
       backgroundPosition: 'left center',
     },
     homelink: 'https://nodejs.org',
@@ -1341,7 +1341,7 @@ const SKeys: SKey[] = [
     hideName: true,
     shortkeys: 'npms',
     icon: 'npm.svg',
-    backgroundProps: {
+    iconProps: {
       width: 60,
       backgroundSize: '86%',
     },
@@ -1359,7 +1359,7 @@ const SKeys: SKey[] = [
     hideName: true,
     shortkeys: 'npm',
     icon: 'npm.svg',
-    backgroundProps: {
+    iconProps: {
       backgroundSize: '86%',
       width: 60,
     },
@@ -1410,7 +1410,7 @@ const SKeys: SKey[] = [
     name: 'PHP',
     category: SKeyCategory.Document,
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 80,
     },
     shortkeys: 'php',
@@ -1426,7 +1426,7 @@ const SKeys: SKey[] = [
     shortkeys: 'pl',
     icon: 'play.svg',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 60,
     },
     homelink: 'https://www.playframework.com',
@@ -1531,7 +1531,7 @@ const SKeys: SKey[] = [
     shortkeys: 'pt',
     icon: 'pytouch.svg',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 116,
     },
     homelink: 'https://pytorch.org',
@@ -1554,7 +1554,7 @@ const SKeys: SKey[] = [
     name: 'Rails',
     category: SKeyCategory.Document,
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 100,
     },
     shortkeys: 'rl',
@@ -1731,7 +1731,7 @@ const SKeys: SKey[] = [
     shortkeys: 'scl',
     icon: 'scala.png',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 72,
     },
     homelink: 'https://www.scala-lang.org',
@@ -1779,7 +1779,7 @@ const SKeys: SKey[] = [
     name: 'Spotify',
     category: SKeyCategory.Document,
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 100,
     },
     shortkeys: 'sp',
@@ -1792,7 +1792,7 @@ const SKeys: SKey[] = [
     name: 'SQLite',
     category: SKeyCategory.Document,
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 80,
     },
     shortkeys: 'sql',
@@ -1828,7 +1828,7 @@ const SKeys: SKey[] = [
     shortkeys: 'sw',
     icon: 'swift.svg',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 95,
     },
     homelink: 'https://swift.org/',
@@ -1842,7 +1842,7 @@ const SKeys: SKey[] = [
     shortkeys: 'tl',
     icon: 'tldr.svg',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 80,
     },
     template: 'https://tldr.ostera.io/%s',
@@ -1891,7 +1891,7 @@ const SKeys: SKey[] = [
     shortkeys: 'ts',
     icon: 'typescript.svg',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 116,
     },
     homelink: 'https://www.typescriptlang.org',
@@ -1910,7 +1910,7 @@ const SKeys: SKey[] = [
     name: 'UTF8 Icons',
     category: SKeyCategory.Tools,
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 80,
     },
     shortkeys: 'utf',
@@ -1973,7 +1973,7 @@ const SKeys: SKey[] = [
     shortkeys: 'wp',
     icon: 'webpack.svg',
     hideName: true,
-    backgroundProps: {
+    iconProps: {
       width: 100,
     },
     devdocs: 'webpack',
