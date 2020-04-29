@@ -20,7 +20,7 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
 
   const loading = useStoreState<boolean>(state => state.devdocs.loading)
   const docLoading = useStoreState<boolean>(state => state.devdocs.docLoading)
-  const results = useStoreState<{ [type: string]: Array<DevDocEntrie> }>(state => state.devdocs.results)
+  const results = useStoreState<Array<{ group: string,entries: Array<DevDocEntrie> }>>(state => state.devdocs.results)
   const expandings = useStoreState<{ [index: string]: boolean }>(state => state.devdocs.expandings)
   const docs = useStoreState<{ [index: string]: string }>(state => state.devdocs.docs)
   const currentPath = useStoreState<string>(state => state.devdocs.currentPath)
@@ -105,15 +105,16 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
   return (
     <div className={cs('columns', 'container')}>
       <div className={cs('column', 'is-one-quarter', css.menubox)}>
-        {Object.entries(results).map(([t, entrie]) => {
+        {results.map(result => {
+          const { group, entries } = result
           return (
-            <div key={t} className={cs(css.typegroup, { [css.expanding]: expandings[t] })}>
-              <div className={css.typename} onClick={() => toggleExpanding(t)}>
+            <div key={group} className={cs(css.typegroup, { [css.expanding]: expandings[group] })}>
+              <div className={css.typename} onClick={() => toggleExpanding(group)}>
                 <i className={cs('fa-menus', css.icon)} />
-                {t}
+                {group}
               </div>
               <ul className={css.childrens}>
-                {entrie.map(e => {
+                {entries.map(e => {
                   return (
                     <li key={e.name + e.path}>
                       <a

@@ -50,9 +50,10 @@ export interface DevdocsModel {
   setIndexs: Action<DevdocsModel, { slug: string; index: Array<DevDocEntrie> }>
   loadIndex: Thunk<DevdocsModel, string, void, StoreModel>
 
-  results: {
-    [type: string]: Array<DevDocEntrie>
-  }
+  results: Array<{
+    group: string,
+    entries: Array<DevDocEntrie>
+  }>
   search: Action<DevdocsModel, { slug: string; query: string }>
 
   expandings: { [type: string]: boolean }
@@ -123,7 +124,7 @@ const devdocsModel: DevdocsModel = {
     actions.setLoading(false)
   }),
 
-  results: {},
+  results: [],
   search: action((state, { slug, query }) => {
     const index = state.indexs[slug]
     if (!index) return
@@ -133,7 +134,10 @@ const devdocsModel: DevdocsModel = {
       const fuse = new Fuse(items, fuseOptions)
       items = fuse.search<DevDocEntrie, false, false>(query)
     }
-    state.results = groupBy(items, 'type')
+    
+    state.results = Object.entries(groupBy(items, 'type'))
+      .map(([group, entries]) => ({ group, entries }))
+      .sort((a, b) => (a.group.localeCompare(b.group)))
   }),
 
   expandings: {},
