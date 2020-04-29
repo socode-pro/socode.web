@@ -218,6 +218,7 @@ const SKeys: SKey[] = [
     name: 'Bash',
     category: SKeyCategory.Document,
     shortkeys: 'bs',
+    usage: true,
     icon: 'bash.svg',
     devdocs: 'bash',
   },
@@ -388,6 +389,7 @@ const SKeys: SKey[] = [
     name: 'css',
     category: SKeyCategory.Document,
     shortkeys: 'css',
+    usage: true,
     icon: 'css.svg',
     devdocs: 'css',
   },
@@ -406,6 +408,7 @@ const SKeys: SKey[] = [
     name: 'dayjs',
     category: SKeyCategory.Document,
     shortkeys: 'day',
+    usage: true,
     icon: 'dayjs.png',
     docsearch: [
       {
@@ -538,6 +541,7 @@ const SKeys: SKey[] = [
     name: 'ESLint',
     category: SKeyCategory.Document,
     shortkeys: 'es',
+    usage: true,
     icon: 'eslint.svg',
     homelink: 'https://eslint.org',
     devdocs: 'eslint',
@@ -1178,6 +1182,7 @@ const SKeys: SKey[] = [
     name: 'lodash',
     category: SKeyCategory.Document,
     shortkeys: 'ld',
+    usage: true,
     icon: 'lodash.svg',
     homelink: 'https://lodash.com',
     devdocs: 'lodash~4',
@@ -1196,6 +1201,7 @@ const SKeys: SKey[] = [
     name: 'Markdown',
     category: SKeyCategory.Document,
     shortkeys: 'md',
+    usage: true,
     icon: 'markdown.svg',
     iconProps: {
       backgroundPosition: 'left center',
