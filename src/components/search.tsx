@@ -16,7 +16,7 @@ import Readme from './readme'
 import Devdocs from './devdocs'
 import Slogan from './slogan'
 import Trending from './trending'
-import Language, { ProgramLanguage } from '../utils/language'
+import Language, { ProgramLanguage, InterfaceLanguage } from '../utils/language'
 import { SKey, UnSearchableKey, SKeyCategory, useSKeyCategoryIntl } from '../utils/searchkeys'
 import { rework, electron, ember } from '../utils/algolia_template'
 import useHotkeys from '../utils/useHotkeys'
@@ -328,7 +328,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       setDisplayKeys(false)
       setTimeout(focusInput, 200)
     },
-    [clearResultAll, focusInput, setCurrentKey, setKquery, setSquery]
+    [clearResultAll, focusInput, setCurrentKey, setDisplayKeys, setKquery, setSquery]
   )
 
   const getKeysDom = useCallback(
@@ -341,10 +341,10 @@ const SearchInput: React.FC = (): JSX.Element => {
           if (key.disableLang) {
             return key.disableLang !== language
           }
-          if (key.forCN && region !== 'CN') {
+          if (key.forRegionCN && region !== 'CN') {
             return false
           }
-          if (key.forCN === false && region === 'CN') {
+          if (key.forRegionCN === false && region === 'CN') {
             return false
           }
           return true
@@ -360,9 +360,14 @@ const SearchInput: React.FC = (): JSX.Element => {
           if (key.width) {
             styles = { ...styles, width: key.width }
           }
-          const moreprops = key.tooltips? { 'data-tooltip': key.tooltips}: {}
+          let tooltipProps = {}
+          if (key.tooltipsCN && language === InterfaceLanguage.中文) {
+            tooltipProps = { 'data-tooltip': key.tooltipsCN }
+          } else if (key.tooltips) {
+            tooltipProps = { 'data-tooltip': key.tooltips }
+          }
           return (
-            <div key={key.code} className={cs(css.skeybox, 'has-tooltip-multiline has-tooltip-warning')} {...moreprops} onClick={() => changeKey(key)}>
+            <div key={key.code} className={cs(css.skeybox, 'has-tooltip-multiline has-tooltip-warning')} {...tooltipProps} onClick={() => changeKey(key)}>
               <div className={css.skey}>
                 <div className={cs(css.skname)} style={styles}>
                   {key.hideName ? <>&nbsp;</> : key.name}
@@ -374,16 +379,6 @@ const SearchInput: React.FC = (): JSX.Element => {
                 </div>
               </div>
               <div>
-                {key.homelink && (
-                  <a
-                    href={key.homelink}
-                    onClick={e => e.stopPropagation()}
-                    className={cs('fa-home', css.kicon)}
-                    aria-label='home'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  />
-                )}
                 {key.devdocs && (
                   <i
                     onClick={() => setAwesomeOrDevdoc(false)}

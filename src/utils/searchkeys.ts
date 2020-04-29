@@ -61,7 +61,7 @@ export interface SKey {
   backgroundPosition?: string
   width?: number
   template?: string
-  forCN?: boolean
+  forRegionCN?: boolean
   availableLang?: InterfaceLanguage
   disableLang?: InterfaceLanguage
   bylang?: boolean
@@ -69,6 +69,7 @@ export interface SKey {
   homelink?: string
   awesome?: string
   tooltips?: string
+  tooltipsCN?: string
   devdocs?: string
   docsearch?: ReadonlyArray<{
     appId?: string
@@ -103,7 +104,10 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Tools,
     shortkeys: '3s',
     icon: '30secondsofcode.png',
+    homelink: 'https://www.30secondsofcode.org',
     template: 'https://www.30secondsofcode.org/?keyphrase=%s',
+    tooltips: 'Short code snippets for all your development needs',
+    tooltipsCN: '简短代码片段',
   }, // todo: inject result. selfbuild
   {
     code: 'android',
@@ -234,6 +238,7 @@ const SKeys: SKey[] = [
     icon: 'bundlephobia.svg',
     template: 'https://bundlephobia.com/result?p=%s',
     tooltips: 'find the cost of adding a npm package to your bundle',
+    tooltipsCN: '检查NPM包的大小',
   },
   {
     code: 'c_lang',
@@ -257,7 +262,10 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Tools,
     shortkeys: 'ciu',
     icon: 'caniuse.svg',
+    homelink: 'https://caniuse.com',
     template: 'https://caniuse.com/#search=%s',
+    tooltips: 'up-to-date browser support tables for front-end web technologies',
+    tooltipsCN: '前端Web技术的最新浏览器支持表',
   }, // todo: inject result
   {
     code: 'cargo', name: 'cargo',
@@ -281,6 +289,7 @@ const SKeys: SKey[] = [
     shortkeys: 'cl',
     icon: 'command.png',
     homelink: 'https://github.com/jlevy/the-art-of-command-line',
+    tooltips: 'Master the command line, in one page',
     readmes: {
       base: 'jlevy/the-art-of-command-line',
       paths: [
@@ -547,6 +556,7 @@ const SKeys: SKey[] = [
     icon: 'shell.png',
     template: 'https://explainshell.com/explain?cmd=%s',
     tooltips: 'command-line help with each argument',
+    tooltipsCN: '查询命令行参数的帮助信息',
   },
   {
     code: 'express',
@@ -616,7 +626,7 @@ const SKeys: SKey[] = [
   },
   {
     code: 'free_programming_books',
-    name: 'Books',
+    name: 'Free Books',
     category: SKeyCategory.Collection,
     shortkeys: 'fpb',
     usage: true,
@@ -687,7 +697,8 @@ const SKeys: SKey[] = [
     icon: 'g2.svg',
     homelink: 'https://www.g2.com/',
     template: 'https://www.g2.com/search?query=%s',
-    tooltips: 'Get the right software& services for your business'
+    tooltips: 'Get the right software& services for your business',
+    tooltipsCN: '为您的企业选择合适的软件和服务'
   },
   {
     code: 'gatsby',
@@ -725,7 +736,7 @@ const SKeys: SKey[] = [
     template: 'https://github.com/search?l=%pl&q=%s',
     bypglang: true,
     usage: true,
-    tooltips: 'search repositorie by algolia'
+    tooltips: 'search repositorie'
   },
   {
     code: 'go',
@@ -974,7 +985,8 @@ const SKeys: SKey[] = [
     usage: true,
     icon: 'jscoach.svg',
     template: 'https://js.coach/?search=%s',
-    tooltips: 'search for components, boilerplates, generators and other packages'
+    tooltips: 'search for components, boilerplates, generators and other packages',
+    tooltipsCN: '搜索 components、boilerplates、generators 等NPM包'
   },
   {
     code: 'jsdelivr',
@@ -1280,8 +1292,9 @@ const SKeys: SKey[] = [
     homelink: 'https://www.npmjs.com',
     template: 'https://npms.io/search?q=%s',
     usage: true,
-    forCN: false,
-    tooltips: 'npms.io: a better and open source search for node packages'
+    forRegionCN: false,
+    tooltips: 'npms.io: a better and open source search for node packages',
+    tooltipsCN: 'npms.io：更好的、开放源码的node packages搜索'
   },
   {
     code: 'npm',
@@ -1294,7 +1307,7 @@ const SKeys: SKey[] = [
     width: 60,
     homelink: 'https://www.npmjs.com',
     template: 'https://www.npmjs.com/search?q=%s',
-    forCN: true,
+    forRegionCN: true,
   },
   {
     code: 'nuget', name: 'NuGet',
@@ -1398,6 +1411,7 @@ const SKeys: SKey[] = [
     usage: true,
     homelink: 'https://github.com/public-apis/public-apis',
     tooltips: 'a collective list of free APIs for use in software and web development.',
+    tooltipsCN: '免费API的集合列表',
     readmes: {
       base: 'zicjin/public-apis',
       searched: true,
@@ -1586,7 +1600,8 @@ const SKeys: SKey[] = [
     usage: true,
     icon: 'rework.png',
     homelink: 'https://rework.tools/',
-    tooltips: '效率工具导航',
+    tooltips: 'Efficiency tool navigation for Chinese',
+    tooltipsCN: '效率工具导航',
     availableLang: InterfaceLanguage.中文,
     docsearch: [
       {
@@ -1688,7 +1703,8 @@ const SKeys: SKey[] = [
     bylang: true,
     // availableLang: InterfaceLanguage.中文,
     usage: true,
-    tooltips: '给程序员用的问答搜索',
+    tooltips: 'Question and answer search for programmers',
+    tooltipsCN: '给程序员用的问答搜索',
   },
   {
     code: 'spotify',
@@ -1730,7 +1746,8 @@ const SKeys: SKey[] = [
     usage: true,
     icon: 'github-stars.svg',
     homelink: 'https://github-stars.socode.pro',
-    tooltips: 'comparison of star trend data for multiple GitHub repository'
+    tooltips: 'comparison of star trend data for multiple GitHub repository',
+    tooltipsCN: 'GitHub repositorys 的 star 趋势数据对比'
   },
   {
     code: 'swift',
@@ -1753,7 +1770,8 @@ const SKeys: SKey[] = [
     hideName: true,
     width: 80,
     template: 'https://tldr.ostera.io/%s',
-    tooltips: 'simplify the beloved man pages with practical examples.'
+    tooltips: 'simplify the beloved man pages with practical examples.',
+    tooltipsCN: '用实际例子简化手册页。'
   },
   {
     code: 'taro',
@@ -1787,6 +1805,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Tools,
     usage: true,
     shortkeys: 'tt',
+    tooltips: 'Programming Tools Navigation',
     icon: 'tiles.png',
   },
   {
@@ -1816,7 +1835,9 @@ const SKeys: SKey[] = [
     width: 80,
     shortkeys: 'utf',
     icon: 'utf.svg',
+    homelink: 'https://www.utf8icons.com',
     template: 'https://www.utf8icons.com/search?query=%s',
+    tooltips: 'Search UTF-8 icons',
   },
   {
     code: 'vue',
