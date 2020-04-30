@@ -1379,6 +1379,15 @@ const SKeys: SKey[] = [
     shortkeys: 'ng', icon: 'nuget.svg', template: 'https://nuget.org/packages?q=%s'
   },
   {
+    code: 'paperswithcode',
+    name: 'Papers',
+    category: SKeyCategory.Search,
+    shortkeys: 'pwc',
+    icon: 'paperswithcode.svg',
+    homelink: 'https://paperswithcode.com',
+    template: 'https://paperswithcode.com/search?q=%s',
+  },
+  {
     code: 'perl',
     name: 'Perl',
     category: SKeyCategory.Document,
