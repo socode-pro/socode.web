@@ -4,10 +4,9 @@ import Fuse from 'fuse.js'
 import groupBy from 'lodash/groupBy'
 import { StoreModel } from './index'
 
-const fuseOptions: Fuse.FuseOptions<DevDocEntrie> = {
+const fuseOptions: Fuse.IFuseOptions<DevDocEntrie> = {
   keys: ['name'],
-  threshold: 0.3,
-  maxPatternLength: 16,
+  threshold: 0.4,
 }
 
 export interface DevDocMeta {
@@ -132,7 +131,7 @@ const devdocsModel: DevdocsModel = {
     let items = index
     if (query) {
       const fuse = new Fuse(items, fuseOptions)
-      items = fuse.search<DevDocEntrie, false, false>(query)
+      items = fuse.search<DevDocEntrie>(query).map(r => r.item)
     }
     
     state.results = Object.entries(groupBy(items, 'type'))

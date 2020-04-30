@@ -13,10 +13,9 @@ interface SearchItem {
   description?: string
 }
 
-const fuseOptions: Fuse.FuseOptions<SearchItem> = {
+const fuseOptions: Fuse.IFuseOptions<SearchItem> = {
   keys: ['text', 'description'],
-  threshold: 0.3,
-  maxPatternLength: 16,
+  threshold: 0.6,
 }
 
 const getTags = (body: Element): NodeListOf<HTMLElement> => {
@@ -96,7 +95,7 @@ const Awesome: React.FC<Props> = ({ name, awesome, query }: Props): JSX.Element 
         text: tag.textContent || '',
       }))
       const fuse = new Fuse(items, fuseOptions)
-      const result = fuse.search<SearchItem, false, false>(query)
+      const result = fuse.search<SearchItem>(query).map(r => r.item)
 
       result.forEach(r => {
         const tag = tags[r.index] as HTMLElement

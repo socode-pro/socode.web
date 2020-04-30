@@ -5,10 +5,9 @@ import Fuse from 'fuse.js'
 import SKeys, { SKey, SKeyCategory } from '../utils/searchkeys'
 import { StoreModel } from './index'
 
-const fuseOptions: Fuse.FuseOptions<SKey> = {
+const fuseOptions: Fuse.IFuseOptions<SKey> = {
   keys: ['name', 'shortkeys'],
   threshold: 0.3,
-  maxPatternLength: 8,
 }
 
 export interface SearchKeysModel {
@@ -74,7 +73,7 @@ const searchKeysModel: SearchKeysModel = {
       let ckeys = keys
       if (kquery) {
         const fuse = new Fuse(ckeys, fuseOptions)
-        ckeys = fuse.search<SKey, false, false>(kquery)
+        ckeys = fuse.search<SKey>(kquery).map(r => r.item)
       }
       if (pins && pins.length) {
         ckeys.forEach(k => {
