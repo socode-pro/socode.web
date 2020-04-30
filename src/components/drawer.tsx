@@ -136,15 +136,29 @@ const Drawer: React.FC = (): JSX.Element => {
 
           <p className='menu-label'>request feature / report bug</p>
           <ul className='menu-list'>
+            {language === InterfaceLanguage.English && (
             <li>
               <a
-                className={cs(css.navlink, css.discord)}
+                className={cs(css.navlink, css.form)}
+                href='https://forms.gle/G3UwA1CgThaSBv437'
                 target='_blank'
-                rel='noopener noreferrer'
-                href='https://discord.gg/QeuD8Ma'>
-                <h3>Discord</h3>
+                rel='noopener noreferrer'>
+                <h3>Submit Your Resources</h3>
               </a>
-            </li>
+              </li>
+            )}
+            {language === InterfaceLanguage.中文 && (
+              <li>
+                <a
+                  className={cs(css.navlink, css.form)}
+                  href='https://jinshuju.net/f/n63rZZ'
+                  target='_blank'
+                  rel='noopener noreferrer'>
+                  <h3>提交您的资源</h3>
+                </a>
+              </li>
+            )}
+
             {/* <li>
               <a
                 className={cs(css.navlink, css.spectrum)}
@@ -165,17 +179,26 @@ const Drawer: React.FC = (): JSX.Element => {
             </li>
             <li>
               <a
+                className={cs(css.navlink, css.discord)}
+                target='_blank'
+                rel='noopener noreferrer'
+                href='https://discord.gg/QeuD8Ma'>
+                <h3>Discord</h3>
+              </a>
+            </li>
+            <li>
+              <a
                 className={cs(css.navlink, css.wechat)} onClick={() => setWechatQR(true)}>
                 <h3>Wechat Group</h3>
               </a>
             </li>
-            <li>
+            {/* <li>
               <a
                 className={cs(css.navlink, css.email)} href='mailto:elliotreborn@gmail.com'>
                 <i className={cs(css.iemail, 'fa-email')} />
                 <h3>Email</h3>
               </a>
-            </li>
+            </li> */}
           </ul>
 
           <p className='menu-label'>Setting</p>
