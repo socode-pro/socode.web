@@ -32,7 +32,7 @@ export const useSKeyCategoryIntl = (category: SKeyCategory): string => {
           setWord('文档')
           break
         case SKeyCategory.Collection:
-          setWord('集合')
+          setWord('导航')
           break
         case SKeyCategory.Learn:
           setWord('学习')

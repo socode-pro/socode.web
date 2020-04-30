@@ -104,22 +104,26 @@
       background: #fff url(../images/wechat.svg) left 0.9em center/22px 22px no-repeat;
       padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
     }
-    &.email {
-      padding: 0.8em 0.8em 0.8em 1em;
-      line-height: 14px;
-      position: relative;
-      :global(.fa-email) {
-        position: absolute;
-        left: 1em;
-        line-height: 14px;
-        &::before {
-          font-size: 20px;
-        }
-      }
-      h3 {
-        margin-left: 33px;
-      }
+    &.form {
+      background: #fff url(../images/icons8-forms.svg) left 0.7em center/26px 26px no-repeat;
+      padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
     }
+    // &.email {
+    //   padding: 0.8em 0.8em 0.8em 1em;
+    //   line-height: 14px;
+    //   position: relative;
+    //   :global(.fa-email) {
+    //     position: absolute;
+    //     left: 1em;
+    //     line-height: 14px;
+    //     &::before {
+    //       font-size: 20px;
+    //     }
+    //   }
+    //   h3 {
+    //     margin-left: 33px;
+    //   }
+    // }
     &.twitter {
       background: #fafafa url(../images/twitter.svg) center/22px 22px no-repeat;
       padding: 0.5em 0.5em 0.5em calc(0.5em + 22px);
