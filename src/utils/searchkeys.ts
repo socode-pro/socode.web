@@ -475,7 +475,7 @@ const SKeys: SKey[] = [
   },
   {
     code: 'duckduckgo',
-    name: 'Duckduckgo',
+    name: 'DuckDuckGo',
     category: SKeyCategory.Search,
     usage: true,
     shortkeys: 'dd',
