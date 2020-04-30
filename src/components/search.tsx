@@ -855,7 +855,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           {result === null && currentKey.name === 'socode' && <Slogan />}
         </animated.div>
 
-        {displayTrending && !displayKeys && !loading && <Trending />}
+        {displayTrending && !displayKeys && !loading && !currentKey.devdocs && !currentKey.readmes && <Trending />}
       </div>
     </>
   )
