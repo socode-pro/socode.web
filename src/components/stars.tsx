@@ -15,10 +15,9 @@ import css from './stars.module.scss'
 import Loader from './loader/loader1'
 import { ReactComponent as Github } from '../images/github.svg'
 
-const fuseOptions: Fuse.FuseOptions<Stack> = {
+const fuseOptions: Fuse.IFuseOptions<Stack> = {
   keys: ['name', 'repos'],
   threshold: 0.3,
-  maxPatternLength: 8,
 }
 
 Chartkick.use(Highcharts)
@@ -82,7 +81,7 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
   useEffect(() => {
     if (query !== '') {
       const fuse = new Fuse(displayStacks, fuseOptions)
-      const result = fuse.search<Stack, false, false>(query)
+      const result = fuse.search<Stack>(query).map(r => r.item)
       setQueryStacks(result)
     } else {
       setQueryStacks([])

@@ -482,7 +482,7 @@ const SKeys: SKey[] = [
     icon: 'duckduckgo.svg',
     template: 'https://duckduckgo.com/?q=%s',
     bylang: true,
-    disableLang: InterfaceLanguage.中文,
+    // disableLang: InterfaceLanguage.中文,
   },
   {
     name: 'Electron',
@@ -786,7 +786,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     shortkeys: 'ggd',
     icon: 'googledev.svg',
-    disableLang: InterfaceLanguage.中文,
+    // disableLang: InterfaceLanguage.中文,
     hideName: true,
     iconProps: {
       width: 140,
@@ -803,7 +803,7 @@ const SKeys: SKey[] = [
     icon: 'google.png',
     template: 'https://google.com/search?q=%s&hl=%l',
     bylang: true,
-    disableLang: InterfaceLanguage.中文,
+    // disableLang: InterfaceLanguage.中文,
     usage: true,
   },
   {

@@ -14,10 +14,9 @@ interface Item {
   description?: string
 }
 
-const fuseOptions: Fuse.FuseOptions<Item> = {
+const fuseOptions: Fuse.IFuseOptions<Item> = {
   keys: ['text', 'description'],
-  threshold: 0.3,
-  maxPatternLength: 16,
+  threshold: 0.6,
 }
 
 interface Props {
@@ -133,7 +132,7 @@ const Readme: React.FC<Props> = ({ base, paths, query }: Props): JSX.Element => 
         description: getDescription(base, tag),
       }))
       const fuse = new Fuse(items, fuseOptions)
-      const result = fuse.search<Item, false, false>(query)
+      const result = fuse.search<Item>(query).map(r => r.item)
 
       result.forEach(r => {
         const tag = tags[r.index] as HTMLElement

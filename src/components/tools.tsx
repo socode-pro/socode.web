@@ -9,10 +9,9 @@ interface Props {
   query: string
 }
 
-const fuseOptions: Fuse.FuseOptions<Link> = {
+const fuseOptions: Fuse.IFuseOptions<Link> = {
   keys: ['name', 'label', 'title'],
-  threshold: 0.5,
-  maxPatternLength: 16,
+  threshold: 0.4,
 }
 
 const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
@@ -48,7 +47,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
       setGrids(Grids)
     } else {
       const fuse = new Fuse(Grids, fuseOptions)
-      const result = fuse.search<Link, false, false>(query)
+      const result = fuse.search<Link>(query).map(r => r.item)
       setGrids(result)
     }
   }, [query])
