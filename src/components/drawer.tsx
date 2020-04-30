@@ -278,7 +278,7 @@ const Drawer: React.FC = (): JSX.Element => {
             </a>
             {/* <a>投放广告</a> */}
             {language === InterfaceLanguage.中文 && (
-              <p>
+              <p className='mgt10'>
                 <a href='http://beian.miit.gov.cn/state/outPortal/loginPortal.action'>苏ICP备18044337号-2</a>
               </p>
             )}
