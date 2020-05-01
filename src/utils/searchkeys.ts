@@ -14,7 +14,7 @@ export enum SKeyCategory {
 
 export const useSKeyCategoryIntl = (category: SKeyCategory): string => {
   const [word, setWord] = useState('')
-  const { language } = useStoreState<SettingsType>(state => state.storage.settings)
+  const { language } = useStoreState<SettingsType>((state) => state.storage.settings)
 
   useEffect(() => {
     if (language === InterfaceLanguage.中文) {
@@ -214,6 +214,15 @@ const SKeys: SKey[] = [
     ],
   },
   {
+    code: 'baidu',
+    name: 'Baidu',
+    category: SKeyCategory.Search,
+    shortkeys: 'bd',
+    icon: 'baidu.png',
+    template: 'https://www.baidu.com/s?wd=%s',
+    availableLang: InterfaceLanguage.中文,
+  },
+  {
     code: 'bash',
     name: 'Bash',
     category: SKeyCategory.Document,
@@ -277,9 +286,12 @@ const SKeys: SKey[] = [
     tooltipsCN: '前端Web技术的最新浏览器支持表',
   }, // todo: inject result
   {
-    code: 'cargo', name: 'cargo',
+    code: 'cargo',
+    name: 'cargo',
     category: SKeyCategory.Search,
-    shortkeys: 'cg', icon: 'Cargo.png', template: 'https://crates.io/search?q=%s'
+    shortkeys: 'cg',
+    icon: 'Cargo.png',
+    template: 'https://crates.io/search?q=%s',
   },
   {
     code: 'clojure',
@@ -370,9 +382,12 @@ const SKeys: SKey[] = [
     template: 'https://cocoacontrols.com/search?q=%s',
   },
   {
-    code: 'cheatsheets', name: 'CheatSheets',
+    code: 'cheatsheets',
+    name: 'CheatSheets',
     category: SKeyCategory.CheatSheets,
-    shortkeys: 'cs', icon: 'devhints.png', usage: true
+    shortkeys: 'cs',
+    icon: 'devhints.png',
+    usage: true,
   },
   {
     code: 'crystal',
@@ -415,13 +430,13 @@ const SKeys: SKey[] = [
         lang: Language.English,
         apiKey: '015f468476ca8256cf1c8e8fb6d82cc3',
         indexName: 'dayjs',
-        algoliaOptions: {'facetFilters': ['language:en'] }
+        algoliaOptions: { facetFilters: ['language:en'] },
       },
       {
         lang: Language.中文_简体,
         apiKey: '015f468476ca8256cf1c8e8fb6d82cc3',
         indexName: 'dayjs',
-        algoliaOptions: {'facetFilters': ['language:zh-CN'] }
+        algoliaOptions: { facetFilters: ['language:zh-CN'] },
       },
     ],
   },
@@ -499,7 +514,7 @@ const SKeys: SKey[] = [
         appId: 'L9LD9GHGQJ',
         apiKey: '24e7e99910a15eb5d9d93531e5682370',
         indexName: 'apis', // and tutorials,packages,apps
-        byAutocomplete: true
+        byAutocomplete: true,
       },
     ],
   },
@@ -722,7 +737,7 @@ const SKeys: SKey[] = [
     homelink: 'https://www.g2.com/',
     template: 'https://www.g2.com/search?query=%s',
     tooltips: 'Get the right software& services for your business',
-    tooltipsCN: '为您的企业选择合适的软件和服务'
+    tooltipsCN: '为您的企业选择合适的软件和服务',
   },
   {
     code: 'gatsby',
@@ -762,7 +777,7 @@ const SKeys: SKey[] = [
     template: 'https://github.com/search?l=%pl&q=%s',
     bypglang: true,
     usage: true,
-    tooltips: 'search repositorie'
+    tooltips: 'search repositorie',
   },
   {
     code: 'go',
@@ -776,9 +791,12 @@ const SKeys: SKey[] = [
     template: 'https://golang.org/search?q=%s',
   },
   {
-    code: 'godoc', name: 'GoDoc',
+    code: 'godoc',
+    name: 'GoDoc',
     category: SKeyCategory.Search,
-    shortkeys: 'god', icon: 'godoc.png', template: 'https://godoc.org/?q=%s'
+    shortkeys: 'god',
+    icon: 'godoc.png',
+    template: 'https://godoc.org/?q=%s',
   },
   {
     code: 'googledev',
@@ -1026,7 +1044,7 @@ const SKeys: SKey[] = [
     icon: 'jscoach.svg',
     template: 'https://js.coach/?search=%s',
     tooltips: 'search for components, boilerplates, generators and other packages',
-    tooltipsCN: '搜索 components、boilerplates、generators 等NPM包'
+    tooltipsCN: '搜索 components、boilerplates、generators 等NPM包',
   },
   {
     code: 'jsdelivr',
@@ -1356,7 +1374,7 @@ const SKeys: SKey[] = [
     usage: true,
     forRegionCN: false,
     tooltips: 'npms.io: a better and open source search for node packages',
-    tooltipsCN: 'npms.io：更好的、开放源码的node packages搜索'
+    tooltipsCN: 'npms.io：更好的、开放源码的node packages搜索',
   },
   {
     code: 'npm',
@@ -1374,9 +1392,12 @@ const SKeys: SKey[] = [
     forRegionCN: true,
   },
   {
-    code: 'nuget', name: 'NuGet',
+    code: 'nuget',
+    name: 'NuGet',
     category: SKeyCategory.Search,
-    shortkeys: 'ng', icon: 'nuget.svg', template: 'https://nuget.org/packages?q=%s'
+    shortkeys: 'ng',
+    icon: 'nuget.svg',
+    template: 'https://nuget.org/packages?q=%s',
   },
   {
     code: 'paperswithcode',
@@ -1560,9 +1581,12 @@ const SKeys: SKey[] = [
     ],
   },
   {
-    code: 'pypi', name: 'PyPI',
+    code: 'pypi',
+    name: 'PyPI',
     category: SKeyCategory.Document,
-    shortkeys: 'pp', icon: 'pypi.svg', template: 'https://pypi.org/search/?q=%s'
+    shortkeys: 'pp',
+    icon: 'pypi.svg',
+    template: 'https://pypi.org/search/?q=%s',
   },
   {
     code: 'rails',
@@ -1690,7 +1714,7 @@ const SKeys: SKey[] = [
         appId: 'ECKYRBEJ9P',
         apiKey: 'bbc3b58a38aed11bb41e9170140883bd',
         indexName: 'rework.tools',
-        byAutocomplete: true
+        byAutocomplete: true,
       },
     ],
   },
@@ -1834,7 +1858,7 @@ const SKeys: SKey[] = [
     icon: 'github-stars.svg',
     homelink: 'https://github-stars.socode.pro',
     tooltips: 'comparison of star trend data for multiple GitHub repository',
-    tooltipsCN: 'GitHub repositorys 的 star 趋势数据对比'
+    tooltipsCN: 'GitHub repositorys 的 star 趋势数据对比',
   },
   {
     code: 'swift',
@@ -1862,7 +1886,7 @@ const SKeys: SKey[] = [
     },
     template: 'https://tldr.ostera.io/%s',
     tooltips: 'simplify the beloved man pages with practical examples.',
-    tooltipsCN: '用实际例子简化手册页。'
+    tooltipsCN: '用实际例子简化手册页。',
   },
   {
     code: 'taro',
