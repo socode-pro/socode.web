@@ -208,8 +208,8 @@
   align-content: flex-start;
   position: relative;
   border-top: solid 1px $white-ter;
-  margin-top: 20px;
-  padding-top: 5px;
+  margin-top: 25px;
+  // padding-top: 5px;
   &:not(:last-child) {
     padding-bottom: 25px;
   }
@@ -221,6 +221,12 @@
     justify-content: space-between;
     align-items: center;
     flex-basis: 100%;
+    &:nth-child(1),
+    &:nth-child(2),
+    &:nth-child(3) {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
     @media (min-width: 768px) {
       & {
         flex-basis: 50%;
@@ -245,18 +251,21 @@
       }
     }
 
-    a.kicon, i.kicon {
+    a.kicon,
+    i.kicon {
       display: none;
     }
 
     &:hover {
       background-color: $white-duck;
       i.thumbtack,
-      a.kicon, i.kicon {
+      a.kicon,
+      i.kicon {
         display: inline-block;
       }
       .shortkeys {
-        .plus, .tab {
+        .plus,
+        .tab {
           display: inline;
         }
       }
@@ -285,7 +294,7 @@
         background-color: #f5f5f5;
         border: 1px solid #e5e8ed;
         border-radius: 4px;
-        box-shadow: 0 1px 0 rgba(0,0,0,.2), 0 0 0 2px #fff inset;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #fff inset;
         padding: 2px 5px;
         display: none;
       }
@@ -294,20 +303,24 @@
 
   .kdesc {
     position: absolute;
-    top: -$fontsize * 1.6;
+    top: -$fontsize * 1.6 - 3px;
     left: 0;
     background-color: $white-ter;
     color: $grey-light;
-    padding: 0 0.5em;
+    padding: 2px 8px 1px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
   }
 }
 
-a.kicon, i.kicon {
+a.kicon,
+i.kicon {
   @include ms-respond(font-size, 1);
   color: $grey-light;
   margin-right: 8px;
   cursor: pointer;
-  &:hover, &.active {
+  &:hover,
+  &.active {
     color: $primary;
   }
 }
