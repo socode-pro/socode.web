@@ -27,4 +27,4 @@ const debugStore = createStore(model, {
   injections: { searchService, npmsService, starsService } as Injections,
 })
 
-export default process.env.NODE_ENV === 'production'? store: debugStore
+export default process.env.NODE_ENV === 'production' ? store : debugStore
