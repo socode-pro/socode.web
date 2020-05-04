@@ -41,7 +41,6 @@ const SearchInput: React.FC = (): JSX.Element => {
   const inputEl = useRef<HTMLInputElement & { onsearch: (e: InputEvent) => void }>(null)
 
   const [focus, setFocus] = useState(true)
-  const [dquery, setDquery] = useState('')
   const [suggeste, setSuggeste] = useState<{ words: Array<SuggestItem>; key: string } | null>(null)
   const [suggesteIndex, setSuggesteIndex] = useState(-1)
 
@@ -180,7 +179,6 @@ const SearchInput: React.FC = (): JSX.Element => {
   const focusInput = useCallback(
     (key?: SKey) => {
       const ckey = key || currentKey
-      console.log(ckey.code)
       if (ckey.docsearch && !ckey.devdocs) {
         document?.getElementById(`docsearch_${ckey.code}`)?.focus()
       } else {
@@ -195,13 +193,12 @@ const SearchInput: React.FC = (): JSX.Element => {
     () => {
       if (document.activeElement?.tagName !== 'INPUT') {
         setDisplayKeys(!displayKeys)
-        if (!displayKeys) {
-          setTimeout(focusInput, 0)
-        }
+        setTimeout(focusInput, 0)
         return false
       }
+      return true
     },
-    [displayKeys],
+    [displayKeys, focusInput],
     ['BODY']
   )
 
@@ -211,7 +208,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       focusInput()
       return false
     },
-    [currentKey],
+    [focusInput],
     ['BODY']
   )
 
@@ -414,17 +411,19 @@ const SearchInput: React.FC = (): JSX.Element => {
   useHotkeys(
     'tab',
     () => {
-      const key = displayKeys
-        ? keys.find((k) => k.shortkeys === kquery)
-        : keys.find((k) => k.shortkeys === squery || k.shortkeys === dquery)
+      const key = displayKeys ? keys.find((k) => k.shortkeys === kquery) : keys.find((k) => k.shortkeys === squery)
       if (key) {
-        console.log(`tab ${key.code} ${squery} ${dquery} ${displayKeys}`)
         changeKey(key)
-      } else if (displayKeys ? kquery.endsWith('`') : squery.endsWith('`') || dquery.endsWith('`')) {
-        setDisplayKeys(!displayKeys)
+        return false
       }
+      if (displayKeys ? kquery.endsWith('`') : squery.endsWith('`')) {
+        setDisplayKeys(!displayKeys)
+        setTimeout(focusInput, 0)
+        return false
+      }
+      return true
     },
-    [keys, squery, kquery, dquery],
+    [keys, squery, kquery, focusInput],
     [css.input]
   )
 
@@ -491,8 +490,8 @@ const SearchInput: React.FC = (): JSX.Element => {
                   className={cs(css.input, { 'dis-none': displayKeys })}
                   spellCheck={false}
                   autoFocus
-                  value={dquery}
-                  onChange={(e) => setDquery(e.target.value)}
+                  value={squery}
+                  onChange={(e) => setSquery(e.target.value)}
                   id={`docsearch_${currentKey.code}`}
                 />
               </div>
