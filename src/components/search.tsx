@@ -275,19 +275,12 @@ const SearchInput: React.FC = (): JSX.Element => {
         suggestion = ember
       }
 
-      autocomplete(
-        `#docsearch_${currentKey.code}`,
+      autocomplete(`#docsearch_${currentKey.code}`, { hint: false }, [
         {
-          hint: false,
-          // debug: true,
+          source: autocomplete.sources.hits(index, { ...dsConfig.algoliaOptions, hitsPerPage: 10 }),
+          templates: { suggestion },
         },
-        [
-          {
-            source: autocomplete.sources.hits(index, { ...dsConfig.algoliaOptions, hitsPerPage: 10 }),
-            templates: { suggestion },
-          },
-        ]
-      )
+      ])
       return
     }
 
