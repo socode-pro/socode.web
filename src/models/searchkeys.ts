@@ -17,13 +17,14 @@ export interface SearchKeysModel {
   keys: Array<SKey>
   setKeys: Action<SearchKeysModel, Array<SKey>>
   initialKeys: Thunk<SearchKeysModel>
-  computedKeys: Computed<SearchKeysModel, Array<SKey>, StoreModel>
 
   pins: Array<string>
   addPin: Action<SearchKeysModel, string>
   removePin: Action<SearchKeysModel, string>
-
   pinKeys: Computed<SearchKeysModel, Array<SKey>>
+
+  filteredKeys: Computed<SearchKeysModel, Array<SKey>, StoreModel>
+
   searchKeys: Computed<SearchKeysModel, Array<SKey>>
   cheatSheetsKeys: Computed<SearchKeysModel, Array<SKey>>
   collectionKeys: Computed<SearchKeysModel, Array<SKey>>
@@ -31,12 +32,11 @@ export interface SearchKeysModel {
   toolsKeys: Computed<SearchKeysModel, Array<SKey>>
   documentKeys: Computed<SearchKeysModel, Array<SKey>>
 
+  searchedKeys: Computed<SearchKeysModel, Array<SKey>>
+
   currentKey: SKey
   setCurrentKey: Action<SearchKeysModel, SKey>
   initialCurrentKey: Action<SearchKeysModel>
-
-  displayMore: boolean
-  setDisplayMore: Action<SearchKeysModel, boolean>
 
   displayKeys: boolean
   setDisplayKeys: Action<SearchKeysModel, boolean>
@@ -52,7 +52,7 @@ const searchKeysModel: SearchKeysModel = {
   setKeys: action((state, payload) => {
     state.keys = payload
   }),
-  initialKeys: thunk(async actions => {
+  initialKeys: thunk(async (actions) => {
     try {
       const skeys = await ky.get(`${process.env.REACT_APP_KEYS_HOST}/searchkeys.json`).json<Array<SKey>>()
       if (skeys !== null) {
@@ -63,27 +63,6 @@ const searchKeysModel: SearchKeysModel = {
     }
   }),
 
-  computedKeys: computed(
-    [
-      state => state.keys,
-      state => state.kquery,
-      (state, storeState) => state.pins,
-    ],
-    (keys, kquery, pins) => {
-      let ckeys = keys
-      if (kquery) {
-        const fuse = new Fuse(ckeys, fuseOptions)
-        ckeys = fuse.search<SKey>(kquery).map(r => r.item)
-      }
-      if (pins && pins.length) {
-        ckeys.forEach(k => {
-          k.pin = pins.includes(k.code)
-        })
-      }
-      return ckeys.sort((a) => a.usage? -1: 0)
-    }
-  ),
-
   pins: localStorage.getItem('pins')?.split(',') || [],
   addPin: action((state, pin) => {
     state.pins = [pin, ...state.pins]
@@ -93,36 +72,50 @@ const searchKeysModel: SearchKeysModel = {
     state.pins = without(state.pins, pin)
     localStorage.setItem('pins', state.pins.toString())
   }),
+  pinKeys: computed((state) => state.keys.filter((k) => state.pins.includes(k.code))),
 
-  pinKeys: computed(state =>
-    state.computedKeys.filter(k => k.pin)
+  filteredKeys: computed(
+    [
+      (state) => state.keys,
+      (state, storeState) => storeState.storage.settings.language,
+      (state, storeState) => storeState.storage.region,
+    ],
+    (keys, language, region) => {
+      return keys.filter((key) => {
+        if (key.availableLang) {
+          return key.availableLang === language
+        }
+        if (key.disableLang) {
+          return key.disableLang !== language
+        }
+        if (key.forRegionCN && region !== 'CN') {
+          return false
+        }
+        if (key.forRegionCN === false && region === 'CN') {
+          return false
+        }
+        return true
+      })
+    }
   ),
 
-  searchKeys: computed(state =>
-    state.computedKeys.filter(k => k.category === SKeyCategory.Search)
-  ),
+  searchKeys: computed((state) => state.filteredKeys.filter((k) => k.category === SKeyCategory.Search)),
+  cheatSheetsKeys: computed((state) => state.filteredKeys.filter((k) => k.category === SKeyCategory.CheatSheets)),
+  collectionKeys: computed((state) => state.filteredKeys.filter((k) => k.category === SKeyCategory.Collection)),
+  learnKeys: computed((state) => state.filteredKeys.filter((k) => k.category === SKeyCategory.Learn)),
+  toolsKeys: computed((state) => state.filteredKeys.filter((k) => k.category === SKeyCategory.Tools)),
+  documentKeys: computed((state) => state.filteredKeys.filter((k) => k.category === SKeyCategory.Document)),
 
-  cheatSheetsKeys: computed(state =>
-    state.computedKeys.filter(k => k.category === SKeyCategory.CheatSheets)
-  ),
+  searchedKeys: computed((state) => {
+    let ckeys = state.keys
+    if (state.kquery) {
+      const fuse = new Fuse(ckeys, fuseOptions)
+      ckeys = fuse.search<SKey>(state.kquery).map((r) => r.item)
+    }
+    return ckeys
+  }),
 
-  collectionKeys: computed(state =>
-    state.computedKeys.filter(k => k.category === SKeyCategory.Collection)
-  ),
-
-  learnKeys: computed(state =>
-    state.computedKeys.filter(k => k.category === SKeyCategory.Learn)
-  ),
-
-  toolsKeys: computed(state =>
-    state.computedKeys.filter(k => k.category === SKeyCategory.Tools)
-  ),
-
-  documentKeys: computed(state =>
-    state.computedKeys.filter(k => k.category === SKeyCategory.Document)
-  ),
-
-  currentKey: SKeys.find(k => k.code === 'github') || SKeys[0],
+  currentKey: SKeys.find((k) => k.code === 'github') || SKeys[0],
   setCurrentKey: action((state, payload) => {
     state.currentKey = payload
     localStorage.setItem('currentKey', payload.code)
@@ -131,7 +124,7 @@ const searchKeysModel: SearchKeysModel = {
     const params = new URLSearchParams(window.location.search)
 
     if (params.has('k')) {
-      const key = state.keys.find(k => k.code === params.get('k'))
+      const key = state.keys.find((k) => k.code === params.get('k'))
       if (key) {
         state.currentKey = key
         return
@@ -139,16 +132,10 @@ const searchKeysModel: SearchKeysModel = {
     }
 
     const code = localStorage.getItem('currentKey')
-    const key = state.keys.find(k => k.code === code)
+    const key = state.keys.find((k) => k.code === code)
     if (key && !key.devdocs) {
       state.currentKey = key
     }
-  }),
-
-  displayMore: localStorage.getItem('displayMore') === 'true',
-  setDisplayMore: action((state, payload) => {
-    state.displayMore = payload
-    localStorage.setItem('displayMore', payload.toString())
   }),
 
   displayKeys: localStorage.getItem('displayKeys') !== 'false',
