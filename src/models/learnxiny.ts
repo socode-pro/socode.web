@@ -11,13 +11,9 @@ export interface LearnxinyModel {
 const learnxinyModel: LearnxinyModel = {
   html: '',
   setHtml: action((state, payload) => {
-    try {
-      localStorage.setItem('learnxinyHtml', payload)
-      localStorage.setItem('learnxinyTime', dayjs().toJSON())
-      state.html = payload
-    } catch (err) {
-      console.error(err)
-    }
+    localStorage.setItem('learnxinyHtml', payload)
+    state.html = payload
+    localStorage.setItem('learnxinyTime', dayjs().toJSON())
   }),
   getHtml: thunk(async actions => {
     try {

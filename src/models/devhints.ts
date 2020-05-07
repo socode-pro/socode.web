@@ -22,13 +22,9 @@ const devhintsModel: DevhintsModel = {
     state.html = html
   }),
   setHtmlStorage: action((state, html) => {
-    try {
-      localStorage.setItem('devhints_html', html)
-      state.html = html
-      localStorage.setItem('devhints_time', dayjs().toJSON())
-    } catch (err) {
-      console.error(err)
-    }
+    localStorage.setItem('devhints_html', html)
+    state.html = html
+    localStorage.setItem('devhints_time', dayjs().toJSON())
   }),
   getHtml: thunk(async actions => {
     try {

@@ -43,6 +43,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [focus, setFocus] = useState(true)
   const [suggeste, setSuggeste] = useState<{ words: Array<SuggestItem>; key: string } | null>(null)
   const [suggesteIndex, setSuggesteIndex] = useState(-1)
+  const [keyIndex, setKeyIndex] = useState(-1)
 
   const searchIntl = useSKeyCategoryIntl(SKeyCategory.Search)
   const toolsIntl = useSKeyCategoryIntl(SKeyCategory.Tools)
@@ -186,20 +187,6 @@ const SearchInput: React.FC = (): JSX.Element => {
       }
     },
     [currentKey]
-  )
-
-  useHotkeys(
-    '`',
-    () => {
-      if (document.activeElement?.tagName !== 'INPUT') {
-        setDisplayKeys(!displayKeys)
-        setTimeout(focusInput, 0)
-        return false
-      }
-      return true
-    },
-    [displayKeys, focusInput],
-    ['BODY']
   )
 
   useHotkeys(
@@ -420,6 +407,17 @@ const SearchInput: React.FC = (): JSX.Element => {
     [css.input]
   )
 
+  useHotkeys(
+    'backspace',
+    () => {
+      if (!displayKeys && !squery.length) {
+        setDisplayKeys(true)
+      }
+    },
+    [displayKeys, squery],
+    [css.input]
+  )
+
   return (
     <>
       <div className='container'>
@@ -430,13 +428,15 @@ const SearchInput: React.FC = (): JSX.Element => {
             top: spring.wapperTop,
           }}>
           <div className={cs(css.searchInput)}>
-            <span className={cs(css.prefix, { [css.displayKeys]: displayKeys })} onClick={() => setDisplayKeys(!displayKeys)}>
-              {currentKey.name}
-            </span>
             <span className={css.sep}>$</span>
+            {!displayKeys && (
+              <span className={cs(css.prefix, { [css.displayKeys]: displayKeys })} onClick={() => setDisplayKeys(!displayKeys)}>
+                {currentKey.name}
+              </span>
+            )}
 
             {(displayKeys ||
-              currentKey.devdocs ||
+              // currentKey.devdocs ||
               currentKey.template ||
               currentKey.readmes ||
               currentKey.code === 'github_stars' ||
