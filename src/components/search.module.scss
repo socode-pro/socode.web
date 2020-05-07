@@ -203,7 +203,8 @@
   }
 }
 
-.skgroup {
+.skgroup,
+.searchedKeys {
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
@@ -213,6 +214,9 @@
   // padding-top: 5px;
   &:not(:last-child) {
     padding-bottom: 25px;
+  }
+  &.searchedKeys {
+    flex-direction: column;
   }
   .skeybox {
     cursor: pointer;
@@ -257,7 +261,8 @@
       display: none;
     }
 
-    &:hover {
+    &:hover,
+    &.index {
       background-color: $white-duck;
       i.thumbtack,
       a.kicon,
@@ -284,7 +289,7 @@
       background-repeat: no-repeat;
     }
     .shortkeys {
-      margin-left: 10px;
+      margin: 0 10px;
       color: $grey-light;
       .plus {
         margin-left: 6px;
