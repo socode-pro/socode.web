@@ -41,7 +41,7 @@ const ExtArrow: React.FC = (): JSX.Element => {
         <div className={cs(css.wapper)}>
           <a className={cs(css.arrow, css.pwa)} onClick={() => InstallPWA()}>
             <h3>Install the PWA</h3>
-            {language !== InterfaceLanguage.中文 ? (
+            {language === InterfaceLanguage.中文 ? (
               <span>使用任意你喜欢的方式快速启动SOCODE.PRO</span>
             ) : (
               <span>Quickly launch our app any way you like!</span>
@@ -62,7 +62,7 @@ const ExtArrow: React.FC = (): JSX.Element => {
              'https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/'}> */}
 
           <h3>Browser Extension</h3>
-          {language !== InterfaceLanguage.中文 ? (
+          {language === InterfaceLanguage.中文 ? (
             <span>成为浏览器的 New Tab 页</span>
           ) : (
             <span>become the new tab of your browser</span>
