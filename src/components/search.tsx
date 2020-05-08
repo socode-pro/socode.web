@@ -768,7 +768,8 @@ const SearchInput: React.FC = (): JSX.Element => {
 
           {displayKeys && (
             <div className='mgl10 mgb10 mgr10'>
-              <div className={css.tabs}>
+              {kquery && <div className={cs(css.searchedKeys)}>{keysDom(searchedKeys)}</div>}
+              {!kquery && <div className={css.tabs}>
                 <a className={cs({ [css.current]: tabIndex === 0 })} onClick={() => switchTab(0)}>
                   {pinnedIntl}
                 </a>
@@ -802,8 +803,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                   onClick={() => switchTab(SKeyCategory.Document)}>
                   {documentIntl}
                 </a>
-              </div>
-              {kquery && <div className={cs(css.searchedKeys)}>{keysDom(searchedKeys)}</div>}
+              </div>}
               {!kquery && pinKeys.length > 0 && (
                 <div ref={pinnedTabEl} className={cs(css.skgroup, css.pinnned)}>
                   {keysDom(pinKeys)}
