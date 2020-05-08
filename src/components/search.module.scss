@@ -238,6 +238,9 @@
   }
   &.searchedKeys {
     flex-direction: column;
+    .skeybox {
+      width: 100%;
+    }
   }
   &.pinnned {
     margin-top: 0;

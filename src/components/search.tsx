@@ -187,7 +187,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   useHotkeys(
     'down',
     () => {
-      if (displayKeys) {
+      if (displayKeys && kquery) {
         if (searchedKeys.length > keyIndex + 1) {
           setKeyIndex(keyIndex + 1)
         } else {
@@ -197,6 +197,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         setSuggesteIndex(suggesteIndex + 1)
         setSquery(suggeste.words[suggesteIndex + 1].name) // warn: suggesteIndex must '-1' when autocomplate arr init
       }
+      return false
     },
     [suggesteIndex, suggeste, displayKeys, keyIndex, searchedKeys],
     [css.input]
@@ -205,7 +206,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   useHotkeys(
     'up',
     () => {
-      if (displayKeys) {
+      if (displayKeys && kquery) {
         if (searchedKeys.length >= keyIndex + 1 && keyIndex > 0) {
           setKeyIndex(keyIndex - 1)
         } else {
@@ -215,6 +216,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         setSuggesteIndex(suggesteIndex - 1)
         setSquery(suggeste.words[suggesteIndex - 1].name)
       }
+      return false
     },
     [suggesteIndex, suggeste, displayKeys, keyIndex, searchedKeys],
     [css.input]
