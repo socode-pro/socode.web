@@ -11,20 +11,15 @@ export interface LearnxinyModel {
 const learnxinyModel: LearnxinyModel = {
   html: '',
   setHtml: action((state, payload) => {
-    localStorage.setItem('learnxinyHtml', payload)
     state.html = payload
-    localStorage.setItem('learnxinyTime', dayjs().toJSON())
+    localStorage.setItem('learnxiny_time', dayjs().toJSON())
+    localStorage.setItem('learnxiny_html', payload)
   }),
-  getHtml: thunk(async actions => {
+  getHtml: thunk(async (actions) => {
     try {
-      const time = localStorage.getItem('learnxinyTime')
-      if (
-        time &&
-        dayjs(time)
-          .add(7, 'day')
-          .isAfter(dayjs())
-      ) {
-        const learnxinyHtml = localStorage.getItem('learnxinyHtml')
+      const time = localStorage.getItem('learnxiny_time')
+      if (time && dayjs(time).add(7, 'day').isAfter(dayjs())) {
+        const learnxinyHtml = localStorage.getItem('learnxiny_html')
         if (learnxinyHtml) {
           actions.setHtml(learnxinyHtml || '')
           return
@@ -34,7 +29,7 @@ const learnxinyModel: LearnxinyModel = {
         .get('https://learnxinyminutes.com/', {
           hooks: {
             beforeRequest: [
-              request => {
+              (request) => {
                 request.headers.set('Accept', '*/*')
               },
             ],
