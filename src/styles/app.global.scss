@@ -259,6 +259,10 @@ body {
   // overflow-y: auto;
 }
 
+.app {
+  width: 100vw; // https://stackoverflow.com/a/42987298/346701
+}
+
 h1,
 h2,
 h3,
