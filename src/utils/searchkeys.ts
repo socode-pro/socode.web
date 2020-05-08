@@ -4,12 +4,12 @@ import { SettingsType } from '../models/storage'
 import Language, { InterfaceLanguage } from './language'
 
 export enum SKeyCategory {
-  Search = 'SEARCH',
-  Tools = 'TOOLS',
-  CheatSheets = 'CHEAT SHEETS',
-  Document = 'DOCUMENT',
-  Collection = 'COLLECTION',
-  Learn = 'LEARN',
+  Search = 1,
+  Tools = 2,
+  Collection = 3,
+  CheatSheets = 4,
+  Learn = 5,
+  Document = 6,
 }
 
 export const useSKeyCategoryIntl = (category: SKeyCategory): string => {
@@ -41,7 +41,28 @@ export const useSKeyCategoryIntl = (category: SKeyCategory): string => {
           break
       }
     } else {
-      setWord(category)
+      switch (category) {
+        case SKeyCategory.Search:
+          setWord('SEARCH')
+          break
+        case SKeyCategory.Tools:
+          setWord('TOOLS')
+          break
+        case SKeyCategory.CheatSheets:
+          setWord('Cheat Sheets')
+          break
+        case SKeyCategory.Document:
+          setWord('DOCUMENT')
+          break
+        case SKeyCategory.Collection:
+          setWord('COLLECTION')
+          break
+        case SKeyCategory.Learn:
+          setWord('LEARN')
+          break
+        default:
+          break
+      }
     }
   }, [language, category])
 
@@ -495,7 +516,7 @@ const SKeys: SKey[] = [
     usage: true,
     shortkeys: 'dd',
     icon: 'duckduckgo.svg',
-    template: 'https://duckduckgo.com/?q=%s',
+    template: 'https://duckduckgo.com/?q=%s&t=%l',
     bylang: true,
     // disableLang: InterfaceLanguage.中文,
   },
@@ -1295,7 +1316,7 @@ const SKeys: SKey[] = [
     icon: 'microsoft.png',
     awesome: 'quozd/awesome-dotnet',
     // template: 'https://docs.microsoft.com/%l/search/?search=%s',
-    template: 'https://docs.microsoft.com/zh-cn/dotnet/api/index?term=%s',
+    template: 'https://docs.microsoft.com/%l/dotnet/api/index?term=%s',
     bylang: true,
   },
   {
@@ -1676,7 +1697,6 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     shortkeys: 'ran',
     icon: 'react.svg',
-    bylang: true,
     homelink: 'https://facebook.github.io/react-native',
     awesome: 'jondot/awesome-react-native',
     devdocs: 'react_native',
