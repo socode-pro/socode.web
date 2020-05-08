@@ -20,7 +20,7 @@ import Language, { ProgramLanguage, InterfaceLanguage } from '../utils/language'
 import { SKey, UnSearchableKey, SKeyCategory, useSKeyCategoryIntl } from '../utils/searchkeys'
 import { rework, electron, ember } from '../utils/algolia_template'
 import useHotkeys from '../utils/useHotkeys'
-import { StringEnumObjects, IntEnumObjects, winSearchParams, isFirefox } from '../utils/assist'
+import { StringEnumObjects, IntEnumObjects, winSearchParams, isFirefox, isInStandaloneMode } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
 import { SearchTimeRange, SocodeResult } from '../services/socode.service'
 import { NpmsResult } from '../services/npms.service'
@@ -769,41 +769,43 @@ const SearchInput: React.FC = (): JSX.Element => {
           {displayKeys && (
             <div className='mgl10 mgb10 mgr10'>
               {kquery && <div className={cs(css.searchedKeys)}>{keysDom(searchedKeys)}</div>}
-              {!kquery && <div className={css.tabs}>
-                <a className={cs({ [css.current]: tabIndex === 0 })} onClick={() => switchTab(0)}>
-                  {pinnedIntl}
-                </a>
-                <a
-                  className={cs({ [css.current]: tabIndex === SKeyCategory.Search })}
-                  onClick={() => switchTab(SKeyCategory.Search)}>
-                  {searchIntl}
-                </a>
-                <a
-                  className={cs({ [css.current]: tabIndex === SKeyCategory.Tools })}
-                  onClick={() => switchTab(SKeyCategory.Tools)}>
-                  {toolsIntl}
-                </a>
-                <a
-                  className={cs({ [css.current]: tabIndex === SKeyCategory.Collection })}
-                  onClick={() => switchTab(SKeyCategory.Collection)}>
-                  {collectionIntl}
-                </a>
-                <a
-                  className={cs({ [css.current]: tabIndex === SKeyCategory.CheatSheets })}
-                  onClick={() => switchTab(SKeyCategory.CheatSheets)}>
-                  {cheatSheetsIntl}
-                </a>
-                <a
-                  className={cs({ [css.current]: tabIndex === SKeyCategory.Learn })}
-                  onClick={() => switchTab(SKeyCategory.Learn)}>
-                  {learnIntl}
-                </a>
-                <a
-                  className={cs({ [css.current]: tabIndex === SKeyCategory.Document })}
-                  onClick={() => switchTab(SKeyCategory.Document)}>
-                  {documentIntl}
-                </a>
-              </div>}
+              {!kquery && (
+                <div className={css.tabs}>
+                  <a className={cs({ [css.current]: tabIndex === 0 })} onClick={() => switchTab(0)}>
+                    {pinnedIntl}
+                  </a>
+                  <a
+                    className={cs({ [css.current]: tabIndex === SKeyCategory.Search })}
+                    onClick={() => switchTab(SKeyCategory.Search)}>
+                    {searchIntl}
+                  </a>
+                  <a
+                    className={cs({ [css.current]: tabIndex === SKeyCategory.Tools })}
+                    onClick={() => switchTab(SKeyCategory.Tools)}>
+                    {toolsIntl}
+                  </a>
+                  <a
+                    className={cs({ [css.current]: tabIndex === SKeyCategory.Collection })}
+                    onClick={() => switchTab(SKeyCategory.Collection)}>
+                    {collectionIntl}
+                  </a>
+                  <a
+                    className={cs({ [css.current]: tabIndex === SKeyCategory.CheatSheets })}
+                    onClick={() => switchTab(SKeyCategory.CheatSheets)}>
+                    {cheatSheetsIntl}
+                  </a>
+                  <a
+                    className={cs({ [css.current]: tabIndex === SKeyCategory.Learn })}
+                    onClick={() => switchTab(SKeyCategory.Learn)}>
+                    {learnIntl}
+                  </a>
+                  <a
+                    className={cs({ [css.current]: tabIndex === SKeyCategory.Document })}
+                    onClick={() => switchTab(SKeyCategory.Document)}>
+                    {documentIntl}
+                  </a>
+                </div>
+              )}
               {!kquery && pinKeys.length > 0 && (
                 <div ref={pinnedTabEl} className={cs(css.skgroup, css.pinnned)}>
                   {keysDom(pinKeys)}
@@ -975,7 +977,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             </div>
           )}
 
-          {result === null && currentKey.name === 'socode' && <Slogan />}
+          {!isInStandaloneMode && result === null && currentKey.name === 'socode' && <Slogan />}
         </animated.div>
 
         {displayTrending && !displayKeys && !loading && !currentKey.devdocs && !currentKey.readmes && <Trending />}
