@@ -18,7 +18,7 @@ import Slogan from './slogan'
 import Trending from './trending'
 import Language, { ProgramLanguage, InterfaceLanguage } from '../utils/language'
 import { SKey, UnSearchableKey, SKeyCategory, useSKeyCategoryIntl } from '../utils/searchkeys'
-import { rework, electron, ember } from '../utils/algolia_template'
+import { rework, electron, ember, kotlin, cocoapods } from '../utils/algolia_template'
 import useHotkeys from '../utils/useHotkeys'
 import { StringEnumObjects, IntEnumObjects, winSearchParams, isFirefox, isInStandaloneMode } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
@@ -259,6 +259,10 @@ const SearchInput: React.FC = (): JSX.Element => {
         suggestion = electron
       } else if (currentKey.code === 'ember') {
         suggestion = ember
+      } else if (currentKey.code === 'kotlin') {
+        suggestion = kotlin
+      } else if (currentKey.code === 'cocoapods') {
+        suggestion = cocoapods
       }
 
       autocomplete(`#docsearch_${currentKey.code}`, { hint: false }, [

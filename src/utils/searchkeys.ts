@@ -400,7 +400,16 @@ const SKeys: SKey[] = [
     iconProps: {
       width: 110,
     },
-    template: 'https://cocoacontrols.com/search?q=%s',
+    // template: 'https://cocoacontrols.com/search?q=%s',
+    docsearch: [
+      {
+        lang: Language.English,
+        appId: 'WBHHAMHYNM',
+        apiKey: '4f7544ca8701f9bf2a4e55daff1b09e9',
+        indexName: 'cocoapods',
+        byAutocomplete: true,
+      },
+    ],
   },
   {
     code: 'cheatsheets',
@@ -1102,11 +1111,15 @@ const SKeys: SKey[] = [
     homelink: 'https://kotlinlang.org',
     awesome: 'KotlinBy/awesome-kotlin',
     devdocs: 'kotlin',
-    // docsearch: { // todo build
-    //   appId: '7961PKYRXV',
-    //   apiKey: '604fa45d89af86bdf9eed4cc862b2d0b',
-    //   indexName: 'prod_KOTLINLANG',
-    // },
+    docsearch: [
+      {
+        lang: Language.English,
+        appId: '7961PKYRXV',
+        apiKey: '604fa45d89af86bdf9eed4cc862b2d0b',
+        indexName: 'prod_KOTLINLANG',
+        byAutocomplete: true,
+      },
+    ],
   },
   // learnxiny: {
   //     //   name: 'Learn X in Y minutes',
