@@ -165,7 +165,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const focusInput = useCallback(
     (key?: SKey) => {
       const ckey = key || currentKey
-      if (ckey.docsearch && !ckey.devdocs) {
+      if (ckey.docsearch) {
         document?.getElementById(`docsearch_${ckey.code}`)?.focus()
       } else {
         inputEl.current?.focus()
