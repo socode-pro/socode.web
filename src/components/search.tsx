@@ -18,7 +18,7 @@ import Slogan from './slogan'
 import Trending from './trending'
 import Language, { ProgramLanguage, InterfaceLanguage } from '../utils/language'
 import { SKey, UnSearchableKey, SKeyCategory, useSKeyCategoryIntl } from '../utils/searchkeys'
-import { rework, electron, ember, kotlin, cocoapods } from '../utils/algolia_template'
+import { getAutocompleteTemplate, getAutocompleteUrl } from '../utils/algolia_template'
 import useHotkeys from '../utils/useHotkeys'
 import { StringEnumObjects, IntEnumObjects, winSearchParams, isFirefox, isInStandaloneMode } from '../utils/assist'
 import { useStoreActions, useStoreState } from '../utils/hooks'
@@ -254,23 +254,22 @@ const SearchInput: React.FC = (): JSX.Element => {
       const client = algoliasearch(dsConfig.appId, dsConfig.apiKey)
       const index = client.initIndex(dsConfig.indexName)
 
-      let suggestion = rework
-      if (currentKey.code === 'electron') {
-        suggestion = electron
-      } else if (currentKey.code === 'ember') {
-        suggestion = ember
-      } else if (currentKey.code === 'kotlin') {
-        suggestion = kotlin
-      } else if (currentKey.code === 'cocoapods') {
-        suggestion = cocoapods
-      }
-
-      autocomplete(`#docsearch_${currentKey.code}`, { hint: false }, [
+      autocomplete(
+        `#docsearch_${currentKey.code}`,
         {
-          source: autocomplete.sources.hits(index, { ...dsConfig.algoliaOptions, hitsPerPage: 10 }),
-          templates: { suggestion },
+          hint: false,
+          autoselect: true,
+          // debug: true
         },
-      ])
+        [
+          {
+            source: autocomplete.sources.hits(index, { ...dsConfig.algoliaOptions, hitsPerPage: 5 }),
+            templates: { suggestion: getAutocompleteTemplate(currentKey.code) },
+          },
+        ]
+      ).on('autocomplete:selected', (event, data) => {
+        window.open(getAutocompleteUrl(currentKey.code, data), '_blank')?.focus()
+      })
       return
     }
 
