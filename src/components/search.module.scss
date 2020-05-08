@@ -20,6 +20,27 @@
   }
 }
 
+.tabs {
+  display: flex;
+  justify-content: center;
+  background: #fff;
+  position: sticky;
+  top: 63px;
+  z-index: 10;
+  border-bottom: solid 1px $white-ter;
+  a {
+    background-color: $white-ter;
+    color: $grey-light;
+    padding: 2px 8px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    margin-left: 5px;
+    &.current {
+      color: $primary;
+    }
+  }
+}
+
 .searchInput {
   display: flex;
   height: 64px;
@@ -63,6 +84,7 @@
     display: block;
     user-select: none;
     padding: 2px 8px;
+    margin-right: 8px;
     border-radius: 3px;
     color: rgba($dh-mute, 0.5);
     background: rgba($dh-body, 0.5);
@@ -202,7 +224,8 @@
   }
 }
 
-.skgroup {
+.skgroup,
+.searchedKeys {
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
@@ -212,6 +235,13 @@
   // padding-top: 5px;
   &:not(:last-child) {
     padding-bottom: 25px;
+  }
+  &.searchedKeys {
+    flex-direction: column;
+  }
+  &.pinnned {
+    margin-top: 0;
+    border-top: none;
   }
   .skeybox {
     cursor: pointer;
@@ -256,7 +286,8 @@
       display: none;
     }
 
-    &:hover {
+    &:hover,
+    &.index {
       background-color: $white-duck;
       i.thumbtack,
       a.kicon,
@@ -283,7 +314,7 @@
       background-repeat: no-repeat;
     }
     .shortkeys {
-      margin-left: 10px;
+      margin: 0 10px;
       color: $grey-light;
       .plus {
         margin-left: 6px;
@@ -303,11 +334,11 @@
 
   .kdesc {
     position: absolute;
-    top: -$fontsize * 1.6 - 3px;
+    top: -$fontsize * 1.6 - 4px;
     left: 0;
     background-color: $white-ter;
     color: $grey-light;
-    padding: 2px 8px 1px;
+    padding: 2px 8px;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
   }

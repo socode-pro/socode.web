@@ -39,17 +39,19 @@ const timeRangeOptions = StringEnumObjects(SearchTimeRange)
 
 const SearchInput: React.FC = (): JSX.Element => {
   const inputEl = useRef<HTMLInputElement & { onsearch: (e: InputEvent) => void }>(null)
+  const pinnedTabEl = useRef<HTMLDivElement>(null)
+  const searchTabEl = useRef<HTMLDivElement>(null)
+  const cheatSheetsTabEl = useRef<HTMLDivElement>(null)
+  const collectionTabEl = useRef<HTMLDivElement>(null)
+  const learnTabEl = useRef<HTMLDivElement>(null)
+  const toolsTabEl = useRef<HTMLDivElement>(null)
+  const documentTabEl = useRef<HTMLDivElement>(null)
 
   const [focus, setFocus] = useState(true)
   const [suggeste, setSuggeste] = useState<{ words: Array<SuggestItem>; key: string } | null>(null)
   const [suggesteIndex, setSuggesteIndex] = useState(-1)
-
-  const searchIntl = useSKeyCategoryIntl(SKeyCategory.Search)
-  const toolsIntl = useSKeyCategoryIntl(SKeyCategory.Tools)
-  const cheatSheetsIntl = useSKeyCategoryIntl(SKeyCategory.CheatSheets)
-  const documentIntl = useSKeyCategoryIntl(SKeyCategory.Document)
-  const collectionIntl = useSKeyCategoryIntl(SKeyCategory.Collection)
-  const learnIntl = useSKeyCategoryIntl(SKeyCategory.Learn)
+  const [keyIndex, setKeyIndex] = useState(-1)
+  const [tabIndex, setTabIndex] = useState(0)
 
   const keys = useStoreState<Array<SKey>>((state) => state.searchKeys.keys)
   const pinKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.pinKeys)
@@ -59,6 +61,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const learnKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.learnKeys)
   const toolsKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.toolsKeys)
   const documentKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.documentKeys)
+  const searchedKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.searchedKeys)
 
   const kquery = useStoreState<string>((state) => state.searchKeys.kquery)
   const setKquery = useStoreActions((actions) => actions.searchKeys.setKquery)
@@ -66,8 +69,6 @@ const SearchInput: React.FC = (): JSX.Element => {
   const setCurrentKey = useStoreActions((actions) => actions.searchKeys.setCurrentKey)
   const addPin = useStoreActions((actions) => actions.searchKeys.addPin)
   const removePin = useStoreActions((actions) => actions.searchKeys.removePin)
-  const displayMore = useStoreState<boolean>((state) => state.searchKeys.displayMore)
-  const setDisplayMore = useStoreActions((actions) => actions.searchKeys.setDisplayMore)
   const displayKeys = useStoreState<boolean>((state) => state.searchKeys.displayKeys)
   const setDisplayKeys = useStoreActions((actions) => actions.searchKeys.setDisplayKeys)
 
@@ -84,10 +85,17 @@ const SearchInput: React.FC = (): JSX.Element => {
   const setDocLanguage = useStoreActions((actions) => actions.search.setDocLanguage)
 
   const programLanguage = useStoreState<ProgramLanguage>((state) => state.storage.programLanguage)
-  const region = useStoreState<string>((state) => state.storage.region)
   const setProgramLanguage = useStoreActions((actions) => actions.storage.setProgramLanguage)
   const { language, displayTrending } = useStoreState<SettingsType>((state) => state.storage.settings)
   const [awesomeOrDevdoc, setAwesomeOrDevdoc] = useState<boolean>(false)
+
+  const searchIntl = useSKeyCategoryIntl(SKeyCategory.Search)
+  const toolsIntl = useSKeyCategoryIntl(SKeyCategory.Tools)
+  const cheatSheetsIntl = useSKeyCategoryIntl(SKeyCategory.CheatSheets)
+  const documentIntl = useSKeyCategoryIntl(SKeyCategory.Document)
+  const collectionIntl = useSKeyCategoryIntl(SKeyCategory.Collection)
+  const learnIntl = useSKeyCategoryIntl(SKeyCategory.Learn)
+  const pinnedIntl = language === InterfaceLanguage.中文 ? '置顶' : 'PINNED'
 
   const result = useStoreState<SocodeResult | null>((state) => state.search.result)
   const npmResult = useStoreState<NpmsResult | null>((state) => state.search.npmResult)
@@ -154,28 +162,6 @@ const SearchInput: React.FC = (): JSX.Element => {
     clearResult()
   }, [clearResult])
 
-  const handleQueryKeyPress = useCallback(
-    (e) => {
-      if (isFirefox && e.key === 'Enter') {
-        clearResultAll()
-        search()
-        e.target?.blur()
-      }
-    },
-    [clearResultAll, search]
-  )
-
-  const handlerSearch = useCallback(
-    (e) => {
-      clearResultAll()
-      search()
-      e.target?.blur()
-    },
-    [clearResultAll, search]
-  )
-
-  if (inputEl.current !== null) inputEl.current.onsearch = handlerSearch
-
   const focusInput = useCallback(
     (key?: SKey) => {
       const ckey = key || currentKey
@@ -186,20 +172,6 @@ const SearchInput: React.FC = (): JSX.Element => {
       }
     },
     [currentKey]
-  )
-
-  useHotkeys(
-    '`',
-    () => {
-      if (document.activeElement?.tagName !== 'INPUT') {
-        setDisplayKeys(!displayKeys)
-        setTimeout(focusInput, 0)
-        return false
-      }
-      return true
-    },
-    [displayKeys, focusInput],
-    ['BODY']
   )
 
   useHotkeys(
@@ -215,25 +187,37 @@ const SearchInput: React.FC = (): JSX.Element => {
   useHotkeys(
     'down',
     () => {
-      if (suggeste && suggeste.words.length > suggesteIndex + 1) {
+      if (displayKeys) {
+        if (searchedKeys.length > keyIndex + 1) {
+          setKeyIndex(keyIndex + 1)
+        } else {
+          setKeyIndex(0)
+        }
+      } else if (suggeste && suggeste.words.length > suggesteIndex + 1) {
         setSuggesteIndex(suggesteIndex + 1)
         setSquery(suggeste.words[suggesteIndex + 1].name) // warn: suggesteIndex must '-1' when autocomplate arr init
       }
     },
-    [suggesteIndex, suggeste],
-    ['with_suggeste']
+    [suggesteIndex, suggeste, displayKeys, keyIndex, searchedKeys],
+    [css.input]
   )
 
   useHotkeys(
     'up',
     () => {
-      if (suggeste && suggesteIndex >= 0) {
+      if (displayKeys) {
+        if (searchedKeys.length >= keyIndex + 1 && keyIndex > 0) {
+          setKeyIndex(keyIndex - 1)
+        } else {
+          setKeyIndex(0)
+        }
+      } else if (suggeste && suggesteIndex > 0) {
         setSuggesteIndex(suggesteIndex - 1)
         setSquery(suggeste.words[suggesteIndex - 1].name)
       }
     },
     [suggesteIndex],
-    ['with_suggeste']
+    [css.input]
   )
 
   const suggesteClick = useCallback(
@@ -333,72 +317,83 @@ const SearchInput: React.FC = (): JSX.Element => {
       setCurrentKey(key)
       winSearchParams({ keyname: key.code, query: '' })
       setDisplayKeys(false)
+      setKeyIndex(-1)
       setTimeout(() => focusInput(key), 200)
     },
     [clearResultAll, focusInput, setCurrentKey, setDisplayKeys, setKquery, setSquery]
   )
 
-  const getKeysDom = useCallback(
+  const handlerSearch = useCallback(
+    (e?) => {
+      if (displayKeys) {
+        if (keyIndex >= 0 && searchedKeys.length >= keyIndex + 1) {
+          changeKey(searchedKeys[keyIndex])
+        }
+      } else {
+        clearResultAll()
+        search()
+        e?.target?.blur()
+      }
+    },
+    [changeKey, clearResultAll, displayKeys, keyIndex, search, searchedKeys]
+  )
+
+  if (inputEl.current !== null) inputEl.current.onsearch = handlerSearch
+
+  const handleQueryKeyPress = useCallback(
+    (e) => {
+      if (isFirefox && e.key === 'Enter') {
+        handlerSearch()
+      }
+    },
+    [handlerSearch]
+  )
+
+  const keysDom = useCallback(
     (gkeys: SKey[]) => {
-      return gkeys
-        .filter((key) => {
-          if (key.availableLang) {
-            return key.availableLang === language
-          }
-          if (key.disableLang) {
-            return key.disableLang !== language
-          }
-          if (key.forRegionCN && region !== 'CN') {
-            return false
-          }
-          if (key.forRegionCN === false && region === 'CN') {
-            return false
-          }
-          return true
-        })
-        .map((key) => {
-          let tooltipProps = {}
-          if (key.tooltipsCN && language === InterfaceLanguage.中文) {
-            tooltipProps = { 'data-tooltip': key.tooltipsCN }
-          } else if (key.tooltips) {
-            tooltipProps = { 'data-tooltip': key.tooltips }
-          }
-          return (
-            <div
-              key={key.code}
-              className={cs(css.skeybox, 'has-tooltip-multiline has-tooltip-warning')}
-              {...tooltipProps}
-              onClick={() => changeKey(key)}>
-              <div className={css.skey}>
-                <div className={cs(css.skname)} style={{ backgroundImage: `url(/keys/${key.icon})`, ...key.iconProps }}>
-                  {key.hideName ? <>&nbsp;</> : key.name}
-                </div>
-                <div className={css.shortkeys}>
-                  {key.shortkeys}
-                  <span className={css.plus}>+</span>
-                  <span className={css.tab}>tab</span>
-                </div>
+      return gkeys.map((key, i) => {
+        let tooltipProps = {}
+        if (key.tooltipsCN && language === InterfaceLanguage.中文) {
+          tooltipProps = { 'data-tooltip': key.tooltipsCN }
+        } else if (key.tooltips) {
+          tooltipProps = { 'data-tooltip': key.tooltips }
+        }
+        return (
+          <div
+            key={key.code}
+            className={cs(css.skeybox, 'has-tooltip-multiline has-tooltip-warning', { [css.index]: keyIndex === i })}
+            {...tooltipProps}
+            onClick={() => changeKey(key)}>
+            <div className={css.skey}>
+              <div className={cs(css.skname)} style={{ backgroundImage: `url(/keys/${key.icon})`, ...key.iconProps }}>
+                {key.hideName ? <>&nbsp;</> : key.name}
               </div>
-              <div>
-                {key.devdocs && <i onClick={() => setAwesomeOrDevdoc(false)} className={cs('fa-devdocs', css.kicon)} />}
-                {key.awesome && <i onClick={() => setAwesomeOrDevdoc(true)} className={cs('fa-cubes', css.kicon)} />}
-                <i
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    if (key.pin) {
-                      removePin(key.code)
-                    } else {
-                      addPin(key.code)
-                    }
-                  }}
-                  className={cs('fa-thumbtack', css.thumbtack, { [css.usage]: key.pin })}
-                />
+              <div className={css.shortkeys}>
+                {key.shortkeys}
+                <span className={css.plus}>+</span>
+                <span className={css.tab}>tab</span>
               </div>
             </div>
-          )
-        })
+            <div>
+              {key.devdocs && <i onClick={() => setAwesomeOrDevdoc(false)} className={cs('fa-devdocs', css.kicon)} />}
+              {key.awesome && <i onClick={() => setAwesomeOrDevdoc(true)} className={cs('fa-cubes', css.kicon)} />}
+              <i
+                onClick={(e) => {
+                  e.stopPropagation()
+                  if (key.pin) {
+                    removePin(key.code)
+                  } else {
+                    addPin(key.code)
+                  }
+                }}
+                className={cs('fa-thumbtack', css.thumbtack, { [css.usage]: key.pin })}
+              />
+            </div>
+          </div>
+        )
+      })
     },
-    [region, language, changeKey, removePin, addPin]
+    [language, keyIndex, changeKey, removePin, addPin]
   )
 
   useHotkeys(
@@ -420,6 +415,103 @@ const SearchInput: React.FC = (): JSX.Element => {
     [css.input]
   )
 
+  useHotkeys(
+    'backspace',
+    () => {
+      if (!displayKeys && !squery.length) {
+        setDisplayKeys(true)
+      }
+    },
+    [displayKeys, squery],
+    [css.input]
+  )
+
+  useHotkeys(
+    '`',
+    () => {
+      if (document.activeElement?.tagName !== 'INPUT') {
+        setDisplayKeys(true)
+        setTimeout(focusInput, 0)
+        return false
+      }
+      return true
+    },
+    [displayKeys, focusInput],
+    ['BODY']
+  )
+
+  const switchTab = useCallback((index: number) => {
+    setTabIndex(index)
+    switch (index) {
+      case 0:
+        pinnedTabEl.current?.scrollIntoView()
+        break
+      case SKeyCategory.Search:
+        searchTabEl.current?.scrollIntoView()
+        break
+      case SKeyCategory.Tools:
+        toolsTabEl.current?.scrollIntoView()
+        break
+      case SKeyCategory.Collection:
+        collectionTabEl.current?.scrollIntoView()
+        break
+      case SKeyCategory.CheatSheets:
+        cheatSheetsTabEl.current?.scrollIntoView()
+        break
+      case SKeyCategory.Learn:
+        learnTabEl.current?.scrollIntoView()
+        break
+      case SKeyCategory.Document:
+        documentTabEl.current?.scrollIntoView()
+        break
+      default:
+        break
+    }
+    window.scrollBy(0, -88)
+  }, [])
+
+  const scrollPositionTab = useCallback(
+    debounce(() => {
+      const tabHeight = 115
+      if ((documentTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
+        setTabIndex(SKeyCategory.Document)
+        return
+      }
+      if ((learnTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
+        setTabIndex(SKeyCategory.Learn)
+        return
+      }
+      if ((cheatSheetsTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
+        setTabIndex(SKeyCategory.CheatSheets)
+        return
+      }
+      if ((collectionTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
+        setTabIndex(SKeyCategory.Collection)
+        return
+      }
+      if ((toolsTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
+        setTabIndex(SKeyCategory.Tools)
+        return
+      }
+      if ((searchTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
+        setTabIndex(SKeyCategory.Search)
+        return
+      }
+      if ((pinnedTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
+        setTabIndex(0)
+      }
+    }, 10),
+    []
+  )
+
+  useEffect(() => {
+    window.addEventListener('scroll', scrollPositionTab)
+    return () => {
+      window.removeEventListener('scroll', scrollPositionTab)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <>
       <div className='container'>
@@ -430,13 +522,17 @@ const SearchInput: React.FC = (): JSX.Element => {
             top: spring.wapperTop,
           }}>
           <div className={cs(css.searchInput)}>
-            <span className={cs(css.prefix, { [css.displayKeys]: displayKeys })} onClick={() => setDisplayKeys(!displayKeys)}>
-              {currentKey.name}
-            </span>
             <span className={css.sep}>$</span>
+            {!displayKeys && (
+              <span
+                className={cs(css.prefix, { [css.displayKeys]: displayKeys })}
+                onClick={() => setDisplayKeys(!displayKeys)}>
+                {currentKey.name}
+              </span>
+            )}
 
             {(displayKeys ||
-              currentKey.devdocs ||
+              (currentKey.devdocs && !dsConfig) ||
               currentKey.template ||
               currentKey.readmes ||
               currentKey.code === 'github_stars' ||
@@ -445,7 +541,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               currentKey.code === 'cheatsheets') && (
               <input
                 type='search'
-                className={cs(css.input, 'with_suggeste')}
+                className={css.input}
                 spellCheck={false}
                 value={displayKeys ? kquery : squery}
                 autoFocus
@@ -579,7 +675,9 @@ const SearchInput: React.FC = (): JSX.Element => {
             suggeste.words.length > 0 &&
             suggeste.key === currentKey.code &&
             !UnSearchableKey(currentKey) && (
-              <div className={cs(css.suggeste, 'dropdown is-active')} style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
+              <div
+                className={cs(css.suggeste, 'dropdown is-active')}
+                style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
                 <div className='dropdown-menu'>
                   <div className='dropdown-content'>
                     {suggeste &&
@@ -670,57 +768,82 @@ const SearchInput: React.FC = (): JSX.Element => {
 
           {displayKeys && (
             <div className='mgl10 mgb10 mgr10'>
-              {pinKeys.length > 0 && (
-                <div className={css.skgroup}>
-                  {getKeysDom(pinKeys)}
-                  <div className={css.kdesc}>PINNED</div>
+              <div className={css.tabs}>
+                <a className={cs({ [css.current]: tabIndex === 0 })} onClick={() => switchTab(0)}>
+                  {pinnedIntl}
+                </a>
+                <a
+                  className={cs({ [css.current]: tabIndex === SKeyCategory.Search })}
+                  onClick={() => switchTab(SKeyCategory.Search)}>
+                  {searchIntl}
+                </a>
+                <a
+                  className={cs({ [css.current]: tabIndex === SKeyCategory.Tools })}
+                  onClick={() => switchTab(SKeyCategory.Tools)}>
+                  {toolsIntl}
+                </a>
+                <a
+                  className={cs({ [css.current]: tabIndex === SKeyCategory.Collection })}
+                  onClick={() => switchTab(SKeyCategory.Collection)}>
+                  {collectionIntl}
+                </a>
+                <a
+                  className={cs({ [css.current]: tabIndex === SKeyCategory.CheatSheets })}
+                  onClick={() => switchTab(SKeyCategory.CheatSheets)}>
+                  {cheatSheetsIntl}
+                </a>
+                <a
+                  className={cs({ [css.current]: tabIndex === SKeyCategory.Learn })}
+                  onClick={() => switchTab(SKeyCategory.Learn)}>
+                  {learnIntl}
+                </a>
+                <a
+                  className={cs({ [css.current]: tabIndex === SKeyCategory.Document })}
+                  onClick={() => switchTab(SKeyCategory.Document)}>
+                  {documentIntl}
+                </a>
+              </div>
+              {kquery && <div className={cs(css.searchedKeys)}>{keysDom(searchedKeys)}</div>}
+              {!kquery && pinKeys.length > 0 && (
+                <div ref={pinnedTabEl} className={cs(css.skgroup, css.pinnned)}>
+                  {keysDom(pinKeys)}
                 </div>
               )}
-              {searchKeys.length > 0 && (
-                <div className={cs(css.skgroup)}>
-                  {getKeysDom(searchKeys)}
+              {!kquery && searchKeys.length > 0 && (
+                <div ref={searchTabEl} className={cs(css.skgroup)}>
+                  {keysDom(searchKeys)}
                   <div className={css.kdesc}>{searchIntl}</div>
                 </div>
               )}
-              {cheatSheetsKeys.length > 0 && (
-                <div className={cs(css.skgroup)}>
-                  {getKeysDom(cheatSheetsKeys)}
-                  <div className={css.kdesc}>{cheatSheetsIntl}</div>
-                </div>
-              )}
-              {collectionKeys.length > 0 && (
-                <div className={cs(css.skgroup)}>
-                  {getKeysDom(collectionKeys)}
-                  <div className={css.kdesc}>{collectionIntl}</div>
-                </div>
-              )}
-              {(displayMore || kquery) && learnKeys.length > 0 && (
-                <div className={cs(css.skgroup)}>
-                  {getKeysDom(learnKeys)}
-                  <div className={css.kdesc}>{learnIntl}</div>
-                </div>
-              )}
-              {(displayMore || kquery) && toolsKeys.length > 0 && (
-                <div className={cs(css.skgroup)}>
-                  {getKeysDom(toolsKeys)}
+              {!kquery && toolsKeys.length > 0 && (
+                <div ref={toolsTabEl} className={cs(css.skgroup)}>
+                  {keysDom(toolsKeys)}
                   <div className={css.kdesc}>{toolsIntl}</div>
                 </div>
               )}
-              {(displayMore || kquery) && documentKeys.length > 0 && (
-                <div className={cs(css.skgroup)}>
-                  {getKeysDom(documentKeys)}
-                  <div className={css.kdesc}>{documentIntl}</div>
+              {!kquery && collectionKeys.length > 0 && (
+                <div ref={collectionTabEl} className={cs(css.skgroup)}>
+                  {keysDom(collectionKeys)}
+                  <div className={css.kdesc}>{collectionIntl}</div>
                 </div>
               )}
-              {!displayMore && !kquery && (
-                <button type='button' className='button is-text w100' onClick={() => setDisplayMore(true)}>
-                  More
-                </button>
+              {!kquery && cheatSheetsKeys.length > 0 && (
+                <div ref={cheatSheetsTabEl} className={cs(css.skgroup)}>
+                  {keysDom(cheatSheetsKeys)}
+                  <div className={css.kdesc}>{cheatSheetsIntl}</div>
+                </div>
               )}
-              {displayMore && (
-                <button type='button' className='button is-text w100' onClick={() => setDisplayMore(false)}>
-                  Less
-                </button>
+              {!kquery && learnKeys.length > 0 && (
+                <div ref={learnTabEl} className={cs(css.skgroup)}>
+                  {keysDom(learnKeys)}
+                  <div className={css.kdesc}>{learnIntl}</div>
+                </div>
+              )}
+              {!kquery && documentKeys.length > 0 && (
+                <div ref={documentTabEl} className={cs(css.skgroup)}>
+                  {keysDom(documentKeys)}
+                  <div className={css.kdesc}>{documentIntl}</div>
+                </div>
               )}
             </div>
           )}
@@ -733,7 +856,9 @@ const SearchInput: React.FC = (): JSX.Element => {
               <GithubStars query={squery} />
             </Suspense>
           )}
-          {!displayKeys && !awesomeOrDevdoc && currentKey.devdocs && <Devdocs slug={currentKey.devdocs} query={squery} />}
+          {!displayKeys && !awesomeOrDevdoc && currentKey.devdocs && (
+            <Devdocs slug={currentKey.devdocs} query={squery} />
+          )}
           {!displayKeys && awesomeOrDevdoc && currentKey.awesome && (
             <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} query={squery} />
           )}
