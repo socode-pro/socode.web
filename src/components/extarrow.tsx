@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import cs from 'classnames'
 import { isEdgeChromium, isFirefox } from '../utils/assist'
+import { InterfaceLanguage } from '../utils/language'
+import { SettingsType } from '../models/storage'
+import { useStoreState } from '../utils/hooks'
 import css from './extarrow.module.scss'
 
 let deferredPrompt
 
 const ExtArrow: React.FC = (): JSX.Element => {
+  const { language } = useStoreState<SettingsType>((state) => state.storage.settings)
   const [showPWA, setShowPWA] = useState(false)
 
   // https://web.dev/customize-install/
@@ -37,7 +41,11 @@ const ExtArrow: React.FC = (): JSX.Element => {
         <div className={cs(css.wapper)}>
           <a className={cs(css.arrow, css.pwa)} onClick={() => InstallPWA()}>
             <h3>Install the PWA</h3>
-            <span>Quickly launch our app any way you like!</span>
+            {language !== InterfaceLanguage.中文 ? (
+              <span>使用任意你喜欢的方式快速启动SOCODE.PRO</span>
+            ) : (
+              <span>Quickly launch our app any way you like!</span>
+            )}
           </a>
         </div>
       )}
@@ -54,7 +62,11 @@ const ExtArrow: React.FC = (): JSX.Element => {
              'https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/'}> */}
 
           <h3>Browser Extension</h3>
-          <span>become the new tab of your browser</span>
+          {language !== InterfaceLanguage.中文 ? (
+            <span>成为浏览器的 New Tab 页</span>
+          ) : (
+            <span>become the new tab of your browser</span>
+          )}
         </a>
       </div>
     </div>
