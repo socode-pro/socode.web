@@ -216,7 +216,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         setSquery(suggeste.words[suggesteIndex - 1].name)
       }
     },
-    [suggesteIndex],
+    [suggesteIndex, suggeste, displayKeys, keyIndex, searchedKeys],
     [css.input]
   )
 
