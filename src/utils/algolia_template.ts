@@ -17,7 +17,7 @@ export const electron = (data): string => {
       <h3 class='tile-subtitle'>${data.description}</h3>
     </div>
   </a>`
-  return template 
+  return template
 }
 
 export const ember = (data): string => {
@@ -27,5 +27,25 @@ export const ember = (data): string => {
       <h3 class='tile-subtitle'>${data.content}</h3>
     </div>
   </a>`
-  return template 
+  return template
+}
+
+export const kotlin = (data): string => {
+  const template = `<a href='https://kotlinlang.org/${data.url}' class='rework-item tile' target='_blank'>
+    <div class='tile-content'>
+      <h2 class='tile-title'>${data.type} / ${data.headings}</h2>
+      <h3 class='tile-subtitle'>${data.content}</h3>
+    </div>
+  </a>`
+  return template
+}
+
+export const cocoapods = (data): string => {
+  const template = `<a href='${data.homepage}' class='rework-item tile' target='_blank'>
+    <div class='tile-content'>
+      <h2 class='tile-title'>${data.name}</h2>
+      <h3 class='tile-subtitle'>${data.summary}</h3>
+    </div>
+  </a>`
+  return template
 }
