@@ -20,6 +20,27 @@
   }
 }
 
+.tabs {
+  display: flex;
+  justify-content: center;
+  background: #fff;
+  position: sticky;
+  top: 63px;
+  z-index: 10;
+  border-bottom: solid 1px $white-ter;
+  a {
+    background-color: $white-ter;
+    color: $grey-light;
+    padding: 2px 8px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    margin-left: 5px;
+    &.current {
+      color: $primary;
+    }
+  }
+}
+
 .searchInput {
   display: flex;
   height: 64px;
@@ -218,6 +239,10 @@
   &.searchedKeys {
     flex-direction: column;
   }
+  &.pinnned {
+    margin-top: 0;
+    border-top: none;
+  }
   .skeybox {
     cursor: pointer;
     border-radius: 6px;
@@ -309,11 +334,11 @@
 
   .kdesc {
     position: absolute;
-    top: -$fontsize * 1.6 - 3px;
+    top: -$fontsize * 1.6 - 4px;
     left: 0;
     background-color: $white-ter;
     color: $grey-light;
-    padding: 2px 8px 1px;
+    padding: 2px 8px;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
   }

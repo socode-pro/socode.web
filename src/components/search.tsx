@@ -39,18 +39,19 @@ const timeRangeOptions = StringEnumObjects(SearchTimeRange)
 
 const SearchInput: React.FC = (): JSX.Element => {
   const inputEl = useRef<HTMLInputElement & { onsearch: (e: InputEvent) => void }>(null)
+  const pinnedTabEl = useRef<HTMLDivElement>(null)
+  const searchTabEl = useRef<HTMLDivElement>(null)
+  const cheatSheetsTabEl = useRef<HTMLDivElement>(null)
+  const collectionTabEl = useRef<HTMLDivElement>(null)
+  const learnTabEl = useRef<HTMLDivElement>(null)
+  const toolsTabEl = useRef<HTMLDivElement>(null)
+  const documentTabEl = useRef<HTMLDivElement>(null)
 
   const [focus, setFocus] = useState(true)
   const [suggeste, setSuggeste] = useState<{ words: Array<SuggestItem>; key: string } | null>(null)
   const [suggesteIndex, setSuggesteIndex] = useState(-1)
   const [keyIndex, setKeyIndex] = useState(-1)
-
-  const searchIntl = useSKeyCategoryIntl(SKeyCategory.Search)
-  const toolsIntl = useSKeyCategoryIntl(SKeyCategory.Tools)
-  const cheatSheetsIntl = useSKeyCategoryIntl(SKeyCategory.CheatSheets)
-  const documentIntl = useSKeyCategoryIntl(SKeyCategory.Document)
-  const collectionIntl = useSKeyCategoryIntl(SKeyCategory.Collection)
-  const learnIntl = useSKeyCategoryIntl(SKeyCategory.Learn)
+  const [tabIndex, setTabIndex] = useState(0)
 
   const keys = useStoreState<Array<SKey>>((state) => state.searchKeys.keys)
   const pinKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.pinKeys)
@@ -87,6 +88,14 @@ const SearchInput: React.FC = (): JSX.Element => {
   const setProgramLanguage = useStoreActions((actions) => actions.storage.setProgramLanguage)
   const { language, displayTrending } = useStoreState<SettingsType>((state) => state.storage.settings)
   const [awesomeOrDevdoc, setAwesomeOrDevdoc] = useState<boolean>(false)
+
+  const searchIntl = useSKeyCategoryIntl(SKeyCategory.Search)
+  const toolsIntl = useSKeyCategoryIntl(SKeyCategory.Tools)
+  const cheatSheetsIntl = useSKeyCategoryIntl(SKeyCategory.CheatSheets)
+  const documentIntl = useSKeyCategoryIntl(SKeyCategory.Document)
+  const collectionIntl = useSKeyCategoryIntl(SKeyCategory.Collection)
+  const learnIntl = useSKeyCategoryIntl(SKeyCategory.Learn)
+  const pinnedIntl = language === InterfaceLanguage.中文 ? '置顶' : 'PINNED'
 
   const result = useStoreState<SocodeResult | null>((state) => state.search.result)
   const npmResult = useStoreState<NpmsResult | null>((state) => state.search.npmResult)
@@ -417,6 +426,92 @@ const SearchInput: React.FC = (): JSX.Element => {
     [css.input]
   )
 
+  useHotkeys(
+    '`',
+    () => {
+      if (document.activeElement?.tagName !== 'INPUT') {
+        setDisplayKeys(true)
+        setTimeout(focusInput, 0)
+        return false
+      }
+      return true
+    },
+    [displayKeys, focusInput],
+    ['BODY']
+  )
+
+  const switchTab = useCallback((index: number) => {
+    setTabIndex(index)
+    switch (index) {
+      case 0:
+        pinnedTabEl.current?.scrollIntoView()
+        break
+      case SKeyCategory.Search:
+        searchTabEl.current?.scrollIntoView()
+        break
+      case SKeyCategory.Tools:
+        toolsTabEl.current?.scrollIntoView()
+        break
+      case SKeyCategory.Collection:
+        collectionTabEl.current?.scrollIntoView()
+        break
+      case SKeyCategory.CheatSheets:
+        cheatSheetsTabEl.current?.scrollIntoView()
+        break
+      case SKeyCategory.Learn:
+        learnTabEl.current?.scrollIntoView()
+        break
+      case SKeyCategory.Document:
+        documentTabEl.current?.scrollIntoView()
+        break
+      default:
+        break
+    }
+    window.scrollBy(0, -88)
+  }, [])
+
+  const scrollPositionTab = useCallback(
+    debounce(() => {
+      const tabHeight = 115
+      if ((documentTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
+        setTabIndex(SKeyCategory.Document)
+        return
+      }
+      if ((learnTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
+        setTabIndex(SKeyCategory.Learn)
+        return
+      }
+      if ((cheatSheetsTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
+        setTabIndex(SKeyCategory.CheatSheets)
+        return
+      }
+      if ((collectionTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
+        setTabIndex(SKeyCategory.Collection)
+        return
+      }
+      if ((toolsTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
+        setTabIndex(SKeyCategory.Tools)
+        return
+      }
+      if ((searchTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
+        setTabIndex(SKeyCategory.Search)
+        return
+      }
+      if ((pinnedTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
+        setTabIndex(0)
+      }
+    }, 10),
+    []
+  )
+
+  useEffect(() => {
+    window.addEventListener('scroll', scrollPositionTab)
+    return () => {
+      window.removeEventListener('scroll', scrollPositionTab)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <>
       <div className='container'>
@@ -673,45 +768,79 @@ const SearchInput: React.FC = (): JSX.Element => {
 
           {displayKeys && (
             <div className='mgl10 mgb10 mgr10'>
+              <div className={css.tabs}>
+                <a className={cs({ [css.current]: tabIndex === 0 })} onClick={() => switchTab(0)}>
+                  {pinnedIntl}
+                </a>
+                <a
+                  className={cs({ [css.current]: tabIndex === SKeyCategory.Search })}
+                  onClick={() => switchTab(SKeyCategory.Search)}>
+                  {searchIntl}
+                </a>
+                <a
+                  className={cs({ [css.current]: tabIndex === SKeyCategory.Tools })}
+                  onClick={() => switchTab(SKeyCategory.Tools)}>
+                  {toolsIntl}
+                </a>
+                <a
+                  className={cs({ [css.current]: tabIndex === SKeyCategory.Collection })}
+                  onClick={() => switchTab(SKeyCategory.Collection)}>
+                  {collectionIntl}
+                </a>
+                <a
+                  className={cs({ [css.current]: tabIndex === SKeyCategory.CheatSheets })}
+                  onClick={() => switchTab(SKeyCategory.CheatSheets)}>
+                  {cheatSheetsIntl}
+                </a>
+                <a
+                  className={cs({ [css.current]: tabIndex === SKeyCategory.Learn })}
+                  onClick={() => switchTab(SKeyCategory.Learn)}>
+                  {learnIntl}
+                </a>
+                <a
+                  className={cs({ [css.current]: tabIndex === SKeyCategory.Document })}
+                  onClick={() => switchTab(SKeyCategory.Document)}>
+                  {documentIntl}
+                </a>
+              </div>
               {kquery && <div className={cs(css.searchedKeys)}>{keysDom(searchedKeys)}</div>}
               {!kquery && pinKeys.length > 0 && (
-                <div className={css.skgroup}>
+                <div ref={pinnedTabEl} className={cs(css.skgroup, css.pinnned)}>
                   {keysDom(pinKeys)}
-                  <div className={css.kdesc}>PINNED</div>
                 </div>
               )}
               {!kquery && searchKeys.length > 0 && (
-                <div className={cs(css.skgroup)}>
+                <div ref={searchTabEl} className={cs(css.skgroup)}>
                   {keysDom(searchKeys)}
                   <div className={css.kdesc}>{searchIntl}</div>
                 </div>
               )}
-              {!kquery && cheatSheetsKeys.length > 0 && (
-                <div className={cs(css.skgroup)}>
-                  {keysDom(cheatSheetsKeys)}
-                  <div className={css.kdesc}>{cheatSheetsIntl}</div>
-                </div>
-              )}
-              {!kquery && collectionKeys.length > 0 && (
-                <div className={cs(css.skgroup)}>
-                  {keysDom(collectionKeys)}
-                  <div className={css.kdesc}>{collectionIntl}</div>
-                </div>
-              )}
-              {!kquery && learnKeys.length > 0 && (
-                <div className={cs(css.skgroup)}>
-                  {keysDom(learnKeys)}
-                  <div className={css.kdesc}>{learnIntl}</div>
-                </div>
-              )}
               {!kquery && toolsKeys.length > 0 && (
-                <div className={cs(css.skgroup)}>
+                <div ref={toolsTabEl} className={cs(css.skgroup)}>
                   {keysDom(toolsKeys)}
                   <div className={css.kdesc}>{toolsIntl}</div>
                 </div>
               )}
+              {!kquery && collectionKeys.length > 0 && (
+                <div ref={collectionTabEl} className={cs(css.skgroup)}>
+                  {keysDom(collectionKeys)}
+                  <div className={css.kdesc}>{collectionIntl}</div>
+                </div>
+              )}
+              {!kquery && cheatSheetsKeys.length > 0 && (
+                <div ref={cheatSheetsTabEl} className={cs(css.skgroup)}>
+                  {keysDom(cheatSheetsKeys)}
+                  <div className={css.kdesc}>{cheatSheetsIntl}</div>
+                </div>
+              )}
+              {!kquery && learnKeys.length > 0 && (
+                <div ref={learnTabEl} className={cs(css.skgroup)}>
+                  {keysDom(learnKeys)}
+                  <div className={css.kdesc}>{learnIntl}</div>
+                </div>
+              )}
               {!kquery && documentKeys.length > 0 && (
-                <div className={cs(css.skgroup)}>
+                <div ref={documentTabEl} className={cs(css.skgroup)}>
                   {keysDom(documentKeys)}
                   <div className={css.kdesc}>{documentIntl}</div>
                 </div>
