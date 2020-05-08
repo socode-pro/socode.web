@@ -50,7 +50,7 @@ const ExtArrow: React.FC = (): JSX.Element => {
         </div>
       )}
 
-      <div className={cs(css.wapper)}>
+      <div className={cs(css.wapper, css.browser)}>
         <a
           className={cs(css.arrow, {
             [css.edge]: isEdgeChromium,
