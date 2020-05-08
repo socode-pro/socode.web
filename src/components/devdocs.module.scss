@@ -1,7 +1,7 @@
 @import '../styles/variable';
 
 .typegroup {
-  font-family: $font-mono;
+  // font-family: $font-mono;
   .typename {
     padding: 2px 0;
     @include ms-respond(font-size, 1);
@@ -18,7 +18,7 @@
     display: none;
     li {
       position: relative;
-      height: 22px; // Caused a.item overflow: hidden
+      height: 23px; // Caused a.item overflow: hidden
       &:hover {
         a.item:not(.current) {
           background-color: $white-duck;
@@ -28,7 +28,7 @@
     a.item {
       display: inline-block;
       margin-left: 21px;
-      padding: 0 8px;
+      padding: 0 6px;
       border-radius: 2px;
       @include stretched-link();
 
