@@ -1954,6 +1954,37 @@ const SKeys: SKey[] = [
     tooltips: 'Q&A communities',
   },
   {
+    code: 'system_design_primer',
+    name: 'System Design Primer',
+    category: SKeyCategory.Learn,
+    shortkeys: 'sdp',
+    icon: 'sdp.png',
+    usage: true,
+    homelink: 'https://github.com/donnemartin/system-design-primer',
+    tooltips: 'Learn how to design large-scale systems',
+    readmes: {
+      base: 'donnemartin/system-design-primer',
+      paths: [
+        {
+          lang: Language.English,
+          path: '/README.md',
+        },
+        {
+          lang: Language.中文_简体,
+          path: '/README.md',
+        },
+        {
+          lang: Language.中文_繁體,
+          path: '/README.md',
+        },
+        {
+          lang: Language.日本語,
+          path: '/README.md',
+        },
+      ],
+    },
+  },
+  {
     code: 'github_stars',
     name: 'Gtihub Stars',
     category: SKeyCategory.Tools,
