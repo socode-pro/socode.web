@@ -504,6 +504,14 @@ const SKeys: SKey[] = [
     ],
   },
   {
+    code: 'dns',
+    name: 'DNS Lookup',
+    category: SKeyCategory.Tools,
+    shortkeys: 'dl',
+    icon: 'digitalocean.svg',
+    template: 'https://www.digitalocean.com/community/tools/dns?domain=%s',
+  },
+  {
     code: 'docker',
     name: 'Docker',
     hideName: true,
@@ -1879,7 +1887,9 @@ const SKeys: SKey[] = [
     usage: true,
     hideName: true,
     iconProps: {
-      width: 106,
+      width: 134,
+      backgroundPosition: 'left center',
+      backgroundSize: '100%',
     },
     shortkeys: 'so',
     icon: 'stackoverflow.svg',
