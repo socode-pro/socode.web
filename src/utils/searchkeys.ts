@@ -1873,13 +1873,13 @@ const SKeys: SKey[] = [
     devdocs: 'sqlite',
   },
   {
-    code: 'stackexchange',
-    name: 'StackExchange',
+    code: 'stackoverflow',
+    name: 'StackOverflow',
     category: SKeyCategory.Search,
     usage: true,
-    shortkeys: 'se',
-    icon: 'stackexchange.png',
-    template: 'https://stackexchange.com/search?q=%s',
+    shortkeys: 'so',
+    icon: 'stackoverflow.png',
+    template: 'https://stackoverflow.com/search?q=%s',
     tooltips: 'Q&A communities',
   },
   {
