@@ -1877,8 +1877,12 @@ const SKeys: SKey[] = [
     name: 'StackOverflow',
     category: SKeyCategory.Search,
     usage: true,
+    hideName: true,
+    iconProps: {
+      width: 110,
+    },
     shortkeys: 'so',
-    icon: 'stackoverflow.png',
+    icon: 'stackoverflow.svg',
     template: 'https://stackoverflow.com/search?q=%s',
     tooltips: 'Q&A communities',
   },
