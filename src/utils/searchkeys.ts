@@ -200,6 +200,29 @@ const SKeys: SKey[] = [
     },
   },
   {
+    code: 'awesome_mac',
+    name: 'Awesome Mac',
+    category: SKeyCategory.Collection,
+    shortkeys: 'am',
+    icon: 'apple.svg',
+    homelink: 'https://github.com/jaywcjlove/awesome-mac',
+    tooltips: 'Collect premium mac software in various categories',
+    readmes: {
+      base: 'jaywcjlove/awesome-mac',
+      searched: true,
+      paths: [
+        {
+          lang: Language.English,
+          path: '/README.md',
+        },
+        {
+          lang: Language.中文_简体,
+          path: '/README-zh.md',
+        },
+      ],
+    },
+  },
+  {
     code: 'aws',
     name: 'AWS',
     category: SKeyCategory.Document,
