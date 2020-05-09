@@ -874,11 +874,6 @@ export const Grids: Array<Link> = [
   },
 
   {
-    name: 'DNS Lookup',
-    href: 'https://www.digitalocean.com/community/tools/dns',
-    elite: true,
-  },
-  {
     name: 'package.json scan',
     href: 'https://bundlephobia.com/scan',
     label: 'npm',
