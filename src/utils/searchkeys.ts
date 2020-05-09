@@ -118,7 +118,8 @@ export const UnSearchableKey = (key: SKey): boolean =>
   !!key.readmes ||
   key.code === 'cheatsheets' ||
   key.code === 'tools' ||
-  key.code === 'github_stars'
+  key.code === 'github_stars' ||
+  key.code === 'get_ip'
 
 const SKeys: SKey[] = [
   {
@@ -820,6 +821,13 @@ const SKeys: SKey[] = [
         indexName: 'gatsbyjs',
       },
     ],
+  },
+  {
+    code: 'get_ip',
+    name: 'Get IP',
+    category: SKeyCategory.Tools,
+    shortkeys: 'ip',
+    icon: 'ip.png',
   },
   {
     code: 'git',
