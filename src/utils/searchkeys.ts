@@ -1879,7 +1879,7 @@ const SKeys: SKey[] = [
     usage: true,
     hideName: true,
     iconProps: {
-      width: 110,
+      width: 106,
     },
     shortkeys: 'so',
     icon: 'stackoverflow.svg',
