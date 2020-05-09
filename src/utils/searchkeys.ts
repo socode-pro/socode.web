@@ -179,9 +179,9 @@ const SKeys: SKey[] = [
   },
   {
     code: 'awesome_cheatsheet',
-    name: 'Awesome Cheatsheet',
+    name: 'Awesome CheatSheet',
     category: SKeyCategory.CheatSheets,
-    shortkeys: 'ac',
+    shortkeys: 'acs',
     icon: 'awesome.svg',
     homelink: 'https://github.com/detailyang/awesome-cheatsheet',
     tooltips: 'List of useful cheatsheets',
@@ -316,6 +316,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     shortkeys: 'cpp',
     icon: 'cpp.svg',
+    awesome: 'fffaraz/awesome-cpp',
     devdocs: 'cpp',
   },
   {
@@ -839,6 +840,39 @@ const SKeys: SKey[] = [
     bypglang: true,
     usage: true,
     tooltips: 'search repositorie',
+  },
+  {
+    code: 'github_cheatsheet',
+    name: 'Github CheatSheet',
+    category: SKeyCategory.CheatSheets,
+    shortkeys: 'gcs',
+    icon: 'github.svg',
+    homelink: 'https://github.com/tiimgreen/github-cheat-sheet',
+    readmes: {
+      base: 'tiimgreen/github-cheat-sheet',
+      paths: [
+        {
+          lang: Language.English,
+          path: '/README.md',
+        },
+        {
+          lang: Language.中文_简体,
+          path: '/README.zh-cn.md',
+        },
+        {
+          lang: Language.中文_繁體,
+          path: '/README.zh-tw.md',
+        },
+        {
+          lang: Language.한국어,
+          path: '/README.ko.md',
+        },
+        {
+          lang: Language.日本語,
+          path: '/README.ja.md',
+        },
+      ],
+    },
   },
   {
     code: 'go',
@@ -1609,9 +1643,9 @@ const SKeys: SKey[] = [
   },
   {
     code: 'python_cheatsheet',
-    name: 'Python Cheatsheet',
+    name: 'Python CheatSheet',
     category: SKeyCategory.CheatSheets,
-    shortkeys: 'pc',
+    shortkeys: 'pcs',
     icon: 'python.svg',
     homelink: 'https://gto76.github.io/python-cheatsheet/',
     usage: true,
