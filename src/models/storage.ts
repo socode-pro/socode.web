@@ -17,9 +17,23 @@ export interface SettingsType {
   darkMode?: DarkMode
 }
 
+export interface RegionData {
+  ip: string
+  city: string
+  country_code: string
+  country_name?: string
+  region_code?: string
+  country?: string
+  latitude?: string
+  longitude?: string
+  utc_offset?: string
+}
+
 const defaultSettings = (): SettingsType => {
   const defaultValue = {
-    language: navigator.language.startsWith(InterfaceLanguage.中文) ? InterfaceLanguage.中文 : InterfaceLanguage.English,
+    language: navigator.language.startsWith(InterfaceLanguage.中文)
+      ? InterfaceLanguage.中文
+      : InterfaceLanguage.English,
     openNewTab: true,
     displayTrending: true,
   }
@@ -41,8 +55,8 @@ export interface StorageModel {
   githubToken: string
   setGithubToken: Action<StorageModel, string>
 
-  region: string
-  setRegion: Action<StorageModel, string>
+  region: RegionData
+  setRegion: Action<StorageModel, RegionData>
   estimateRegion: Thunk<StorageModel>
 }
 
@@ -66,30 +80,33 @@ const storageModel: StorageModel = {
     localStorage.setItem('githubToken', payload)
   }),
 
-  region: '',
+  region: { ip: '', city: '', country_code: '' },
   setRegion: action((state, payload) => {
     state.region = payload
-    localStorage.setItem('region', JSON.stringify({ value: payload, time: dayjs().toJSON()}))
+    localStorage.setItem('regionData', JSON.stringify({ value: payload, time: dayjs().toJSON() }))
   }),
   estimateRegion: thunk(async (actions) => {
-    const region = localStorage.getItem('region')
+    const region = localStorage.getItem('regionData')
     if (region) {
       const { value, time } = JSON.parse(region)
       if (time && dayjs(time).add(1, 'day').isAfter(dayjs())) {
-        actions.setRegion(value || '')
+        actions.setRegion(value || {})
         return
       }
     }
 
     try {
-      const result = await ky.get('https://ipapi.co/json').json<{ country: string }>()
-      actions.setRegion(result.country)
+      const result = await ky.get('https://ipapi.co/json').json<RegionData>()
+      actions.setRegion(result)
     } catch (err) {
       try {
-        const result = await ky.get('https://ipinfo.io?token=e808b0e2f4fce7').json<{ country: string }>()
-        actions.setRegion(result.country)
+        const result = await ky.get('https://freegeoip.app/json/').json<RegionData>()
+        actions.setRegion(result)
       } catch (err2) {
-        warn('Failed to get your region info, which can help us use the cache closer to you. Maybe it\'s because your ad block plugin blocked the ipapi.co domain', true)
+        warn(
+          "Failed to get your region info, which can help us use the cache closer to you. Maybe it's because your ad block plugin blocked the ipapi.co domain",
+          true
+        )
       }
     }
   }),

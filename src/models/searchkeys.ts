@@ -88,10 +88,10 @@ const searchKeysModel: SearchKeysModel = {
         if (key.disableLang) {
           return key.disableLang !== language
         }
-        if (key.forRegionCN && region !== 'CN') {
+        if (key.forRegionCN && region.country_code !== 'CN') {
           return false
         }
-        if (key.forRegionCN === false && region === 'CN') {
+        if (key.forRegionCN === false && region.country_code === 'CN') {
           return false
         }
         return true

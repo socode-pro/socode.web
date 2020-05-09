@@ -16,6 +16,7 @@ import Readme from './readme'
 import Devdocs from './devdocs'
 import Slogan from './slogan'
 import Trending from './trending'
+import Region from './region'
 import Language, { ProgramLanguage, InterfaceLanguage } from '../utils/language'
 import { SKey, UnSearchableKey, SKeyCategory, useSKeyCategoryIntl } from '../utils/searchkeys'
 import { getAutocompleteTemplate, getAutocompleteUrl } from '../utils/algolia_template'
@@ -543,6 +544,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               currentKey.code === 'github_stars' ||
               currentKey.code === 'socode' ||
               currentKey.code === 'tools' ||
+              currentKey.code === 'get_ip' ||
               currentKey.code === 'cheatsheets') && (
               <input
                 type='search'
@@ -876,6 +878,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               query={currentKey.readmes.searched ? squery : undefined}
             />
           )}
+          {!displayKeys && currentKey.code === 'get_ip' && <Region />}
 
           {error !== null && <div className={css.error}>{error instanceof String ? error : error.message}</div>}
 
