@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useStoreState } from './hooks'
 import { SettingsType } from '../models/storage'
 import Language, { InterfaceLanguage } from './language'
-import { SKeyCategory } from './searchKeys'
+import { SKeyCategory } from './searchkeys'
 
 const useSKeyCategoryIntl = (category: SKeyCategory): string => {
   const [word, setWord] = useState('')
