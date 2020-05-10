@@ -852,6 +852,20 @@ export const Grids: Array<Link> = [
   },
 
   {
+    name: 'svgomg',
+    href: 'https://jakearchibald.github.io/svgomg/',
+    category: ToolCategory.Minifier,
+    elite: true,
+    title: 'SVG Optimizer',
+  },
+  {
+    name: 'image compressor',
+    href: 'https://imagecompressor.com/',
+    category: ToolCategory.Minifier,
+    elite: true,
+    title: 'shrink JPEG and PNG images to the minimum possible size',
+  },
+  {
     name: 'JSCompress',
     href: 'https://jscompress.com/',
     category: ToolCategory.Minifier,

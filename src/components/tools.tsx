@@ -16,17 +16,17 @@ const fuseOptions: Fuse.IFuseOptions<Link> = {
 
 const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
   const [grids, setGrids] = useState(Grids)
-  const playground = grids.filter(g => g.category === ToolCategory.Playground)
-  const playgroundBackend = grids.filter(g => g.category === ToolCategory.PlaygroundBackend)
-  const generator = grids.filter(g => g.category === ToolCategory.Generator)
-  const converter = grids.filter(g => g.category === ToolCategory.Converter)
-  const unitConverter = grids.filter(g => g.category === ToolCategory.UnitConverter)
-  const validator = grids.filter(g => g.category === ToolCategory.Validator)
-  const strings = grids.filter(g => g.category === ToolCategory.String)
-  const encodes = grids.filter(g => g.category === ToolCategory.Encode)
-  const diffs = grids.filter(g => g.category === ToolCategory.Diff)
-  const minifier = grids.filter(g => g.category === ToolCategory.Minifier)
-  const others = grids.filter(g => g.category === undefined)
+  const playground = grids.filter((g) => g.category === ToolCategory.Playground)
+  const playgroundBackend = grids.filter((g) => g.category === ToolCategory.PlaygroundBackend)
+  const generator = grids.filter((g) => g.category === ToolCategory.Generator)
+  const converter = grids.filter((g) => g.category === ToolCategory.Converter)
+  const unitConverter = grids.filter((g) => g.category === ToolCategory.UnitConverter)
+  const validator = grids.filter((g) => g.category === ToolCategory.Validator)
+  const strings = grids.filter((g) => g.category === ToolCategory.String)
+  const encodes = grids.filter((g) => g.category === ToolCategory.Encode)
+  const diffs = grids.filter((g) => g.category === ToolCategory.Diff)
+  const minifier = grids.filter((g) => g.category === ToolCategory.Minifier)
+  const others = grids.filter((g) => g.category === undefined)
 
   useEffect(() => {
     const init = async (): Promise<void> => {
@@ -47,7 +47,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
       setGrids(Grids)
     } else {
       const fuse = new Fuse(Grids, fuseOptions)
-      const result = fuse.search<Link>(query).map(r => r.item)
+      const result = fuse.search<Link>(query).map((r) => r.item)
       setGrids(result)
     }
   }, [query])
@@ -61,7 +61,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
               <article className='tile is-child'>
                 <p className='title is-5'>Playground</p>
                 <div className={cs(css.collection, 'content')}>
-                  {playground.map(a => {
+                  {playground.map((a) => {
                     return (
                       <a
                         key={a.href}
@@ -82,7 +82,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
               <article className='tile is-child'>
                 <p className='title is-5'>Generator</p>
                 <div className={cs(css.collection, 'content')}>
-                  {generator.map(a => {
+                  {generator.map((a) => {
                     return (
                       <a
                         key={a.href}
@@ -106,7 +106,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
               <article className='tile is-child'>
                 <p className='title is-5'>Playground Backend</p>
                 <div className={cs(css.collection, 'content')}>
-                  {playgroundBackend.map(a => {
+                  {playgroundBackend.map((a) => {
                     return (
                       <a
                         key={a.href}
@@ -128,7 +128,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
               <article className='tile is-child'>
                 <p className='title is-5'>Validators</p>
                 <div className={cs(css.collection, 'content')}>
-                  {validator.map(a => {
+                  {validator.map((a) => {
                     return (
                       <a
                         key={a.href}
@@ -150,9 +150,9 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
           <div className='tile'>
             <div className='tile is-parent'>
               <article className='tile is-child'>
-                <p className='title is-5'>Minifier</p>
+                <p className='title is-5'>Minifier/Optimizer</p>
                 <div className={cs(css.collection, 'content')}>
-                  {minifier.map(a => {
+                  {minifier.map((a) => {
                     return (
                       <a
                         key={a.href}
@@ -173,7 +173,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
               <article className='tile is-child'>
                 <p className='title is-5'>Diff</p>
                 <div className={cs(css.collection, 'content')}>
-                  {diffs.map(a => {
+                  {diffs.map((a) => {
                     return (
                       <a
                         key={a.href}
@@ -198,7 +198,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                 <article className='tile is-child'>
                   <p className='title is-5'>String</p>
                   <div className={cs(css.collection, 'content')}>
-                    {strings.map(a => {
+                    {strings.map((a) => {
                       return (
                         <a
                           key={a.href}
@@ -219,7 +219,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                 <article className='tile is-child'>
                   <p className='title is-5'>Encode/Escape</p>
                   <div className={cs(css.collection, 'content')}>
-                    {encodes.map(a => {
+                    {encodes.map((a) => {
                       return (
                         <a
                           key={a.href}
@@ -242,7 +242,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
               <article className='tile is-child'>
                 <p className='title is-5'>Unit Converter</p>
                 <div className={cs(css.collection, 'content')}>
-                  {unitConverter.map(a => {
+                  {unitConverter.map((a) => {
                     return (
                       <a
                         key={a.href}
@@ -267,7 +267,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
             <article className='tile is-child'>
               <p className='title is-5'>Converter</p>
               <div className={cs(css.collection, 'content')}>
-                {converter.map(a => {
+                {converter.map((a) => {
                   return (
                     <a
                       key={a.href}
@@ -289,7 +289,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
             <article className='tile is-child'>
               <p className='title is-5'>Other</p>
               <div className={cs(css.collection, 'content')}>
-                {others.map(a => {
+                {others.map((a) => {
                   return (
                     <a
                       key={a.href}
