@@ -41,6 +41,7 @@
     "lodash": "^4.17.15",
     "marked": "^1.0.0",
     "modularscale-sass": "^3.0.10",
+    "qrcode": "^1.4.4",
     "react": "^16.13.1",
     "react-chartkick": "^0.4.0",
     "react-dom": "^16.13.1",

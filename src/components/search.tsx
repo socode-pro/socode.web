@@ -18,7 +18,8 @@ import Slogan from './slogan'
 import Trending from './trending'
 import Region from './region'
 import Language, { ProgramLanguage, InterfaceLanguage } from '../utils/language'
-import { SKey, UnSearchableKey, SKeyCategory, useSKeyCategoryIntl } from '../utils/searchkeys'
+import { SKey, IsUnSearchableKey, SKeyCategory, IsDisplayInputKey } from '../utils/searchKeys'
+import useSKeyCategoryIntl from '../utils/searchKeysIntl'
 import { getAutocompleteTemplate, getAutocompleteUrl } from '../utils/algolia_template'
 import useHotkeys from '../utils/useHotkeys'
 import { StringEnumObjects, IntEnumObjects, winSearchParams, isFirefox, isInStandaloneMode } from '../utils/assist'
@@ -134,7 +135,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const debounceSuggeste = useCallback(
     debounce<(value: string) => Promise<void>>(async (value) => {
       setSuggesteIndex(-1)
-      if (!value || UnSearchableKey(currentKey)) {
+      if (!value || IsUnSearchableKey(currentKey)) {
         setSuggeste(null)
         return
       }
@@ -179,7 +180,10 @@ const SearchInput: React.FC = (): JSX.Element => {
     '/',
     () => {
       focusInput()
-      return false
+      if (document.activeElement?.tagName !== 'INPUT') {
+        return false
+      }
+      return true
     },
     [focusInput],
     ['BODY']
@@ -537,15 +541,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               </span>
             )}
 
-            {(displayKeys ||
-              (currentKey.devdocs && !dsConfig) ||
-              currentKey.template ||
-              currentKey.readmes ||
-              currentKey.code === 'github_stars' ||
-              currentKey.code === 'socode' ||
-              currentKey.code === 'tools' ||
-              currentKey.code === 'get_ip' ||
-              currentKey.code === 'cheatsheets') && (
+            {(displayKeys || IsDisplayInputKey(currentKey)) && (
               <input
                 type='search'
                 className={css.input}
@@ -681,7 +677,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             suggeste !== null &&
             suggeste.words.length > 0 &&
             suggeste.key === currentKey.code &&
-            !UnSearchableKey(currentKey) && (
+            !IsUnSearchableKey(currentKey) && (
               <div
                 className={cs(css.suggeste, 'dropdown is-active')}
                 style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
@@ -879,6 +875,11 @@ const SearchInput: React.FC = (): JSX.Element => {
             />
           )}
           {!displayKeys && currentKey.code === 'get_ip' && <Region />}
+          {!displayKeys && currentKey.code === 'qrcode' && (
+            <div className='tac'>
+              <canvas id='qrcode' />
+            </div>
+          )}
 
           {error !== null && <div className={css.error}>{error instanceof String ? error : error.message}</div>}
 
