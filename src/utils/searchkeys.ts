@@ -1667,6 +1667,7 @@ const SKeys: SKey[] = [
     name: 'QR Code',
     category: SKeyCategory.Tools,
     shortkeys: 'qr',
+    usage: true,
     icon: 'qrcode.png',
   },
   {
