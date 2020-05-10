@@ -7,7 +7,7 @@ import Language, { ProgramLanguage, navigatorLanguage } from '../utils/language'
 import { winSearchParams } from '../utils/assist'
 import { SocodeResult, SearchTimeRange } from '../services/socode.service'
 import { NpmsResult } from '../services/npms.service'
-import { IsUnSearchableKey } from '../utils/searchKeys'
+import { IsUnSearchableKey } from '../utils/searchkeys'
 
 export interface SMError {
   message: string
