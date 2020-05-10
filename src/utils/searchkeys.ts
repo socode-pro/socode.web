@@ -499,7 +499,7 @@ const SKeys: SKey[] = [
     code: 'dns',
     name: 'DNS Lookup',
     category: SKeyCategory.Tools,
-    shortkeys: 'dl',
+    shortkeys: 'dns',
     icon: 'digitalocean.svg',
     template: 'https://www.digitalocean.com/community/tools/dns?domain=%s',
   },
