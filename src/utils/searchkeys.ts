@@ -72,6 +72,22 @@ export const IsDisplayInputKey = (key: SKey): boolean =>
   key.code === 'qrcode' ||
   key.code === 'cheatsheets'
 
+export const KeyPlaceholder = (key: SKey, awesomeOrDevdoc: boolean): string => {
+  if (key.awesome && awesomeOrDevdoc) {
+    return 'awesome search...'
+  }
+  if (key.devdocs) {
+    return 'menu search...'
+  }
+  if (key.readmes) {
+    return key.readmes.searched ? 'content search...' : 'no search'
+  }
+  if (key.code === 'get_ip') {
+    return 'no search'
+  }
+  return ''
+}
+
 const SKeys: SKey[] = [
   {
     code: '_30seconds',

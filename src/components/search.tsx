@@ -18,7 +18,7 @@ import Slogan from './slogan'
 import Trending from './trending'
 import Region from './region'
 import Language, { ProgramLanguage, InterfaceLanguage } from '../utils/language'
-import { SKey, IsUnSearchableKey, SKeyCategory, IsDisplayInputKey } from '../utils/searchkeys'
+import { SKey, IsUnSearchableKey, SKeyCategory, IsDisplayInputKey, KeyPlaceholder } from '../utils/searchkeys'
 import useSKeyCategoryIntl from '../utils/searchkeysIntl'
 import { getAutocompleteTemplate, getAutocompleteUrl } from '../utils/algolia_template'
 import useHotkeys from '../utils/useHotkeys'
@@ -556,19 +556,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                   setFocus(true)
                 }}
                 onChange={handleQueryChange}
-                placeholder={
-                  displayKeys
-                    ? 'select resources...'
-                    : currentKey.awesome && awesomeOrDevdoc
-                    ? 'awesome search...'
-                    : currentKey.devdocs
-                    ? 'menu search...'
-                    : currentKey.readmes
-                    ? currentKey.readmes.searched
-                      ? 'content search...'
-                      : 'no search...'
-                    : ''
-                }
+                placeholder={displayKeys ? 'select resources...' : KeyPlaceholder(currentKey, awesomeOrDevdoc)}
                 ref={inputEl} // https://stackoverflow.com/a/48656310/346701
                 onKeyPress={isFirefox ? handleQueryKeyPress : () => undefined}
               />
