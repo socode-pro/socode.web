@@ -338,6 +338,12 @@ html.WithJs {
       margin: 0;
     }
   }
+  table {
+    td,
+    th {
+      word-break: normal;
+    }
+  }
 }
 
 html {

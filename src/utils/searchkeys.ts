@@ -1664,7 +1664,7 @@ const SKeys: SKey[] = [
   },
   {
     code: 'qrcode',
-    name: 'QR Code',
+    name: 'Generate QR Code',
     category: SKeyCategory.Tools,
     shortkeys: 'qr',
     usage: true,
@@ -1756,7 +1756,7 @@ const SKeys: SKey[] = [
     code: 'react_native',
     name: 'React Native',
     category: SKeyCategory.Document,
-    shortkeys: 'ran',
+    shortkeys: 'rn',
     icon: 'react.svg',
     homelink: 'https://facebook.github.io/react-native',
     awesome: 'jondot/awesome-react-native',
@@ -1768,6 +1768,23 @@ const SKeys: SKey[] = [
         indexName: 'react-native-versions',
       },
     ],
+  },
+  {
+    code: 'react_native_styling',
+    name: 'React Native Styling',
+    category: SKeyCategory.CheatSheets,
+    shortkeys: 'rns',
+    icon: 'react.svg',
+    homelink: 'https://github.com/vhpoet/react-native-styling-cheat-sheet',
+    readmes: {
+      base: 'vhpoet/react-native-styling-cheat-sheet',
+      paths: [
+        {
+          lang: Language.English,
+          path: '/README.md',
+        },
+      ],
+    },
   },
   {
     code: 'redis',
