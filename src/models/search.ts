@@ -1,12 +1,13 @@
 import { Action, action, Thunk, thunk, Computed, computed, ActionOn, actionOn, ThunkOn, thunkOn } from 'easy-peasy'
 import dayjs from 'dayjs'
+import qrcode from 'qrcode'
 import { Injections } from '../store'
 import { StoreModel } from './index'
 import Language, { ProgramLanguage, navigatorLanguage } from '../utils/language'
 import { winSearchParams } from '../utils/assist'
 import { SocodeResult, SearchTimeRange } from '../services/socode.service'
 import { NpmsResult } from '../services/npms.service'
-import { UnSearchableKey } from '../utils/searchkeys'
+import { IsUnSearchableKey } from '../utils/searchKeys'
 
 export interface SMError {
   message: string
@@ -19,7 +20,7 @@ const defaultDisplaySubtitle = (): boolean => {
     if (!time) {
       localStorage.setItem('displaySubtitleFirstTime', dayjs().toJSON())
     } else {
-      return dayjs(time).add(10, 'minute').isAfter(dayjs())    
+      return dayjs(time).add(10, 'minute').isAfter(dayjs())
     }
   }
   return value !== 'false'
@@ -64,6 +65,8 @@ export interface SearchModel {
   setSearchLanguage: Action<SearchModel, Language>
   setSearchLanguageThunk: Thunk<SearchModel, Language>
 
+  setQrcode: Action<SearchModel, string>
+
   search: Thunk<SearchModel, void, Injections, StoreModel>
   lunchUrl: Thunk<SearchModel, string | void, Injections, StoreModel>
   clearResult: Action<SearchModel>
@@ -97,8 +100,12 @@ const searchModel: SearchModel = {
     state.npmResult = payload
   }),
 
-  wapperTop: computed(state =>
-    state.expandView || (state.result?.results.length || state.npmResult?.results.length || 0) > 0 ? -6 : state.displaySubtitle ? 150 : 130
+  wapperTop: computed((state) =>
+    state.expandView || (state.result?.results.length || state.npmResult?.results.length || 0) > 0
+      ? -6
+      : state.displaySubtitle
+      ? 150
+      : 130
   ),
 
   loading: false,
@@ -115,24 +122,24 @@ const searchModel: SearchModel = {
   resetPage: action((state) => {
     state.pageno = 1
   }),
-  nextPage: action(state => {
+  nextPage: action((state) => {
     state.pageno += 1
   }),
-  nextPageThunk: thunk(async actions => {
+  nextPageThunk: thunk(async (actions) => {
     actions.nextPage()
     await actions.search()
     document.body.scrollTo({ top: 0 })
   }),
-  prevPage: action(state => {
+  prevPage: action((state) => {
     state.pageno -= 1
   }),
-  prevPageThunk: thunk(async actions => {
+  prevPageThunk: thunk(async (actions) => {
     actions.prevPage()
     await actions.search()
     document.body.scrollTo({ top: 0 })
   }),
 
-  query: (new URLSearchParams(window.location.search)).get('q') || '',
+  query: new URLSearchParams(window.location.search).get('q') || '',
   setQuery: action((state, payload) => {
     state.query = payload
   }),
@@ -147,7 +154,7 @@ const searchModel: SearchModel = {
     await actions.search()
   }),
 
-  searchLanguage: localStorage.getItem('searchLanguage') as Language || navigatorLanguage(navigator.language),
+  searchLanguage: (localStorage.getItem('searchLanguage') as Language) || navigatorLanguage(navigator.language),
   setSearchLanguage: action((state, payload) => {
     state.searchLanguage = payload
     localStorage.setItem('searchLanguage', payload)
@@ -158,12 +165,20 @@ const searchModel: SearchModel = {
     await actions.search()
   }),
 
+  setQrcode: action((state, payload) => {
+    const canvas = document.getElementById('qrcode')
+    if (canvas && payload) {
+      qrcode.toCanvas(canvas, payload, { width: 200 }, (err) => {
+        if (err) console.error(err)
+      })
+    }
+  }),
+
   search: thunk(async (actions, payload, { injections, getState, getStoreState }) => {
     const { query, timeRange, searchLanguage, pageno } = getState()
     const { currentKey } = getStoreState().searchKeys
     winSearchParams({ query })
-
-    if (!query || UnSearchableKey(currentKey)) {
+    if (!query || IsUnSearchableKey(currentKey)) {
       actions.clearResult()
       return
     }
@@ -190,6 +205,8 @@ const searchModel: SearchModel = {
       }
       actions.setNpmResult(result)
       actions.setLoading(false)
+    } else if (currentKey.code === 'qrcode') {
+      actions.setQrcode(query)
     } else {
       actions.lunchUrl()
     }
@@ -200,7 +217,7 @@ const searchModel: SearchModel = {
     const { query, searchLanguage } = getState()
     const { programLanguage } = getStoreState().storage
     const { currentKey } = getStoreState().searchKeys
-    let url: string| undefined = ''
+    let url: string | undefined = ''
 
     if (payload) {
       url = payload
@@ -223,13 +240,13 @@ const searchModel: SearchModel = {
     }
   }),
 
-  clearResult: action(state => {
+  clearResult: action((state) => {
     state.pageno = 1
     state.result = null
     state.npmResult = null
   }),
 
-  docLanguage: localStorage.getItem('docLanguage') as Language || navigatorLanguage(navigator.language),
+  docLanguage: (localStorage.getItem('docLanguage') as Language) || navigatorLanguage(navigator.language),
   setDocLanguage: action((state, payload) => {
     state.docLanguage = payload
     localStorage.setItem('docLanguage', payload)
@@ -241,7 +258,7 @@ const searchModel: SearchModel = {
       if (!target.payload.devdocs) {
         state.expandView = false
       }
-    },
+    }
   ),
 
   onInitialCurrentKey: thunkOn(
@@ -251,7 +268,7 @@ const searchModel: SearchModel = {
       if (params.has('q')) {
         actions.search()
       }
-    },
+    }
   ),
 }
 

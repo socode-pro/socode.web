@@ -2,7 +2,7 @@ import { Action, action, Thunk, thunk, Computed, computed } from 'easy-peasy'
 import without from 'lodash/without'
 import ky from 'ky'
 import Fuse from 'fuse.js'
-import SKeys, { SKey, SKeyCategory } from '../utils/searchkeys'
+import SKeys, { SKey, SKeyCategory } from '../utils/searchKeys'
 import { StoreModel } from './index'
 
 const fuseOptions: Fuse.IFuseOptions<SKey> = {

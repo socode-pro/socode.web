@@ -1,6 +1,3 @@
-import { useState, useEffect } from 'react'
-import { useStoreState } from './hooks'
-import { SettingsType } from '../models/storage'
 import Language, { InterfaceLanguage } from './language'
 
 export enum SKeyCategory {
@@ -10,63 +7,6 @@ export enum SKeyCategory {
   CheatSheets = 4,
   Learn = 5,
   Document = 6,
-}
-
-export const useSKeyCategoryIntl = (category: SKeyCategory): string => {
-  const [word, setWord] = useState('')
-  const { language } = useStoreState<SettingsType>((state) => state.storage.settings)
-
-  useEffect(() => {
-    if (language === InterfaceLanguage.中文) {
-      switch (category) {
-        case SKeyCategory.Search:
-          setWord('搜索')
-          break
-        case SKeyCategory.Tools:
-          setWord('工具')
-          break
-        case SKeyCategory.CheatSheets:
-          setWord('Cheat Sheets')
-          break
-        case SKeyCategory.Document:
-          setWord('文档')
-          break
-        case SKeyCategory.Collection:
-          setWord('导航')
-          break
-        case SKeyCategory.Learn:
-          setWord('学习')
-          break
-        default:
-          break
-      }
-    } else {
-      switch (category) {
-        case SKeyCategory.Search:
-          setWord('SEARCH')
-          break
-        case SKeyCategory.Tools:
-          setWord('TOOLS')
-          break
-        case SKeyCategory.CheatSheets:
-          setWord('Cheat Sheets')
-          break
-        case SKeyCategory.Document:
-          setWord('DOCUMENT')
-          break
-        case SKeyCategory.Collection:
-          setWord('COLLECTION')
-          break
-        case SKeyCategory.Learn:
-          setWord('LEARN')
-          break
-        default:
-          break
-      }
-    }
-  }, [language, category])
-
-  return word
 }
 
 export interface SKey {
@@ -112,7 +52,7 @@ export interface SKey {
   }
 }
 
-export const UnSearchableKey = (key: SKey): boolean =>
+export const IsUnSearchableKey = (key: SKey): boolean =>
   !!key.docsearch ||
   !!key.devdocs ||
   !!key.readmes ||
@@ -120,6 +60,17 @@ export const UnSearchableKey = (key: SKey): boolean =>
   key.code === 'tools' ||
   key.code === 'github_stars' ||
   key.code === 'get_ip'
+
+export const IsDisplayInputKey = (key: SKey): boolean =>
+  (key.devdocs && !key.docsearch) ||
+  !!key.template ||
+  !!key.readmes ||
+  key.code === 'github_stars' ||
+  key.code === 'socode' ||
+  key.code === 'tools' ||
+  key.code === 'get_ip' ||
+  key.code === 'qrcode' ||
+  key.code === 'cheatsheets'
 
 const SKeys: SKey[] = [
   {
@@ -1694,6 +1645,13 @@ const SKeys: SKey[] = [
     shortkeys: 'pp',
     icon: 'pypi.svg',
     template: 'https://pypi.org/search/?q=%s',
+  },
+  {
+    code: 'qrcode',
+    name: 'QR Code',
+    category: SKeyCategory.Tools,
+    shortkeys: 'qr',
+    icon: 'qrcode.png',
   },
   {
     code: 'rails',
