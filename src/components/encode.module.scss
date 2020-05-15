@@ -1,0 +1,18 @@
+@import "../styles/variable";
+
+.encode {
+  margin: 5px 20px 20px;
+  display: flex;
+  justify-content: space-between;
+  .textarea {
+    flex-grow: 1;
+    textarea {
+      min-height: 400px;
+    }
+  }
+  .buttons {
+    margin: 0 10px;
+    display: flex;
+    flex-direction: column;
+  }
+}
