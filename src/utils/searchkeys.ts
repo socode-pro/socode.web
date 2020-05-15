@@ -577,6 +577,10 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Tools,
     shortkeys: "ec",
     icon: "encode.png",
+    iconProps: {
+      backgroundSize: "30px",
+      backgroundPosition: "left 0.3em center",
+    },
   },
   {
     code: "eslint",
@@ -1478,6 +1482,10 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Tools,
     shortkeys: "pwd",
     icon: "password.png",
+    iconProps: {
+      backgroundSize: "30px",
+      backgroundPosition: "left 0.3em center",
+    },
   },
   {
     code: "perl",
