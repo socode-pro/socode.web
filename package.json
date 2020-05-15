@@ -26,6 +26,7 @@
     "bulma-toast": "^1.5.4",
     "bulma-tooltip": "^3.0.2",
     "classnames": "^2.2.6",
+    "crypto-js": "^4.0.0",
     "dayjs": "^1.8.23",
     "docsearch.js": "^2.6.3",
     "dom101": "^2.2.1",

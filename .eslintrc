@@ -28,7 +28,6 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "import/extensions": ["warn", "ignorePackages", { "ts": "never", "tsx": "never", "js": "never" }],
-    "@typescript-eslint/quotes": ["error", "single", { "avoidEscape": true }], // t.ly/7GqRA
     "@typescript-eslint/explicit-function-return-type": ["warn", { "allowExpressions": true }],
     "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx", ".tsx"] }],
     "react/sort-comp": "off",

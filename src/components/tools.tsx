@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import ky from 'ky'
-import cs from 'classnames'
-import Fuse from 'fuse.js'
-import { Link, ToolCategory, Grids } from '../utils/tools_data'
-import css from './tools.module.scss'
+import React, { useState, useEffect } from "react"
+import ky from "ky"
+import cs from "classnames"
+import Fuse from "fuse.js"
+import { Link, ToolCategory, Grids } from "../utils/tools_data"
+import css from "./tools.module.scss"
 
 interface Props {
   query: string
 }
 
 const fuseOptions: Fuse.IFuseOptions<Link> = {
-  keys: ['name', 'label', 'title'],
+  keys: ["name", "label", "title"],
   threshold: 0.4,
 }
 
@@ -54,13 +54,13 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
 
   return (
     <div className={cs(css.grid)}>
-      <div className='tile'>
-        <div className='tile is-vertical is-9'>
-          <div className='tile'>
-            <div className='tile is-parent is-6'>
-              <article className='tile is-child'>
-                <p className='title is-5'>Playground</p>
-                <div className={cs(css.collection, 'content')}>
+      <div className="tile">
+        <div className="tile is-vertical is-9">
+          <div className="tile">
+            <div className="tile is-parent is-6">
+              <article className="tile is-child">
+                <p className="title is-5">Playground</p>
+                <div className={cs(css.collection, "content")}>
                   {playground.map((a) => {
                     return (
                       <a
@@ -68,20 +68,20 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                         title={a.title || a.label}
                         className={cs({ [css.elite]: a.elite })}
                         href={a.href}
-                        target='_blank'
-                        rel='noopener noreferrer'>
+                        target="_blank"
+                        rel="noopener noreferrer">
                         {a.name}
-                        {a.elite && <i className='fa-thumbsup' />}
+                        {a.elite && <i className="fa-thumbsup" />}
                       </a>
                     )
                   })}
                 </div>
               </article>
             </div>
-            <div className='tile is-parent'>
-              <article className='tile is-child'>
-                <p className='title is-5'>Generator</p>
-                <div className={cs(css.collection, 'content')}>
+            <div className="tile is-parent">
+              <article className="tile is-child">
+                <p className="title is-5">Generator</p>
+                <div className={cs(css.collection, "content")}>
                   {generator.map((a) => {
                     return (
                       <a
@@ -89,10 +89,10 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                         title={a.title || a.label}
                         className={cs({ [css.elite]: a.elite })}
                         href={a.href}
-                        target='_blank'
-                        rel='noopener noreferrer'>
+                        target="_blank"
+                        rel="noopener noreferrer">
                         {a.name}
-                        {a.elite && <i className='fa-thumbsup' />}
+                        {a.elite && <i className="fa-thumbsup" />}
                       </a>
                     )
                   })}
@@ -101,11 +101,11 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
             </div>
           </div>
 
-          <div className='tile'>
-            <div className='tile is-parent'>
-              <article className='tile is-child'>
-                <p className='title is-5'>Playground Backend</p>
-                <div className={cs(css.collection, 'content')}>
+          <div className="tile">
+            <div className="tile is-parent">
+              <article className="tile is-child">
+                <p className="title is-5">Playground Backend</p>
+                <div className={cs(css.collection, "content")}>
                   {playgroundBackend.map((a) => {
                     return (
                       <a
@@ -113,10 +113,10 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                         title={a.title || a.label}
                         className={cs({ [css.elite]: a.elite })}
                         href={a.href}
-                        target='_blank'
-                        rel='noopener noreferrer'>
+                        target="_blank"
+                        rel="noopener noreferrer">
                         {a.name}
-                        {a.elite && <i className='fa-thumbsup' />}
+                        {a.elite && <i className="fa-thumbsup" />}
                       </a>
                     )
                   })}
@@ -124,10 +124,10 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
               </article>
             </div>
 
-            <div className='tile is-parent is-6'>
-              <article className='tile is-child'>
-                <p className='title is-5'>Validators</p>
-                <div className={cs(css.collection, 'content')}>
+            <div className="tile is-parent is-6">
+              <article className="tile is-child">
+                <p className="title is-5">Validators</p>
+                <div className={cs(css.collection, "content")}>
                   {validator.map((a) => {
                     return (
                       <a
@@ -135,10 +135,10 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                         title={a.title || a.label}
                         className={cs({ [css.elite]: a.elite })}
                         href={a.href}
-                        target='_blank'
-                        rel='noopener noreferrer'>
+                        target="_blank"
+                        rel="noopener noreferrer">
                         {a.name}
-                        {a.elite && <i className='fa-thumbsup' />}
+                        {a.elite && <i className="fa-thumbsup" />}
                       </a>
                     )
                   })}
@@ -147,11 +147,11 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
             </div>
           </div>
 
-          <div className='tile'>
-            <div className='tile is-parent'>
-              <article className='tile is-child'>
-                <p className='title is-5'>Minifier/Optimizer</p>
-                <div className={cs(css.collection, 'content')}>
+          <div className="tile">
+            <div className="tile is-parent">
+              <article className="tile is-child">
+                <p className="title is-5">Minifier/Optimizer</p>
+                <div className={cs(css.collection, "content")}>
                   {minifier.map((a) => {
                     return (
                       <a
@@ -159,20 +159,20 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                         title={a.title || a.label}
                         className={cs({ [css.elite]: a.elite })}
                         href={a.href}
-                        target='_blank'
-                        rel='noopener noreferrer'>
+                        target="_blank"
+                        rel="noopener noreferrer">
                         {a.name}
-                        {a.elite && <i className='fa-thumbsup' />}
+                        {a.elite && <i className="fa-thumbsup" />}
                       </a>
                     )
                   })}
                 </div>
               </article>
             </div>
-            <div className='tile is-parent'>
-              <article className='tile is-child'>
-                <p className='title is-5'>Diff</p>
-                <div className={cs(css.collection, 'content')}>
+            <div className="tile is-parent">
+              <article className="tile is-child">
+                <p className="title is-5">Diff</p>
+                <div className={cs(css.collection, "content")}>
                   {diffs.map((a) => {
                     return (
                       <a
@@ -180,10 +180,10 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                         title={a.title || a.label}
                         className={cs({ [css.elite]: a.elite })}
                         href={a.href}
-                        target='_blank'
-                        rel='noopener noreferrer'>
+                        target="_blank"
+                        rel="noopener noreferrer">
                         {a.name}
-                        {a.elite && <i className='fa-thumbsup' />}
+                        {a.elite && <i className="fa-thumbsup" />}
                       </a>
                     )
                   })}
@@ -192,12 +192,12 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
             </div>
           </div>
 
-          <div className='tile'>
-            <div className='tile is-vertical is-6'>
-              <div className='tile is-parent'>
-                <article className='tile is-child'>
-                  <p className='title is-5'>String</p>
-                  <div className={cs(css.collection, 'content')}>
+          <div className="tile">
+            <div className="tile is-vertical is-6">
+              <div className="tile is-parent">
+                <article className="tile is-child">
+                  <p className="title is-5">String</p>
+                  <div className={cs(css.collection, "content")}>
                     {strings.map((a) => {
                       return (
                         <a
@@ -205,20 +205,20 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                           title={a.title || a.label}
                           className={cs({ [css.elite]: a.elite })}
                           href={a.href}
-                          target='_blank'
-                          rel='noopener noreferrer'>
+                          target="_blank"
+                          rel="noopener noreferrer">
                           {a.name}
-                          {a.elite && <i className='fa-thumbsup' />}
+                          {a.elite && <i className="fa-thumbsup" />}
                         </a>
                       )
                     })}
                   </div>
                 </article>
               </div>
-              <div className='tile is-parent'>
-                <article className='tile is-child'>
-                  <p className='title is-5'>Encode/Escape</p>
-                  <div className={cs(css.collection, 'content')}>
+              <div className="tile is-parent">
+                <article className="tile is-child">
+                  <p className="title is-5">Encode/Escape</p>
+                  <div className={cs(css.collection, "content")}>
                     {encodes.map((a) => {
                       return (
                         <a
@@ -226,10 +226,10 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                           title={a.title || a.label}
                           className={cs({ [css.elite]: a.elite })}
                           href={a.href}
-                          target='_blank'
-                          rel='noopener noreferrer'>
+                          target="_blank"
+                          rel="noopener noreferrer">
                           {a.name}
-                          {a.elite && <i className='fa-thumbsup' />}
+                          {a.elite && <i className="fa-thumbsup" />}
                         </a>
                       )
                     })}
@@ -238,10 +238,10 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
               </div>
             </div>
 
-            <div className='tile is-parent'>
-              <article className='tile is-child'>
-                <p className='title is-5'>Unit Converter</p>
-                <div className={cs(css.collection, 'content')}>
+            <div className="tile is-parent">
+              <article className="tile is-child">
+                <p className="title is-5">Unit Converter</p>
+                <div className={cs(css.collection, "content")}>
                   {unitConverter.map((a) => {
                     return (
                       <a
@@ -249,10 +249,10 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                         title={a.title || a.label}
                         className={cs({ [css.elite]: a.elite })}
                         href={a.href}
-                        target='_blank'
-                        rel='noopener noreferrer'>
+                        target="_blank"
+                        rel="noopener noreferrer">
                         {a.name}
-                        {a.elite && <i className='fa-thumbsup' />}
+                        {a.elite && <i className="fa-thumbsup" />}
                       </a>
                     )
                   })}
@@ -262,11 +262,11 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
           </div>
         </div>
 
-        <div className='tile is-vertical'>
-          <div className='tile is-parent'>
-            <article className='tile is-child'>
-              <p className='title is-5'>Converter</p>
-              <div className={cs(css.collection, 'content')}>
+        <div className="tile is-vertical">
+          <div className="tile is-parent">
+            <article className="tile is-child">
+              <p className="title is-5">Converter</p>
+              <div className={cs(css.collection, "content")}>
                 {converter.map((a) => {
                   return (
                     <a
@@ -274,10 +274,10 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                       title={a.title || a.label}
                       className={cs({ [css.elite]: a.elite })}
                       href={a.href}
-                      target='_blank'
-                      rel='noopener noreferrer'>
+                      target="_blank"
+                      rel="noopener noreferrer">
                       {a.name}
-                      {a.elite && <i className='fa-thumbsup' />}
+                      {a.elite && <i className="fa-thumbsup" />}
                     </a>
                   )
                 })}
@@ -285,10 +285,10 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
             </article>
           </div>
 
-          <div className='tile is-parent'>
-            <article className='tile is-child'>
-              <p className='title is-5'>Other</p>
-              <div className={cs(css.collection, 'content')}>
+          <div className="tile is-parent">
+            <article className="tile is-child">
+              <p className="title is-5">Other</p>
+              <div className={cs(css.collection, "content")}>
                 {others.map((a) => {
                   return (
                     <a
@@ -296,10 +296,10 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                       title={a.title || a.label}
                       className={cs({ [css.elite]: a.elite })}
                       href={a.href}
-                      target='_blank'
-                      rel='noopener noreferrer'>
+                      target="_blank"
+                      rel="noopener noreferrer">
                       {a.name}
-                      {a.elite && <i className='fa-thumbsup' />}
+                      {a.elite && <i className="fa-thumbsup" />}
                     </a>
                   )
                 })}

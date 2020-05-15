@@ -1,39 +1,40 @@
-import React, { useState, useCallback, useEffect, useRef, useMemo, lazy, Suspense } from 'react'
-import { useSpring, animated } from 'react-spring'
-import dayjs from 'dayjs'
-import debounce from 'lodash/debounce'
-import docsearch from 'docsearch.js'
-import algoliasearch from 'algoliasearch'
-import autocomplete from 'autocomplete.js'
-import cs from 'classnames'
-import Highlighter from 'react-highlight-words'
-import Brand from './brand'
-import CheatSheets from './cheatsheets'
-import Rework from './rework'
-import Tools from './tools'
-import Awesome from './awesome'
-import Readme from './readme'
-import Devdocs from './devdocs'
-import Slogan from './slogan'
-import Trending from './trending'
-import Region from './region'
-import Language, { ProgramLanguage, InterfaceLanguage } from '../utils/language'
-import { SKey, IsUnSearchableKey, SKeyCategory, IsDisplayInputKey, KeyPlaceholder } from '../utils/searchkeys'
-import useSKeyCategoryIntl from '../utils/searchkeysIntl'
-import { getAutocompleteTemplate, getAutocompleteUrl } from '../utils/algolia_template'
-import useHotkeys from '../utils/useHotkeys'
-import { StringEnumObjects, IntEnumObjects, winSearchParams, isFirefox, isInStandaloneMode } from '../utils/assist'
-import { useStoreActions, useStoreState } from '../utils/hooks'
-import { SearchTimeRange, SocodeResult } from '../services/socode.service'
-import { NpmsResult } from '../services/npms.service'
-import { SettingsType } from '../models/storage'
-import { SMError } from '../models/search'
-import { Suggester, SuggestItem } from '../services/suggest.service'
-import css from './search.module.scss'
-import Loader1 from './loader/loader1'
-import { ReactComponent as Github } from '../images/github.svg'
+import React, { useState, useCallback, useEffect, useRef, useMemo, lazy, Suspense } from "react"
+import { useSpring, animated } from "react-spring"
+import dayjs from "dayjs"
+import debounce from "lodash/debounce"
+import docsearch from "docsearch.js"
+import algoliasearch from "algoliasearch"
+import autocomplete from "autocomplete.js"
+import cs from "classnames"
+import Highlighter from "react-highlight-words"
+import Brand from "./brand"
+import CheatSheets from "./cheatsheets"
+import Rework from "./rework"
+import Tools from "./tools"
+import Awesome from "./awesome"
+import Readme from "./readme"
+import Devdocs from "./devdocs"
+import Slogan from "./slogan"
+import Trending from "./trending"
+import Region from "./region"
+import Encode from "./encode"
+import Language, { ProgramLanguage, InterfaceLanguage } from "../utils/language"
+import { SKey, IsUnSearchableKey, SKeyCategory, KeyPlaceholder } from "../utils/searchkeys"
+import useSKeyCategoryIntl from "../utils/searchkeysIntl"
+import { getAutocompleteTemplate, getAutocompleteUrl } from "../utils/algolia_template"
+import useHotkeys from "../utils/useHotkeys"
+import { StringEnumObjects, IntEnumObjects, winSearchParams, isFirefox, isInStandaloneMode } from "../utils/assist"
+import { useStoreActions, useStoreState } from "../utils/hooks"
+import { SearchTimeRange, SocodeResult } from "../services/socode.service"
+import { NpmsResult } from "../services/npms.service"
+import { SettingsType } from "../models/storage"
+import { SMError } from "../models/search"
+import { Suggester, SuggestItem } from "../services/suggest.service"
+import css from "./search.module.scss"
+import Loader1 from "./loader/loader1"
+import { ReactComponent as Github } from "../images/github.svg"
 
-const GithubStars = lazy(() => import('./stars'))
+const GithubStars = lazy(() => import("./stars"))
 
 const languageOptions = StringEnumObjects(Language)
 const programLanguageOptions = IntEnumObjects(ProgramLanguage)
@@ -97,7 +98,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const documentIntl = useSKeyCategoryIntl(SKeyCategory.Document)
   const collectionIntl = useSKeyCategoryIntl(SKeyCategory.Collection)
   const learnIntl = useSKeyCategoryIntl(SKeyCategory.Learn)
-  const pinnedIntl = language === InterfaceLanguage.中文 ? '置顶' : 'PINNED'
+  const pinnedIntl = language === InterfaceLanguage.中文 ? "置顶" : "PINNED"
 
   const result = useStoreState<SocodeResult | null>((state) => state.search.result)
   const npmResult = useStoreState<NpmsResult | null>((state) => state.search.npmResult)
@@ -177,20 +178,20 @@ const SearchInput: React.FC = (): JSX.Element => {
   )
 
   useHotkeys(
-    '/',
+    "/",
     () => {
       focusInput()
-      if (document.activeElement?.tagName !== 'INPUT') {
+      if (document.activeElement?.tagName !== "INPUT") {
         return false
       }
       return true
     },
     [focusInput],
-    ['BODY']
+    ["BODY"]
   )
 
   useHotkeys(
-    'down',
+    "down",
     () => {
       if (displayKeys && kquery) {
         if (searchedKeys.length > keyIndex + 1) {
@@ -209,7 +210,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   )
 
   useHotkeys(
-    'up',
+    "up",
     () => {
       if (displayKeys && kquery) {
         if (searchedKeys.length >= keyIndex + 1 && keyIndex > 0) {
@@ -245,9 +246,9 @@ const SearchInput: React.FC = (): JSX.Element => {
     const popstateSearch = (): void => {
       search()
     }
-    window.addEventListener('popstate', popstateSearch)
+    window.addEventListener("popstate", popstateSearch)
     return () => {
-      window.removeEventListener('popstate', popstateSearch)
+      window.removeEventListener("popstate", popstateSearch)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -272,28 +273,28 @@ const SearchInput: React.FC = (): JSX.Element => {
             templates: { suggestion: getAutocompleteTemplate(currentKey.code) },
           },
         ]
-      ).on('autocomplete:selected', (event, data) => {
-        window.open(getAutocompleteUrl(currentKey.code, data), '_blank')?.focus()
+      ).on("autocomplete:selected", (event, data) => {
+        window.open(getAutocompleteUrl(currentKey.code, data), "_blank")?.focus()
       })
       return
     }
 
     let customConfig = {}
-    if (currentKey.code === 'eslint' && dsConfig.lang === Language.中文_简体) {
+    if (currentKey.code === "eslint" && dsConfig.lang === Language.中文_简体) {
       customConfig = {
         transformData: (hits) => {
           return hits.map((hit) => {
-            hit.url = hit.url.replace('https://eslint.org', 'https://cn.eslint.org')
+            hit.url = hit.url.replace("https://eslint.org", "https://cn.eslint.org")
             return hit
           })
         },
       }
-    } else if (currentKey.code === 'gradle') {
+    } else if (currentKey.code === "gradle") {
       customConfig = {
         transformData: (hits) => {
           return hits.map((hit) => {
-            if (hit.anchor.substring(0, 10) === 'org.gradle') {
-              hit.hierarchy.lvl0 = 'DSL Reference'
+            if (hit.anchor.substring(0, 10) === "org.gradle") {
+              hit.hierarchy.lvl0 = "DSL Reference"
             }
             return hit
           })
@@ -308,7 +309,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       inputSelector: `#docsearch_${currentKey.code}`,
       algoliaOptions: { ...dsConfig.algoliaOptions, hitsPerPage: 7 },
       handleSelected: (input, event, data) => {
-        window.open(data.url, '_blank')?.focus()
+        window.open(data.url, "_blank")?.focus()
       },
       autocompleteOptions: {
         tabAutocomplete: false,
@@ -322,10 +323,10 @@ const SearchInput: React.FC = (): JSX.Element => {
   const changeKey = useCallback(
     (key: SKey) => {
       clearResultAll()
-      setSquery('')
-      setKquery('')
+      setSquery("")
+      setKquery("")
       setCurrentKey(key)
-      winSearchParams({ keyname: key.code, query: '' })
+      winSearchParams({ keyname: key.code, query: "" })
       setDisplayKeys(false)
       setKeyIndex(-1)
       setTimeout(() => focusInput(key), 200)
@@ -352,7 +353,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const handleQueryKeyPress = useCallback(
     (e) => {
-      if (isFirefox && e.key === 'Enter') {
+      if (isFirefox && e.key === "Enter") {
         handlerSearch()
       }
     },
@@ -364,14 +365,14 @@ const SearchInput: React.FC = (): JSX.Element => {
       return gkeys.map((key, i) => {
         let tooltipProps = {}
         if (key.tooltipsCN && language === InterfaceLanguage.中文) {
-          tooltipProps = { 'data-tooltip': key.tooltipsCN }
+          tooltipProps = { "data-tooltip": key.tooltipsCN }
         } else if (key.tooltips) {
-          tooltipProps = { 'data-tooltip': key.tooltips }
+          tooltipProps = { "data-tooltip": key.tooltips }
         }
         return (
           <div
             key={key.code}
-            className={cs(css.skeybox, 'has-tooltip-multiline has-tooltip-warning', { [css.index]: keyIndex === i })}
+            className={cs(css.skeybox, "has-tooltip-multiline has-tooltip-warning", { [css.index]: keyIndex === i })}
             {...tooltipProps}
             onClick={() => changeKey(key)}>
             <div className={css.skey}>
@@ -385,8 +386,8 @@ const SearchInput: React.FC = (): JSX.Element => {
               </div>
             </div>
             <div>
-              {key.devdocs && <i onClick={() => setAwesomeOrDevdoc(false)} className={cs('fa-devdocs', css.kicon)} />}
-              {key.awesome && <i onClick={() => setAwesomeOrDevdoc(true)} className={cs('fa-cubes', css.kicon)} />}
+              {key.devdocs && <i onClick={() => setAwesomeOrDevdoc(false)} className={cs("fa-devdocs", css.kicon)} />}
+              {key.awesome && <i onClick={() => setAwesomeOrDevdoc(true)} className={cs("fa-cubes", css.kicon)} />}
               <i
                 onClick={(e) => {
                   e.stopPropagation()
@@ -396,7 +397,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                     addPin(key.code)
                   }
                 }}
-                className={cs('fa-thumbtack', css.thumbtack, { [css.usage]: key.pin })}
+                className={cs("fa-thumbtack", css.thumbtack, { [css.usage]: key.pin })}
               />
             </div>
           </div>
@@ -407,14 +408,14 @@ const SearchInput: React.FC = (): JSX.Element => {
   )
 
   useHotkeys(
-    'tab',
+    "tab",
     () => {
       const key = displayKeys ? keys.find((k) => k.shortkeys === kquery) : keys.find((k) => k.shortkeys === squery)
       if (key) {
         changeKey(key)
         return false
       }
-      if (displayKeys ? kquery.endsWith('`') : squery.endsWith('`')) {
+      if (displayKeys ? kquery.endsWith("`") : squery.endsWith("`")) {
         setDisplayKeys(!displayKeys)
         setTimeout(focusInput, 0)
         return false
@@ -426,7 +427,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   )
 
   useHotkeys(
-    'backspace',
+    "backspace",
     () => {
       if (!displayKeys && !squery.length) {
         setDisplayKeys(true)
@@ -437,9 +438,9 @@ const SearchInput: React.FC = (): JSX.Element => {
   )
 
   useHotkeys(
-    '`',
+    "`",
     () => {
-      if (document.activeElement?.tagName !== 'INPUT') {
+      if (document.activeElement?.tagName !== "INPUT") {
         setDisplayKeys(true)
         setTimeout(focusInput, 0)
         return false
@@ -447,7 +448,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       return true
     },
     [displayKeys, focusInput],
-    ['BODY']
+    ["BODY"]
   )
 
   const switchTab = useCallback((index: number) => {
@@ -515,16 +516,16 @@ const SearchInput: React.FC = (): JSX.Element => {
   )
 
   useEffect(() => {
-    window.addEventListener('scroll', scrollPositionTab)
+    window.addEventListener("scroll", scrollPositionTab)
     return () => {
-      window.removeEventListener('scroll', scrollPositionTab)
+      window.removeEventListener("scroll", scrollPositionTab)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <>
-      <div className='container'>
+      <div className="container">
         <Brand />
         <animated.div
           className={cs(css.searchWapper, { [css.focus]: focus })}
@@ -541,9 +542,9 @@ const SearchInput: React.FC = (): JSX.Element => {
               </span>
             )}
 
-            {(displayKeys || IsDisplayInputKey(currentKey)) && (
+            {!currentKey.docsearch && (
               <input
-                type='search'
+                type="search"
                 className={css.input}
                 spellCheck={false}
                 value={displayKeys ? kquery : squery}
@@ -556,18 +557,18 @@ const SearchInput: React.FC = (): JSX.Element => {
                   setFocus(true)
                 }}
                 onChange={handleQueryChange}
-                placeholder={displayKeys ? 'select resources...' : KeyPlaceholder(currentKey, awesomeOrDevdoc)}
+                placeholder={displayKeys ? "select resources..." : KeyPlaceholder(currentKey, awesomeOrDevdoc)}
                 ref={inputEl} // https://stackoverflow.com/a/48656310/346701
                 onKeyPress={isFirefox ? handleQueryKeyPress : () => undefined}
               />
             )}
 
-            {dsConfig && docsearchHack && (
+            {currentKey.docsearch && docsearchHack && (
               <div key={currentKey.code} className={cs(css.docsearch)}>
                 <input
-                  type='search'
-                  placeholder='search...'
-                  className={cs(css.input, { 'dis-none': displayKeys })}
+                  type="search"
+                  placeholder="search..."
+                  className={cs(css.input, { "dis-none": displayKeys })}
                   spellCheck={false}
                   autoFocus
                   value={squery}
@@ -578,7 +579,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             )}
 
             {!displayKeys && currentKey.docsearch && currentKey.docsearch.length > 1 && (
-              <div className='select is-rounded mgr10'>
+              <div className="select is-rounded mgr10">
                 <select
                   value={docLanguage}
                   onChange={async (e) => {
@@ -599,27 +600,27 @@ const SearchInput: React.FC = (): JSX.Element => {
               <a
                 href={currentKey.homelink}
                 onClick={(e) => e.stopPropagation()}
-                className={cs('fa-home', css.kicon)}
-                aria-label='home'
-                target='_blank'
-                rel='noopener noreferrer'
+                className={cs("fa-home", css.kicon)}
+                aria-label="home"
+                target="_blank"
+                rel="noopener noreferrer"
               />
             )}
             {!displayKeys && currentKey.devdocs && (
               <i
                 onClick={(e) => setAwesomeOrDevdoc(false)}
-                className={cs('fa-devdocs', css.kicon, { [css.active]: !awesomeOrDevdoc })}
+                className={cs("fa-devdocs", css.kicon, { [css.active]: !awesomeOrDevdoc })}
               />
             )}
             {!displayKeys && currentKey.awesome && (
               <i
                 onClick={(e) => setAwesomeOrDevdoc(true)}
-                className={cs('fa-cubes', css.kicon, { [css.active]: awesomeOrDevdoc })}
+                className={cs("fa-cubes", css.kicon, { [css.active]: awesomeOrDevdoc })}
               />
             )}
 
             {result !== null && (
-              <div className='select is-rounded mgl10'>
+              <div className="select is-rounded mgl10">
                 {/* https://www.typescriptlang.org/docs/handbook/jsx.html#the-as-operator */}
                 <select value={timeRange} onChange={(e) => setTimeRange(e.target.value as SearchTimeRange)}>
                   {timeRangeOptions.map((o) => (
@@ -632,7 +633,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             )}
 
             {!displayKeys && currentKey.bylang && (
-              <div className='select is-rounded mgl10'>
+              <div className="select is-rounded mgl10">
                 <select value={searchLanguage} onChange={(e) => setSearchLanguage(e.target.value as Language)}>
                   {languageOptions.map((o) => (
                     <option key={o.value} value={o.value}>
@@ -644,7 +645,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             )}
 
             {!displayKeys && currentKey.bypglang && (
-              <div className='select is-rounded mgl10'>
+              <div className="select is-rounded mgl10">
                 <select value={programLanguage} onChange={(e) => setProgramLanguage(parseInt(e.target.value, 10))}>
                   {programLanguageOptions.map((o) => (
                     <option key={o.value} value={o.value}>
@@ -656,7 +657,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             )}
 
             {!displayKeys && !currentKey.docsearch && !currentKey.devdocs && (
-              <i className={cs(css.sicon, 'fa-search')} onClick={() => search()} />
+              <i className={cs(css.sicon, "fa-search")} onClick={() => search()} />
             )}
           </div>
 
@@ -667,44 +668,44 @@ const SearchInput: React.FC = (): JSX.Element => {
             suggeste.key === currentKey.code &&
             !IsUnSearchableKey(currentKey) && (
               <div
-                className={cs(css.suggeste, 'dropdown is-active')}
+                className={cs(css.suggeste, "dropdown is-active")}
                 style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
-                <div className='dropdown-menu'>
-                  <div className='dropdown-content'>
+                <div className="dropdown-menu">
+                  <div className="dropdown-content">
                     {suggeste &&
                       suggeste.words.map((s, i) => {
-                        if (currentKey.code === 'github') {
+                        if (currentKey.code === "github") {
                           return (
                             <div
                               key={`${s.owner}/${s.name}`}
                               onClick={() => suggesteClick(s.name, `https://github.com/${s.owner}/${s.name}`)}
-                              className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
+                              className={cs("dropdown-item", css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
                               <a>{`${s.owner}/${s.name}`}</a>
                               <span className={css.stars}>&#9733; {s.watchers}</span>
                               <p>{s.description}</p>
                             </div>
                           )
                         }
-                        if (currentKey.code === 'npm') {
+                        if (currentKey.code === "npm") {
                           return (
                             <div
                               key={s.name}
                               onClick={() => suggesteClick(s.name, `https://www.npmjs.com/package/${s.name}`)}
-                              className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
-                              <a dangerouslySetInnerHTML={{ __html: s.highlight || '' }} />
+                              className={cs("dropdown-item", css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
+                              <a dangerouslySetInnerHTML={{ __html: s.highlight || "" }} />
                               <span className={css.publisher}>{s.publisher}</span>
                               <span className={css.version}>{s.version}</span>
                               <p>{s.description}</p>
                             </div>
                           )
                         }
-                        if (currentKey.code === 'bundlephobia') {
+                        if (currentKey.code === "bundlephobia") {
                           return (
                             <div
                               key={s.name}
                               onClick={() => suggesteClick(s.name, `https://bundlephobia.com/result?p=${s.name}`)}
-                              className={cs('dropdown-item', css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
-                              <a dangerouslySetInnerHTML={{ __html: s.highlight || '' }} />
+                              className={cs("dropdown-item", css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
+                              <a dangerouslySetInnerHTML={{ __html: s.highlight || "" }} />
                               <span className={css.publisher}>{s.publisher}</span>
                               <span className={css.version}>{s.version}</span>
                               <p>{s.description}</p>
@@ -715,38 +716,38 @@ const SearchInput: React.FC = (): JSX.Element => {
                           <a
                             key={s.name}
                             onClick={() => suggesteClick(s.name)}
-                            className={cs('dropdown-item', { 'is-active': suggesteIndex === i })}>
+                            className={cs("dropdown-item", { "is-active": suggesteIndex === i })}>
                             {s.name}
                           </a>
                         )
                       })}
-                    {currentKey.code === 'github' && (
+                    {currentKey.code === "github" && (
                       <>
-                        <hr className='dropdown-divider' />
+                        <hr className="dropdown-divider" />
                         <a
-                          href='https://github.algolia.com/'
-                          target='_blank'
-                          rel='noopener noreferrer'
+                          href="https://github.algolia.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className={cs(css.algolia)}>
                           powered by algolia for github
                         </a>
                       </>
                     )}
-                    {currentKey.code === 'npm' && (
+                    {currentKey.code === "npm" && (
                       <>
-                        <hr className='dropdown-divider' />
-                        <a href='https://npms.io/' target='_blank' rel='noopener noreferrer' className={cs(css.npms)}>
+                        <hr className="dropdown-divider" />
+                        <a href="https://npms.io/" target="_blank" rel="noopener noreferrer" className={cs(css.npms)}>
                           powered by npms.io
                         </a>
                       </>
                     )}
-                    {currentKey.code === 'bundlephobia' && (
+                    {currentKey.code === "bundlephobia" && (
                       <>
-                        <hr className='dropdown-divider' />
+                        <hr className="dropdown-divider" />
                         <a
-                          href='https://bundlephobia.com/'
-                          target='_blank'
-                          rel='noopener noreferrer'
+                          href="https://bundlephobia.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className={cs(css.bundlephobia)}>
                           powered by bundlephobia.com
                         </a>
@@ -758,7 +759,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             )}
 
           {displayKeys && (
-            <div className='mgl10 mgb10 mgr10'>
+            <div className="mgl10 mgb10 mgr10">
               {kquery && <div className={cs(css.searchedKeys)}>{keysDom(searchedKeys)}</div>}
               {!kquery && (
                 <div className={css.tabs}>
@@ -841,10 +842,10 @@ const SearchInput: React.FC = (): JSX.Element => {
             </div>
           )}
 
-          {!displayKeys && currentKey.code === 'cheatsheets' && <CheatSheets query={squery} />}
-          {!displayKeys && currentKey.code === 'rework' && <Rework />}
-          {!displayKeys && currentKey.code === 'tools' && <Tools query={squery} />}
-          {!displayKeys && currentKey.code === 'github_stars' && (
+          {!displayKeys && currentKey.code === "cheatsheets" && <CheatSheets query={squery} />}
+          {!displayKeys && currentKey.code === "rework" && <Rework />}
+          {!displayKeys && currentKey.code === "tools" && <Tools query={squery} />}
+          {!displayKeys && currentKey.code === "github_stars" && (
             <Suspense fallback={<Loader1 type={2} />}>
               <GithubStars query={squery} />
             </Suspense>
@@ -862,10 +863,11 @@ const SearchInput: React.FC = (): JSX.Element => {
               query={currentKey.readmes.searched ? squery : undefined}
             />
           )}
-          {!displayKeys && currentKey.code === 'get_ip' && <Region />}
-          {!displayKeys && currentKey.code === 'qrcode' && (
-            <div className='tac'>
-              <canvas id='qrcode' />
+          {!displayKeys && currentKey.code === "get_ip" && <Region />}
+          {!displayKeys && currentKey.code === "encode" && <Encode />}
+          {!displayKeys && currentKey.code === "qrcode" && (
+            <div className="tac">
+              <canvas id="qrcode" />
             </div>
           )}
 
@@ -876,7 +878,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               {result.results.map((r) => (
                 <div key={r.url} className={css.result}>
                   <h4 className={css.header}>
-                    <a href={r.url} target='_blank' rel='noopener noreferrer'>
+                    <a href={r.url} target="_blank" rel="noopener noreferrer">
                       {r.title}
                     </a>
                   </h4>
@@ -884,30 +886,30 @@ const SearchInput: React.FC = (): JSX.Element => {
                   <Highlighter
                     className={css.content}
                     highlightClassName={css.highlighter}
-                    searchWords={squery.split(' ')}
+                    searchWords={squery.split(" ")}
                     autoEscape
                     textToHighlight={r.content}
                   />
                 </div>
               ))}
 
-              <div className={cs(css.pagination, 'field has-addons')}>
+              <div className={cs(css.pagination, "field has-addons")}>
                 {pageno !== 1 && (
-                  <p className='control'>
-                    <button type='button' className='button is-rounded' onClick={() => prevPage()}>
-                      <span className='icon'>
-                        <i className='fa-angle-left' />
+                  <p className="control">
+                    <button type="button" className="button is-rounded" onClick={() => prevPage()}>
+                      <span className="icon">
+                        <i className="fa-angle-left" />
                       </span>
                       <span>Previous Page</span>
                     </button>
                   </p>
                 )}
                 {result.paging && (
-                  <p className='control'>
-                    <button type='button' className='button is-rounded' onClick={() => nextPage()}>
+                  <p className="control">
+                    <button type="button" className="button is-rounded" onClick={() => nextPage()}>
                       <span>Next Page</span>
-                      <span className='icon'>
-                        <i className='fa-angle-right' />
+                      <span className="icon">
+                        <i className="fa-angle-right" />
                       </span>
                     </button>
                   </p>
@@ -923,39 +925,39 @@ const SearchInput: React.FC = (): JSX.Element => {
               {npmResult.results.map((r) => (
                 <div key={r.package.links.npm} className={css.result}>
                   <h4 className={css.header}>
-                    <a href={r.package.links.npm} target='_blank' rel='noopener noreferrer'>
+                    <a href={r.package.links.npm} target="_blank" rel="noopener noreferrer">
                       {r.package.name}
                     </a>
                   </h4>
                   <p className={css.content}>{r.package.description}</p>
                   <p className={css.infos}>
-                    <a className='mgr10' href={r.package.links.repository} target='_blank' rel='noopener noreferrer'>
+                    <a className="mgr10" href={r.package.links.repository} target="_blank" rel="noopener noreferrer">
                       <Github className={css.github} />
                     </a>
-                    <span className='mgr10'>{r.package.version}</span>
-                    <span className='mgr10'>{r.package.publisher.username}</span>
-                    <span>{dayjs(r.package.date).format('YYYY-M-D')}</span>
+                    <span className="mgr10">{r.package.version}</span>
+                    <span className="mgr10">{r.package.publisher.username}</span>
+                    <span>{dayjs(r.package.date).format("YYYY-M-D")}</span>
                   </p>
                 </div>
               ))}
 
-              <div className={cs(css.pagination, 'field has-addons')}>
+              <div className={cs(css.pagination, "field has-addons")}>
                 {pageno !== 1 && (
-                  <p className='control'>
-                    <button type='button' className='button is-rounded' onClick={() => prevPage()}>
-                      <span className='icon'>
-                        <i className='fa-angle-left' />
+                  <p className="control">
+                    <button type="button" className="button is-rounded" onClick={() => prevPage()}>
+                      <span className="icon">
+                        <i className="fa-angle-left" />
                       </span>
                       <span>Previous Page</span>
                     </button>
                   </p>
                 )}
                 {npmResult.total > pageno * 10 && (
-                  <p className='control'>
-                    <button type='button' className='button is-rounded' onClick={() => nextPage()}>
+                  <p className="control">
+                    <button type="button" className="button is-rounded" onClick={() => nextPage()}>
                       <span>Next Page</span>
-                      <span className='icon'>
-                        <i className='fa-angle-right' />
+                      <span className="icon">
+                        <i className="fa-angle-right" />
                       </span>
                     </button>
                   </p>
@@ -970,14 +972,14 @@ const SearchInput: React.FC = (): JSX.Element => {
 
           {result !== null && (
             <div className={css.closer} onClick={clearResultAll}>
-              <a className='delete is-medium' />
+              <a className="delete is-medium" />
             </div>
           )}
 
-          {!isInStandaloneMode && result === null && currentKey.name === 'socode' && <Slogan />}
+          {!isInStandaloneMode && result === null && currentKey.name === "socode" && <Slogan />}
         </animated.div>
 
-        {displayTrending && !displayKeys && !loading && !currentKey.devdocs && !currentKey.readmes && <Trending />}
+        {displayTrending && !displayKeys && !loading && (currentKey.template || currentKey.devdocs) && <Trending />}
       </div>
     </>
   )
