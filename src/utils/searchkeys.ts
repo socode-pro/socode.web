@@ -577,6 +577,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Tools,
     shortkeys: "ec",
     icon: "encode.png",
+    usage: true,
     iconProps: {
       backgroundSize: "30px",
       backgroundPosition: "left 0.3em center",
