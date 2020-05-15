@@ -4,7 +4,8 @@ import sha256 from "crypto-js/sha256"
 import md5 from "crypto-js/md5"
 // import aes from "crypto-js/aes"
 // import hmacSHA512 from "crypto-js/hmac-sha512"
-import Base64 from "crypto-js/enc-base64"
+import base64 from "crypto-js/enc-base64"
+import Utf8 from "crypto-js/enc-utf8"
 import css from "./encode.module.scss"
 
 // https://gist.github.com/littlee/f726f61b1e0abd319da4
@@ -55,10 +56,10 @@ const Region: React.FC = (): JSX.Element => {
           &lt; decodeURI
         </a>
 
-        <a className="button is-primary" onClick={() => setEncodedText(Base64.stringif(originalText))}>
+        <a className="button is-primary" onClick={() => setEncodedText(base64.stringify(Utf8.parse(originalText)))}>
           Base64 &gt;
         </a>
-        <a className="button mgb10" onClick={() => setOriginalText(Base64.parse(encodedText))}>
+        <a className="button mgb10" onClick={() => setOriginalText(Utf8.stringify(base64.parse(encodedText)))}>
           &lt; Plain
         </a>
 
