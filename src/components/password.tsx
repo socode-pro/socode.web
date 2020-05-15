@@ -18,14 +18,20 @@ const Password: React.FC = (): JSX.Element => {
   const Generate = useCallback(() => {
     let n = ""
     for (n = ""; n.length < length; ) {
-      const entity1 = Math.ceil(letters.length * Math.random() * Math.random())
-      const entity2 = Math.ceil(number.length * Math.random() * Math.random())
-      const entity3 = Math.ceil(special.length * Math.random() * Math.random())
-      const entity4 = Math.ceil(capitalLetters.length * Math.random() * Math.random())
-      n.length < length && (n += letters.charAt(entity1))
-      n.length < length && useCapital && (n += capitalLetters.charAt(entity4))
-      n.length < length && useDigits && (n += number.charAt(entity2))
-      n.length < length && useSpecial && (n += special.charAt(entity3))
+      const rand = Math.floor(4 * Math.random()) + 1
+      if (rand === 1) {
+        const entity1 = Math.ceil(letters.length * Math.random() * Math.random())
+        n += letters.charAt(entity1)
+      } else if (rand === 2) {
+        const entity2 = Math.ceil(number.length * Math.random() * Math.random())
+        useDigits && (n += number.charAt(entity2))
+      } else if (rand === 3) {
+        const entity3 = Math.ceil(special.length * Math.random() * Math.random())
+        useSpecial && (n += special.charAt(entity3))
+      } else {
+        const entity4 = Math.ceil(capitalLetters.length * Math.random() * Math.random())
+        useCapital && (n += capitalLetters.charAt(entity4))
+      }
     }
     setPassword(n)
   }, [length, useCapital, useDigits, useSpecial])
@@ -84,7 +90,12 @@ const Password: React.FC = (): JSX.Element => {
         Generate
       </a>
 
-      <input className="input mgt20" onClick={(e) => (e.target as HTMLInputElement).select()} value={password} />
+      <input
+        className="input mgt20"
+        onClick={(e) => (e.target as HTMLInputElement).select()}
+        value={password}
+        onChange={() => null}
+      />
     </div>
   )
 }
