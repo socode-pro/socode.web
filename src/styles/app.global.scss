@@ -1,9 +1,9 @@
-@import 'sanitize';
-@import 'variable';
-@import 'animate';
-@import 'googlefonts';
-@import 'devdocs';
-@import 'cheatsheets';
+@import "sanitize";
+@import "variable";
+@import "animate";
+@import "googlefonts";
+@import "devdocs";
+@import "cheatsheets";
 // @import 'learnx';
 
 // https://bulma.io/documentation/customize/with-node-sass/#6-add-your-own-bulma-styles
@@ -29,38 +29,38 @@ $body-overflow-y: auto;
 // $input-shadow: none;
 
 // Import only what you need from Bulma
-@import '~bulma/sass/utilities/_all.sass';
-@import '~bulma/sass/base/_all.sass';
-@import '~bulma/sass/grid/columns.sass';
-@import '~bulma/sass/grid/tiles.sass';
-@import '~bulma/sass/elements/button.sass';
-@import '~bulma/sass/elements/container.sass';
-@import '~bulma/sass/elements/title.sass';
-@import '~bulma/sass/elements/other.sass';
-@import '~bulma/sass/elements/icon.sass';
-@import '~bulma/sass/elements/notification.sass';
-@import '~bulma/sass/elements/table.sass';
-@import '~bulma/sass/form/_all.sass';
+@import "~bulma/sass/utilities/_all.sass";
+@import "~bulma/sass/base/_all.sass";
+@import "~bulma/sass/grid/columns.sass";
+@import "~bulma/sass/grid/tiles.sass";
+@import "~bulma/sass/elements/button.sass";
+@import "~bulma/sass/elements/container.sass";
+@import "~bulma/sass/elements/title.sass";
+@import "~bulma/sass/elements/other.sass";
+@import "~bulma/sass/elements/icon.sass";
+@import "~bulma/sass/elements/notification.sass";
+@import "~bulma/sass/elements/table.sass";
+@import "~bulma/sass/form/_all.sass";
 // @import '~bulma/sass/components/navbar.sass';
-@import '~bulma/sass/components/dropdown.sass';
-@import '~bulma/sass/components/menu.sass';
-@import '~bulma/sass/components/modal.sass';
-@import '~bulma/sass/components/message.sass';
-@import '~bulma/sass/components/panel.sass';
-@import '~bulma/sass/layout/hero.sass';
-@import '~bulma/sass/layout/section.sass';
+@import "~bulma/sass/components/dropdown.sass";
+@import "~bulma/sass/components/menu.sass";
+@import "~bulma/sass/components/modal.sass";
+@import "~bulma/sass/components/message.sass";
+@import "~bulma/sass/components/panel.sass";
+@import "~bulma/sass/layout/hero.sass";
+@import "~bulma/sass/layout/section.sass";
 // @import '~bulma/sass/layout/footer.sass';
-@import '~bulma-checkradio';
+@import "~bulma-checkradio";
 
 $tooltip-font-size: 14px;
-@import '~bulma-tooltip';
+@import "~bulma-tooltip";
 // ------------------------------------------------------------------------------------
 
-$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
-@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
 // @import '~@fortawesome/fontawesome-free/scss/brands';
-@import '~@fortawesome/fontawesome-free/scss/solid';
-@import '~@fortawesome/fontawesome-free/scss/regular';
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/regular";
 // plus icons: https://www.iconfont.cn/collections/detail?cid=17211
 
 // https://stackoverflow.com/a/36285419/346701 batter to Official
@@ -171,7 +171,7 @@ $hamburger-layer-width: 34px;
 $hamburger-layer-height: 6px;
 $hamburger-layer-border-radius: 3px;
 // $hamburger-layer-spacing: 8px;
-@import '~hamburgers/_sass/hamburgers/hamburgers';
+@import "~hamburgers/_sass/hamburgers/hamburgers";
 
 $positions: static, relative, absolute, fixed, sticky !default;
 @each $position in $positions {
@@ -273,7 +273,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Roboto Slab';
+  font-family: "Roboto Slab";
 }
 
 pre,
