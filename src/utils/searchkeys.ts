@@ -948,6 +948,16 @@ const SKeys: SKey[] = [
     ],
   },
   {
+    code: "grep",
+    name: "grep.app",
+    category: SKeyCategory.Search,
+    shortkeys: "ga",
+    icon: "grep.png",
+    template: "https://grep.app/search?q=%s",
+    tooltips: "Search across a half million git repos",
+    tooltipsCN: "在50万个git仓库中搜索代码",
+  },
+  {
     code: "gulp",
     name: "Gulp",
     category: SKeyCategory.Document,
