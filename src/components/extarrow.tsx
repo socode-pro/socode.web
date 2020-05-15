@@ -1,20 +1,27 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import cs from 'classnames'
-import { isEdgeChromium, isFirefox } from '../utils/assist'
-import { InterfaceLanguage } from '../utils/language'
-import { SettingsType } from '../models/storage'
-import { useStoreState } from '../utils/hooks'
-import css from './extarrow.module.scss'
+import React, { useEffect, useState, useCallback, useMemo } from "react"
+import cs from "classnames"
+import { isEdgeChromium, isFirefox, ousideFirewall } from "../utils/assist"
+import { InterfaceLanguage } from "../utils/language"
+import { SettingsType } from "../models/storage"
+import { useStoreState } from "../utils/hooks"
+import css from "./extarrow.module.scss"
 
 let deferredPrompt
 
 const ExtArrow: React.FC = (): JSX.Element => {
   const { language } = useStoreState<SettingsType>((state) => state.storage.settings)
   const [showPWA, setShowPWA] = useState(false)
+  const [useEdgeStore, setUseEdgeStore] = useState(false)
+
+  useEffect(() => {
+    ousideFirewall().then((ouside) => {
+      setUseEdgeStore(isEdgeChromium && !ouside)
+    })
+  }, [])
 
   // https://web.dev/customize-install/
   useEffect(() => {
-    window.addEventListener('beforeinstallprompt', (e) => {
+    window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault()
       deferredPrompt = e
       setShowPWA(true)
@@ -26,10 +33,10 @@ const ExtArrow: React.FC = (): JSX.Element => {
     if (deferredPrompt) {
       deferredPrompt.prompt()
       deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted pwa prompt')
+        if (choiceResult.outcome === "accepted") {
+          console.log("User accepted pwa prompt")
         } else {
-          console.log('User dismissed pwa prompt')
+          console.log("User dismissed pwa prompt")
         }
       })
     }
@@ -53,17 +60,28 @@ const ExtArrow: React.FC = (): JSX.Element => {
       <div className={cs(css.wapper, css.browser)}>
         <a
           className={cs(css.arrow, {
-            [css.edge]: isEdgeChromium,
+            [css.edge]: useEdgeStore,
             [css.firefox]: isFirefox,
           })}
-          href='https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/'>
-          {/* href={isFirefox ? 'https://addons.mozilla.org/zh-CN/firefox/addon/socode-search/' :
-           isEdgeChromium ? 'https://microsoftedge.microsoft.com/addons/detail/dkeiglafihicmjbbaoopggfnifgjekcl' :
-             'https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/'}> */}
-
+          // href="https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/">
+          href={
+            isFirefox
+              ? "https://os.socode.pro/firefox.xpi"
+              : useEdgeStore
+              ? "https://microsoftedge.microsoft.com/addons/detail/dkeiglafihicmjbbaoopggfnifgjekcl"
+              : "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
+          }>
           <h3>Browser Extension</h3>
           {language === InterfaceLanguage.中文 ? (
-            <span>成为浏览器的 New Tab 页</span>
+            <>
+              <span>成为浏览器的 New Tab 页</span>
+              {isFirefox && (
+                <span className={css.fftips}>
+                  注意：因为加载远程html，Firefox拒绝了此插件。只能解压xpi文件通过[调试附加组件] - [载入临时附加组件]
+                  安装
+                </span>
+              )}
+            </>
           ) : (
             <span>become the new tab of your browser</span>
           )}

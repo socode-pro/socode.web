@@ -16,8 +16,8 @@ import Readme from "./readme"
 import Devdocs from "./devdocs"
 import Slogan from "./slogan"
 import Trending from "./trending"
-import Region from "./region"
 import Encode from "./encode"
+import Password from "./password"
 import Language, { ProgramLanguage, InterfaceLanguage } from "../utils/language"
 import { SKey, IsUnSearchableKey, SKeyCategory, KeyPlaceholder } from "../utils/searchkeys"
 import useSKeyCategoryIntl from "../utils/searchkeysIntl"
@@ -863,8 +863,8 @@ const SearchInput: React.FC = (): JSX.Element => {
               query={currentKey.readmes.searched ? squery : undefined}
             />
           )}
-          {!displayKeys && currentKey.code === "get_ip" && <Region />}
           {!displayKeys && currentKey.code === "encode" && <Encode />}
+          {!displayKeys && currentKey.code === "password" && <Password />}
           {!displayKeys && currentKey.code === "qrcode" && (
             <div className="tac">
               <canvas id="qrcode" />

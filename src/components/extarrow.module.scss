@@ -1,11 +1,9 @@
-@import '../styles/variable';
+@import "../styles/variable";
 
 .extarrow {
   position: fixed;
   bottom: 35px;
   left: 35px;
-  display: flex;
-  flex-direction: column;
   @media (max-width: 1000px) {
     & {
       display: none;
@@ -53,6 +51,10 @@
     span {
       color: $grey-light;
       margin-top: 4px;
+      &.fftips {
+        font-size: 12px;
+        max-width: 310px;
+      }
     }
 
     opacity: 0.85;

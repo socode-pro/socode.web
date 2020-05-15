@@ -1,79 +1,86 @@
-import dayjs from 'dayjs'
+import dayjs from "dayjs"
+import ky from "ky"
 
 export const HumanDateParse = (date): string => {
-  return dayjs(date).format('M月d日 HH:mm')
+  return dayjs(date).format("M月d日 HH:mm")
 }
 
 export const sleep = (ms): Promise<void> => {
-  return new Promise(r => setTimeout(r, ms))
+  return new Promise((r) => setTimeout(r, ms))
 }
 
 export const StringEnumObjects = (enumme, prefix?: string): Array<{ label: string; value: string }> => {
-  return Object.keys(enumme).map((key, i) => ({ label: i === 0 && prefix? prefix+key: key, value: enumme[key] }))
+  return Object.keys(enumme).map((key, i) => ({ label: i === 0 && prefix ? prefix + key : key, value: enumme[key] }))
 }
 
 export const IntEnumObjects = (enumme, prefix?: string): Array<{ label: string; value: number }> => {
   return Object.keys(enumme)
-    .filter(value => !Number.isNaN(Number(value)))
-    .map((key, i) => ({ label: i === 0 && prefix? prefix+enumme[key]: enumme[key], value: parseInt(key, 10) }))
+    .filter((value) => !Number.isNaN(Number(value)))
+    .map((key, i) => ({ label: i === 0 && prefix ? prefix + enumme[key] : enumme[key], value: parseInt(key, 10) }))
 }
 
 const { location, history } = window
 
 // https://stackoverflow.com/a/41542008
-export const winSearchParams = (params: { keyname?: string; query?: string; devdocs?: string; stack?: string; repos?: string }): void => {
+export const winSearchParams = (params: {
+  keyname?: string
+  query?: string
+  devdocs?: string
+  stack?: string
+  repos?: string
+}): void => {
   const searchParams = new URLSearchParams(window.location.search)
   if (params.keyname !== undefined) {
     if (params.keyname) {
-      searchParams.set('k', params.keyname)
+      searchParams.set("k", params.keyname)
     } else {
-      searchParams.delete('k')
+      searchParams.delete("k")
     }
   }
   if (params.query !== undefined) {
     if (params.query) {
-      searchParams.set('q', params.query)
+      searchParams.set("q", params.query)
     } else {
-      searchParams.delete('q')
+      searchParams.delete("q")
     }
   }
   if (params.devdocs !== undefined) {
     if (params.devdocs) {
-      searchParams.set('devdocs', params.devdocs)
+      searchParams.set("devdocs", params.devdocs)
     } else {
-      searchParams.delete('devdocs')
+      searchParams.delete("devdocs")
     }
   }
   if (params.stack !== undefined) {
     if (params.stack) {
-      searchParams.set('stack', params.stack)
+      searchParams.set("stack", params.stack)
     } else {
-      searchParams.delete('stack')
+      searchParams.delete("stack")
     }
   }
   if (params.repos !== undefined) {
     if (params.repos) {
-      searchParams.set('repos', params.repos)
+      searchParams.set("repos", params.repos)
     } else {
-      searchParams.delete('repos')
+      searchParams.delete("repos")
     }
   }
-  history.pushState(null, '', `${location.pathname}${[...searchParams].length ? `?${searchParams.toString()}` : ''}`)
+  history.pushState(null, "", `${location.pathname}${[...searchParams].length ? `?${searchParams.toString()}` : ""}`)
 }
 
 export const transRelationHref = (href: string | null, currentPath: string): string => {
-  if (href && !href.startsWith('http') && !href.startsWith('/?') && !href.startsWith('#')) {
-    const hrefs = currentPath.split('/')
-    if (href.startsWith('../')) {
-      hrefs[hrefs.length - 2] = href.replace('../', '')
+  if (href && !href.startsWith("http") && !href.startsWith("/?") && !href.startsWith("#")) {
+    const hrefs = currentPath.split("/")
+    if (href.startsWith("../")) {
+      hrefs[hrefs.length - 2] = href.replace("../", "")
       hrefs.pop()
     } else {
       hrefs[hrefs.length - 1] = href
     }
-    const nhref = hrefs.join('/')
+    const nhref = hrefs.join("/")
     return nhref
   }
-  return ''
+  return ""
 }
 
 const generateS4 = (): string => {
@@ -86,13 +93,25 @@ export const generateUuid = (): string => {
   return `${generateS4()}${generateS4()}-${generateS4()}-${generateS4()}-${generateS4()}-${generateS4()}${generateS4()}${generateS4()}`
 }
 
-export const isChrome = !!(window as any).chrome && (!!(window as any).chrome.webstore || !!(window as any).chrome.runtime)
-export const isEdgeChromium = isChrome && (navigator.userAgent.indexOf('Edg') !== -1)
+export const isChrome =
+  !!(window as any).chrome && (!!(window as any).chrome.webstore || !!(window as any).chrome.runtime)
+export const isEdgeChromium = isChrome && navigator.userAgent.indexOf("Edg") !== -1
 
 // https://stackoverflow.com/a/52695341/346701
-export const isInStandaloneMode = 
-  window.matchMedia('(display-mode: standalone)').matches
-  || (window.navigator as any).standalone
-  || document.referrer.includes('android-app://')
+export const isInStandaloneMode =
+  window.matchMedia("(display-mode: standalone)").matches ||
+  (window.navigator as any).standalone ||
+  document.referrer.includes("android-app://")
 
-export const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1
+export const isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox") > -1
+
+export const ousideFirewall = async (): Promise<boolean> => {
+  try {
+    await ky("https://ajax.googleapis.com/ajax/libs/scriptaculous/1.9.0/scriptaculous.js", {
+      timeout: 2000,
+    })
+    return true
+  } catch (err) {
+    return false
+  }
+}

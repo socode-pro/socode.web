@@ -59,7 +59,7 @@ export const IsUnSearchableKey = (key: SKey): boolean =>
   key.code === "cheatsheets" ||
   key.code === "tools" ||
   key.code === "github_stars" ||
-  key.code === "get_ip" ||
+  key.code === "password" ||
   key.code === "encode"
 
 export const KeyPlaceholder = (key: SKey, awesomeOrDevdoc: boolean): string => {
@@ -72,7 +72,7 @@ export const KeyPlaceholder = (key: SKey, awesomeOrDevdoc: boolean): string => {
   if (key.readmes) {
     return key.readmes.searched ? "content search..." : "no search"
   }
-  if (key.code === "get_ip") {
+  if (key.code === "password" || key.code === "encode") {
     return "no search"
   }
   return ""
@@ -787,13 +787,6 @@ const SKeys: SKey[] = [
     ],
   },
   {
-    code: "get_ip",
-    name: "Get IP",
-    category: SKeyCategory.Tools,
-    shortkeys: "ip",
-    icon: "ip.png",
-  },
-  {
     code: "git",
     name: "git docs",
     category: SKeyCategory.Document,
@@ -1478,6 +1471,13 @@ const SKeys: SKey[] = [
     icon: "paperswithcode.svg",
     homelink: "https://paperswithcode.com",
     template: "https://paperswithcode.com/search?q=%s",
+  },
+  {
+    code: "password",
+    name: "Password Generator",
+    category: SKeyCategory.Tools,
+    shortkeys: "pwd",
+    icon: "password.png",
   },
   {
     code: "perl",

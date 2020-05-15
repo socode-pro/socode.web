@@ -40,7 +40,7 @@ const HtmlDecode = (html): string => {
   return a.textContent || ""
 }
 
-const Region: React.FC = (): JSX.Element => {
+const Encode: React.FC = (): JSX.Element => {
   const [originalText, setOriginalText] = useState("")
   const [encodedText, setEncodedText] = useState("")
   return (
@@ -99,4 +99,4 @@ const Region: React.FC = (): JSX.Element => {
   )
 }
 
-export default Region
+export default Encode
