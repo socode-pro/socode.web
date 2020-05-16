@@ -761,17 +761,6 @@ const SKeys: SKey[] = [
     },
   },
   {
-    code: "g2",
-    name: "G2",
-    category: SKeyCategory.Search,
-    shortkeys: "g2",
-    icon: "g2.svg",
-    homelink: "https://www.g2.com/",
-    template: "https://www.g2.com/search?query=%s",
-    tooltips: "Get the right software& services for your business",
-    tooltipsCN: "为您的企业选择合适的软件和服务",
-  },
-  {
     code: "gatsby",
     name: "Gatsby",
     category: SKeyCategory.Document,
