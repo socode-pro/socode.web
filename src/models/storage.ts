@@ -122,7 +122,7 @@ const storageModel: StorageModel = {
   judgeOusideFirewall: thunk(async (actions) => {
     try {
       await ky("https://ajax.googleapis.com/ajax/libs/scriptaculous/1.9.0/scriptaculous.js", {
-        timeout: 2000,
+        timeout: 1000,
       })
       actions.setOusideFirewall(true)
     } catch (err) {
