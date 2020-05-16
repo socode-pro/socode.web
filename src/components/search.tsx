@@ -542,7 +542,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               </span>
             )}
 
-            {!currentKey.docsearch && (
+            {(displayKeys || !currentKey.docsearch) && (
               <input
                 type="search"
                 className={css.input}
