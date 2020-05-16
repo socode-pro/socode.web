@@ -16,7 +16,6 @@ import Readme from "./readme"
 import Devdocs from "./devdocs"
 import Slogan from "./slogan"
 import Trending from "./trending"
-import Encode from "./encode"
 import Password from "./password"
 import Language, { ProgramLanguage, InterfaceLanguage } from "../utils/language"
 import { SKey, IsUnSearchableKey, SKeyCategory, KeyPlaceholder } from "../utils/searchkeys"
@@ -35,6 +34,7 @@ import Loader1 from "./loader/loader1"
 import { ReactComponent as Github } from "../images/github.svg"
 
 const GithubStars = lazy(() => import("./stars"))
+const Encode = lazy(() => import("./encode"))
 
 const languageOptions = StringEnumObjects(Language)
 const programLanguageOptions = IntEnumObjects(ProgramLanguage)
@@ -58,12 +58,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const keys = useStoreState<Array<SKey>>((state) => state.searchKeys.keys)
   const pinKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.pinKeys)
-  const searchKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.searchKeys)
-  const cheatSheetsKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.cheatSheetsKeys)
-  const collectionKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.collectionKeys)
-  const learnKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.learnKeys)
-  const toolsKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.toolsKeys)
-  const documentKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.documentKeys)
+  const filteredKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.filteredKeys)
   const searchedKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.searchedKeys)
 
   const kquery = useStoreState<string>((state) => state.searchKeys.kquery)
@@ -111,12 +106,10 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   // const initialKeys = useStoreActions(actions => actions.searchKeys.initialKeys)
   const initialCurrentKey = useStoreActions((actions) => actions.searchKeys.initialCurrentKey)
-  const estimateRegion = useStoreActions((actions) => actions.storage.estimateRegion)
   useEffect(() => {
     // initialKeys()
     initialCurrentKey()
-    estimateRegion()
-  }, [initialCurrentKey, estimateRegion])
+  }, [initialCurrentKey])
 
   const dsConfig = useMemo(() => {
     if (currentKey && currentKey.docsearch) {
@@ -798,46 +791,39 @@ const SearchInput: React.FC = (): JSX.Element => {
                   </a>
                 </div>
               )}
-              {!kquery && pinKeys.length > 0 && (
-                <div ref={pinnedTabEl} className={cs(css.skgroup, css.pinnned)}>
-                  {keysDom(pinKeys)}
-                </div>
-              )}
-              {!kquery && searchKeys.length > 0 && (
-                <div ref={searchTabEl} className={cs(css.skgroup)}>
-                  {keysDom(searchKeys)}
-                  <div className={css.kdesc}>{searchIntl}</div>
-                </div>
-              )}
-              {!kquery && toolsKeys.length > 0 && (
-                <div ref={toolsTabEl} className={cs(css.skgroup)}>
-                  {keysDom(toolsKeys)}
-                  <div className={css.kdesc}>{toolsIntl}</div>
-                </div>
-              )}
-              {!kquery && collectionKeys.length > 0 && (
-                <div ref={collectionTabEl} className={cs(css.skgroup)}>
-                  {keysDom(collectionKeys)}
-                  <div className={css.kdesc}>{collectionIntl}</div>
-                </div>
-              )}
-              {!kquery && cheatSheetsKeys.length > 0 && (
-                <div ref={cheatSheetsTabEl} className={cs(css.skgroup)}>
-                  {keysDom(cheatSheetsKeys)}
-                  <div className={css.kdesc}>{cheatSheetsIntl}</div>
-                </div>
-              )}
-              {!kquery && learnKeys.length > 0 && (
-                <div ref={learnTabEl} className={cs(css.skgroup)}>
-                  {keysDom(learnKeys)}
-                  <div className={css.kdesc}>{learnIntl}</div>
-                </div>
-              )}
-              {!kquery && documentKeys.length > 0 && (
-                <div ref={documentTabEl} className={cs(css.skgroup)}>
-                  {keysDom(documentKeys)}
-                  <div className={css.kdesc}>{documentIntl}</div>
-                </div>
+
+              {!kquery && (
+                <>
+                  {pinKeys.length > 0 && (
+                    <div ref={pinnedTabEl} className={cs(css.skgroup, css.pinnned)}>
+                      {keysDom(pinKeys)}
+                    </div>
+                  )}
+                  <div ref={searchTabEl} className={cs(css.skgroup)}>
+                    {keysDom(filteredKeys.filter((k) => k.category === SKeyCategory.Search))}
+                    <div className={css.kdesc}>{searchIntl}</div>
+                  </div>
+                  <div ref={toolsTabEl} className={cs(css.skgroup)}>
+                    {keysDom(filteredKeys.filter((k) => k.category === SKeyCategory.Tools))}
+                    <div className={css.kdesc}>{toolsIntl}</div>
+                  </div>
+                  <div ref={collectionTabEl} className={cs(css.skgroup)}>
+                    {keysDom(filteredKeys.filter((k) => k.category === SKeyCategory.Collection))}
+                    <div className={css.kdesc}>{collectionIntl}</div>
+                  </div>
+                  <div ref={cheatSheetsTabEl} className={cs(css.skgroup)}>
+                    {keysDom(filteredKeys.filter((k) => k.category === SKeyCategory.CheatSheets))}
+                    <div className={css.kdesc}>{cheatSheetsIntl}</div>
+                  </div>
+                  <div ref={learnTabEl} className={cs(css.skgroup)}>
+                    {keysDom(filteredKeys.filter((k) => k.category === SKeyCategory.Learn))}
+                    <div className={css.kdesc}>{learnIntl}</div>
+                  </div>
+                  <div ref={documentTabEl} className={cs(css.skgroup)}>
+                    {keysDom(filteredKeys.filter((k) => k.category === SKeyCategory.Document))}
+                    <div className={css.kdesc}>{documentIntl}</div>
+                  </div>
+                </>
               )}
             </div>
           )}
@@ -863,7 +849,11 @@ const SearchInput: React.FC = (): JSX.Element => {
               query={currentKey.readmes.searched ? squery : undefined}
             />
           )}
-          {!displayKeys && currentKey.code === "encode" && <Encode />}
+          {!displayKeys && currentKey.code === "encode" && (
+            <Suspense fallback={<Loader1 type={2} />}>
+              <Encode />
+            </Suspense>
+          )}
           {!displayKeys && currentKey.code === "password" && <Password />}
           {!displayKeys && currentKey.code === "qrcode" && (
             <div className="tac">
@@ -979,7 +969,11 @@ const SearchInput: React.FC = (): JSX.Element => {
           {!isInStandaloneMode && result === null && currentKey.name === "socode" && <Slogan />}
         </animated.div>
 
-        {displayTrending && !displayKeys && !loading && (currentKey.template || currentKey.devdocs) && <Trending />}
+        {displayTrending &&
+          !displayKeys &&
+          !loading &&
+          !currentKey.devdocs &&
+          (currentKey.template || currentKey.docsearch) && <Trending />}
       </div>
     </>
   )
