@@ -2024,20 +2024,6 @@ const SKeys: SKey[] = [
     template: "https://google.com/search?q=%s%20site:swift.org",
   },
   {
-    code: "tldr",
-    name: "tldr",
-    category: SKeyCategory.Tools,
-    shortkeys: "tl",
-    icon: "tldr.svg",
-    hideName: true,
-    iconProps: {
-      width: 80,
-    },
-    template: "https://tldr.ostera.io/%s",
-    tooltips: "simplify the beloved man pages with practical examples.",
-    tooltipsCN: "用实际例子简化手册页。",
-  },
-  {
     code: "taro",
     name: "Taro",
     category: SKeyCategory.Document,
