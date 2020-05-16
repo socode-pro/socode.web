@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react"
+import React, { useEffect, useState, useCallback } from "react"
 import cs from "classnames"
-import { isEdgeChromium, isFirefox, ousideFirewall } from "../utils/assist"
+import { isEdgeChromium, isFirefox } from "../utils/assist"
 import { InterfaceLanguage } from "../utils/language"
 import { SettingsType } from "../models/storage"
 import { useStoreState } from "../utils/hooks"
@@ -10,14 +10,8 @@ let deferredPrompt
 
 const ExtArrow: React.FC = (): JSX.Element => {
   const { language } = useStoreState<SettingsType>((state) => state.storage.settings)
+  const ousideFirewall = useStoreState<boolean>((state) => state.storage.ousideFirewall)
   const [showPWA, setShowPWA] = useState(false)
-  const [useEdgeStore, setUseEdgeStore] = useState(false)
-
-  useEffect(() => {
-    ousideFirewall().then((ouside) => {
-      setUseEdgeStore(isEdgeChromium && !ouside)
-    })
-  }, [])
 
   // https://web.dev/customize-install/
   useEffect(() => {
@@ -60,14 +54,14 @@ const ExtArrow: React.FC = (): JSX.Element => {
       <div className={cs(css.wapper, css.browser)}>
         <a
           className={cs(css.arrow, {
-            [css.edge]: useEdgeStore,
+            [css.edge]: isEdgeChromium && !ousideFirewall,
             [css.firefox]: isFirefox,
           })}
           // href="https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/">
           href={
             isFirefox
               ? "https://os.socode.pro/firefox.xpi"
-              : useEdgeStore
+              : isEdgeChromium && !ousideFirewall
               ? "https://microsoftedge.microsoft.com/addons/detail/dkeiglafihicmjbbaoopggfnifgjekcl"
               : "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
           }>
@@ -92,5 +86,3 @@ const ExtArrow: React.FC = (): JSX.Element => {
 }
 
 export default ExtArrow
-
-// install browser extension to become the start page of your work

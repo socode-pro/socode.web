@@ -24,7 +24,7 @@ export interface SKey {
     width?: number
   }
   template?: string
-  forRegionCN?: boolean
+  firewalled?: boolean
   availableLang?: InterfaceLanguage
   disableLang?: InterfaceLanguage
   bylang?: boolean
@@ -517,7 +517,7 @@ const SKeys: SKey[] = [
     icon: "duckduckgo.svg",
     template: "https://duckduckgo.com/?q=%s&t=%l",
     bylang: true,
-    // disableLang: InterfaceLanguage.中文,
+    firewalled: true,
   },
   {
     name: "Electron",
@@ -886,8 +886,8 @@ const SKeys: SKey[] = [
     icon: "google.png",
     template: "https://google.com/search?q=%s&hl=%l",
     bylang: true,
-    // disableLang: InterfaceLanguage.中文,
     usage: true,
+    firewalled: true,
   },
   {
     code: "gradle",
@@ -1448,10 +1448,9 @@ const SKeys: SKey[] = [
       width: 60,
       backgroundSize: "86%",
     },
-    homelink: "https://www.npmjs.com",
-    template: "https://npms.io/search?q=%s",
+    homelink: "https://npms.io",
     usage: true,
-    forRegionCN: false,
+    firewalled: true,
     tooltips: "npms.io: a better and open source search for node packages",
     tooltipsCN: "npms.io：更好的、开放源码的node packages搜索",
   },
@@ -1463,12 +1462,11 @@ const SKeys: SKey[] = [
     shortkeys: "npm",
     icon: "npm.svg",
     iconProps: {
-      backgroundSize: "86%",
       width: 60,
+      backgroundSize: "86%",
     },
     homelink: "https://www.npmjs.com",
     template: "https://www.npmjs.com/search?q=%s",
-    forRegionCN: true,
   },
   {
     code: "nuget",

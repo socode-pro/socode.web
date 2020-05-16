@@ -1,8 +1,8 @@
-import { Action, action, Thunk, thunk } from 'easy-peasy'
-import ky from 'ky'
-import dayjs from 'dayjs'
-import { InterfaceLanguage, ProgramLanguage } from '../utils/language'
-import { warn } from '../utils/toast'
+import { Action, action, Thunk, thunk } from "easy-peasy"
+import ky from "ky"
+import dayjs from "dayjs"
+import { InterfaceLanguage, ProgramLanguage } from "../utils/language"
+import { warn } from "../utils/toast"
 
 export enum DarkMode {
   light,
@@ -38,7 +38,7 @@ const defaultSettings = (): SettingsType => {
     displayTrending: true,
   }
 
-  const settings = localStorage.getItem('settings')
+  const settings = localStorage.getItem("settings")
   if (settings) {
     return { ...defaultValue, ...JSON.parse(settings) }
   }
@@ -57,7 +57,11 @@ export interface StorageModel {
 
   region: RegionData
   setRegion: Action<StorageModel, RegionData>
-  estimateRegion: Thunk<StorageModel>
+  judgeRegion: Thunk<StorageModel>
+
+  ousideFirewall: boolean
+  setOusideFirewall: Action<StorageModel, boolean>
+  judgeOusideFirewall: Thunk<StorageModel>
 }
 
 const storageModel: StorageModel = {
@@ -65,42 +69,42 @@ const storageModel: StorageModel = {
 
   setSettings: action((state, payload) => {
     state.settings = { ...state.settings, ...payload }
-    localStorage.setItem('settings', JSON.stringify(state.settings))
+    localStorage.setItem("settings", JSON.stringify(state.settings))
   }),
 
-  programLanguage: parseInt(localStorage.getItem('programLanguage') || '0', 10),
+  programLanguage: parseInt(localStorage.getItem("programLanguage") || "0", 10),
   setProgramLanguage: action((state, payload) => {
     state.programLanguage = payload
-    localStorage.setItem('programLanguage', payload.toString())
+    localStorage.setItem("programLanguage", payload.toString())
   }),
 
-  githubToken: localStorage.getItem('githubToken') || '',
+  githubToken: localStorage.getItem("githubToken") || "",
   setGithubToken: action((state, payload) => {
     state.githubToken = payload
-    localStorage.setItem('githubToken', payload)
+    localStorage.setItem("githubToken", payload)
   }),
 
-  region: { ip: '', city: '', country_code: '' },
+  region: { ip: "", city: "", country_code: "" },
   setRegion: action((state, payload) => {
     state.region = payload
-    localStorage.setItem('regionData', JSON.stringify({ value: payload, time: dayjs().toJSON() }))
+    localStorage.setItem("regionData", JSON.stringify({ value: payload, time: dayjs().toJSON() }))
   }),
-  estimateRegion: thunk(async (actions) => {
-    const region = localStorage.getItem('regionData')
+  judgeRegion: thunk(async (actions) => {
+    const region = localStorage.getItem("regionData")
     if (region) {
       const { value, time } = JSON.parse(region)
-      if (time && dayjs(time).add(1, 'day').isAfter(dayjs())) {
+      if (time && dayjs(time).add(1, "day").isAfter(dayjs())) {
         actions.setRegion(value || {})
         return
       }
     }
 
     try {
-      const result = await ky.get('https://ipapi.co/json').json<RegionData>()
+      const result = await ky.get("https://ipapi.co/json").json<RegionData>()
       actions.setRegion(result)
     } catch (err) {
       try {
-        const result = await ky.get('https://freegeoip.app/json/').json<RegionData>()
+        const result = await ky.get("https://freegeoip.app/json/").json<RegionData>()
         actions.setRegion(result)
       } catch (err2) {
         warn(
@@ -108,6 +112,21 @@ const storageModel: StorageModel = {
           true
         )
       }
+    }
+  }),
+
+  ousideFirewall: true,
+  setOusideFirewall: action((state, payload) => {
+    state.ousideFirewall = payload
+  }),
+  judgeOusideFirewall: thunk(async (actions) => {
+    try {
+      await ky("https://ajax.googleapis.com/ajax/libs/scriptaculous/1.9.0/scriptaculous.js", {
+        timeout: 2000,
+      })
+      actions.setOusideFirewall(true)
+    } catch (err) {
+      actions.setOusideFirewall(false)
     }
   }),
 }

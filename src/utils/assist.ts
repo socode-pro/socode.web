@@ -104,14 +104,3 @@ export const isInStandaloneMode =
   document.referrer.includes("android-app://")
 
 export const isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox") > -1
-
-export const ousideFirewall = async (): Promise<boolean> => {
-  try {
-    await ky("https://ajax.googleapis.com/ajax/libs/scriptaculous/1.9.0/scriptaculous.js", {
-      timeout: 2000,
-    })
-    return true
-  } catch (err) {
-    return false
-  }
-}

@@ -194,7 +194,7 @@ const searchModel: SearchModel = {
       }
       actions.setResult(result)
       actions.setLoading(false)
-    } else if (currentKey.code === 'npm') {
+    } else if (currentKey.code === 'npms') {
       actions.setLoading(true)
       actions.setError(null)
       let result: NpmsResult | null = null

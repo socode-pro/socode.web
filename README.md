@@ -44,4 +44,6 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## Tips
-algoliasearch version must match [docsearch.js dependencies](https://github.com/algolia/docsearch/blob/master/package.json)
+
+先安装 与 docsearch.js dependencies 版本匹配的 algoliasearch、autocomplete.js 包. 然后再安装 docsearch.js，这样 docsearch.js 内就不存在 node_modules 目录，可以节省最终打包体积。
+warn: [docsearch.js github package.json](https://github.com/algolia/docsearch/blob/master/package.json) 描述不准确，应该是因为发布版本与源码不一致。要以 npm_module/docsearch.js/package.json 显示的实际版本为准
