@@ -1987,15 +1987,15 @@ const SKeys: SKey[] = [
         },
         {
           lang: Language.中文_简体,
-          path: "/README.md",
+          path: "/README-zh-Hans.md",
         },
         {
           lang: Language.中文_繁體,
-          path: "/README.md",
+          path: "/README-zh-TW.md",
         },
         {
           lang: Language.日本語,
-          path: "/README.md",
+          path: "/README-ja.md",
         },
       ],
     },
