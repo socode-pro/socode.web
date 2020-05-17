@@ -43,7 +43,7 @@ const ExtArrow: React.FC = (): JSX.Element => {
           <a className={cs(css.arrow, css.pwa)} onClick={() => InstallPWA()}>
             <h3>Install the PWA</h3>
             {language === InterfaceLanguage.中文 ? (
-              <span>使用任意你喜欢的方式快速启动SOCODE.PRO</span>
+              <span>使用你喜欢的方式快速启动SOCODE.PRO</span>
             ) : (
               <span>Quickly launch our app any way you like!</span>
             )}
