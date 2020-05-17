@@ -82,7 +82,7 @@ const SKeys: SKey[] = [
   {
     code: "_30seconds",
     name: "30 seconds of code",
-    category: SKeyCategory.Tools,
+    category: SKeyCategory.Search,
     shortkeys: "3s",
     icon: "30secondsofcode.png",
     homelink: "https://www.30secondsofcode.org",
@@ -620,7 +620,6 @@ const SKeys: SKey[] = [
     code: "explainshell",
     name: "explainshell",
     category: SKeyCategory.Tools,
-    usage: true,
     shortkeys: "she",
     icon: "shell.png",
     template: "https://explainshell.com/explain?cmd=%s",
@@ -942,6 +941,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Search,
     shortkeys: "ga",
     icon: "grep.png",
+    usage: true,
     template: "https://grep.app/search?q=%s",
     tooltips: "Search across a half million git repos",
     tooltipsCN: "在50万个git仓库中搜索代码",
@@ -1480,6 +1480,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Tools,
     shortkeys: "pwd",
     icon: "password.png",
+    usage: true,
     iconProps: {
       backgroundSize: "30px",
       backgroundPosition: "left 0.3em center",
@@ -1962,7 +1963,6 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Learn,
     shortkeys: "sdp",
     icon: "sdp.png",
-    usage: true,
     homelink: "https://github.com/donnemartin/system-design-primer",
     tooltips: "Learn how to design large-scale systems",
     readmes: {
