@@ -23,7 +23,7 @@ export interface SearchKeysModel {
   removePin: Action<SearchKeysModel, string>
   pinKeys: Computed<SearchKeysModel, Array<SKey>>
 
-  filteredKeys: Computed<SearchKeysModel, Array<SKey>, StoreModel>
+  filtedKeys: Computed<SearchKeysModel, Array<SKey>, StoreModel>
   searchedKeys: Computed<SearchKeysModel, Array<SKey>>
 
   currentKey: SKey
@@ -66,25 +66,27 @@ const searchKeysModel: SearchKeysModel = {
   }),
   pinKeys: computed((state) => state.keys.filter((k) => state.pins.includes(k.code))),
 
-  filteredKeys: computed(
+  filtedKeys: computed(
     [
       (state) => state.keys,
       (state, storeState) => storeState.storage.settings.language,
       (state, storeState) => storeState.storage.ousideFirewall,
     ],
     (keys, language, ousideFirewall) => {
-      return keys.filter((key) => {
-        if (key.availableLang) {
-          return key.availableLang === language
-        }
-        if (key.disableLang) {
-          return key.disableLang !== language
-        }
-        if (key.firewalled && !ousideFirewall) {
-          return false
-        }
-        return true
-      })
+      return keys
+        .filter((key) => {
+          if (key.availableLang) {
+            return key.availableLang === language
+          }
+          if (key.disableLang) {
+            return key.disableLang !== language
+          }
+          if (key.firewalled && !ousideFirewall) {
+            return false
+          }
+          return true
+        })
+        .sort((a) => (a.usage ? -1 : 0))
     }
   ),
 

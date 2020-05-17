@@ -58,7 +58,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const keys = useStoreState<Array<SKey>>((state) => state.searchKeys.keys)
   const pinKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.pinKeys)
-  const filteredKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.filteredKeys)
+  const filtedKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.filtedKeys)
   const searchedKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.searchedKeys)
 
   const kquery = useStoreState<string>((state) => state.searchKeys.kquery)
@@ -800,27 +800,27 @@ const SearchInput: React.FC = (): JSX.Element => {
                     </div>
                   )}
                   <div ref={searchTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filteredKeys.filter((k) => k.category === SKeyCategory.Search))}
+                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.Search))}
                     <div className={css.kdesc}>{searchIntl}</div>
                   </div>
                   <div ref={toolsTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filteredKeys.filter((k) => k.category === SKeyCategory.Tools))}
+                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.Tools))}
                     <div className={css.kdesc}>{toolsIntl}</div>
                   </div>
                   <div ref={collectionTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filteredKeys.filter((k) => k.category === SKeyCategory.Collection))}
+                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.Collection))}
                     <div className={css.kdesc}>{collectionIntl}</div>
                   </div>
                   <div ref={cheatSheetsTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filteredKeys.filter((k) => k.category === SKeyCategory.CheatSheets))}
+                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.CheatSheets))}
                     <div className={css.kdesc}>{cheatSheetsIntl}</div>
                   </div>
                   <div ref={learnTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filteredKeys.filter((k) => k.category === SKeyCategory.Learn))}
+                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.Learn))}
                     <div className={css.kdesc}>{learnIntl}</div>
                   </div>
                   <div ref={documentTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filteredKeys.filter((k) => k.category === SKeyCategory.Document))}
+                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.Document))}
                     <div className={css.kdesc}>{documentIntl}</div>
                   </div>
                 </>
