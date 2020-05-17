@@ -63,7 +63,9 @@ const ExtArrow: React.FC = (): JSX.Element => {
               ? "https://os.socode.pro/firefox.xpi"
               : isEdgeChromium && !ousideFirewall
               ? "https://microsoftedge.microsoft.com/addons/detail/dkeiglafihicmjbbaoopggfnifgjekcl"
-              : "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
+              : ousideFirewall
+              ? "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
+              : "https://www.crx4chrome.com/crx/196956/"
           }>
           <h3>Browser Extension</h3>
           {language === InterfaceLanguage.中文 ? (
