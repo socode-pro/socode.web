@@ -35,6 +35,9 @@ export interface SearchModel {
 
   wapperTop: Computed<SearchModel, number>
 
+  expandWidthView: boolean
+  setExpandWidthView: Action<SearchModel, boolean>
+
   result: SocodeResult | null
   setResult: Action<SearchModel, SocodeResult | null>
 
@@ -107,6 +110,11 @@ const searchModel: SearchModel = {
       ? 150
       : 130
   ),
+
+  expandWidthView: false,
+  setExpandWidthView: action((state, payload) => {
+    state.expandWidthView = payload
+  }),
 
   loading: false,
   setLoading: action((state, payload) => {
@@ -257,6 +265,9 @@ const searchModel: SearchModel = {
     (state, target) => {
       if (!target.payload.devdocs && target.payload.code !== "editor") {
         state.expandView = false
+      }
+      if (target.payload.code !== "editor") {
+        state.expandWidthView = false
       }
     }
   ),

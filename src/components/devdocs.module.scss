@@ -1,4 +1,13 @@
-@import '../styles/variable';
+@import "../styles/variable";
+
+.devdocs {
+  height: calc(100vh - 58px);
+  margin-bottom: 0 !important;
+  background-color: $white;
+  & > :global(.column) {
+    overflow-y: auto;
+  }
+}
 
 .typegroup {
   // font-family: $font-mono;
@@ -51,16 +60,4 @@
       display: block;
     }
   }
-}
-
-.menubox {
-  // width: 315px;
-  height: calc(100vh - 80px);
-  overflow-y: auto;
-  margin-bottom: 0.75rem;
-}
-
-.document {
-  height: calc(100vh - 80px);
-  overflow-y: auto;
 }
