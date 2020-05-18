@@ -69,7 +69,7 @@ const EditorComponent: React.FC = (): JSX.Element => {
             <button onClick={runJs} type="button">
               Run JS
             </button>
-            (F12/Open Console could view the output)
+            (F12/Open Console to view the output)
           </div>
         )}
       </div>
