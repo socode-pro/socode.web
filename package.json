@@ -50,6 +50,7 @@
     "react-dom": "^16.13.1",
     "react-highlight-words": "^0.16.0",
     "react-media-hook": "^0.4.6",
+    "react-monaco-editor": "^0.36.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",
     "react-spring": "^9.0.0-beta.34",

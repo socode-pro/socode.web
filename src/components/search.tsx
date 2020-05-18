@@ -35,6 +35,7 @@ import { ReactComponent as Github } from "../images/github.svg"
 
 const GithubStars = lazy(() => import("./stars"))
 const Encode = lazy(() => import("./encode"))
+const Editor = lazy(() => import("./editor"))
 
 const languageOptions = StringEnumObjects(Language)
 const programLanguageOptions = IntEnumObjects(ProgramLanguage)
@@ -74,7 +75,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const setSquery = useStoreActions((actions) => actions.search.setQuery)
   const timeRange = useStoreState<SearchTimeRange>((state) => state.search.timeRange)
   const setTimeRange = useStoreActions((actions) => actions.search.setTimeRangeThunk)
-  const pageno = useStoreState<ProgramLanguage>((state) => state.search.pageno)
+  const pageno = useStoreState<number>((state) => state.search.pageno)
   const nextPage = useStoreActions((actions) => actions.search.nextPageThunk)
   const prevPage = useStoreActions((actions) => actions.search.prevPageThunk)
   const searchLanguage = useStoreState<Language>((state) => state.search.searchLanguage)
@@ -852,6 +853,11 @@ const SearchInput: React.FC = (): JSX.Element => {
           {!displayKeys && currentKey.code === "encode" && (
             <Suspense fallback={<Loader1 type={2} />}>
               <Encode />
+            </Suspense>
+          )}
+          {!displayKeys && currentKey.code === "editor" && (
+            <Suspense fallback={<Loader1 type={2} />}>
+              <Editor />
             </Suspense>
           )}
           {!displayKeys && currentKey.code === "password" && <Password />}

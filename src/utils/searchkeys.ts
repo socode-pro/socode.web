@@ -60,6 +60,7 @@ export const IsUnSearchableKey = (key: SKey): boolean =>
   key.code === "tools" ||
   key.code === "github_stars" ||
   key.code === "password" ||
+  key.code === "editor" ||
   key.code === "encode"
 
 export const KeyPlaceholder = (key: SKey, awesomeOrDevdoc: boolean): string => {
@@ -72,9 +73,9 @@ export const KeyPlaceholder = (key: SKey, awesomeOrDevdoc: boolean): string => {
   if (key.readmes) {
     return key.readmes.searched ? "content search..." : "no search"
   }
-  if (key.code === "password" || key.code === "encode") {
-    return "no search"
-  }
+  // if (key.code === "password" || key.code === "encode") {
+  //   return "no search"
+  // }
   return ""
 }
 
@@ -518,6 +519,13 @@ const SKeys: SKey[] = [
     template: "https://duckduckgo.com/?q=%s&t=%l",
     bylang: true,
     firewalled: true,
+  },
+  {
+    name: "Editor",
+    code: "editor",
+    category: SKeyCategory.Tools,
+    shortkeys: "ed",
+    icon: "editor.svg",
   },
   {
     name: "Electron",
