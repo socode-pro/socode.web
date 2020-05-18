@@ -700,6 +700,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Search,
     shortkeys: "fa",
     icon: "fontawesome.svg",
+    firewalled: true,
     homelink: "https://fontawesome.com",
     template: "https://fontawesome.com/icons?d=gallery&q=%s",
   },
@@ -1031,6 +1032,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Search,
     shortkeys: "if",
     icon: "iconfont.svg",
+    availableLang: InterfaceLanguage.中文,
     template: "https://www.iconfont.cn/search/index?searchType=icon&fromCollection=1&q=%s",
   },
   {
@@ -1118,18 +1120,6 @@ const SKeys: SKey[] = [
     template: "https://js.coach/?search=%s",
     tooltips: "search for components, boilerplates, generators and other packages",
     tooltipsCN: "搜索 components、boilerplates、generators 等NPM包",
-  },
-  {
-    code: "jsdelivr",
-    name: "jsDelivr",
-    category: SKeyCategory.Search,
-    shortkeys: "jd",
-    icon: "jsdelivr.svg",
-    hideName: true,
-    iconProps: {
-      width: 100,
-    },
-    template: "https://www.jsdelivr.com/?query=%s",
   },
   {
     code: "koa",
