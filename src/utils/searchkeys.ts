@@ -697,7 +697,7 @@ const SKeys: SKey[] = [
   {
     code: "fontawesome",
     name: "Font Awesome",
-    category: SKeyCategory.Tools,
+    category: SKeyCategory.Search,
     shortkeys: "fa",
     icon: "fontawesome.svg",
     homelink: "https://fontawesome.com",
@@ -1028,7 +1028,7 @@ const SKeys: SKey[] = [
   {
     code: "iconfont",
     name: "Iconfont",
-    category: SKeyCategory.Tools,
+    category: SKeyCategory.Search,
     shortkeys: "if",
     icon: "iconfont.svg",
     template: "https://www.iconfont.cn/search/index?searchType=icon&fromCollection=1&q=%s",
@@ -1122,7 +1122,7 @@ const SKeys: SKey[] = [
   {
     code: "jsdelivr",
     name: "jsDelivr",
-    category: SKeyCategory.Tools,
+    category: SKeyCategory.Search,
     shortkeys: "jd",
     icon: "jsdelivr.svg",
     hideName: true,
