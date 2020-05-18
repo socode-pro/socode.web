@@ -1,67 +1,46 @@
-import React, { useState, useRef, useEffect } from "react"
-// https://github.com/react-monaco-editor/react-monaco-editor/blob/master/src/editor.js
-import MonacoEditor from "react-monaco-editor"
+import React, { useState, useRef, useEffect, useCallback } from "react"
+import Editor from "@monaco-editor/react"
 import cs from "classnames"
 import { useStoreActions, useStoreState } from "../utils/hooks"
-import { ProgramLanguage } from "../utils/language"
-import { IntEnumObjects } from "../utils/assist"
+import examples from "../utils/editor_examples"
+import languages from "../utils/editor_language"
 import css from "./editor.module.scss"
+import Loader1 from "./loader/loader1"
 
-const programLanguageOptions = IntEnumObjects(ProgramLanguage)
-const options = {
-  selectOnLineNumbers: true,
-  scrollBeyondLastLine: false,
-}
+const EditorComponent: React.FC = (): JSX.Element => {
+  const setExpandView = useStoreActions((actions) => actions.search.setExpandView)
+  const [language, setLanguage] = useState(19)
+  // setExpandView(true)
 
-const Editor: React.FC = (): JSX.Element => {
-  const programLanguage = useStoreState<ProgramLanguage>((state) => state.storage.programLanguage)
-  const setProgramLanguage = useStoreActions((actions) => actions.storage.setProgramLanguage)
-
-  // useEffect(() => {
-  //   const dom = document.getElementById("editor")
-  //   if (!dom) return
-
-  //   if (editor.current) {
-  //     dom.innerHTML = ""
-  //   }
-
-  //   editor.current = monaco.editor.create(dom, {
-  //     // value: "",
-  //     value: "// First line\nfunction hello() {\n\talert('Hello world!');\n}\n// Last line",
-  //     // language: ProgramLanguage[programLanguage].toLowerCase(),
-  //     language: "javascript",
-  //     scrollBeyondLastLine: false,
-  //     theme: "vs-dark",
-  //   })
-  // }, [programLanguage])
+  const editorDidMount = useCallback(() => {
+    setExpandView(true)
+  }, [setExpandView])
 
   return (
-    <div className={cs(css.editor)}>
-      <div>
-        <select value={programLanguage} onChange={(e) => setProgramLanguage(parseInt(e.target.value, 10))}>
-          {programLanguageOptions.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
+    <div className="mgt5">
+      <select value={language} onChange={(e) => setLanguage(parseInt(e.target.value, 10))}>
+        {languages.map((o) => (
+          <option key={o.id} value={o.id}>
+            {o.name}
+          </option>
+        ))}
+      </select>
+      <div className={cs(css.editorWapper)}>
+        <Editor
+          // height="90vh" // By default, it fully fits with its parent
+          theme="vs"
+          language={languages.find((o) => o.id === language)?.name}
+          loading={<Loader1 type={2} />}
+          value={examples[language].trim().replace(/^ {4}/gm, "")}
+          options={{
+            selectOnLineNumbers: true,
+            scrollBeyondLastLine: false,
+          }}
+          editorDidMount={editorDidMount}
+        />
       </div>
-      <MonacoEditor
-        // width="800"
-        height="600"
-        language="javascript"
-        theme="vs-dark"
-        // value={code}
-        options={options}
-      />
     </div>
   )
 }
 
-export default Editor
-
-// Issus:
-// https://github.com/react-monaco-editor/react-monaco-editor/issues/179
-// 不要使用 react-app-rewired, 或其它脚手架方案，破坏cra项目可维护性。https://github.com/microsoft/monaco-editor/issues/82#issuecomment-441501302
-// 优雅的方案：https://github.com/microsoft/monaco-editor/issues/82#issuecomment-504898526
-// 但需要监控包大小变化
+export default EditorComponent

@@ -1,4 +1,4 @@
-@import '../styles/variable';
+@import "../styles/variable";
 
 .searchWapper {
   background: #fff;
@@ -11,7 +11,7 @@
   width: 100%;
   position: absolute;
   top: 130px;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
   z-index: 8;
 
   *::-webkit-scrollbar-track {
@@ -168,7 +168,7 @@
   margin-right: 10px;
   :global(.algolia-autocomplete) {
     width: 100%;
-    & > input[type='search'] {
+    & > input[type="search"] {
       width: 100%;
     }
   }
@@ -414,7 +414,7 @@ i.kicon {
 }
 
 .notFound {
-  background: url('../images/not_found.png') center/20% no-repeat;
+  background: url("../images/not_found.png") center/20% no-repeat;
   height: 200px;
 }
 

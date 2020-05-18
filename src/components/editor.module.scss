@@ -1,10 +1,6 @@
 @import "../styles/variable";
 
-.editor {
-  margin: 5px 20px 20px;
-}
-
-:global(#editor) {
-  width: 100%;
-  height: 500px;
+.editorWapper {
+  height: calc(100vh - 86px);
+  overflow: hidden;
 }

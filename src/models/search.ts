@@ -1,29 +1,29 @@
-import { Action, action, Thunk, thunk, Computed, computed, ActionOn, actionOn, ThunkOn, thunkOn } from 'easy-peasy'
-import dayjs from 'dayjs'
-import qrcode from 'qrcode'
-import { Injections } from '../store'
-import { StoreModel } from './index'
-import Language, { ProgramLanguage, navigatorLanguage } from '../utils/language'
-import { winSearchParams } from '../utils/assist'
-import { SocodeResult, SearchTimeRange } from '../services/socode.service'
-import { NpmsResult } from '../services/npms.service'
-import { IsUnSearchableKey } from '../utils/searchkeys'
+import { Action, action, Thunk, thunk, Computed, computed, ActionOn, actionOn, ThunkOn, thunkOn } from "easy-peasy"
+import dayjs from "dayjs"
+import qrcode from "qrcode"
+import { Injections } from "../store"
+import { StoreModel } from "./index"
+import Language, { ProgramLanguage, navigatorLanguage } from "../utils/language"
+import { winSearchParams } from "../utils/assist"
+import { SocodeResult, SearchTimeRange } from "../services/socode.service"
+import { NpmsResult } from "../services/npms.service"
+import { IsUnSearchableKey } from "../utils/searchkeys"
 
 export interface SMError {
   message: string
 }
 
 const defaultDisplaySubtitle = (): boolean => {
-  const value = localStorage.getItem('displaySubtitle')
+  const value = localStorage.getItem("displaySubtitle")
   if (value === null) {
-    const time = localStorage.getItem('displaySubtitleFirstTime')
+    const time = localStorage.getItem("displaySubtitleFirstTime")
     if (!time) {
-      localStorage.setItem('displaySubtitleFirstTime', dayjs().toJSON())
+      localStorage.setItem("displaySubtitleFirstTime", dayjs().toJSON())
     } else {
-      return dayjs(time).add(10, 'minute').isAfter(dayjs())
+      return dayjs(time).add(10, "minute").isAfter(dayjs())
     }
   }
-  return value !== 'false'
+  return value !== "false"
 }
 
 export interface SearchModel {
@@ -87,7 +87,7 @@ const searchModel: SearchModel = {
   displaySubtitle: defaultDisplaySubtitle(),
   setDisplaySubtitle: action((state, payload) => {
     state.displaySubtitle = payload
-    localStorage.setItem('displaySubtitle', payload.toString())
+    localStorage.setItem("displaySubtitle", payload.toString())
   }),
 
   result: null,
@@ -139,7 +139,7 @@ const searchModel: SearchModel = {
     document.body.scrollTo({ top: 0 })
   }),
 
-  query: new URLSearchParams(window.location.search).get('q') || '',
+  query: new URLSearchParams(window.location.search).get("q") || "",
   setQuery: action((state, payload) => {
     state.query = payload
   }),
@@ -154,10 +154,10 @@ const searchModel: SearchModel = {
     await actions.search()
   }),
 
-  searchLanguage: (localStorage.getItem('searchLanguage') as Language) || navigatorLanguage(navigator.language),
+  searchLanguage: (localStorage.getItem("searchLanguage") as Language) || navigatorLanguage(navigator.language),
   setSearchLanguage: action((state, payload) => {
     state.searchLanguage = payload
-    localStorage.setItem('searchLanguage', payload)
+    localStorage.setItem("searchLanguage", payload)
   }),
   setSearchLanguageThunk: thunk(async (actions, payload) => {
     actions.setSearchLanguage(payload)
@@ -166,7 +166,7 @@ const searchModel: SearchModel = {
   }),
 
   setQrcode: action((state, payload) => {
-    const canvas = document.getElementById('qrcode')
+    const canvas = document.getElementById("qrcode")
     if (canvas && payload) {
       qrcode.toCanvas(canvas, payload, { width: 200 }, (err) => {
         if (err) console.error(err)
@@ -183,7 +183,7 @@ const searchModel: SearchModel = {
       return
     }
 
-    if (currentKey.code === 'socode') {
+    if (currentKey.code === "socode") {
       actions.setLoading(true)
       actions.setError(null)
       let result: SocodeResult | null = null
@@ -194,7 +194,7 @@ const searchModel: SearchModel = {
       }
       actions.setResult(result)
       actions.setLoading(false)
-    } else if (currentKey.code === 'npms') {
+    } else if (currentKey.code === "npms") {
       actions.setLoading(true)
       actions.setError(null)
       let result: NpmsResult | null = null
@@ -205,7 +205,7 @@ const searchModel: SearchModel = {
       }
       actions.setNpmResult(result)
       actions.setLoading(false)
-    } else if (currentKey.code === 'qrcode') {
+    } else if (currentKey.code === "qrcode") {
       actions.setQrcode(query)
     } else {
       actions.lunchUrl()
@@ -217,23 +217,23 @@ const searchModel: SearchModel = {
     const { query, searchLanguage } = getState()
     const { programLanguage } = getStoreState().storage
     const { currentKey } = getStoreState().searchKeys
-    let url: string | undefined = ''
+    let url: string | undefined = ""
 
     if (payload) {
       url = payload
     } else {
-      url = currentKey.template?.replace('%s', query)
+      url = currentKey.template?.replace("%s", query)
       if (url && currentKey.bylang && searchLanguage) {
-        url = url?.replace('%l', searchLanguage)
+        url = url?.replace("%l", searchLanguage)
       }
       if (url && currentKey.bypglang) {
-        url = url?.replace('%pl', ProgramLanguage[programLanguage])
+        url = url?.replace("%pl", ProgramLanguage[programLanguage])
       }
     }
 
     if (url) {
       if (getStoreState().storage.settings.openNewTab) {
-        window.open(url, '_blank')?.focus()
+        window.open(url, "_blank")?.focus()
       } else {
         window.location.href = url
       }
@@ -246,16 +246,16 @@ const searchModel: SearchModel = {
     state.npmResult = null
   }),
 
-  docLanguage: (localStorage.getItem('docLanguage') as Language) || navigatorLanguage(navigator.language),
+  docLanguage: (localStorage.getItem("docLanguage") as Language) || navigatorLanguage(navigator.language),
   setDocLanguage: action((state, payload) => {
     state.docLanguage = payload
-    localStorage.setItem('docLanguage', payload)
+    localStorage.setItem("docLanguage", payload)
   }),
 
   onCurrentKey: actionOn(
     (actions, storeActions) => storeActions.searchKeys.setCurrentKey,
     (state, target) => {
-      if (!target.payload.devdocs) {
+      if (!target.payload.devdocs && target.payload.code !== "editor") {
         state.expandView = false
       }
     }
@@ -265,7 +265,7 @@ const searchModel: SearchModel = {
     (actions, storeActions) => storeActions.searchKeys.initialCurrentKey,
     (actions, target) => {
       const params = new URLSearchParams(window.location.search)
-      if (params.has('q')) {
+      if (params.has("q")) {
         actions.search()
       }
     }
