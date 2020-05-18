@@ -71,6 +71,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const displayKeys = useStoreState<boolean>((state) => state.searchKeys.displayKeys)
   const setDisplayKeys = useStoreActions((actions) => actions.searchKeys.setDisplayKeys)
 
+  const expandWidthView = useStoreState<boolean>((state) => state.search.expandWidthView)
   const squery = useStoreState<string>((state) => state.search.query)
   const setSquery = useStoreActions((actions) => actions.search.setQuery)
   const timeRange = useStoreState<SearchTimeRange>((state) => state.search.timeRange)
@@ -174,8 +175,8 @@ const SearchInput: React.FC = (): JSX.Element => {
   useHotkeys(
     "/",
     () => {
-      focusInput()
       if (document.activeElement?.tagName !== "INPUT") {
+        focusInput()
         return false
       }
       return true
@@ -519,7 +520,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <div className="container">
+      <div className={cs("container", { [css.expendWidth]: expandWidthView })}>
         <Brand />
         <animated.div
           className={cs(css.searchWapper, { [css.focus]: focus })}

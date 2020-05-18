@@ -526,6 +526,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Tools,
     shortkeys: "ed",
     icon: "editor.svg",
+    usage: true,
   },
   {
     name: "Electron",
@@ -2050,7 +2051,6 @@ const SKeys: SKey[] = [
     code: "tools",
     name: "Tools Tiles",
     category: SKeyCategory.Tools,
-    usage: true,
     shortkeys: "tt",
     tooltips: "Programming Tools Navigation",
     icon: "tiles.png",

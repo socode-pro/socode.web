@@ -1,5 +1,10 @@
 @import "../styles/variable";
 
+.controllers {
+  margin: 5px 0 0 24px;
+  display: flex;
+}
+
 .editorWapper {
   height: calc(100vh - 86px);
   overflow: hidden;

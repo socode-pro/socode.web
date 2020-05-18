@@ -103,8 +103,8 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
   }
 
   return (
-    <div className={cs('columns', 'container')}>
-      <div className={cs('column', 'is-one-quarter', css.menubox)}>
+    <div className={cs('columns', 'container', css.devdocs)}>
+      <div className={cs('column', 'is-one-quarter')}>
         {results.map(result => {
           const { group, entries } = result
           return (
@@ -133,7 +133,7 @@ const Devdocs: React.FC<Props> = ({ slug, query }: Props): JSX.Element => {
           )
         })}
       </div>
-      <div className={cs('column', css.document)}>
+      <div className={cs('column')}>
         {docLoading && <Loader1 type={1} />}
         {docs[`${slug}_${currentPath}`] && (
           <div
