@@ -540,7 +540,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             {(displayKeys || !currentKey.docsearch) && (
               <input
                 type="search"
-                className={css.input}
+                className={cs(css.input, "main_input")}
                 spellCheck={false}
                 value={displayKeys ? kquery : squery}
                 autoFocus
@@ -838,9 +838,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               <GithubStars query={squery} />
             </Suspense>
           )}
-          {!displayKeys && !awesomeOrDevdoc && currentKey.devdocs && (
-            <Devdocs slug={currentKey.devdocs} query={squery} />
-          )}
+          {!displayKeys && !awesomeOrDevdoc && currentKey.devdocs && <Devdocs />}
           {!displayKeys && awesomeOrDevdoc && currentKey.awesome && (
             <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} query={squery} />
           )}

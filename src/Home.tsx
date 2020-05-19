@@ -9,6 +9,7 @@ import "./styles/app.global.scss"
 const Home: React.FC = () => {
   const judgeRegion = useStoreActions((actions) => actions.storage.judgeRegion)
   const judgeOusideFirewall = useStoreActions((actions) => actions.storage.judgeOusideFirewall)
+
   useEffect(() => {
     judgeRegion()
     judgeOusideFirewall()

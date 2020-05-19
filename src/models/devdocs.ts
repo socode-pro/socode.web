@@ -1,12 +1,53 @@
-import { Action, action, Thunk, thunk } from 'easy-peasy'
-import ky from 'ky'
-import Fuse from 'fuse.js'
-import groupBy from 'lodash/groupBy'
-import { StoreModel } from './index'
+import { Action, action, Thunk, thunk, Computed, computed, ActionOn, actionOn, ThunkOn, thunkOn } from "easy-peasy"
+import ky from "ky"
+import Fuse from "fuse.js"
+import groupBy from "lodash/groupBy"
+import set from "lodash/set"
+import { StoreModel } from "./index"
 
 const fuseOptions: Fuse.IFuseOptions<DevDocEntrie> = {
-  keys: ['name'],
-  threshold: 0.4,
+  keys: ["name", "type"],
+  threshold: 0.3,
+  includeMatches: true,
+  minMatchCharLength: 2,
+  useExtendedSearch: true,
+}
+
+// https://github.com/krisk/Fuse/issues/6#issuecomment-455813098
+type RangeTuple = [number, number]
+const highlightedText = (inputText: string, regions: ReadonlyArray<RangeTuple> = []): string => {
+  let content = ""
+  let nextUnhighlightedRegionStartingIndex = 0
+
+  regions.forEach((region) => {
+    const lastRegionNextIndex = region[1] + 1
+
+    content += [
+      inputText.substring(nextUnhighlightedRegionStartingIndex, region[0]),
+      `<span class="highlight">`,
+      inputText.substring(region[0], lastRegionNextIndex),
+      "</span>",
+    ].join("")
+
+    nextUnhighlightedRegionStartingIndex = lastRegionNextIndex
+  })
+
+  content += inputText.substring(nextUnhighlightedRegionStartingIndex)
+  return content
+}
+
+const FuseHighlight = (result: Fuse.FuseResult<DevDocEntrie>[]): Array<DevDocEntrie> => {
+  return result.map(({ item, matches }) => {
+    const highlightedItem = { ...item }
+    if (matches) {
+      matches.forEach((match: Fuse.FuseResultMatch) => {
+        if (match.key && match.value) {
+          set(highlightedItem, match.key, highlightedText(match.value, match.indices))
+        }
+      })
+    }
+    return highlightedItem
+  })
 }
 
 export interface DevDocMeta {
@@ -33,8 +74,8 @@ interface DevDocIndex {
 }
 
 export interface DevdocsModel {
-  loading: boolean
-  setLoading: Action<DevdocsModel, boolean>
+  menuLoading: boolean
+  setMenuLoading: Action<DevdocsModel, boolean>
 
   docLoading: boolean
   setDocLoading: Action<DevdocsModel, boolean>
@@ -43,34 +84,43 @@ export interface DevdocsModel {
   setMetas: Action<DevdocsModel, DevDocMeta[]>
   initialMetas: Thunk<DevdocsModel, void>
 
-  indexs: {
-    [slug: string]: Array<DevDocEntrie>
-  }
-  setIndexs: Action<DevdocsModel, { slug: string; index: Array<DevDocEntrie> }>
-  loadIndex: Thunk<DevdocsModel, string, void, StoreModel>
+  indexs: Array<DevDocEntrie>
+  setIndexs: Action<DevdocsModel, Array<DevDocEntrie>>
+  loadIndex: Thunk<DevdocsModel, void, void, StoreModel>
+  menus: Computed<
+    DevdocsModel,
+    Array<{
+      group: string
+      entries: Array<DevDocEntrie>
+    }>
+  >
+  onCurrentKeyChange: ThunkOn<DevdocsModel, void, StoreModel>
 
-  results: Array<{
-    group: string,
-    entries: Array<DevDocEntrie>
-  }>
-  search: Action<DevdocsModel, { slug: string; query: string }>
+  queryItems: Computed<DevdocsModel, Array<DevDocEntrie>, StoreModel>
+  queryIndex: number
+  setQueryIndex: Action<DevdocsModel, number>
+  onQueryChange: ActionOn<DevdocsModel, StoreModel>
 
   expandings: { [type: string]: boolean }
   toggleExpanding: Action<DevdocsModel, string>
-  expand: Action<DevdocsModel, { slug: string; path: string }>
+  cleanExpandings: Action<DevdocsModel>
+  expandByPath: Action<DevdocsModel, string>
 
-  docs: { [index: string]: string }
-  setDocs: Action<DevdocsModel, { slug: string; path: string; doc: string }>
   currentPath: string
   setCurrentPath: Action<DevdocsModel, string>
-  selectDoc: Thunk<DevdocsModel, { slug: string; path: string }>
+
+  docs: string
+  setDocs: Action<DevdocsModel, string>
+
+  selectPath: Thunk<DevdocsModel, string, void, StoreModel>
 }
 
 const devdocsModel: DevdocsModel = {
-  loading: false,
-  setLoading: action((state, payload) => {
-    state.loading = payload
+  menuLoading: false,
+  setMenuLoading: action((state, payload) => {
+    state.menuLoading = payload
   }),
+
   docLoading: false,
   setDocLoading: action((state, payload) => {
     state.docLoading = payload
@@ -91,93 +141,113 @@ const devdocsModel: DevdocsModel = {
     }
   }),
 
-  indexs: {},
-  setIndexs: action((state, { slug, index }) => {
-    state.indexs[slug] = index
+  indexs: [],
+  setIndexs: action((state, payload) => {
+    state.indexs = payload
   }),
-  loadIndex: thunk(async (actions, slug, { getState, getStoreActions }) => {
-    if (getState().indexs[slug]) {
-      getStoreActions().search.setExpandView(true)
-      return
-    }
-
-    actions.setLoading(true)
+  loadIndex: thunk(async (actions, payload, { getState, getStoreState, getStoreActions }) => {
+    actions.setMenuLoading(true)
     try {
-      let meta = getState().metas.find(m => m.slug === slug)
+      const { currentKey } = getStoreState().searchKeys
+      let meta = getState().metas.find((m) => m.slug === currentKey.devdocs)
       if (!meta) {
         await actions.initialMetas()
-        meta = getState().metas.find(m => m.slug === slug)
+        meta = getState().metas.find((m) => m.slug === currentKey.devdocs)
         if (!meta) {
-          throw new Error('meta null')
+          throw new Error("meta null")
         }
       }
 
-      const indexJson = await ky.get(`${process.env.REACT_APP_DOC_HOST}/${slug}/index.json?${meta.mtime}`).json<DevDocIndex>()
-      if (indexJson !== null) {
-        actions.setIndexs({ slug: meta.slug, index: indexJson.entries })
-        getStoreActions().search.setExpandView(true)
-      }
+      const indexJson = await ky
+        .get(`${process.env.REACT_APP_DOC_HOST}/${currentKey.devdocs}/index.json?${meta.mtime}`)
+        .json<DevDocIndex>()
+      actions.setIndexs(indexJson.entries)
+      getStoreActions().search.setExpandView(true)
     } catch (err) {
-      console.error('devdocsModel.initialIndex', err)
+      console.error("devdocsModel.initialIndex", err)
     }
-    actions.setLoading(false)
+    actions.cleanExpandings()
+    actions.setMenuLoading(false)
   }),
-
-  results: [],
-  search: action((state, { slug, query }) => {
-    const index = state.indexs[slug]
-    if (!index) return
-
-    let items = index
-    if (query) {
-      const fuse = new Fuse(items, fuseOptions)
-      items = fuse.search<DevDocEntrie>(query).map(r => r.item)
-    }
-    
-    state.results = Object.entries(groupBy(items, 'type'))
+  menus: computed((state) =>
+    Object.entries(groupBy(state.indexs, "type"))
       .map(([group, entries]) => ({ group, entries }))
-      .sort((a, b) => (a.group.localeCompare(b.group)))
+      .sort((a, b) => a.group.localeCompare(b.group))
+  ),
+  onCurrentKeyChange: thunkOn(
+    (actions, storeActions) => storeActions.searchKeys.setCurrentKey,
+    (actions, target) => {
+      actions.loadIndex()
+      actions.setDocs("")
+    }
+  ),
+
+  queryItems: computed([(state) => state.indexs, (state, storeState) => storeState.search.query], (indexs, query) => {
+    if (!query) return []
+    const fuse = new Fuse(indexs, fuseOptions)
+    const result = fuse.search<DevDocEntrie>(query).slice(0, 15)
+    return FuseHighlight(result)
   }),
+  queryIndex: 0,
+  setQueryIndex: action((state, payload) => {
+    state.queryIndex = payload
+  }),
+  onQueryChange: actionOn(
+    (actions, storeActions) => storeActions.search.setQuery,
+    (state, target) => {
+      state.queryIndex = 0
+    }
+  ),
 
   expandings: {},
   toggleExpanding: action((state, type) => {
     state.expandings[type] = !state.expandings[type]
   }),
-  expand: action((state, { slug, path }) => {
-    const index = state.indexs[slug]
-    if (!index) return
-
-    const item = index.find(i => i.path === path)
+  cleanExpandings: action((state) => {
+    for (const type in state.expandings) {
+      if ({}.hasOwnProperty.call(state.expandings, type)) {
+        state.expandings[type] = false
+      }
+    }
+  }),
+  expandByPath: action((state, path) => {
+    const item = state.indexs.find((i) => i.path === path)
     if (item) {
       state.expandings[item.type] = true
     }
   }),
 
-  docs: {},
-  setDocs: action((state, { slug, path, doc }) => {
-    state.docs[`${slug}_${path}`] = doc
+  currentPath: "",
+  setCurrentPath: action((state, payload) => {
+    state.currentPath = payload
   }),
-  currentPath: '',
-  setCurrentPath: action((state, path) => {
-    state.currentPath = path
+
+  docs: "",
+  setDocs: action((state, payload) => {
+    state.docs = payload
   }),
-  selectDoc: thunk(async (actions, { slug, path }, { getState }) => {
-    const dockey = `${slug}_${path}`
+
+  selectPath: thunk(async (actions, path, { getState, getStoreState, getStoreActions }) => {
+    actions.expandByPath(path)
     actions.setCurrentPath(path)
-    if (getState().docs[dockey]) return
+    actions.setQueryIndex(0)
+    getStoreActions().search.setQuery("")
+
+    const { metas } = getState()
+    const { currentKey } = getStoreState().searchKeys
 
     try {
-      const meta = getState().metas.find(m => m.slug === slug)
+      const meta = metas.find((m) => m.slug === currentKey.devdocs)
       if (!meta) {
-        throw new Error('meta null')
+        throw new Error("meta null")
       }
       actions.setDocLoading(true)
-      const doc = await ky.get(`${process.env.REACT_APP_DOC_HOST}/${slug}/${path.split('#')[0]}.html?${meta.mtime}`).text()
-      if (doc !== null) {
-        actions.setDocs({ slug, path, doc })
-      }
+      const html = await ky
+        .get(`${process.env.REACT_APP_DOC_HOST}/${currentKey.devdocs}/${path.split("#")[0]}.html?${meta.mtime}`)
+        .text()
+      actions.setDocs(html)
     } catch (err) {
-      console.error('devdocsModel.selectDoc', err)
+      console.error("devdocsModel.selectDoc", err)
     }
     actions.setDocLoading(false)
   }),

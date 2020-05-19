@@ -61,3 +61,23 @@
     }
   }
 }
+
+.searchItems {
+  padding-bottom: 10px;
+  a.item {
+    display: block;
+    padding: 5px 10px 5px 38px;
+    @include ms-respond(font-size, 1);
+    &.selected {
+      background-color: $white-terer;
+    }
+    .typename {
+      color: $grey2;
+      margin-right: 5px;
+    }
+    :global(.highlight) {
+      font-weight: 700;
+      // color: $black-bis;
+    }
+  }
+}
