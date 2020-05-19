@@ -1,6 +1,4 @@
 import dayjs from "dayjs"
-import ky from "ky"
-import Fuse from "fuse.js"
 
 export const HumanDateParse = (date): string => {
   return dayjs(date).format("M月d日 HH:mm")
@@ -66,6 +64,7 @@ export const winSearchParams = (params: {
       searchParams.delete("repos")
     }
   }
+
   history.pushState(null, "", `${location.pathname}${[...searchParams].length ? `?${searchParams.toString()}` : ""}`)
 }
 
