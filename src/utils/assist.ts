@@ -1,5 +1,6 @@
 import dayjs from "dayjs"
 import ky from "ky"
+import Fuse from "fuse.js"
 
 export const HumanDateParse = (date): string => {
   return dayjs(date).format("M月d日 HH:mm")
@@ -72,6 +73,7 @@ export const transRelationHref = (href: string | null, currentPath: string): str
   if (href && !href.startsWith("http") && !href.startsWith("/?") && !href.startsWith("#")) {
     const hrefs = currentPath.split("/")
     if (href.startsWith("../")) {
+      // 只支持一层 ../ 路径
       hrefs[hrefs.length - 2] = href.replace("../", "")
       hrefs.pop()
     } else {

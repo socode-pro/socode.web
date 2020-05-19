@@ -53,7 +53,7 @@
   border-radius: 6px;
   padding: 0 16px;
   position: sticky;
-  top: -1px;
+  top: -6px;
   z-index: 10;
   .input {
     @include ms-respond(font-size, 2);
