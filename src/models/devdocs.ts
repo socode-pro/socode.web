@@ -228,6 +228,8 @@ const devdocsModel: DevdocsModel = {
   }),
 
   selectPath: thunk(async (actions, path, { getState, getStoreState, getStoreActions }) => {
+    if (path === getState().currentPath) return
+
     actions.expandByPath(path)
     actions.setCurrentPath(path)
     actions.setQueryIndex(0)
