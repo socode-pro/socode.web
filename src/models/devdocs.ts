@@ -231,6 +231,7 @@ const devdocsModel: DevdocsModel = {
     actions.expandByPath(path)
     actions.setCurrentPath(path)
     actions.setQueryIndex(0)
+    actions.setDocs("")
     getStoreActions().search.setQuery("")
 
     const { metas } = getState()

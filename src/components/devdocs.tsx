@@ -61,19 +61,18 @@ const Devdocs: React.FC = (): JSX.Element => {
   }, [popstateSelect])
 
   useEffect(() => {
-    if (!docs) return
+    if (!docs || !docContainer.current) return
 
     if (currentPath.includes("#")) {
-      const anchor = document.getElementById(currentPath.split("#")[1])
+      const anchorId = currentPath.split("#").slice(-1).pop()
+      const anchor = document.getElementById(anchorId || currentPath)
       if (anchor) {
         anchor.scrollIntoView()
-        if (docContainer.current) {
-          docContainer.current.scrollTop -= 220
-        }
+        docContainer.current.scrollTop -= 220
       }
     }
 
-    const atags = document.querySelectorAll(".devdocs_main a[href]")
+    const atags = docContainer.current.querySelectorAll("a[href]")
     atags.forEach((tag) => {
       const href = tag.getAttribute("href")
       const nhref = transRelationHref(href, currentPath)
@@ -180,7 +179,7 @@ const Devdocs: React.FC = (): JSX.Element => {
           </div>
           <div className={cs("column")} ref={docContainer}>
             {docLoading && <Loader1 type={1} />}
-            {docs && <div className={cs("devdocs_main", "_page", "pd10")} dangerouslySetInnerHTML={{ __html: docs }} />}
+            {docs && <Markup content={docs} attributes={{ className: "_page pd10" }} />}
           </div>
         </div>
       )}
