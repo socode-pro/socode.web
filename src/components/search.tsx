@@ -59,7 +59,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const keys = useStoreState<Array<SKey>>((state) => state.searchKeys.keys)
   const pinKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.pinKeys)
-  const filtedKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.filtedKeys)
+  const computedKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.computedKeys)
   const searchedKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.searchedKeys)
 
   const kquery = useStoreState<string>((state) => state.searchKeys.kquery)
@@ -155,7 +155,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         debounceSuggeste(e.target.value)
       }
     },
-    [debounceSuggeste, displayKeys, setKquery, setSquery]
+    [debounceSuggeste, debounceSuggeste?.cancel, displayKeys, setKquery, setSquery]
   )
 
   const clearResultAll = useCallback(() => {
@@ -540,14 +540,13 @@ const SearchInput: React.FC = (): JSX.Element => {
           <div className={cs(css.searchInput)}>
             <span className={css.sep}>$</span>
             {!displayKeys && (
-              <span
-                className={cs(css.prefix, { [css.displayKeys]: displayKeys })}
-                onClick={() => setDisplayKeys(!displayKeys)}>
-                {currentKey.name}
+              <span className={cs(css.prefix, { [css.displayKeys]: displayKeys })}>
+                <span className={css.name} onClick={() => setDisplayKeys(!displayKeys)}>
+                  {currentKey.name}
+                </span>
                 {currentKey.devdocs && (
                   <span
                     onClick={(e) => {
-                      e.stopPropagation()
                       setSearchModels({ code: currentKey.code, model: SearchModel.Devdocs })
                     }}
                     className={cs(css.model, "fa-devdocs", {
@@ -558,7 +557,6 @@ const SearchInput: React.FC = (): JSX.Element => {
                 {currentKey.docsearch && (
                   <span
                     onClick={(e) => {
-                      e.stopPropagation()
                       setSearchModels({ code: currentKey.code, model: SearchModel.Algolia })
                     }}
                     className={cs(css.model, "fa-algolia", {
@@ -569,7 +567,6 @@ const SearchInput: React.FC = (): JSX.Element => {
                 {currentKey.awesome && (
                   <span
                     onClick={(e) => {
-                      e.stopPropagation()
                       setSearchModels({ code: currentKey.code, model: SearchModel.Awesome })
                     }}
                     className={cs(css.model, "fa-cubes", {
@@ -833,27 +830,27 @@ const SearchInput: React.FC = (): JSX.Element => {
                     </div>
                   )}
                   <div ref={searchTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.Search))}
+                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Search))}
                     <div className={css.kdesc}>{searchIntl}</div>
                   </div>
                   <div ref={toolsTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.Tools))}
+                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Tools))}
                     <div className={css.kdesc}>{toolsIntl}</div>
                   </div>
                   <div ref={collectionTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.Collection))}
+                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Collection))}
                     <div className={css.kdesc}>{collectionIntl}</div>
                   </div>
                   <div ref={cheatSheetsTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.CheatSheets))}
+                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.CheatSheets))}
                     <div className={css.kdesc}>{cheatSheetsIntl}</div>
                   </div>
                   <div ref={learnTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.Learn))}
+                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Learn))}
                     <div className={css.kdesc}>{learnIntl}</div>
                   </div>
                   <div ref={documentTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.Document))}
+                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Document))}
                     <div className={css.kdesc}>{documentIntl}</div>
                   </div>
                 </>

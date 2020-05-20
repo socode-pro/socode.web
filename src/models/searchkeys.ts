@@ -23,7 +23,7 @@ export interface SearchKeysModel {
   removePin: Action<SearchKeysModel, string>
   pinKeys: Computed<SearchKeysModel, Array<SKey>>
 
-  filtedKeys: Computed<SearchKeysModel, Array<SKey>, StoreModel>
+  computedKeys: Computed<SearchKeysModel, Array<SKey>, StoreModel>
   searchedKeys: Computed<SearchKeysModel, Array<SKey>>
 
   currentKey: SKey
@@ -70,27 +70,30 @@ const searchKeysModel: SearchKeysModel = {
   }),
   pinKeys: computed((state) => state.keys.filter((k) => state.pins.includes(k.code))),
 
-  filtedKeys: computed(
+  computedKeys: computed(
     [
       (state) => state.keys,
+      (state) => state.pins,
       (state, storeState) => storeState.storage.settings.language,
       (state, storeState) => storeState.storage.ousideFirewall,
     ],
-    (keys, language, ousideFirewall) => {
-      return keys
-        .filter((key) => {
-          if (key.availableLang) {
-            return key.availableLang === language
-          }
-          if (key.disableLang) {
-            return key.disableLang !== language
-          }
-          if (key.firewalled && !ousideFirewall) {
-            return false
-          }
-          return true
-        })
-        .sort((a) => (a.usage ? -1 : 0))
+    (keys, pins, language, ousideFirewall) => {
+      const computedKeys = keys.filter((key) => {
+        if (key.availableLang) {
+          return key.availableLang === language
+        }
+        if (key.disableLang) {
+          return key.disableLang !== language
+        }
+        if (key.firewalled && !ousideFirewall) {
+          return false
+        }
+        return true
+      })
+      computedKeys.forEach((k) => {
+        k.pin = pins.includes(k.code)
+      })
+      return computedKeys.sort((a) => (a.usage ? -1 : 0))
     }
   ),
 
