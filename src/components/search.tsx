@@ -7,6 +7,7 @@ import algoliasearch from "algoliasearch"
 import autocomplete from "autocomplete.js"
 import cs from "classnames"
 import Highlighter from "react-highlight-words"
+import { Markup } from "interweave"
 import Brand from "./brand"
 import CheatSheets from "./cheatsheets"
 import Rework from "./rework"
@@ -54,7 +55,6 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [focus, setFocus] = useState(true)
   const [suggeste, setSuggeste] = useState<{ words: Array<SuggestItem>; key: string } | null>(null)
   const [suggesteIndex, setSuggesteIndex] = useState(-1)
-  const [keyIndex, setKeyIndex] = useState(-1)
   const [tabIndex, setTabIndex] = useState(0)
 
   const keys = useStoreState<Array<SKey>>((state) => state.searchKeys.keys)
@@ -70,6 +70,8 @@ const SearchInput: React.FC = (): JSX.Element => {
   const removePin = useStoreActions((actions) => actions.searchKeys.removePin)
   const displayKeys = useStoreState<boolean>((state) => state.searchKeys.displayKeys)
   const setDisplayKeys = useStoreActions((actions) => actions.searchKeys.setDisplayKeys)
+  const keyIndex = useStoreState<number>((state) => state.searchKeys.keyIndex)
+  const setKeyIndex = useStoreActions((actions) => actions.searchKeys.setKeyIndex)
 
   const expandWidthView = useStoreState<boolean>((state) => state.search.expandWidthView)
   const squery = useStoreState<string>((state) => state.search.query)
@@ -189,16 +191,19 @@ const SearchInput: React.FC = (): JSX.Element => {
     "down",
     () => {
       if (displayKeys && kquery) {
-        if (searchedKeys.length > keyIndex + 1) {
+        if (searchedKeys.length - 1 >= keyIndex + 1) {
           setKeyIndex(keyIndex + 1)
         } else {
           setKeyIndex(0)
         }
-      } else if (suggeste && suggeste.words.length > suggesteIndex + 1) {
+        return false
+      }
+      if (suggeste && suggeste.words.length > suggesteIndex + 1) {
         setSuggesteIndex(suggesteIndex + 1)
         setSquery(suggeste.words[suggesteIndex + 1].name) // warn: suggesteIndex must '-1' when autocomplate arr init
+        return false
       }
-      return false
+      return true
     },
     [suggesteIndex, suggeste, displayKeys, keyIndex, searchedKeys],
     [css.input]
@@ -208,16 +213,17 @@ const SearchInput: React.FC = (): JSX.Element => {
     "up",
     () => {
       if (displayKeys && kquery) {
-        if (searchedKeys.length >= keyIndex + 1 && keyIndex > 0) {
+        if (searchedKeys.length && keyIndex > 0) {
           setKeyIndex(keyIndex - 1)
-        } else {
-          setKeyIndex(0)
         }
-      } else if (suggeste && suggesteIndex > 0) {
+        return false
+      }
+      if (suggeste && suggesteIndex > 0) {
         setSuggesteIndex(suggesteIndex - 1)
         setSquery(suggeste.words[suggesteIndex - 1].name)
+        return false
       }
-      return false
+      return true
     },
     [suggesteIndex, suggeste, displayKeys, keyIndex, searchedKeys],
     [css.input]
@@ -326,7 +332,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       setKeyIndex(-1)
       setTimeout(() => focusInput(key), 200)
     },
-    [clearResultAll, focusInput, setCurrentKey, setDisplayKeys, setKquery, setSquery]
+    [clearResultAll, focusInput, setCurrentKey, setDisplayKeys, setKeyIndex, setKquery, setSquery]
   )
 
   const handlerSearch = useCallback(
@@ -367,7 +373,9 @@ const SearchInput: React.FC = (): JSX.Element => {
         return (
           <div
             key={key.code}
-            className={cs(css.skeybox, "has-tooltip-multiline has-tooltip-warning", { [css.index]: keyIndex === i })}
+            className={cs(css.skeybox, "has-tooltip-multiline has-tooltip-warning", {
+              [css.index]: kquery && keyIndex === i,
+            })}
             {...tooltipProps}
             onClick={() => changeKey(key)}>
             <div className={css.skey}>
@@ -399,7 +407,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         )
       })
     },
-    [language, keyIndex, changeKey, removePin, addPin]
+    [language, kquery, keyIndex, changeKey, removePin, addPin]
   )
 
   useHotkeys(
@@ -687,7 +695,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                               key={s.name}
                               onClick={() => suggesteClick(s.name, `https://www.npmjs.com/package/${s.name}`)}
                               className={cs("dropdown-item", css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
-                              <a dangerouslySetInnerHTML={{ __html: s.highlight || "" }} />
+                              <Markup content={s.highlight || ""} tagName="a" />
                               <span className={css.publisher}>{s.publisher}</span>
                               <span className={css.version}>{s.version}</span>
                               <p>{s.description}</p>
@@ -700,7 +708,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                               key={s.name}
                               onClick={() => suggesteClick(s.name, `https://bundlephobia.com/result?p=${s.name}`)}
                               className={cs("dropdown-item", css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
-                              <a dangerouslySetInnerHTML={{ __html: s.highlight || "" }} />
+                              <Markup content={s.highlight || ""} tagName="a" />
                               <span className={css.publisher}>{s.publisher}</span>
                               <span className={css.version}>{s.version}</span>
                               <p>{s.description}</p>

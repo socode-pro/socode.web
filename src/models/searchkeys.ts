@@ -1,4 +1,4 @@
-import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy"
+import { Action, action, Thunk, thunk, Computed, computed, ActionOn, actionOn } from "easy-peasy"
 import without from "lodash/without"
 import ky from "ky"
 import Fuse from "fuse.js"
@@ -32,6 +32,10 @@ export interface SearchKeysModel {
 
   displayKeys: boolean
   setDisplayKeys: Action<SearchKeysModel, boolean>
+
+  keyIndex: number
+  setKeyIndex: Action<SearchKeysModel, number>
+  onKQueryChange: ActionOn<SearchKeysModel, StoreModel>
 }
 
 const searchKeysModel: SearchKeysModel = {
@@ -101,6 +105,7 @@ const searchKeysModel: SearchKeysModel = {
 
   currentKey: SKeys.find((k) => k.code === "github") || SKeys[0],
   setCurrentKey: action((state, payload) => {
+    state.keyIndex = 0
     state.currentKey = payload
     localStorage.setItem("currentKey", payload.code)
   }),
@@ -127,6 +132,17 @@ const searchKeysModel: SearchKeysModel = {
     state.displayKeys = payload
     localStorage.setItem("displayKeys", payload.toString())
   }),
+
+  keyIndex: 0,
+  setKeyIndex: action((state, payload) => {
+    state.keyIndex = payload
+  }),
+  onKQueryChange: actionOn(
+    (actions) => actions.setKquery,
+    (state) => {
+      state.keyIndex = 0
+    }
+  ),
 }
 
 export default searchKeysModel
