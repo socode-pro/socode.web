@@ -87,7 +87,6 @@
     @include ms-respond(font-size, 1);
     display: block;
     user-select: none;
-    padding: 2px 8px;
     margin-right: 8px;
     border-radius: 3px;
     color: rgba($dh-mute, 0.5);
@@ -108,8 +107,17 @@
       box-shadow: 0 1px 1px rgba($dh-text, 0.25);
     }
 
+    span.name {
+      display: inline-block;
+      line-height: 32px;
+      padding: 0 3px 0 8px;
+    }
     span.model {
-      margin-left: 5px;
+      padding: 0 3px;
+      line-height: 32px;
+      &:last-child {
+        padding-right: 8px;
+      }
       &.active {
         color: $primary;
       }
