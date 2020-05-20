@@ -3,6 +3,7 @@ import ky from "ky"
 import Fuse from "fuse.js"
 import groupBy from "lodash/groupBy"
 import set from "lodash/set"
+import { winSearchParams } from "../utils/assist"
 import { StoreModel } from "./index"
 
 const fuseOptions: Fuse.IFuseOptions<DevDocEntrie> = {
@@ -230,6 +231,7 @@ const devdocsModel: DevdocsModel = {
   selectPath: thunk(async (actions, path, { getState, getStoreState, getStoreActions }) => {
     if (path === getState().currentPath) return
 
+    winSearchParams({ devdocs: path })
     actions.expandByPath(path)
     actions.setCurrentPath(path)
     actions.setQueryIndex(0)

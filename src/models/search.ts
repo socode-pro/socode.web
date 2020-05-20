@@ -186,7 +186,11 @@ const searchModel: SearchModel = {
   search: thunk(async (actions, payload, { injections, getState, getStoreState }) => {
     const { query, timeRange, searchLanguage, pageno } = getState()
     const { currentKey } = getStoreState().searchKeys
-    winSearchParams({ query })
+
+    if ((new URLSearchParams(window.location.search).get("q") || "") !== query) {
+      winSearchParams({ query })
+    }
+
     if (!query || IsUnSearchableKey(currentKey)) {
       actions.clearResult()
       return
