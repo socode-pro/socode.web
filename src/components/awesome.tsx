@@ -3,7 +3,7 @@ import cs from "classnames"
 import marked from "marked"
 import Fuse from "fuse.js"
 import { Markup } from "interweave"
-import { transRelationHref } from "../utils/assist"
+import { isRelationHref, transRelationHref } from "../utils/assist"
 import { useStoreActions, useStoreState } from "../utils/hooks"
 import css from "./awesome.module.scss"
 import Loader from "./loader/loader1"
@@ -45,8 +45,6 @@ interface Props {
 
 const Awesome: React.FC<Props> = ({ name, awesome, query }: Props): JSX.Element => {
   const [markup, setMarkup] = useState<string | null>(null)
-  const [querying, setQuerying] = useState<boolean>(false)
-
   const loading = useStoreState<boolean>((state) => state.awesome.loading)
   const markdown = useStoreState<string>((state) => state.awesome.markdown)
   const getMarkdown = useStoreActions((actions) => actions.awesome.getMarkdown)
@@ -67,21 +65,20 @@ const Awesome: React.FC<Props> = ({ name, awesome, query }: Props): JSX.Element 
 
     body.querySelectorAll("a[href]").forEach((tag) => {
       const href = tag.getAttribute("href")
-      const nPath = transRelationHref(href, "/README.md")
-      if (nPath) {
-        tag.setAttribute("href", `https://github.com/${awesome}/raw/master/${nPath}`)
+      if (href && isRelationHref(href)) {
+        const nHref = transRelationHref(href, "/README.md")
+        tag.setAttribute("href", `https://github.com/${awesome}/raw/master/${nHref}`)
       }
     })
 
     body.querySelectorAll("img[src]").forEach((tag) => {
       const href = tag.getAttribute("src")
-      const nPath = transRelationHref(href, "/README.md")
-      if (nPath) {
-        tag.setAttribute("src", `https://github.com/${awesome}/raw/master/${nPath}`)
+      if (href && isRelationHref(href)) {
+        const nHref = transRelationHref(href, "/README.md")
+        tag.setAttribute("src", `https://github.com/${awesome}/raw/master/${nHref}`)
       }
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [markup])
+  }, [awesome, markup])
 
   useEffect(() => {
     const body = document.querySelector(".markdown-body")
@@ -103,7 +100,6 @@ const Awesome: React.FC<Props> = ({ name, awesome, query }: Props): JSX.Element 
         changeTag(tag, "block")
       })
     }
-    setQuerying(!!query)
   }, [query])
 
   if (loading) {

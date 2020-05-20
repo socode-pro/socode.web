@@ -3,7 +3,7 @@ import cs from "classnames"
 import marked from "marked"
 import Fuse from "fuse.js"
 import { Markup } from "interweave"
-import { transRelationHref } from "../utils/assist"
+import { isRelationHref, transRelationHref } from "../utils/assist"
 import { useStoreActions, useStoreState } from "../utils/hooks"
 import Language from "../utils/language"
 import css from "./readme.module.scss"
@@ -73,7 +73,6 @@ const changeTags = (base: string, body: Element, tags: NodeListOf<HTMLElement>, 
 const Readme: React.FC<Props> = ({ base, paths, query }: Props): JSX.Element => {
   const [markup, setMarkup] = useState<string | null>(null)
   const [path, setPath] = useState<string>("")
-  const [querying, setQuerying] = useState<boolean>(false)
 
   const docLanguage = useStoreState<Language>((state) => state.search.docLanguage)
   const setDocLanguage = useStoreActions((actions) => actions.search.setDocLanguage)
@@ -103,21 +102,20 @@ const Readme: React.FC<Props> = ({ base, paths, query }: Props): JSX.Element => 
 
     body.querySelectorAll("a[href]").forEach((tag) => {
       const href = tag.getAttribute("href")
-      const nPath = transRelationHref(href, path)
-      if (nPath) {
-        tag.setAttribute("href", `https://github.com/${base}/raw/master/${nPath}`)
+      if (href && isRelationHref(href)) {
+        const nHref = transRelationHref(href, path)
+        tag.setAttribute("href", `https://github.com/${base}/raw/master/${nHref}`)
       }
     })
 
     body.querySelectorAll("img[src]").forEach((tag) => {
       const href = tag.getAttribute("src")
-      const nPath = transRelationHref(href, path)
-      if (nPath) {
-        tag.setAttribute("src", `https://github.com/${base}/raw/master/${nPath}`)
+      if (href && isRelationHref(href)) {
+        const nHref = transRelationHref(href, path)
+        tag.setAttribute("src", `https://github.com/${base}/raw/master/${nHref}`)
       }
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [markup])
+  }, [base, markup, path])
 
   useEffect(() => {
     const body = document.querySelector(".markdown-body")
@@ -142,7 +140,6 @@ const Readme: React.FC<Props> = ({ base, paths, query }: Props): JSX.Element => 
     } else {
       changeTags(base, body, tags, "")
     }
-    setQuerying(!!query)
   }, [base, query])
 
   if (loading) {
