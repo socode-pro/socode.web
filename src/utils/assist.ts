@@ -68,20 +68,22 @@ export const winSearchParams = (params: {
   history.pushState(null, "", `${location.pathname}${[...searchParams].length ? `?${searchParams.toString()}` : ""}`)
 }
 
-export const transRelationHref = (href: string | null, currentPath: string): string => {
-  if (href && !href.startsWith("http") && !href.startsWith("/?") && !href.startsWith("#")) {
-    const hrefs = currentPath.split("/")
-    if (href.startsWith("../")) {
-      // 只支持一层 ../ 路径
-      hrefs[hrefs.length - 2] = href.replace("../", "")
-      hrefs.pop()
-    } else {
-      hrefs[hrefs.length - 1] = href
-    }
-    const nhref = hrefs.join("/")
-    return nhref
+export const isRelationHref = (href: string): boolean =>
+  !href.startsWith("http") && !href.startsWith("/?") && !href.startsWith("#")
+
+export const transRelationHref = (href: string, currentPath: string): string => {
+  if (isRelationHref(href)) {
+    const currentPaths = currentPath.split("/")
+    const relationPaths = href.split("../")
+    const relationDeep = relationPaths.length - 1 // '../' 层级
+    const targetPath = relationPaths[relationPaths.length - 1].replace("./", "")
+    currentPaths[currentPaths.length - 1 - relationDeep] = targetPath // 根据 '../' 在正确的层级赋值 targetPath
+    Array.from(Array(relationDeep).keys()).forEach(() => {
+      currentPaths.pop() // 弹出多余 Path
+    })
+    return currentPaths.join("/")
   }
-  return ""
+  return href
 }
 
 export const isChrome =

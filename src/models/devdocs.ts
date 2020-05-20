@@ -205,15 +205,16 @@ const devdocsModel: DevdocsModel = {
     state.expandings[type] = !state.expandings[type]
   }),
   cleanExpandings: action((state) => {
-    for (const type in state.expandings) {
-      if ({}.hasOwnProperty.call(state.expandings, type)) {
-        state.expandings[type] = false
-      }
+    for (const [key] of Object.entries(state.expandings)) {
+      state.expandings[key] = false
     }
   }),
   expandByPath: action((state, path) => {
     const item = state.indexs.find((i) => i.path === path)
     if (item) {
+      for (const [key] of Object.entries(state.expandings)) {
+        state.expandings[key] = false
+      }
       state.expandings[item.type] = true
     }
   }),

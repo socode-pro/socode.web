@@ -3,7 +3,7 @@ import cs from "classnames"
 import { Markup } from "interweave"
 import { useStoreActions, useStoreState } from "../utils/hooks"
 import { DevDocEntrie } from "../models/devdocs"
-import { transRelationHref } from "../utils/assist"
+import { isRelationHref, transRelationHref } from "../utils/assist"
 import useHotkeys from "../utils/useHotkeys"
 import Loader1 from "./loader/loader1"
 import css from "./devdocs.module.scss"
@@ -67,8 +67,8 @@ const Devdocs: React.FC = (): JSX.Element => {
     const atags = docContainer.current.querySelectorAll("a[href]")
     atags.forEach((tag) => {
       const href = tag.getAttribute("href")
-      const nhref = transRelationHref(href, currentPath)
-      if (nhref) {
+      if (href && isRelationHref(href)) {
+        const nhref = transRelationHref(href, currentPath)
         const searchParams = new URLSearchParams(window.location.search)
         searchParams.set("devdocs", nhref)
         tag.setAttribute("href", `/?${searchParams.toString()}`)

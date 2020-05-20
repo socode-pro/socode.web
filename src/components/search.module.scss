@@ -369,17 +369,17 @@
   }
 }
 
-// a.kicon,
-// i.kicon {
-//   @include ms-respond(font-size, 1);
-//   color: $grey-light;
-//   margin-right: 8px;
-//   cursor: pointer;
-//   &:hover,
-//   &.active {
-//     color: $primary;
-//   }
-// }
+a.kicon,
+i.kicon {
+  @include ms-respond(font-size, 1);
+  color: $grey-light;
+  margin-right: 5px;
+  cursor: pointer;
+  &:hover,
+  &.active {
+    color: $primary;
+  }
+}
 
 .searchResult {
   padding: 0 20px;
