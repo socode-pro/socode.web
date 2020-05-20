@@ -533,11 +533,7 @@ const SearchInput: React.FC = (): JSX.Element => {
     <>
       <div className={cs("container", { [css.expendWidth]: expandWidthView })}>
         {!expandView && <Brand />}
-        <animated.div
-          className={cs(css.searchWapper, { [css.focus]: focus })}
-          style={{
-            top: spring.wapperTop,
-          }}>
+        <animated.div className={cs(css.searchWapper, { [css.focus]: focus })} style={{ top: spring.wapperTop }}>
           <div className={cs(css.searchInput)}>
             <span className={css.sep}>$</span>
             {!displayKeys && (
