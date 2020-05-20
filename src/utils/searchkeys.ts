@@ -880,6 +880,7 @@ const SKeys: SKey[] = [
       width: 140,
     },
     bylang: true,
+    firewalled: true,
     homelink: "https://developers.google.com",
     template: "https://developers.google.com/s/results?q=%s&hl=%l",
   },
