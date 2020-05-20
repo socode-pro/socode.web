@@ -317,6 +317,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       autocompleteOptions: {
         tabAutocomplete: false,
         hint: false,
+        autoselect: true,
       },
       debug: false,
       ...customConfig,
