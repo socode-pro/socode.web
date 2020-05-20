@@ -9,6 +9,7 @@ export enum SearchModel {
   Devdocs,
   Algolia,
   Awesome,
+  Template,
 }
 
 export enum DarkMode {
@@ -103,7 +104,10 @@ const storageModel: StorageModel = {
       if (currentKey.devdocs) {
         return SearchModel.Devdocs
       }
-      return SearchModel.Algolia
+      if (currentKey.docsearch) {
+        return SearchModel.Algolia
+      }
+      return SearchModel.Template
     }
   ),
 
