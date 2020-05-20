@@ -107,6 +107,16 @@
       background: rgba($dh-mute, 0.5);
       box-shadow: 0 1px 1px rgba($dh-text, 0.25);
     }
+
+    span.model {
+      margin-left: 5px;
+      &.active {
+        color: $primary;
+      }
+      &:hover {
+        color: $black-ter;
+      }
+    }
   }
 
   & > .sep {
@@ -288,17 +298,17 @@
       }
     }
 
-    a.kicon,
-    i.kicon {
-      display: none;
-    }
+    // a.kicon,
+    // i.kicon {
+    //   display: none;
+    // }
 
     &:hover,
     &.index {
       background-color: $white-duck;
-      i.thumbtack,
-      a.kicon,
-      i.kicon {
+      // a.kicon,
+      // i.kicon,
+      i.thumbtack {
         display: inline-block;
       }
       .shortkeys {
@@ -351,17 +361,17 @@
   }
 }
 
-a.kicon,
-i.kicon {
-  @include ms-respond(font-size, 1);
-  color: $grey-light;
-  margin-right: 8px;
-  cursor: pointer;
-  &:hover,
-  &.active {
-    color: $primary;
-  }
-}
+// a.kicon,
+// i.kicon {
+//   @include ms-respond(font-size, 1);
+//   color: $grey-light;
+//   margin-right: 8px;
+//   cursor: pointer;
+//   &:hover,
+//   &.active {
+//     color: $primary;
+//   }
+// }
 
 .searchResult {
   padding: 0 20px;
