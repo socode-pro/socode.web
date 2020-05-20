@@ -3,7 +3,7 @@ import cs from "classnames"
 import { Markup } from "interweave"
 import { useStoreActions, useStoreState } from "../utils/hooks"
 import { DevDocEntrie } from "../models/devdocs"
-import { winSearchParams, transRelationHref } from "../utils/assist"
+import { transRelationHref } from "../utils/assist"
 import useHotkeys from "../utils/useHotkeys"
 import Loader1 from "./loader/loader1"
 import css from "./devdocs.module.scss"
@@ -44,14 +44,6 @@ const Devdocs: React.FC = (): JSX.Element => {
     }
     initial()
   }, [loadIndex, popstateSelect])
-
-  const selectDocCallback = useCallback(
-    (path) => {
-      winSearchParams({ devdocs: path })
-      selectPath(path)
-    },
-    [selectPath]
-  )
 
   useEffect(() => {
     window.addEventListener("popstate", popstateSelect)
@@ -118,7 +110,7 @@ const Devdocs: React.FC = (): JSX.Element => {
     "enter",
     () => {
       if (queryItems.length) {
-        selectDocCallback(queryItems[queryIndex].path)
+        selectPath(queryItems[queryIndex].path)
         return false
       }
       return true
@@ -140,7 +132,7 @@ const Devdocs: React.FC = (): JSX.Element => {
               <a
                 className={cs(css.item, { [css.selected]: i === queryIndex })}
                 key={item.path}
-                onClick={() => selectDocCallback(item.path)}>
+                onClick={() => selectPath(item.path)}>
                 <Markup tagName="span" attributes={{ className: css.typename }} content={`${item.type}:`} />
                 <Markup tagName="span" content={item.name} />
               </a>
@@ -166,7 +158,7 @@ const Devdocs: React.FC = (): JSX.Element => {
                           <a
                             title={item.name}
                             className={cs(css.item, { [css.current]: currentPath === item.path })}
-                            onClick={() => selectDocCallback(item.path)}>
+                            onClick={() => selectPath(item.path)}>
                             {item.name}
                           </a>
                         </li>
