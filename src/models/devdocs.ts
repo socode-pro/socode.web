@@ -155,7 +155,7 @@ const devdocsModel: DevdocsModel = {
         await actions.initialMetas()
         meta = getState().metas.find((m) => m.slug === currentKey.devdocs)
         if (!meta) {
-          throw new Error("meta null")
+          throw new Error("loadIndex meta null")
         }
       }
 
@@ -178,8 +178,10 @@ const devdocsModel: DevdocsModel = {
   onCurrentKeyChange: thunkOn(
     (actions, storeActions) => storeActions.searchKeys.setCurrentKey,
     (actions, target) => {
-      actions.loadIndex()
-      actions.setDocs("")
+      if (target.payload.devdocs) {
+        actions.loadIndex()
+        actions.setDocs("")
+      }
     }
   ),
 
@@ -245,7 +247,7 @@ const devdocsModel: DevdocsModel = {
     try {
       const meta = metas.find((m) => m.slug === currentKey.devdocs)
       if (!meta) {
-        throw new Error("meta null")
+        throw new Error("selectPath meta null")
       }
       actions.setDocLoading(true)
       const html = await ky
