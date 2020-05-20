@@ -1,8 +1,16 @@
-import { Action, action, Thunk, thunk } from "easy-peasy"
+import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy"
 import ky from "ky"
 import dayjs from "dayjs"
+import { StoreModel } from "./index"
 import { InterfaceLanguage, ProgramLanguage } from "../utils/language"
 import { warn } from "../utils/toast"
+
+export enum SearchModel {
+  Devdocs,
+  Algolia,
+  Awesome,
+  Template,
+}
 
 export enum DarkMode {
   light,
@@ -52,6 +60,10 @@ export interface StorageModel {
   programLanguage: ProgramLanguage
   setProgramLanguage: Action<StorageModel, ProgramLanguage>
 
+  searchModels: { [key: string]: SearchModel }
+  setSearchModels: Action<StorageModel, { code: string; model: SearchModel }>
+  searchModel: Computed<StorageModel, SearchModel, StoreModel>
+
   githubToken: string
   setGithubToken: Action<StorageModel, string>
 
@@ -77,6 +89,27 @@ const storageModel: StorageModel = {
     state.programLanguage = payload
     localStorage.setItem("programLanguage", payload.toString())
   }),
+
+  searchModels: JSON.parse(localStorage.getItem("searchModels") || "{}"),
+  setSearchModels: action((state, { code, model }) => {
+    state.searchModels = { ...state.searchModels, [code]: model }
+    localStorage.setItem("searchModels", JSON.stringify(state.searchModels))
+  }),
+  searchModel: computed(
+    [(state) => state.searchModels, (state, storeState) => storeState.searchKeys.currentKey],
+    (searchModels, currentKey) => {
+      if ({}.hasOwnProperty.call(searchModels, currentKey.code)) {
+        return searchModels[currentKey.code]
+      }
+      if (currentKey.devdocs) {
+        return SearchModel.Devdocs
+      }
+      if (currentKey.docsearch) {
+        return SearchModel.Algolia
+      }
+      return SearchModel.Template
+    }
+  ),
 
   githubToken: localStorage.getItem("githubToken") || "",
   setGithubToken: action((state, payload) => {
