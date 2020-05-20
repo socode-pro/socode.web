@@ -6,7 +6,7 @@ import docsearch from "docsearch.js"
 import algoliasearch from "algoliasearch"
 import autocomplete from "autocomplete.js"
 import cs from "classnames"
-import Highlighter from "react-highlight-words"
+// import Highlighter from "react-highlight-words"
 import { Markup } from "interweave"
 import Brand from "./brand"
 import CheatSheets from "./cheatsheets"
@@ -893,7 +893,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
           {error !== null && <div className={css.error}>{error instanceof String ? error : error.message}</div>}
 
-          {result !== null && (
+          {/* {result !== null && (
             <div className={css.searchResult}>
               {result.results.map((r) => (
                 <div key={r.url} className={css.result}>
@@ -938,7 +938,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
               {result.results.length === 0 && <div className={css.notFound} />}
             </div>
-          )}
+          )} */}
 
           {npmResult !== null && (
             <div className={css.searchResult}>
