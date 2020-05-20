@@ -94,6 +94,7 @@
     box-shadow: 0 1px 1px rgba($dh-mute, 0.25);
     cursor: pointer;
     font-family: $font-mono;
+    padding-right: 5px;
     &:hover {
       background: rgba($dh-body, 0.8);
       box-shadow: 0 1px 1px rgba($dh-mute, 0.4);
@@ -115,9 +116,6 @@
     span.model {
       padding: 0 3px;
       line-height: 32px;
-      &:last-child {
-        padding-right: 8px;
-      }
       &.active {
         color: $primary;
       }
