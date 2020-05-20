@@ -6,58 +6,81 @@
   background-color: $white;
   & > :global(.column) {
     overflow-y: auto;
+    padding: 0;
   }
 }
 
 .typegroup {
   // font-family: $font-mono;
   .typename {
-    padding: 2px 0;
     @include ms-respond(font-size, 1);
     cursor: pointer;
     &:hover {
       background-color: $white-duck;
     }
-  }
-  i.icon {
-    margin: 0 10px;
-    transition: transform 0.25s ease;
+    display: flex;
+    align-items: center;
+    i.icon {
+      margin: 0 8px;
+      transition: transform 0.25s ease;
+      color: $grey-lighter;
+    }
   }
   ul.childrens {
     display: none;
     li {
       position: relative;
-      height: 23px; // Caused a.item overflow: hidden
+      height: 22.4px; // Caused a.item overflow: hidden
       &:hover {
-        a.item:not(.current) {
-          background-color: $white-duck;
-        }
+        background-color: $white-duck;
       }
     }
     a.item {
+      color: $grey-dark;
       display: inline-block;
-      margin-left: 21px;
-      padding: 0 6px;
-      border-radius: 2px;
+      padding-left: 19px;
       @include stretched-link();
 
       max-width: 100%;
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
+      border-left: 6px solid transparent;
       &.current {
-        background-color: $primary;
-        color: $white;
+        color: $primary;
+        border-color: $primary;
       }
     }
   }
 
   &.expanding {
+    color: $primary;
     i.icon {
+      color: $primary;
       transform: rotate(90deg);
     }
     .childrens {
       display: block;
+    }
+  }
+}
+
+.searchItems {
+  padding-bottom: 10px;
+  a.item {
+    display: block;
+    padding: 5px 10px 5px 38px;
+    @include ms-respond(font-size, 1);
+    &.selected {
+      background-color: $white-terer;
+    }
+    .typename {
+      color: $grey2;
+      margin-right: 5px;
+    }
+    :global(.highlight) {
+      font-weight: 700;
+      // color: $black-bis;
     }
   }
 }

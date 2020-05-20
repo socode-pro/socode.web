@@ -1,36 +1,37 @@
-import React, { useEffect, useState } from 'react'
-import { useStoreActions, useStoreState } from './utils/hooks'
-import { InterfaceLanguage } from './utils/language'
-import { SettingsType } from './models/storage'
-import Brand from './components/brand'
-import './Privacy.scss'
+import React, { useEffect, useState } from "react"
+import { Markup } from "interweave"
+import { useStoreActions, useStoreState } from "./utils/hooks"
+import { InterfaceLanguage } from "./utils/language"
+import { SettingsType } from "./models/storage"
+import Brand from "./components/brand"
+import "./Privacy.scss"
 
 export enum Words {
-  PrivacyPolicy = 'Privacy Policy',
+  PrivacyPolicy = "Privacy Policy",
   PrivacyPolicySlogon = "We don't collect or share personal information. That's our privacy policy in a nutshell.",
-  PrivacyPolicyST = 'About Search',
+  PrivacyPolicyST = "About Search",
   PrivacyPolicySS = '<a href="https://socode.pro/?k=socode">socode search</a> is a privacy-respecting, hackable google search by <a href="https://github.com/asciimoo/searx">searx</a>. convenient for users who do not have access to google.com (such as Chinese users).',
-  PrivacyPolicyS0 = 'Compared to using google.com. There are these differences in privacy protection:',
-  PrivacyPolicyS1 = 'No private data will be sent to the google server.',
-  PrivacyPolicyS2 = 'Do not forward any content from third-party services through advertising.',
+  PrivacyPolicyS0 = "Compared to using google.com. There are these differences in privacy protection:",
+  PrivacyPolicyS1 = "No private data will be sent to the google server.",
+  PrivacyPolicyS2 = "Do not forward any content from third-party services through advertising.",
   PrivacyPolicyS3 = "The process of clicking to enter the target page no longer collects data through the google redirect service. (it's also faster😄)",
 }
 
 const useIntl = (words: Words): string => {
-  const [content, setContent] = useState('')
-  const { language } = useStoreState<SettingsType>(state => state.storage.settings)
+  const [content, setContent] = useState("")
+  const { language } = useStoreState<SettingsType>((state) => state.storage.settings)
 
   useEffect(() => {
     if (language === InterfaceLanguage.中文) {
       switch (words) {
         case Words.PrivacyPolicy:
-          setContent('隐私政策')
+          setContent("隐私政策")
           break
         case Words.PrivacyPolicySlogon:
-          setContent('我们不收集或共享个人信息。简而言之，这就是我们的隐私政策。')
+          setContent("我们不收集或共享个人信息。简而言之，这就是我们的隐私政策。")
           break
         case Words.PrivacyPolicyST:
-          setContent('关于socode搜索')
+          setContent("关于socode搜索")
           break
         case Words.PrivacyPolicySS:
           setContent(
@@ -38,16 +39,16 @@ const useIntl = (words: Words): string => {
           )
           break
         case Words.PrivacyPolicyS0:
-          setContent('相比于使用google.com。在隐私保护方面有这些区别：')
+          setContent("相比于使用google.com。在隐私保护方面有这些区别：")
           break
         case Words.PrivacyPolicyS1:
-          setContent('不会有任何私人数据发送给google服务器。')
+          setContent("不会有任何私人数据发送给google服务器。")
           break
         case Words.PrivacyPolicyS2:
-          setContent('不通过广告转发来自第三方服务的任何内容。')
+          setContent("不通过广告转发来自第三方服务的任何内容。")
           break
         case Words.PrivacyPolicyS3:
-          setContent('点击进入目标页的过程不再经过google重定向服务收集数据。（这样速度也更快😄）')
+          setContent("点击进入目标页的过程不再经过google重定向服务收集数据。（这样速度也更快😄）")
           break
         default:
           break
@@ -62,17 +63,17 @@ const useIntl = (words: Words): string => {
 
 const Privacy: React.FC = () => {
   return (
-    <div className='container'>
+    <div className="container">
       <Brand />
-      <h1 className='title mgt40'>{useIntl(Words.PrivacyPolicy)}</h1>
-      <p className='subtitle'>{useIntl(Words.PrivacyPolicySlogon)}</p>
+      <h1 className="title mgt40">{useIntl(Words.PrivacyPolicy)}</h1>
+      <p className="subtitle">{useIntl(Words.PrivacyPolicySlogon)}</p>
 
-      <h3 className='title is-4 mgt40'>{useIntl(Words.PrivacyPolicyST)}</h3>
-      <p className='subtitle' dangerouslySetInnerHTML={{ __html: useIntl(Words.PrivacyPolicySS) }} />
+      <h3 className="title is-4 mgt40">{useIntl(Words.PrivacyPolicyST)}</h3>
+      <Markup content={useIntl(Words.PrivacyPolicySS)} tagName="p" attributes={{ className: "subtitle" }} />
 
       <p>{useIntl(Words.PrivacyPolicyS0)}</p>
-      <div className='content mgl20'>
-        <ol type='1'>
+      <div className="content mgl20">
+        <ol type="1">
           <li>{useIntl(Words.PrivacyPolicyS1)}</li>
           <li>{useIntl(Words.PrivacyPolicyS2)}</li>
           <li>{useIntl(Words.PrivacyPolicyS3)}</li>

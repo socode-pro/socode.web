@@ -1,11 +1,12 @@
-import { Action, action, Computed, computed, Thunk, thunk, ActionOn, actionOn } from 'easy-peasy'
-import ky from 'ky'
-import Stacks, { Stack, StackType } from '../utils/historystacks'
-import { generateUuid, winSearchParams } from '../utils/assist'
-import { Injections } from '../store'
-import { StoreModel } from './index'
-import { Repository } from '../services/stars.service'
-import { error, warn } from '../utils/toast'
+import { Action, action, Computed, computed, Thunk, thunk, ActionOn, actionOn } from "easy-peasy"
+import ky from "ky"
+import Stacks, { Stack, StackType } from "../utils/historystacks"
+import { winSearchParams } from "../utils/assist"
+import { generateUuid } from "../utils/keygen"
+import { Injections } from "../store"
+import { StoreModel } from "./index"
+import { Repository } from "../services/stars.service"
+import { error, warn } from "../utils/toast"
 
 export enum DisplayType {
   Backend,
@@ -53,7 +54,7 @@ export interface StarsModel {
 }
 
 const defaultPresetStacks = (): Array<Stack> => {
-  const hiddenStacks = JSON.parse(localStorage.getItem('hidden_stacks') || '[]')
+  const hiddenStacks = JSON.parse(localStorage.getItem("hidden_stacks") || "[]")
   Stacks.forEach((s) => {
     s.hidden = hiddenStacks.includes(s.id)
   })
@@ -61,10 +62,10 @@ const defaultPresetStacks = (): Array<Stack> => {
 }
 
 const starsModel: StarsModel = {
-  displayType: JSON.parse(localStorage.getItem('displayType') || '0'),
+  displayType: JSON.parse(localStorage.getItem("displayType") || "0"),
   setDisplayType: action((state, payload) => {
     state.displayType = payload
-    localStorage.setItem('displayType', payload.toString())
+    localStorage.setItem("displayType", payload.toString())
   }),
 
   presetStacks: defaultPresetStacks(),
@@ -75,7 +76,7 @@ const starsModel: StarsModel = {
     try {
       const stacks = await ky.get(`${process.env.REACT_APP_KEYS_HOST}/historystacks.json`).json<Array<Stack>>()
       if (stacks !== null) {
-        const hiddenStacks = JSON.parse(localStorage.getItem('hidden_stacks') || '[]')
+        const hiddenStacks = JSON.parse(localStorage.getItem("hidden_stacks") || "[]")
         stacks.forEach((s) => {
           s.hidden = hiddenStacks.includes(s.id)
         })
@@ -96,10 +97,10 @@ const starsModel: StarsModel = {
     if (!stack) return
     stack.hidden = true
 
-    const hiddenStacks = JSON.parse(localStorage.getItem('hidden_stacks') || '[]')
+    const hiddenStacks = JSON.parse(localStorage.getItem("hidden_stacks") || "[]")
     if (!hiddenStacks.includes(name)) {
       hiddenStacks.push(name)
-      localStorage.setItem('hidden_stacks', JSON.stringify(hiddenStacks))
+      localStorage.setItem("hidden_stacks", JSON.stringify(hiddenStacks))
     }
   }),
   removeHiddenStack: action((state, name) => {
@@ -107,14 +108,14 @@ const starsModel: StarsModel = {
     if (!stack) return
     stack.hidden = false
 
-    let hiddenStacks = JSON.parse(localStorage.getItem('hidden_stacks') || '[]')
+    let hiddenStacks = JSON.parse(localStorage.getItem("hidden_stacks") || "[]")
     if (hiddenStacks.includes(name)) {
       hiddenStacks = hiddenStacks.filter((e) => e !== name)
-      localStorage.setItem('hidden_stacks', JSON.stringify(hiddenStacks))
+      localStorage.setItem("hidden_stacks", JSON.stringify(hiddenStacks))
     }
   }),
 
-  privateStacks: JSON.parse(localStorage.getItem('private_stacks') || '[]'),
+  privateStacks: JSON.parse(localStorage.getItem("private_stacks") || "[]"),
   addPrivateStack: action((state, { name, repos = [] }) => {
     const stack: Stack = {
       id: generateUuid(),
@@ -148,7 +149,7 @@ const starsModel: StarsModel = {
         }
       }
     } catch (err) {
-      if (err.message.startsWith('Unfortunately')) {
+      if (err.message.startsWith("Unfortunately")) {
         warn(err.message)
       } else {
         error(err.message)
@@ -175,7 +176,7 @@ const starsModel: StarsModel = {
       actions.removePrivateStackRepo,
     ],
     (state, target) => {
-      localStorage.setItem('private_stacks', JSON.stringify(state.privateStacks))
+      localStorage.setItem("private_stacks", JSON.stringify(state.privateStacks))
     }
   ),
 
@@ -185,17 +186,17 @@ const starsModel: StarsModel = {
   }),
   initialCurrentStack: thunk(async (actions, payload, { getState }) => {
     const searchParams = new URLSearchParams(window.location.search)
-    const stackid = searchParams.get('stack')
+    const stackid = searchParams.get("stack")
     let stack = getState().displayStacks.find((s) => s.id === stackid)
     if (stack) {
       actions.setDisplayType((stack.type as unknown) as DisplayType)
       actions.selectStack(stack)
     } else {
-      const repos = (searchParams.get('repos') || '').split(',')
+      const repos = (searchParams.get("repos") || "").split(",")
       if (repos.length && repos[0]) {
         actions.setDisplayType(DisplayType.Private)
-        actions.addPrivateStack({ name: 'querystring', repos })
-        stack = getState().privateStacks.find((s) => s.name === 'querystring')
+        actions.addPrivateStack({ name: "querystring", repos })
+        stack = getState().privateStacks.find((s) => s.name === "querystring")
         if (stack) {
           actions.selectStack(stack)
         }
@@ -222,9 +223,9 @@ const starsModel: StarsModel = {
     actions.setLoading(true)
     const { region, githubToken } = getStoreState().storage
     if (stack.type === StackType.Private) {
-      winSearchParams({ keyname: 'github_stars', stack: stack.id, repos: stack.repos.toString() })
+      winSearchParams({ keyname: "github_stars", stack: stack.id, repos: stack.repos.toString() })
     } else {
-      winSearchParams({ keyname: 'github_stars', stack: stack.id, repos: '' })
+      winSearchParams({ keyname: "github_stars", stack: stack.id, repos: "" })
     }
 
     await Promise.all(
@@ -238,7 +239,7 @@ const starsModel: StarsModel = {
             }
           }
         } catch (err) {
-          if (err.message.startsWith('Unfortunately')) {
+          if (err.message.startsWith("Unfortunately")) {
             warn(err.message)
           } else {
             error(err.message)

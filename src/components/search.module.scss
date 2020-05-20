@@ -29,7 +29,7 @@
   justify-content: center;
   background: #fff;
   position: sticky;
-  top: 63px;
+  top: 58px;
   z-index: 10;
   border-bottom: solid 1px $white-ter;
   a {
@@ -53,7 +53,7 @@
   border-radius: 6px;
   padding: 0 16px;
   position: sticky;
-  top: -1px;
+  top: -6px;
   z-index: 10;
   .input {
     @include ms-respond(font-size, 2);
@@ -87,7 +87,6 @@
     @include ms-respond(font-size, 1);
     display: block;
     user-select: none;
-    padding: 2px 8px;
     margin-right: 8px;
     border-radius: 3px;
     color: rgba($dh-mute, 0.5);
@@ -106,6 +105,25 @@
       color: $white;
       background: rgba($dh-mute, 0.5);
       box-shadow: 0 1px 1px rgba($dh-text, 0.25);
+    }
+
+    span.name {
+      display: inline-block;
+      line-height: 32px;
+      padding: 0 3px 0 8px;
+    }
+    span.model {
+      padding: 0 3px;
+      line-height: 32px;
+      &:last-child {
+        padding-right: 8px;
+      }
+      &.active {
+        color: $primary;
+      }
+      &:hover {
+        color: $black-ter;
+      }
     }
   }
 
@@ -288,17 +306,17 @@
       }
     }
 
-    a.kicon,
-    i.kicon {
-      display: none;
-    }
+    // a.kicon,
+    // i.kicon {
+    //   display: none;
+    // }
 
     &:hover,
     &.index {
       background-color: $white-duck;
-      i.thumbtack,
-      a.kicon,
-      i.kicon {
+      // a.kicon,
+      // i.kicon,
+      i.thumbtack {
         display: inline-block;
       }
       .shortkeys {
@@ -355,7 +373,7 @@ a.kicon,
 i.kicon {
   @include ms-respond(font-size, 1);
   color: $grey-light;
-  margin-right: 8px;
+  margin-right: 5px;
   cursor: pointer;
   &:hover,
   &.active {

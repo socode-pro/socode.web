@@ -1,4 +1,5 @@
 import Language, { InterfaceLanguage } from "./language"
+import { SearchModel } from "../models/storage"
 
 export enum SKeyCategory {
   Search = 1,
@@ -63,15 +64,21 @@ export const IsUnSearchableKey = (key: SKey): boolean =>
   key.code === "editor" ||
   key.code === "encode"
 
-export const KeyPlaceholder = (key: SKey, awesomeOrDevdoc: boolean): string => {
-  if (key.awesome && awesomeOrDevdoc) {
+export const KeyPlaceholder = (key: SKey, model: SearchModel): string => {
+  if (key.awesome && model === SearchModel.Awesome) {
     return "awesome search..."
   }
-  if (key.devdocs) {
+  if (key.devdocs && model === SearchModel.Devdocs) {
     return "menu search..."
+  }
+  if (key.docsearch && model === SearchModel.Algolia) {
+    return "algolia document search..."
   }
   if (key.readmes) {
     return key.readmes.searched ? "content search..." : "no search"
+  }
+  if (key.code === "qrcode") {
+    return "input url"
   }
   // if (key.code === "password" || key.code === "encode") {
   //   return "no search"
@@ -162,7 +169,7 @@ const SKeys: SKey[] = [
     code: "awesome_mac",
     name: "Awesome Mac",
     category: SKeyCategory.Collection,
-    shortkeys: "am",
+    shortkeys: "mac",
     icon: "apple.svg",
     homelink: "https://github.com/jaywcjlove/awesome-mac",
     tooltips: "Collect premium mac software in various categories",
@@ -873,6 +880,7 @@ const SKeys: SKey[] = [
       width: 140,
     },
     bylang: true,
+    firewalled: true,
     homelink: "https://developers.google.com",
     template: "https://developers.google.com/s/results?q=%s&hl=%l",
   },

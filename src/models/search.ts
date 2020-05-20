@@ -77,8 +77,9 @@ export interface SearchModel {
   docLanguage: Language
   setDocLanguage: Action<SearchModel, Language>
 
-  onCurrentKey: ActionOn<SearchModel, StoreModel>
   onInitialCurrentKey: ThunkOn<SearchModel, void, StoreModel>
+  onCurrentKey: ActionOn<SearchModel, StoreModel>
+  onDisplayKeys: ActionOn<SearchModel, StoreModel>
 }
 
 const searchModel: SearchModel = {
@@ -185,7 +186,11 @@ const searchModel: SearchModel = {
   search: thunk(async (actions, payload, { injections, getState, getStoreState }) => {
     const { query, timeRange, searchLanguage, pageno } = getState()
     const { currentKey } = getStoreState().searchKeys
-    winSearchParams({ query })
+
+    if ((new URLSearchParams(window.location.search).get("q") || "") !== query) {
+      winSearchParams({ query })
+    }
+
     if (!query || IsUnSearchableKey(currentKey)) {
       actions.clearResult()
       return
@@ -260,6 +265,16 @@ const searchModel: SearchModel = {
     localStorage.setItem("docLanguage", payload)
   }),
 
+  onInitialCurrentKey: thunkOn(
+    (actions, storeActions) => storeActions.searchKeys.initialCurrentKey,
+    (actions, target) => {
+      const params = new URLSearchParams(window.location.search)
+      if (params.has("q")) {
+        actions.search()
+      }
+    }
+  ),
+
   onCurrentKey: actionOn(
     (actions, storeActions) => storeActions.searchKeys.setCurrentKey,
     (state, target) => {
@@ -272,12 +287,11 @@ const searchModel: SearchModel = {
     }
   ),
 
-  onInitialCurrentKey: thunkOn(
-    (actions, storeActions) => storeActions.searchKeys.initialCurrentKey,
-    (actions, target) => {
-      const params = new URLSearchParams(window.location.search)
-      if (params.has("q")) {
-        actions.search()
+  onDisplayKeys: actionOn(
+    (actions, storeActions) => storeActions.searchKeys.setDisplayKeys,
+    (state, target) => {
+      if (target.payload) {
+        state.expandWidthView = false
       }
     }
   ),

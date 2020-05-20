@@ -1,4 +1,4 @@
-import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy"
+import { Action, action, Thunk, thunk, Computed, computed, ActionOn, actionOn } from "easy-peasy"
 import without from "lodash/without"
 import ky from "ky"
 import Fuse from "fuse.js"
@@ -23,7 +23,7 @@ export interface SearchKeysModel {
   removePin: Action<SearchKeysModel, string>
   pinKeys: Computed<SearchKeysModel, Array<SKey>>
 
-  filtedKeys: Computed<SearchKeysModel, Array<SKey>, StoreModel>
+  computedKeys: Computed<SearchKeysModel, Array<SKey>, StoreModel>
   searchedKeys: Computed<SearchKeysModel, Array<SKey>>
 
   currentKey: SKey
@@ -32,6 +32,10 @@ export interface SearchKeysModel {
 
   displayKeys: boolean
   setDisplayKeys: Action<SearchKeysModel, boolean>
+
+  keyIndex: number
+  setKeyIndex: Action<SearchKeysModel, number>
+  onKQueryChange: ActionOn<SearchKeysModel, StoreModel>
 }
 
 const searchKeysModel: SearchKeysModel = {
@@ -66,27 +70,30 @@ const searchKeysModel: SearchKeysModel = {
   }),
   pinKeys: computed((state) => state.keys.filter((k) => state.pins.includes(k.code))),
 
-  filtedKeys: computed(
+  computedKeys: computed(
     [
       (state) => state.keys,
+      (state) => state.pins,
       (state, storeState) => storeState.storage.settings.language,
       (state, storeState) => storeState.storage.ousideFirewall,
     ],
-    (keys, language, ousideFirewall) => {
-      return keys
-        .filter((key) => {
-          if (key.availableLang) {
-            return key.availableLang === language
-          }
-          if (key.disableLang) {
-            return key.disableLang !== language
-          }
-          if (key.firewalled && !ousideFirewall) {
-            return false
-          }
-          return true
-        })
-        .sort((a) => (a.usage ? -1 : 0))
+    (keys, pins, language, ousideFirewall) => {
+      const computedKeys = keys.filter((key) => {
+        if (key.availableLang) {
+          return key.availableLang === language
+        }
+        if (key.disableLang) {
+          return key.disableLang !== language
+        }
+        if (key.firewalled && !ousideFirewall) {
+          return false
+        }
+        return true
+      })
+      computedKeys.forEach((k) => {
+        k.pin = pins.includes(k.code)
+      })
+      return computedKeys.sort((a) => (a.usage ? -1 : 0))
     }
   ),
 
@@ -101,6 +108,7 @@ const searchKeysModel: SearchKeysModel = {
 
   currentKey: SKeys.find((k) => k.code === "github") || SKeys[0],
   setCurrentKey: action((state, payload) => {
+    state.keyIndex = 0
     state.currentKey = payload
     localStorage.setItem("currentKey", payload.code)
   }),
@@ -127,6 +135,17 @@ const searchKeysModel: SearchKeysModel = {
     state.displayKeys = payload
     localStorage.setItem("displayKeys", payload.toString())
   }),
+
+  keyIndex: 0,
+  setKeyIndex: action((state, payload) => {
+    state.keyIndex = payload
+  }),
+  onKQueryChange: actionOn(
+    (actions) => actions.setKquery,
+    (state) => {
+      state.keyIndex = 0
+    }
+  ),
 }
 
 export default searchKeysModel

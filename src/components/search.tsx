@@ -7,6 +7,7 @@ import algoliasearch from "algoliasearch"
 import autocomplete from "autocomplete.js"
 import cs from "classnames"
 import Highlighter from "react-highlight-words"
+import { Markup } from "interweave"
 import Brand from "./brand"
 import CheatSheets from "./cheatsheets"
 import Rework from "./rework"
@@ -26,7 +27,7 @@ import { StringEnumObjects, IntEnumObjects, winSearchParams, isFirefox, isInStan
 import { useStoreActions, useStoreState } from "../utils/hooks"
 import { SearchTimeRange, SocodeResult } from "../services/socode.service"
 import { NpmsResult } from "../services/npms.service"
-import { SettingsType } from "../models/storage"
+import { SettingsType, SearchModel } from "../models/storage"
 import { SMError } from "../models/search"
 import { Suggester, SuggestItem } from "../services/suggest.service"
 import css from "./search.module.scss"
@@ -54,12 +55,11 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [focus, setFocus] = useState(true)
   const [suggeste, setSuggeste] = useState<{ words: Array<SuggestItem>; key: string } | null>(null)
   const [suggesteIndex, setSuggesteIndex] = useState(-1)
-  const [keyIndex, setKeyIndex] = useState(-1)
   const [tabIndex, setTabIndex] = useState(0)
 
   const keys = useStoreState<Array<SKey>>((state) => state.searchKeys.keys)
   const pinKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.pinKeys)
-  const filtedKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.filtedKeys)
+  const computedKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.computedKeys)
   const searchedKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.searchedKeys)
 
   const kquery = useStoreState<string>((state) => state.searchKeys.kquery)
@@ -70,7 +70,10 @@ const SearchInput: React.FC = (): JSX.Element => {
   const removePin = useStoreActions((actions) => actions.searchKeys.removePin)
   const displayKeys = useStoreState<boolean>((state) => state.searchKeys.displayKeys)
   const setDisplayKeys = useStoreActions((actions) => actions.searchKeys.setDisplayKeys)
+  const keyIndex = useStoreState<number>((state) => state.searchKeys.keyIndex)
+  const setKeyIndex = useStoreActions((actions) => actions.searchKeys.setKeyIndex)
 
+  const expandView = useStoreState<boolean>((state) => state.search.expandView)
   const expandWidthView = useStoreState<boolean>((state) => state.search.expandWidthView)
   const squery = useStoreState<string>((state) => state.search.query)
   const setSquery = useStoreActions((actions) => actions.search.setQuery)
@@ -87,7 +90,8 @@ const SearchInput: React.FC = (): JSX.Element => {
   const programLanguage = useStoreState<ProgramLanguage>((state) => state.storage.programLanguage)
   const setProgramLanguage = useStoreActions((actions) => actions.storage.setProgramLanguage)
   const { language, displayTrending } = useStoreState<SettingsType>((state) => state.storage.settings)
-  const [awesomeOrDevdoc, setAwesomeOrDevdoc] = useState<boolean>(false)
+  const searchModel = useStoreState<SearchModel>((state) => state.storage.searchModel)
+  const setSearchModels = useStoreActions((actions) => actions.storage.setSearchModels)
 
   const searchIntl = useSKeyCategoryIntl(SKeyCategory.Search)
   const toolsIntl = useSKeyCategoryIntl(SKeyCategory.Tools)
@@ -151,7 +155,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         debounceSuggeste(e.target.value)
       }
     },
-    [debounceSuggeste, displayKeys, setKquery, setSquery]
+    [debounceSuggeste, debounceSuggeste?.cancel, displayKeys, setKquery, setSquery]
   )
 
   const clearResultAll = useCallback(() => {
@@ -189,16 +193,19 @@ const SearchInput: React.FC = (): JSX.Element => {
     "down",
     () => {
       if (displayKeys && kquery) {
-        if (searchedKeys.length > keyIndex + 1) {
+        if (searchedKeys.length - 1 >= keyIndex + 1) {
           setKeyIndex(keyIndex + 1)
         } else {
           setKeyIndex(0)
         }
-      } else if (suggeste && suggeste.words.length > suggesteIndex + 1) {
+        return false
+      }
+      if (suggeste && suggeste.words.length > suggesteIndex + 1) {
         setSuggesteIndex(suggesteIndex + 1)
         setSquery(suggeste.words[suggesteIndex + 1].name) // warn: suggesteIndex must '-1' when autocomplate arr init
+        return false
       }
-      return false
+      return true
     },
     [suggesteIndex, suggeste, displayKeys, keyIndex, searchedKeys],
     [css.input]
@@ -208,16 +215,17 @@ const SearchInput: React.FC = (): JSX.Element => {
     "up",
     () => {
       if (displayKeys && kquery) {
-        if (searchedKeys.length >= keyIndex + 1 && keyIndex > 0) {
+        if (searchedKeys.length && keyIndex > 0) {
           setKeyIndex(keyIndex - 1)
-        } else {
-          setKeyIndex(0)
         }
-      } else if (suggeste && suggesteIndex > 0) {
+        return false
+      }
+      if (suggeste && suggesteIndex > 0) {
         setSuggesteIndex(suggesteIndex - 1)
         setSquery(suggeste.words[suggesteIndex - 1].name)
+        return false
       }
-      return false
+      return true
     },
     [suggesteIndex, suggeste, displayKeys, keyIndex, searchedKeys],
     [css.input]
@@ -249,7 +257,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    if (!dsConfig || !docsearchHack) return
+    if (!dsConfig || !docsearchHack || searchModel !== SearchModel.Algolia) return
 
     if (dsConfig.byAutocomplete) {
       const client = algoliasearch(dsConfig.appId, dsConfig.apiKey)
@@ -264,7 +272,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         },
         [
           {
-            source: autocomplete.sources.hits(index, { ...dsConfig.algoliaOptions, hitsPerPage: 5 }),
+            source: autocomplete.sources.hits(index, { ...dsConfig.algoliaOptions, hitsPerPage: 7 }),
             templates: { suggestion: getAutocompleteTemplate(currentKey.code) },
           },
         ]
@@ -309,11 +317,12 @@ const SearchInput: React.FC = (): JSX.Element => {
       autocompleteOptions: {
         tabAutocomplete: false,
         hint: false,
+        autoselect: true,
       },
       debug: false,
       ...customConfig,
     })
-  }, [currentKey.code, docsearchHack, dsConfig])
+  }, [currentKey, docsearchHack, dsConfig, searchModel])
 
   const changeKey = useCallback(
     (key: SKey) => {
@@ -326,7 +335,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       setKeyIndex(-1)
       setTimeout(() => focusInput(key), 200)
     },
-    [clearResultAll, focusInput, setCurrentKey, setDisplayKeys, setKquery, setSquery]
+    [clearResultAll, focusInput, setCurrentKey, setDisplayKeys, setKeyIndex, setKquery, setSquery]
   )
 
   const handlerSearch = useCallback(
@@ -367,7 +376,9 @@ const SearchInput: React.FC = (): JSX.Element => {
         return (
           <div
             key={key.code}
-            className={cs(css.skeybox, "has-tooltip-multiline has-tooltip-warning", { [css.index]: keyIndex === i })}
+            className={cs(css.skeybox, "has-tooltip-multiline has-tooltip-warning", {
+              [css.index]: kquery && keyIndex === i,
+            })}
             {...tooltipProps}
             onClick={() => changeKey(key)}>
             <div className={css.skey}>
@@ -381,8 +392,8 @@ const SearchInput: React.FC = (): JSX.Element => {
               </div>
             </div>
             <div>
-              {key.devdocs && <i onClick={() => setAwesomeOrDevdoc(false)} className={cs("fa-devdocs", css.kicon)} />}
-              {key.awesome && <i onClick={() => setAwesomeOrDevdoc(true)} className={cs("fa-cubes", css.kicon)} />}
+              {/* {key.devdocs && <i onClick={() => setAwesomeOrDevdoc(false)} className={cs("fa-devdocs", css.kicon)} />}
+              {key.awesome && <i onClick={() => setAwesomeOrDevdoc(true)} className={cs("fa-cubes", css.kicon)} />} */}
               <i
                 onClick={(e) => {
                   e.stopPropagation()
@@ -399,7 +410,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         )
       })
     },
-    [language, keyIndex, changeKey, removePin, addPin]
+    [language, kquery, keyIndex, changeKey, removePin, addPin]
   )
 
   useHotkeys(
@@ -521,26 +532,52 @@ const SearchInput: React.FC = (): JSX.Element => {
   return (
     <>
       <div className={cs("container", { [css.expendWidth]: expandWidthView })}>
-        <Brand />
-        <animated.div
-          className={cs(css.searchWapper, { [css.focus]: focus })}
-          style={{
-            top: spring.wapperTop,
-          }}>
+        {!expandView && <Brand />}
+        <animated.div className={cs(css.searchWapper, { [css.focus]: focus })} style={{ top: spring.wapperTop }}>
           <div className={cs(css.searchInput)}>
             <span className={css.sep}>$</span>
             {!displayKeys && (
-              <span
-                className={cs(css.prefix, { [css.displayKeys]: displayKeys })}
-                onClick={() => setDisplayKeys(!displayKeys)}>
-                {currentKey.name}
+              <span className={cs(css.prefix, { [css.displayKeys]: displayKeys })}>
+                <span className={css.name} onClick={() => setDisplayKeys(!displayKeys)}>
+                  {currentKey.name}
+                </span>
+                {currentKey.devdocs && (
+                  <span
+                    onClick={(e) => {
+                      setSearchModels({ code: currentKey.code, model: SearchModel.Devdocs })
+                    }}
+                    className={cs(css.model, "fa-devdocs", {
+                      [css.active]: searchModel === SearchModel.Devdocs,
+                    })}
+                  />
+                )}
+                {currentKey.docsearch && (
+                  <span
+                    onClick={(e) => {
+                      setSearchModels({ code: currentKey.code, model: SearchModel.Algolia })
+                    }}
+                    className={cs(css.model, "fa-algolia", {
+                      [css.active]: searchModel === SearchModel.Algolia,
+                    })}
+                  />
+                )}
+                {currentKey.awesome && (
+                  <span
+                    onClick={(e) => {
+                      setSearchModels({ code: currentKey.code, model: SearchModel.Awesome })
+                    }}
+                    className={cs(css.model, "fa-cubes", {
+                      [css.active]: searchModel === SearchModel.Awesome,
+                    })}
+                  />
+                )}
               </span>
             )}
 
-            {(displayKeys || !currentKey.docsearch) && (
+            {(displayKeys || searchModel !== SearchModel.Algolia) && (
               <input
                 type="search"
-                className={css.input}
+                className={cs(css.input, "main_input")}
                 spellCheck={false}
                 value={displayKeys ? kquery : squery}
                 autoFocus
@@ -552,17 +589,17 @@ const SearchInput: React.FC = (): JSX.Element => {
                   setFocus(true)
                 }}
                 onChange={handleQueryChange}
-                placeholder={displayKeys ? "select resources..." : KeyPlaceholder(currentKey, awesomeOrDevdoc)}
+                placeholder={displayKeys ? "select resources..." : KeyPlaceholder(currentKey, searchModel)}
                 ref={inputEl} // https://stackoverflow.com/a/48656310/346701
                 onKeyPress={isFirefox ? handleQueryKeyPress : () => undefined}
               />
             )}
 
-            {currentKey.docsearch && docsearchHack && (
+            {searchModel === SearchModel.Algolia && docsearchHack && (
               <div key={currentKey.code} className={cs(css.docsearch)}>
                 <input
                   type="search"
-                  placeholder="search..."
+                  placeholder="algolia document search..."
                   className={cs(css.input, { "dis-none": displayKeys })}
                   spellCheck={false}
                   autoFocus
@@ -573,7 +610,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               </div>
             )}
 
-            {!displayKeys && currentKey.docsearch && currentKey.docsearch.length > 1 && (
+            {!displayKeys && searchModel === SearchModel.Algolia && (currentKey.docsearch || []).length > 1 && (
               <div className="select is-rounded mgr10">
                 <select
                   value={docLanguage}
@@ -582,7 +619,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                     setDocLanguage(e.target.value as Language)
                     setTimeout(() => setDocsearchHack(true), 0)
                   }}>
-                  {currentKey.docsearch.map((d) => (
+                  {(currentKey.docsearch || []).map((d) => (
                     <option key={d.lang} value={d.lang}>
                       {Object.keys(Language).filter((e) => Language[e] === d.lang)}
                     </option>
@@ -599,18 +636,6 @@ const SearchInput: React.FC = (): JSX.Element => {
                 aria-label="home"
                 target="_blank"
                 rel="noopener noreferrer"
-              />
-            )}
-            {!displayKeys && currentKey.devdocs && (
-              <i
-                onClick={(e) => setAwesomeOrDevdoc(false)}
-                className={cs("fa-devdocs", css.kicon, { [css.active]: !awesomeOrDevdoc })}
-              />
-            )}
-            {!displayKeys && currentKey.awesome && (
-              <i
-                onClick={(e) => setAwesomeOrDevdoc(true)}
-                className={cs("fa-cubes", css.kicon, { [css.active]: awesomeOrDevdoc })}
               />
             )}
 
@@ -687,7 +712,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                               key={s.name}
                               onClick={() => suggesteClick(s.name, `https://www.npmjs.com/package/${s.name}`)}
                               className={cs("dropdown-item", css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
-                              <a dangerouslySetInnerHTML={{ __html: s.highlight || "" }} />
+                              <Markup content={s.highlight || ""} tagName="a" />
                               <span className={css.publisher}>{s.publisher}</span>
                               <span className={css.version}>{s.version}</span>
                               <p>{s.description}</p>
@@ -700,7 +725,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                               key={s.name}
                               onClick={() => suggesteClick(s.name, `https://bundlephobia.com/result?p=${s.name}`)}
                               className={cs("dropdown-item", css.sgitem, { [css.sgactive]: suggesteIndex === i })}>
-                              <a dangerouslySetInnerHTML={{ __html: s.highlight || "" }} />
+                              <Markup content={s.highlight || ""} tagName="a" />
                               <span className={css.publisher}>{s.publisher}</span>
                               <span className={css.version}>{s.version}</span>
                               <p>{s.description}</p>
@@ -802,27 +827,27 @@ const SearchInput: React.FC = (): JSX.Element => {
                     </div>
                   )}
                   <div ref={searchTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.Search))}
+                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Search))}
                     <div className={css.kdesc}>{searchIntl}</div>
                   </div>
                   <div ref={toolsTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.Tools))}
+                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Tools))}
                     <div className={css.kdesc}>{toolsIntl}</div>
                   </div>
                   <div ref={collectionTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.Collection))}
+                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Collection))}
                     <div className={css.kdesc}>{collectionIntl}</div>
                   </div>
                   <div ref={cheatSheetsTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.CheatSheets))}
+                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.CheatSheets))}
                     <div className={css.kdesc}>{cheatSheetsIntl}</div>
                   </div>
                   <div ref={learnTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.Learn))}
+                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Learn))}
                     <div className={css.kdesc}>{learnIntl}</div>
                   </div>
                   <div ref={documentTabEl} className={cs(css.skgroup)}>
-                    {keysDom(filtedKeys.filter((k) => k.category === SKeyCategory.Document))}
+                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Document))}
                     <div className={css.kdesc}>{documentIntl}</div>
                   </div>
                 </>
@@ -838,10 +863,8 @@ const SearchInput: React.FC = (): JSX.Element => {
               <GithubStars query={squery} />
             </Suspense>
           )}
-          {!displayKeys && !awesomeOrDevdoc && currentKey.devdocs && (
-            <Devdocs slug={currentKey.devdocs} query={squery} />
-          )}
-          {!displayKeys && awesomeOrDevdoc && currentKey.awesome && (
+          {!displayKeys && searchModel === SearchModel.Devdocs && <Devdocs />}
+          {!displayKeys && searchModel === SearchModel.Awesome && currentKey.awesome && (
             <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} query={squery} />
           )}
           {!displayKeys && currentKey.readmes && (

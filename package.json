@@ -41,6 +41,7 @@
     "highcharts": "^8.1.0",
     "hotkeys-js": "^3.8.0",
     "html2canvas": "^1.0.0-rc.5",
+    "interweave": "^12.5.0",
     "ky": "^0.20.0",
     "lodash": "^4.17.15",
     "marked": "^1.1.0",

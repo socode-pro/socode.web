@@ -1,5 +1,4 @@
 import dayjs from "dayjs"
-import ky from "ky"
 
 export const HumanDateParse = (date): string => {
   return dayjs(date).format("M月d日 HH:mm")
@@ -65,32 +64,26 @@ export const winSearchParams = (params: {
       searchParams.delete("repos")
     }
   }
+
   history.pushState(null, "", `${location.pathname}${[...searchParams].length ? `?${searchParams.toString()}` : ""}`)
 }
 
-export const transRelationHref = (href: string | null, currentPath: string): string => {
-  if (href && !href.startsWith("http") && !href.startsWith("/?") && !href.startsWith("#")) {
-    const hrefs = currentPath.split("/")
-    if (href.startsWith("../")) {
-      hrefs[hrefs.length - 2] = href.replace("../", "")
-      hrefs.pop()
-    } else {
-      hrefs[hrefs.length - 1] = href
-    }
-    const nhref = hrefs.join("/")
-    return nhref
+export const isRelationHref = (href: string): boolean =>
+  !href.startsWith("http") && !href.startsWith("/?") && !href.startsWith("#")
+
+export const transRelationHref = (href: string, currentPath: string): string => {
+  if (isRelationHref(href)) {
+    const currentPaths = currentPath.split("/")
+    const relationPaths = href.split("../")
+    const relationDeep = relationPaths.length - 1 // '../' 层级
+    const targetPath = relationPaths[relationPaths.length - 1].replace("./", "")
+    currentPaths[currentPaths.length - 1 - relationDeep] = targetPath // 根据 '../' 在正确的层级赋值 targetPath
+    Array.from(Array(relationDeep).keys()).forEach(() => {
+      currentPaths.pop() // 弹出多余 Path
+    })
+    return currentPaths.join("/")
   }
-  return ""
-}
-
-const generateS4 = (): string => {
-  return Math.floor((1 + Math.random()) * 0x10000)
-    .toString(16)
-    .substring(1)
-}
-
-export const generateUuid = (): string => {
-  return `${generateS4()}${generateS4()}-${generateS4()}-${generateS4()}-${generateS4()}-${generateS4()}${generateS4()}${generateS4()}`
+  return href
 }
 
 export const isChrome =
