@@ -1771,13 +1771,13 @@ const SKeys: SKey[] = [
     homelink: "https://facebook.github.io/react-native",
     awesome: "jondot/awesome-react-native",
     devdocs: "react_native",
-    // docsearch: [
-    //   {
-    //     lang: Language.English,
-    //     apiKey: "2c98749b4a1e588efec53b2acec13025",
-    //     indexName: "react-native-versions",
-    //   },
-    // ],
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: "2c98749b4a1e588efec53b2acec13025",
+        indexName: "react-native-versions",
+      },
+    ],
   },
   {
     code: "react_native_styling",

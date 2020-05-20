@@ -60,7 +60,7 @@ const Devdocs: React.FC = (): JSX.Element => {
       const anchor = document.getElementById(anchorId || currentPath)
       if (anchor) {
         anchor.scrollIntoView()
-        docContainer.current.scrollTop -= 220
+        // docContainer.current.scrollTop -= 220
       }
     }
 
@@ -149,7 +149,7 @@ const Devdocs: React.FC = (): JSX.Element => {
                 <div key={group} className={cs(css.typegroup, { [css.expanding]: expandings[group] })}>
                   <div className={css.typename} onClick={() => toggleExpanding(group)}>
                     <i className={cs("fa-menus", css.icon)} />
-                    {group}
+                    <span>{group}</span>
                   </div>
                   <ul className={css.childrens}>
                     {entries.map((item) => {
