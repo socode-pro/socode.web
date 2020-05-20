@@ -84,16 +84,6 @@ export const transRelationHref = (href: string | null, currentPath: string): str
   return ""
 }
 
-const generateS4 = (): string => {
-  return Math.floor((1 + Math.random()) * 0x10000)
-    .toString(16)
-    .substring(1)
-}
-
-export const generateUuid = (): string => {
-  return `${generateS4()}${generateS4()}-${generateS4()}-${generateS4()}-${generateS4()}-${generateS4()}${generateS4()}${generateS4()}`
-}
-
 export const isChrome =
   !!(window as any).chrome && (!!(window as any).chrome.webstore || !!(window as any).chrome.runtime)
 export const isEdgeChromium = isChrome && navigator.userAgent.indexOf("Edg") !== -1

@@ -2,38 +2,9 @@ import React, { useState, useCallback, useEffect } from "react"
 import ClipboardJS from "clipboard"
 import cs from "classnames"
 import css from "./password.module.scss"
+import KeyGen from "../utils/keygen"
 
 const passwordLengths = Array.from(Array(27).keys()).map((n) => n + 6)
-const lowerCase = "abcdefghijklmnopqrstuvwxyz"
-const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-const numbers = "0123456789"
-const special = "!@#$%^&*()_+~`|}{[]:;?><,./-="
-
-const random = (): number => {
-  const { crypto, Uint32Array } = window
-  if (typeof crypto?.getRandomValues === "function" && typeof Uint32Array === "function") {
-    // Divide a random UInt32 by the maximum value (2^32 -1) to get a result between 0 and 1
-    return crypto.getRandomValues(new Uint32Array(1))[0] / 4294967295
-  }
-
-  return Math.random()
-}
-
-const keyGen = (length, useLowerCase = true, useUpperCase = true, useNumbers = true, useSpecial = true): string => {
-  let chars = ""
-  let key = ""
-
-  if (useLowerCase) chars += lowerCase
-  if (useUpperCase) chars += upperCase
-  if (useNumbers) chars += numbers
-  if (useSpecial) chars += special
-
-  Array.from(Array(length).keys()).forEach(() => {
-    key += chars[Math.floor(random() * chars.length)]
-  })
-
-  return key
-}
 
 const Password: React.FC = (): JSX.Element => {
   const [length, setLength] = useState(8)
@@ -47,7 +18,6 @@ const Password: React.FC = (): JSX.Element => {
   useEffect(() => {
     const clipboard = new ClipboardJS("#password")
     clipboard.on("success", (e) => {
-      console.info("Text:", e.text)
       if (e.text) setTooltips(true)
     })
   }, [])
@@ -65,7 +35,7 @@ const Password: React.FC = (): JSX.Element => {
       setUseUpperCase(_useUpperCase)
       setUseDigits(_useDigits)
       setUseSpecial(_useSpecial)
-      setPassword(keyGen(_length, _useLowerCase, _useUpperCase, _useDigits, _useSpecial))
+      setPassword(KeyGen(_length, _useLowerCase, _useUpperCase, _useDigits, _useSpecial))
       setTooltips(false)
     },
     [length, useDigits, useLowerCase, useSpecial, useUpperCase]
