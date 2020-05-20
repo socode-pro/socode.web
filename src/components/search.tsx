@@ -272,7 +272,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         },
         [
           {
-            source: autocomplete.sources.hits(index, { ...dsConfig.algoliaOptions, hitsPerPage: 5 }),
+            source: autocomplete.sources.hits(index, { ...dsConfig.algoliaOptions, hitsPerPage: 7 }),
             templates: { suggestion: getAutocompleteTemplate(currentKey.code) },
           },
         ]
