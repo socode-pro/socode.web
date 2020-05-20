@@ -1109,7 +1109,7 @@ const SKeys: SKey[] = [
       width: 106,
     },
     homelink: "https://jquery.com/",
-    devdocs: "jquery_core",
+    devdocs: "jquery",
     docsearch: [
       {
         lang: Language.English,
