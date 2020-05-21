@@ -8,6 +8,17 @@ import autocomplete from "autocomplete.js"
 import cs from "classnames"
 // import Highlighter from "react-highlight-words"
 import { Markup } from "interweave"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import {
+  faSearch,
+  faAngleDoubleLeft,
+  faAngleDoubleRight,
+  faCubes,
+  faHome,
+  faThumbtack,
+} from "@fortawesome/free-solid-svg-icons"
+import { faAlgolia } from "@fortawesome/free-brands-svg-icons"
+import { faListAlt } from "@fortawesome/free-regular-svg-icons"
 import Brand from "./brand"
 import CheatSheets from "./cheatsheets"
 import Rework from "./rework"
@@ -394,7 +405,10 @@ const SearchInput: React.FC = (): JSX.Element => {
             <div>
               {/* {key.devdocs && <i onClick={() => setAwesomeOrDevdoc(false)} className={cs("fa-devdocs", css.kicon)} />}
               {key.awesome && <i onClick={() => setAwesomeOrDevdoc(true)} className={cs("fa-cubes", css.kicon)} />} */}
-              <i
+
+              <FontAwesomeIcon
+                icon={faThumbtack}
+                className={cs(css.thumbtack, { [css.usage]: key.pin })}
                 onClick={(e) => {
                   e.stopPropagation()
                   if (key.pin) {
@@ -403,7 +417,6 @@ const SearchInput: React.FC = (): JSX.Element => {
                     addPin(key.code)
                   }
                 }}
-                className={cs("fa-thumbtack", css.thumbtack, { [css.usage]: key.pin })}
               />
             </div>
           </div>
@@ -543,33 +556,36 @@ const SearchInput: React.FC = (): JSX.Element => {
                 </span>
                 {currentKey.devdocs && (
                   <span
-                    onClick={(e) => {
-                      setSearchModels({ code: currentKey.code, model: SearchModel.Devdocs })
-                    }}
-                    className={cs(css.model, "fa-devdocs", {
+                    className={cs(css.model, {
                       [css.active]: searchModel === SearchModel.Devdocs,
                     })}
-                  />
+                    onClick={(e) => {
+                      setSearchModels({ code: currentKey.code, model: SearchModel.Devdocs })
+                    }}>
+                    <FontAwesomeIcon icon={faListAlt} />
+                  </span>
                 )}
                 {currentKey.docsearch && (
                   <span
-                    onClick={(e) => {
-                      setSearchModels({ code: currentKey.code, model: SearchModel.Algolia })
-                    }}
-                    className={cs(css.model, "fa-algolia", {
+                    className={cs(css.model, {
                       [css.active]: searchModel === SearchModel.Algolia,
                     })}
-                  />
+                    onClick={(e) => {
+                      setSearchModels({ code: currentKey.code, model: SearchModel.Algolia })
+                    }}>
+                    <FontAwesomeIcon icon={faAlgolia} />
+                  </span>
                 )}
                 {currentKey.awesome && (
                   <span
-                    onClick={(e) => {
-                      setSearchModels({ code: currentKey.code, model: SearchModel.Awesome })
-                    }}
-                    className={cs(css.model, "fa-cubes", {
+                    className={cs(css.model, {
                       [css.active]: searchModel === SearchModel.Awesome,
                     })}
-                  />
+                    onClick={(e) => {
+                      setSearchModels({ code: currentKey.code, model: SearchModel.Awesome })
+                    }}>
+                    <FontAwesomeIcon icon={faCubes} />
+                  </span>
                 )}
               </span>
             )}
@@ -632,11 +648,12 @@ const SearchInput: React.FC = (): JSX.Element => {
               <a
                 href={currentKey.homelink}
                 onClick={(e) => e.stopPropagation()}
-                className={cs("fa-home", css.kicon)}
+                className={cs(css.kicon)}
                 aria-label="home"
                 target="_blank"
-                rel="noopener noreferrer"
-              />
+                rel="noopener noreferrer">
+                <FontAwesomeIcon icon={faHome} />
+              </a>
             )}
 
             {result !== null && (
@@ -677,7 +694,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             )}
 
             {!displayKeys && !currentKey.docsearch && !currentKey.devdocs && (
-              <i className={cs(css.sicon, "fa-search")} onClick={() => search()} />
+              <FontAwesomeIcon icon={faSearch} onClick={() => search()} className={cs(css.sicon)} />
             )}
           </div>
 
@@ -918,7 +935,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                   <p className="control">
                     <button type="button" className="button is-rounded" onClick={() => prevPage()}>
                       <span className="icon">
-                        <i className="fa-angle-left" />
+                        <FontAwesomeIcon icon={faAngleDoubleLeft} />
                       </span>
                       <span>Previous Page</span>
                     </button>
@@ -929,7 +946,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                     <button type="button" className="button is-rounded" onClick={() => nextPage()}>
                       <span>Next Page</span>
                       <span className="icon">
-                        <i className="fa-angle-right" />
+                        <FontAwesomeIcon icon={faAngleDoubleLeft} />
                       </span>
                     </button>
                   </p>
@@ -966,7 +983,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                   <p className="control">
                     <button type="button" className="button is-rounded" onClick={() => prevPage()}>
                       <span className="icon">
-                        <i className="fa-angle-left" />
+                        <FontAwesomeIcon icon={faAngleDoubleLeft} />
                       </span>
                       <span>Previous Page</span>
                     </button>
@@ -977,7 +994,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                     <button type="button" className="button is-rounded" onClick={() => nextPage()}>
                       <span>Next Page</span>
                       <span className="icon">
-                        <i className="fa-angle-right" />
+                        <FontAwesomeIcon icon={faAngleDoubleRight} />
                       </span>
                     </button>
                   </p>
