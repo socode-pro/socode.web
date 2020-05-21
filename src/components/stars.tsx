@@ -1,22 +1,25 @@
-import React, { useState, useEffect, useCallback, useRef, useMemo, Fragment } from 'react'
-import cs from 'classnames'
-import Fuse from 'fuse.js'
-import html2canvas from 'html2canvas'
-import Highcharts from 'highcharts'
-import Chartkick, { LineChart } from 'react-chartkick'
-import { Stack, StackType } from '../utils/historystacks'
-import { useStoreActions, useStoreState } from '../utils/hooks'
-import { IntEnumObjects } from '../utils/assist'
-import OAuth from './oauth'
-import { DisplayType } from '../models/stars'
-import { Repository } from '../services/stars.service'
-import { InterfaceLanguage } from '../utils/language'
-import css from './stars.module.scss'
-import Loader from './loader/loader1'
-import { ReactComponent as Github } from '../images/github.svg'
+import React, { useState, useEffect, useCallback, useRef, useMemo, Fragment } from "react"
+import cs from "classnames"
+import Fuse from "fuse.js"
+import html2canvas from "html2canvas"
+import Highcharts from "highcharts"
+import Chartkick, { LineChart } from "react-chartkick"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faImage, faWindowClose, faUserCircle } from "@fortawesome/free-regular-svg-icons"
+import { faLayerGroup } from "@fortawesome/free-solid-svg-icons"
+import { Stack, StackType } from "../utils/historystacks"
+import { useStoreActions, useStoreState } from "../utils/hooks"
+import { IntEnumObjects } from "../utils/assist"
+import OAuth from "./oauth"
+import { DisplayType } from "../models/stars"
+import { Repository } from "../services/stars.service"
+import { InterfaceLanguage } from "../utils/language"
+import css from "./stars.module.scss"
+import Loader from "./loader/loader1"
+import { ReactComponent as Github } from "../images/github.svg"
 
 const fuseOptions: Fuse.IFuseOptions<Stack> = {
-  keys: ['name', 'repos'],
+  keys: ["name", "repos"],
   threshold: 0.3,
 }
 
@@ -24,7 +27,7 @@ Chartkick.use(Highcharts)
 
 const highchartsConfig = {
   tooltip: {
-    xDateFormat: '%Y-%m-%d',
+    xDateFormat: "%Y-%m-%d",
   },
   plotOptions: {
     series: {
@@ -70,14 +73,14 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
   const removePrivateStackRepo = useStoreActions((actions) => actions.stars.removePrivateStackRepo)
   const selectStack = useStoreActions((actions) => actions.stars.selectStack)
 
-  const [inputStackName, setInputStackName] = useState<string>('')
-  const [inputRepoName, setInputRepoName] = useState<string>('')
+  const [inputStackName, setInputStackName] = useState<string>("")
+  const [inputRepoName, setInputRepoName] = useState<string>("")
   const [queryStacks, setQueryStacks] = useState(displayStacks)
 
   const chartEl = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    if (query !== '') {
+    if (query !== "") {
       const fuse = new Fuse(displayStacks, fuseOptions)
       const result = fuse.search<Stack>(query).map((r) => r.item)
       setQueryStacks(result)
@@ -90,7 +93,7 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
     (stackid) => {
       if (inputRepoName) {
         addPrivateStackRepoAndData({ stackid, repo: inputRepoName })
-        setInputRepoName('')
+        setInputRepoName("")
       }
     },
     [addPrivateStackRepoAndData, inputRepoName]
@@ -102,27 +105,33 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
         <div className={css.repos}>
           {s.repos.map((repo) => (
             <p key={repo} className={css.repo}>
-              <a href={`https://github.com/${repo}`} target='_blank' rel='noopener noreferrer'>
+              <a href={`https://github.com/${repo}`} target="_blank" rel="noopener noreferrer">
                 {repo}
               </a>
               {s.type === StackType.Private && (
-                <i className='fa-close' onClick={() => removePrivateStackRepo({ stackid: s.id, repo })} />
+                <FontAwesomeIcon
+                  icon={faWindowClose}
+                  onClick={() => {
+                    removePrivateStackRepo({ stackid: s.id, repo })
+                  }}
+                  className={css.faclose}
+                />
               )}
             </p>
           ))}
           {s.type === StackType.Private && (
-            <div className='field has-addons'>
-              <p className='control is-expanded'>
+            <div className="field has-addons">
+              <p className="control is-expanded">
                 <input
-                  className='input is-small'
-                  type='text'
-                  placeholder='username/repositorie'
+                  className="input is-small"
+                  type="text"
+                  placeholder="username/repositorie"
                   value={inputRepoName}
                   onChange={(e) => setInputRepoName(e.target.value)}
                 />
               </p>
-              <p className='control'>
-                <a className='button is-info is-small' onClick={() => submitRepo(s.id)}>
+              <p className="control">
+                <a className="button is-info is-small" onClick={() => submitRepo(s.id)}>
                   Add
                 </a>
               </p>
@@ -137,8 +146,8 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
   const downloadImage = useCallback(() => {
     if (!chartEl.current) return
     html2canvas((chartEl.current as any).element).then((canvas) => {
-      const link = document.createElement('a')
-      link.download = `${currentStack?.name || 'stars'}.png`
+      const link = document.createElement("a")
+      link.download = `${currentStack?.name || "stars"}.png`
       link.href = canvas.toDataURL()
       link.click()
     })
@@ -150,22 +159,22 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
         innerRef={chartEl}
         library={highchartsConfig}
         data={repositorys}
-        height='800px'
-        width='100%'
-        ytitle='Stars'
+        height="800px"
+        width="100%"
+        ytitle="Stars"
       />
     )
   }, [repositorys])
 
   return (
-    <div className={cs('columns', css.history)}>
-      <div className={cs('column', 'is-one-quarter')}>
-        <nav className='panel'>
-          <p className='panel-tabs'>
+    <div className={cs("columns", css.history)}>
+      <div className={cs("column", "is-one-quarter")}>
+        <nav className="panel">
+          <p className="panel-tabs">
             {displayTypeOptions.map((o) => (
               <a
                 key={o.value}
-                className={cs({ 'is-active': displayType === o.value })}
+                className={cs({ "is-active": displayType === o.value })}
                 onClick={() => setDisplayType(o.value)}>
                 {o.label}
               </a>
@@ -174,19 +183,19 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
 
           <div className={css.stacks}>
             {displayType === DisplayType.Private && (
-              <div className='panel-block field has-addons'>
-                <p className='control is-expanded'>
+              <div className="panel-block field has-addons">
+                <p className="control is-expanded">
                   <input
-                    className='input'
-                    type='text'
-                    placeholder='stack name'
+                    className="input"
+                    type="text"
+                    placeholder="stack name"
                     value={inputStackName}
                     onChange={(e) => setInputStackName(e.target.value)}
                   />
                 </p>
-                <p className={cs('control', css.button)}>
+                <p className={cs("control", css.button)}>
                   <a
-                    className='button is-info'
+                    className="button is-info"
                     onClick={() => inputStackName && addPrivateStack({ name: inputStackName })}>
                     Create
                   </a>
@@ -194,24 +203,19 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
               </div>
             )}
 
-            {query !== '' &&
+            {query !== "" &&
               queryStacks.map((s) => (
                 <Fragment key={s.id}>
                   <a
-                    className={cs('panel-block', css.stack, { 'is-active': s.id === currentStack?.id })}
+                    className={cs("panel-block", css.stack, { "is-active": s.id === currentStack?.id })}
                     onClick={() => selectStack(s)}>
-                    <span className='panel-icon'>
-                      <i
-                        className={cs({
-                          'fa-group': s.type !== StackType.Private,
-                          'fa-user': s.type === StackType.Private,
-                        })}
-                        aria-hidden='true'
-                      />
+                    <span className="panel-icon">
+                      {s.type === StackType.Private && <FontAwesomeIcon icon={faUserCircle} aria-hidden="true" />}
+                      {s.type !== StackType.Private && <FontAwesomeIcon icon={faLayerGroup} aria-hidden="true" />}
                     </span>
                     {language === InterfaceLanguage.中文 ? s.nameChinese || s.name : s.name}
-                    <i
-                      className='fa-close'
+                    <FontAwesomeIcon
+                      icon={faWindowClose}
                       onClick={(e) => {
                         e.stopPropagation()
                         if (s.type === StackType.Private) {
@@ -220,30 +224,26 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
                           addHiddenStack(s.id)
                         }
                       }}
+                      className={css.faclose}
                     />
                   </a>
                   {s.id === currentStack?.id && Repositories(s)}
                 </Fragment>
               ))}
-            {query === '' &&
+            {query === "" &&
               displayType === DisplayType.Backend &&
               backStacks.map((s) => (
                 <Fragment key={s.id}>
                   <a
-                    className={cs('panel-block', css.stack, { 'is-active': s.id === currentStack?.id })}
+                    className={cs("panel-block", css.stack, { "is-active": s.id === currentStack?.id })}
                     onClick={() => selectStack(s)}>
-                    <span className='panel-icon'>
-                      <i
-                        className={cs({
-                          'fa-group': s.type !== StackType.Private,
-                          'fa-user': s.type === StackType.Private,
-                        })}
-                        aria-hidden='true'
-                      />
+                    <span className="panel-icon">
+                      {s.type === StackType.Private && <FontAwesomeIcon icon={faUserCircle} aria-hidden="true" />}
+                      {s.type !== StackType.Private && <FontAwesomeIcon icon={faLayerGroup} aria-hidden="true" />}
                     </span>
                     {language === InterfaceLanguage.中文 ? s.nameChinese || s.name : s.name}
-                    <i
-                      className='fa-close'
+                    <FontAwesomeIcon
+                      icon={faWindowClose}
                       onClick={(e) => {
                         e.stopPropagation()
                         if (s.type === StackType.Private) {
@@ -252,30 +252,26 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
                           addHiddenStack(s.id)
                         }
                       }}
+                      className={css.faclose}
                     />
                   </a>
                   {s.id === currentStack?.id && Repositories(s)}
                 </Fragment>
               ))}
-            {query === '' &&
+            {query === "" &&
               displayType === DisplayType.Frontend &&
               frontStacks.map((s) => (
                 <Fragment key={s.id}>
                   <a
-                    className={cs('panel-block', css.stack, { 'is-active': s.id === currentStack?.id })}
+                    className={cs("panel-block", css.stack, { "is-active": s.id === currentStack?.id })}
                     onClick={() => selectStack(s)}>
-                    <span className='panel-icon'>
-                      <i
-                        className={cs({
-                          'fa-group': s.type !== StackType.Private,
-                          'fa-user': s.type === StackType.Private,
-                        })}
-                        aria-hidden='true'
-                      />
+                    <span className="panel-icon">
+                      {s.type === StackType.Private && <FontAwesomeIcon icon={faUserCircle} aria-hidden="true" />}
+                      {s.type !== StackType.Private && <FontAwesomeIcon icon={faLayerGroup} aria-hidden="true" />}
                     </span>
                     {language === InterfaceLanguage.中文 ? s.nameChinese || s.name : s.name}
-                    <i
-                      className='fa-close'
+                    <FontAwesomeIcon
+                      icon={faWindowClose}
                       onClick={(e) => {
                         e.stopPropagation()
                         if (s.type === StackType.Private) {
@@ -284,50 +280,53 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
                           addHiddenStack(s.id)
                         }
                       }}
+                      className={css.faclose}
                     />
                   </a>
                   {s.id === currentStack?.id && Repositories(s)}
                 </Fragment>
               ))}
-            {query === '' &&
+            {query === "" &&
               displayType === DisplayType.Private &&
               privateStacks.map((s) => (
                 <Fragment key={s.id}>
                   <a
-                    className={cs('panel-block', css.stack, { 'is-active': s.id === currentStack?.id })}
+                    className={cs("panel-block", css.stack, { "is-active": s.id === currentStack?.id })}
                     onClick={() => selectStack(s)}>
-                    <span className='panel-icon'>
-                      <i className='fa-user' aria-hidden='true' />
+                    <span className="panel-icon">
+                      <FontAwesomeIcon icon={faUserCircle} aria-hidden="true" />
                     </span>
                     {language === InterfaceLanguage.中文 ? s.nameChinese || s.name : s.name}
-                    <i
-                      className='fa-close'
+                    <FontAwesomeIcon
+                      icon={faWindowClose}
                       onClick={(e) => {
                         e.stopPropagation()
-                        if (window.confirm('Will be deleted!')) removePrivateStack(s.id)
+                        if (window.confirm("Will be deleted!")) removePrivateStack(s.id)
                       }}
+                      className={css.faclose}
                     />
                   </a>
                   {s.id === currentStack?.id && Repositories(s)}
                 </Fragment>
               ))}
-            {query === '' &&
+            {query === "" &&
               displayType === DisplayType.Hidden &&
               hiddenStacks.map((s) => (
                 <Fragment key={s.id}>
                   <a
-                    className={cs('panel-block', css.stack, { 'is-active': s.id === currentStack?.id })}
+                    className={cs("panel-block", css.stack, { "is-active": s.id === currentStack?.id })}
                     onClick={() => selectStack(s)}>
-                    <span className='panel-icon'>
-                      <i className='fa-group' aria-hidden='true' />
+                    <span className="panel-icon">
+                      <FontAwesomeIcon icon={faLayerGroup} aria-hidden="true" />
                     </span>
                     {language === InterfaceLanguage.中文 ? s.nameChinese || s.name : s.name}
-                    <i
-                      className='fa-close'
+                    <FontAwesomeIcon
+                      icon={faWindowClose}
                       onClick={(e) => {
                         e.stopPropagation()
                         removeHiddenStack(s.id)
                       }}
+                      className={css.faclose}
                     />
                   </a>
                   {s.id === currentStack?.id && Repositories(s)}
@@ -336,11 +335,11 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
           </div>
         </nav>
       </div>
-      <div className={cs('column', 'pos-relative')}>
+      <div className={cs("column", "pos-relative")}>
         <div className={css.topbar}>
           {currentStack && (
-            <a className={cs('button', 'is-info', 'is-small', 'mgr10')} onClick={downloadImage}>
-              <i className='fa-image mgr5' />
+            <a className={cs("button", "is-info", "is-small", "mgr10")} onClick={downloadImage}>
+              <FontAwesomeIcon icon={faImage} className="mgr5" />
               Download Image
             </a>
           )}
@@ -356,7 +355,7 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
         {LineChartMemoized}
 
         <div className={cs(css.footer)}>
-          <a href='https://github.com/elliotreborn/github-stars' target='_blank' rel='noopener noreferrer'>
+          <a href="https://github.com/elliotreborn/github-stars" target="_blank" rel="noopener noreferrer">
             <Github className={cs(css.github)} />
           </a>
         </div>

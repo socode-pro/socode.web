@@ -144,15 +144,12 @@
   // }
 
   // Icon
-  & > i.sicon {
+  & > svg.sicon {
     color: rgba($dh-mute, 0.5);
     font-size: 20px;
     flex: 0 0 32px;
     order: 2;
-    align-self: stretch;
-    text-align: center;
-    padding-left: 16px;
-    line-height: 64px;
+    margin-left: 10px;
     cursor: pointer;
   }
 
@@ -291,7 +288,7 @@
       }
     }
 
-    i.thumbtack {
+    svg.thumbtack {
       display: none;
       color: $grey-light;
       position: relative;
@@ -314,7 +311,7 @@
       background-color: $white-duck;
       // a.kicon,
       // i.kicon,
-      i.thumbtack {
+      svg.thumbtack {
         display: inline-block;
       }
       .shortkeys {
