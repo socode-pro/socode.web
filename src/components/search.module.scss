@@ -223,15 +223,13 @@
       color: $white;
     }
   }
+  a.npms,
   a.algolia {
-    background: url(../images/algolia.svg) left center/contain no-repeat;
-    padding-left: 20px;
     font-size: 12px;
     margin: 0 1rem;
-  }
-  a.npms {
-    font-size: 12px;
-    margin: 0 1rem;
+    svg {
+      margin-right: 6px;
+    }
   }
   a.bundlephobia {
     background: url(/keys/bundlephobia.svg) left center/contain no-repeat;
@@ -407,18 +405,15 @@ i.kicon {
   .infos {
     display: flex;
     color: $grey;
-    align-items: center;
     span {
       height: 18px;
     }
-  }
-  svg.github {
-    width: 18px;
-    height: 18px;
-    fill: $grey;
-    cursor: pointer;
-    &:hover {
-      fill: $black;
+    a.github {
+      color: $grey;
+      margin-right: 10px;
+      &:hover {
+        color: $black;
+      }
     }
   }
 }
@@ -431,7 +426,8 @@ i.kicon {
 }
 
 .notFound {
-  background: url("../images/not_found.png") center/20% no-repeat;
+  // background: url("../images/not_found.png") center/20% no-repeat;
+  text-align: center;
   height: 200px;
 }
 
