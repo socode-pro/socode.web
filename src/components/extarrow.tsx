@@ -60,12 +60,12 @@ const ExtArrow: React.FC = (): JSX.Element => {
           // href="https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/">
           href={
             isFirefox
-              ? "https://os.socode.pro/firefox.xpi"
+              ? "https://addons.mozilla.org/zh-CN/firefox/addon/socode-search/" // "https://os.socode.pro/firefox.xpi"
               : isEdgeChromium && !ousideFirewall
               ? "https://microsoftedge.microsoft.com/addons/detail/dkeiglafihicmjbbaoopggfnifgjekcl"
               : ousideFirewall
               ? "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
-              : "https://addons.mozilla.org/zh-CN/firefox/addon/socode-search/" // : "https://www.crx4chrome.com/crx/196956/"
+              : "https://www.crx4chrome.com/crx/196956/"
           }>
           <h3>Browser Extension</h3>
           {language === InterfaceLanguage.中文 ? (
