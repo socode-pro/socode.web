@@ -174,17 +174,10 @@ const SearchInput: React.FC = (): JSX.Element => {
     clearResult()
   }, [clearResult])
 
-  const focusInput = useCallback(
-    (key?: SKey) => {
-      const ckey = key || currentKey
-      if (ckey.docsearch) {
-        document?.getElementById(`docsearch_${ckey.code}`)?.focus()
-      } else {
-        inputEl.current?.focus()
-      }
-    },
-    [currentKey]
-  )
+  const focusInput = useCallback(() => {
+    document.getElementById(`docsearch_input`)?.focus()
+    inputEl.current?.focus()
+  }, [])
 
   useHotkeys(
     "/",
@@ -274,7 +267,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       const index = client.initIndex(dsConfig.indexName)
 
       autocomplete(
-        `#docsearch_${currentKey.code}`,
+        `#docsearch_input`,
         {
           hint: false,
           autoselect: true,
@@ -319,7 +312,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       appId: dsConfig.appId,
       apiKey: dsConfig.apiKey,
       indexName: dsConfig.indexName,
-      inputSelector: `#docsearch_${currentKey.code}`,
+      inputSelector: `#docsearch_input`,
       algoliaOptions: { ...dsConfig.algoliaOptions, hitsPerPage: 7 },
       handleSelected: (input, event, data) => {
         window.open(data.url, "_blank")?.focus()
@@ -343,7 +336,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       winSearchParams({ keyname: key.code, query: "" })
       setDisplayKeys(false)
       setKeyIndex(-1)
-      setTimeout(() => focusInput(key), 200)
+      setTimeout(() => focusInput(), 200)
     },
     [clearResultAll, focusInput, setCurrentKey, setDisplayKeys, setKeyIndex, setKquery, setSquery]
   )
@@ -620,7 +613,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                   autoFocus
                   value={squery}
                   onChange={(e) => setSquery(e.target.value)}
-                  id={`docsearch_${currentKey.code}`}
+                  id="docsearch_input"
                 />
               </div>
             )}
