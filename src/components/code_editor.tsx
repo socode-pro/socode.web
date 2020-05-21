@@ -4,10 +4,10 @@ import cs from "classnames"
 import { useStoreActions, useStoreState } from "../utils/hooks"
 import examples from "../utils/editor_examples"
 import languages from "../utils/editor_language"
-import css from "./editor.module.scss"
+import css from "./code_editor.module.scss"
 import Loader1 from "./loader/loader1"
 
-const EditorComponent: React.FC = (): JSX.Element => {
+const CodeEditor: React.FC = (): JSX.Element => {
   const setExpandView = useStoreActions((actions) => actions.search.setExpandView)
   const setExpandWidthView = useStoreActions((actions) => actions.search.setExpandWidthView)
   const [language, setLanguage] = useState(19)
@@ -109,4 +109,4 @@ const EditorComponent: React.FC = (): JSX.Element => {
   )
 }
 
-export default EditorComponent
+export default CodeEditor

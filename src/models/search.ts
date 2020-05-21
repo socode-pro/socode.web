@@ -7,7 +7,7 @@ import Language, { ProgramLanguage, navigatorLanguage } from "../utils/language"
 import { winSearchParams } from "../utils/assist"
 import { SocodeResult, SearchTimeRange } from "../services/socode.service"
 import { NpmsResult } from "../services/npms.service"
-import { IsUnSearchableKey } from "../utils/searchkeys"
+import { IsUnSearchableKey, IsExpandWidthViewKey } from "../utils/searchkeys"
 
 export interface SMError {
   message: string
@@ -278,10 +278,10 @@ const searchModel: SearchModel = {
   onCurrentKey: actionOn(
     (actions, storeActions) => storeActions.searchKeys.setCurrentKey,
     (state, target) => {
-      if (!target.payload.devdocs && target.payload.code !== "editor") {
+      if (!target.payload.devdocs && !IsExpandWidthViewKey(target.payload)) {
         state.expandView = false
       }
-      if (target.payload.code !== "editor") {
+      if (!IsExpandWidthViewKey(target.payload)) {
         state.expandWidthView = false
       }
     }

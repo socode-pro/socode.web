@@ -2,7 +2,7 @@ import { Action, action, Thunk, thunk, Computed, computed, ActionOn, actionOn } 
 import without from "lodash/without"
 import ky from "ky"
 import Fuse from "fuse.js"
-import SKeys, { SKey } from "../utils/searchkeys"
+import SKeys, { SKey, IsExpandWidthViewKey } from "../utils/searchkeys"
 import { StoreModel } from "./index"
 
 const fuseOptions: Fuse.IFuseOptions<SKey> = {
@@ -125,7 +125,7 @@ const searchKeysModel: SearchKeysModel = {
 
     const code = localStorage.getItem("currentKey")
     const key = state.keys.find((k) => k.code === code)
-    if (key && !key.devdocs) {
+    if (key && !key.devdocs && !IsExpandWidthViewKey(key)) {
       state.currentKey = key
     }
   }),
