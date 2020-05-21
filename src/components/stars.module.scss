@@ -97,13 +97,12 @@ div.repos {
   }
 
   svg.github {
-    width: 18px;
-    height: 18px;
+    font-size: 18px;
     margin-left: 10px;
-    fill: $grey;
-    transition: fill 0.4s ease-in-out, border 0.4s ease-in-out;
+    color: $grey;
+    transition: color 0.4s ease-in-out, border 0.4s ease-in-out;
     &:hover {
-      fill: $black-bis;
+      color: $black-bis;
     }
   }
 }

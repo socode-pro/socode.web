@@ -14,7 +14,6 @@ import { useStoreActions, useStoreState } from "../utils/hooks"
 import { StringEnumObjects, isEdgeChromium } from "../utils/assist"
 import { error } from "../utils/toast"
 import css from "./drawer.module.scss"
-import wechatQRUrl from "../images/wechat.png"
 
 const languageOptions = StringEnumObjects(InterfaceLanguage)
 
@@ -350,7 +349,7 @@ const Drawer: React.FC = (): JSX.Element => {
               <p className="modal-card-title">Invite me to your group chat</p>
               <button className="delete" aria-label="close" type="button" onClick={() => setWechatQR(false)} />
             </header>
-            <img src={wechatQRUrl} alt="wechat" />
+            <img src={`${process.env.REACT_APP_KEYS_HOST}/wechat.png`} alt="wechat" />
           </div>
           <button
             className="modal-close is-large"

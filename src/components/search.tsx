@@ -17,7 +17,7 @@ import {
   faHome,
   faThumbtack,
 } from "@fortawesome/free-solid-svg-icons"
-import { faAlgolia } from "@fortawesome/free-brands-svg-icons"
+import { faAlgolia, faGithub } from "@fortawesome/free-brands-svg-icons"
 import { faListAlt } from "@fortawesome/free-regular-svg-icons"
 import Brand from "./brand"
 import CheatSheets from "./cheatsheets"
@@ -43,7 +43,6 @@ import { SMError } from "../models/search"
 import { Suggester, SuggestItem } from "../services/suggest.service"
 import css from "./search.module.scss"
 import Loader1 from "./loader/loader1"
-import { ReactComponent as Github } from "../images/github.svg"
 
 const GithubStars = lazy(() => import("./stars"))
 const Encode = lazy(() => import("./encode"))
@@ -766,6 +765,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                           target="_blank"
                           rel="noopener noreferrer"
                           className={cs(css.algolia)}>
+                          <FontAwesomeIcon icon={faAlgolia} />
                           powered by algolia for github
                         </a>
                       </>
@@ -953,7 +953,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                 )}
               </div>
 
-              {result.results.length === 0 && <div className={css.notFound} />}
+              {result.results.length === 0 && <div className={css.notFound}>not found anything.</div>}
             </div>
           )} */}
 
@@ -968,8 +968,12 @@ const SearchInput: React.FC = (): JSX.Element => {
                   </h4>
                   <p className={css.content}>{r.package.description}</p>
                   <p className={css.infos}>
-                    <a className="mgr10" href={r.package.links.repository} target="_blank" rel="noopener noreferrer">
-                      <Github className={css.github} />
+                    <a
+                      href={r.package.links.repository}
+                      className={css.github}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      <FontAwesomeIcon icon={faGithub} />
                     </a>
                     <span className="mgr10">{r.package.version}</span>
                     <span className="mgr10">{r.package.publisher.username}</span>
@@ -1001,7 +1005,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                 )}
               </div>
 
-              {npmResult.results.length === 0 && <div className={css.notFound} />}
+              {npmResult.results.length === 0 && <div className={css.notFound}>not found anything.</div>}
             </div>
           )}
 
