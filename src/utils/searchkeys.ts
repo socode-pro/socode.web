@@ -2148,7 +2148,8 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Tools,
     hideName: true,
     iconProps: {
-      width: 80,
+      width: 64,
+      backgroundSize: "54px",
     },
     shortkeys: "utf",
     icon: "utf.svg",
