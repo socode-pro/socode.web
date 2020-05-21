@@ -490,11 +490,11 @@ const SearchInput: React.FC = (): JSX.Element => {
       default:
         break
     }
-    window.scrollBy(0, -88)
+    window.scrollBy(0, -83)
   }, [])
 
-  const scrollPositionTab = useCallback(
-    debounce(() => {
+  useEffect(() => {
+    const scrollPositionTab = debounce(() => {
       const tabHeight = 115
       if ((documentTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
         setTabIndex(SKeyCategory.Document)
@@ -523,11 +523,8 @@ const SearchInput: React.FC = (): JSX.Element => {
       if ((pinnedTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
         setTabIndex(0)
       }
-    }, 10),
-    []
-  )
+    }, 10)
 
-  useEffect(() => {
     window.addEventListener("scroll", scrollPositionTab)
     return () => {
       window.removeEventListener("scroll", scrollPositionTab)
