@@ -46,7 +46,8 @@ import Loader1 from "./loader/loader1"
 
 const GithubStars = lazy(() => import("./stars"))
 const Encode = lazy(() => import("./encode"))
-const Editor = lazy(() => import("./editor"))
+const CodeEditor = lazy(() => import("./code_editor"))
+const MarkdownEditor = lazy(() => import("./markdown_editor"))
 
 const languageOptions = StringEnumObjects(Language)
 const programLanguageOptions = IntEnumObjects(ProgramLanguage)
@@ -889,9 +890,14 @@ const SearchInput: React.FC = (): JSX.Element => {
               <Encode />
             </Suspense>
           )}
-          {!displayKeys && currentKey.code === "editor" && (
+          {!displayKeys && currentKey.code === "code_editor" && (
             <Suspense fallback={<Loader1 type={2} />}>
-              <Editor />
+              <CodeEditor />
+            </Suspense>
+          )}
+          {!displayKeys && currentKey.code === "markdown_editor" && (
+            <Suspense fallback={<Loader1 type={2} />}>
+              <MarkdownEditor />
             </Suspense>
           )}
           {!displayKeys && currentKey.code === "password" && <Password />}

@@ -61,8 +61,11 @@ export const IsUnSearchableKey = (key: SKey): boolean =>
   key.code === "tools" ||
   key.code === "github_stars" ||
   key.code === "password" ||
-  key.code === "editor" ||
+  key.code === "code_editor" ||
+  key.code === "markdown_editor" ||
   key.code === "encode"
+
+export const IsExpandWidthViewKey = (key: SKey): boolean => key.code === "code_editor" || key.code === "markdown_editor"
 
 export const KeyPlaceholder = (key: SKey, model: SearchModel): string => {
   if (key.awesome && model === SearchModel.Awesome) {
@@ -537,10 +540,10 @@ const SKeys: SKey[] = [
     firewalled: true,
   },
   {
-    name: "Editor",
-    code: "editor",
+    name: "Code Editor",
+    code: "code_editor",
     category: SKeyCategory.Tools,
-    shortkeys: "ed",
+    shortkeys: "ced",
     icon: "editor.svg",
     usage: true,
   },
@@ -1335,6 +1338,14 @@ const SKeys: SKey[] = [
       backgroundPosition: "left center",
     },
     devdocs: "markdown",
+  },
+  {
+    name: "Markdown Editor",
+    code: "markdown_editor",
+    category: SKeyCategory.Tools,
+    shortkeys: "med",
+    icon: "markdown_editor.png",
+    usage: true,
   },
   {
     code: "mariadb",
