@@ -1,6 +1,8 @@
 import React, { useEffect, useCallback, useRef } from "react"
 import cs from "classnames"
 import { Markup } from "interweave"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { useStoreActions, useStoreState } from "../utils/hooks"
 import { DevDocEntrie } from "../models/devdocs"
 import { isRelationHref, transRelationHref } from "../utils/assist"
@@ -148,7 +150,7 @@ const Devdocs: React.FC = (): JSX.Element => {
               return (
                 <div key={group} className={cs(css.typegroup, { [css.expanding]: expandings[group] })}>
                   <div className={css.typename} onClick={() => toggleExpanding(group)}>
-                    <i className={cs("fa-menus", css.icon)} />
+                    <FontAwesomeIcon icon={faAngleRight} className={css.icon} />
                     <span>{group}</span>
                   </div>
                   <ul className={css.childrens}>

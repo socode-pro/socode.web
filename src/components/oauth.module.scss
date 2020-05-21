@@ -1,4 +1,4 @@
-@import '../styles/variable';
+@import "../styles/variable";
 
 .oauthbar {
   display: inline-block;
@@ -17,7 +17,7 @@
   .scdropdown {
     vertical-align: middle;
   }
-  i.scicon {
+  svg.scicon {
     margin-left: 2px;
   }
   :global(.dropdown-item) {

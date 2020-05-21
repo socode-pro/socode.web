@@ -1,4 +1,4 @@
-@import '../styles/variable';
+@import "../styles/variable";
 
 div.history {
   padding: 15px;
@@ -17,7 +17,7 @@ a.stack {
   font-family: $font-mono;
   @include ms-respond(font-size, 1);
   position: relative;
-  & > :global(i.fa-close) {
+  & > svg.faclose {
     position: absolute;
     right: 10px;
     display: none;
@@ -29,7 +29,7 @@ a.stack {
   }
 
   &:hover {
-    & > :global(i.fa-close) {
+    & > svg.faclose {
       display: inline;
     }
   }
@@ -54,7 +54,7 @@ div.repos {
     display: flex;
     // justify-content: space-between;
     align-items: center;
-    & > :global(i.fa-close) {
+    & > svg.faclose {
       margin-left: 8px;
       display: none;
       color: $grey-light;
@@ -64,7 +64,7 @@ div.repos {
       }
     }
     &:hover {
-      & > :global(i.fa-close) {
+      & > svg.faclose {
         display: inline;
       }
     }
