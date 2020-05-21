@@ -65,18 +65,18 @@ const ExtArrow: React.FC = (): JSX.Element => {
               ? "https://microsoftedge.microsoft.com/addons/detail/dkeiglafihicmjbbaoopggfnifgjekcl"
               : ousideFirewall
               ? "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
-              : "https://www.crx4chrome.com/crx/196956/"
+              : "https://addons.mozilla.org/zh-CN/firefox/addon/socode-search/" // : "https://www.crx4chrome.com/crx/196956/"
           }>
           <h3>Browser Extension</h3>
           {language === InterfaceLanguage.中文 ? (
             <>
               <span>成为浏览器的 New Tab 页</span>
-              {isFirefox && (
+              {/* {isFirefox && (
                 <span className={css.fftips}>
                   注意：因为加载远程html，Firefox拒绝了此插件。只能解压xpi文件通过[调试附加组件] - [载入临时附加组件]
                   安装
                 </span>
-              )}
+              )} */}
             </>
           ) : (
             <span>become the new tab of your browser</span>
