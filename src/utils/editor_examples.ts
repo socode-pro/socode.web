@@ -1,20 +1,20 @@
 const examples = {
-  1: `
-    /* Using a single database query, find all the leads in
-    the database that have the same email address as any
-    of the leads being inserted or updated. */
-    for (Lead lead : [SELECT Email FROM Lead WHERE Email IN :leadMap.KeySet()]) {
-      Lead newLead = leadMap.get(lead.Email);
-      newLead.Email.addError('A lead with this email address already exists.');
-    }
-  `,
-  2: `
-    # Create a resource group.
-    az group create --name myResourceGroup --location westeurope
+  // 1: `
+  //   /* Using a single database query, find all the leads in
+  //   the database that have the same email address as any
+  //   of the leads being inserted or updated. */
+  //   for (Lead lead : [SELECT Email FROM Lead WHERE Email IN :leadMap.KeySet()]) {
+  //     Lead newLead = leadMap.get(lead.Email);
+  //     newLead.Email.addError('A lead with this email address already exists.');
+  //   }
+  // `,
+  // 2: `
+  //   # Create a resource group.
+  //   az group create --name myResourceGroup --location westeurope
 
-    # Create a new virtual machine, this creates SSH keys if not present.
-    az vm create --resource-group myResourceGroup --name myVM --image UbuntuLTS --generate-ssh-keys
-  `,
+  //   # Create a new virtual machine, this creates SSH keys if not present.
+  //   az vm create --resource-group myResourceGroup --name myVM --image UbuntuLTS --generate-ssh-keys
+  // `,
   3: `
     rem *******Begin Comment**************
     rem This program starts the superapp batch program on the network,
@@ -781,7 +781,7 @@ const examples = {
 
     [MIT](./LICENSE)
   `,
-  25: ` = CALCULATE(SUM(Sales[SalesAmount]), PREVIOUSQUARTER(Calendar[DateKey]))`,
+  // 25: ` = CALCULATE(SUM(Sales[SalesAmount]), PREVIOUSQUARTER(Calendar[DateKey]))`,
   26: `
     CREATE TABLE shop (
       article INT(4) UNSIGNED ZEROFILL DEFAULT '0000' NOT NULL,
@@ -882,39 +882,39 @@ const examples = {
 
     Donec euismod luctus volutpat. Donec sed lacinia enim. Vivamus aliquam elit cursus, convallis diam at, volutpat turpis. Sed lacinia nisl in auctor dapibus. Nunc turpis mi, mattis ut rhoncus id, lacinia sed lectus. Donec sodales tellus quis libero gravida pretium et quis magna. Etiam ultricies mollis purus, eget consequat velit. Duis vitae nibh vitae arcu tincidunt congue. Maecenas ut velit in ipsum condimentum dictum quis eget urna. Sed mattis nulla arcu, vitae mattis ligula dictum at.
   `,
-  33: `
-    // http://www.ats-lang.org/
-    (* Say Hello! once *)
-    val () = print"Hello!\n"
-    //
-    (* Say Hello! 3 times *)
-    val () = 3*delay(print"Hello!")
-    val () = print_newline((*void*))
-    //
+  // 33: `
+  //   // http://www.ats-lang.org/
+  //   (* Say Hello! once *)
+  //   val () = print"Hello!\n"
+  //   //
+  //   (* Say Hello! 3 times *)
+  //   val () = 3*delay(print"Hello!")
+  //   val () = print_newline((*void*))
+  //   //
 
-    //
-    (* Build a list of 3 *)
-    val xs = $list{int}(0, 1, 2)
-    //
-    val x0 = xs[0] // legal
-    val x1 = xs[1] // legal
-    val x2 = xs[2] // legal
-    val x3 = xs[3] // illegal
-  `,
-  34: `
-    let
-      Source = Excel.CurrentWorkbook(){[Name="Table1"]}[Content],
-      SplitColumnDelimiter = Table.SplitColumn(Source,"Input",Splitter.SplitTextByDelimiter(","),13),
-      Unpivot = Table.Unpivot(SplitColumnDelimiter,{"Input.1", "Input.2", "Input.3", "Input.4",
-      "Input.5", "Input.6",    "Input.7", "Input.8", "Input.9", "Input.10", "Input.11", "Input.12"
-      ,  "Input.13"},"Attribute","Value"),
-      RemovedColumns = Table.RemoveColumns(Unpivot,{"Attribute"}),
-      DuplicatesRemoved = Table.Distinct(RemovedColumns),
-      GroupedRows = Table.Group(DuplicatesRemoved, {"RowID"}, {{"Count of Distinct Values"
-      , each Table.RowCount(_), type number}})
-    in
-      GroupedRows
-  `,
+  //   //
+  //   (* Build a list of 3 *)
+  //   val xs = $list{int}(0, 1, 2)
+  //   //
+  //   val x0 = xs[0] // legal
+  //   val x1 = xs[1] // legal
+  //   val x2 = xs[2] // legal
+  //   val x3 = xs[3] // illegal
+  // `,
+  // 34: `
+  //   let
+  //     Source = Excel.CurrentWorkbook(){[Name="Table1"]}[Content],
+  //     SplitColumnDelimiter = Table.SplitColumn(Source,"Input",Splitter.SplitTextByDelimiter(","),13),
+  //     Unpivot = Table.Unpivot(SplitColumnDelimiter,{"Input.1", "Input.2", "Input.3", "Input.4",
+  //     "Input.5", "Input.6",    "Input.7", "Input.8", "Input.9", "Input.10", "Input.11", "Input.12"
+  //     ,  "Input.13"},"Attribute","Value"),
+  //     RemovedColumns = Table.RemoveColumns(Unpivot,{"Attribute"}),
+  //     DuplicatesRemoved = Table.Distinct(RemovedColumns),
+  //     GroupedRows = Table.Group(DuplicatesRemoved, {"RowID"}, {{"Count of Distinct Values"
+  //     , each Table.RowCount(_), type number}})
+  //   in
+  //     GroupedRows
+  // `,
   35: `
     # Convert any text file to ASCII
  
@@ -1116,18 +1116,18 @@ const examples = {
       dolly.talk();
     }
   `,
-  44: `
-    begin:
-    TextWindow.Write("Enter a number: ")
-    num = TextWindow.ReadNumber()
-    remainder = Math.Remainder(num, 2)
-    If (remainder = 0) Then
-     TextWindow.WriteLine("The number is Even")
-    Else
-     TextWindow.WriteLine("The number is Odd")
-    EndIf
-    Goto begin
-  `,
+  // 44: `
+  //   begin:
+  //   TextWindow.Write("Enter a number: ")
+  //   num = TextWindow.ReadNumber()
+  //   remainder = Math.Remainder(num, 2)
+  //   If (remainder = 0) Then
+  //    TextWindow.WriteLine("The number is Even")
+  //   Else
+  //    TextWindow.WriteLine("The number is Odd")
+  //   EndIf
+  //   Goto begin
+  // `,
   45: `
     ;;; make-matrix creates a matrix (a vector of vectors).
     (define make-matrix
@@ -1300,56 +1300,56 @@ const examples = {
 
     main
   `,
-  48: `
-    #ifndef EXAMPLES_ASSERT_HPP
-    #define EXAMPLES_ASSERT_HPP
+  // 48: `
+  //   #ifndef EXAMPLES_ASSERT_HPP
+  //   #define EXAMPLES_ASSERT_HPP
 
-    # define m_assert(condition, message)
-      do {
-        if (! (condition)) {
-          std::cerr << "Assertion \`" #condition "\` failed in " << __FILE__
-                    << " line " << __LINE__ << ": " << message << std::endl;
-          std::terminate();
-        }
-      } while (false)
+  //   # define m_assert(condition, message)
+  //     do {
+  //       if (! (condition)) {
+  //         std::cerr << "Assertion \`" #condition "\` failed in " << __FILE__
+  //                   << " line " << __LINE__ << ": " << message << std::endl;
+  //         std::terminate();
+  //       }
+  //     } while (false)
 
-    # define c_assert(condition)
-        do {
-          if (! (condition)) {
-            std::cerr << "Assertion \`" #condition "\` failed in " << __FILE__
-                      << " line " << __LINE__ << std::endl;
-            std::terminate();
-          }
-        } while (false)
-    #else
-    #   define m_assert(condition, message) do { if (false) { (void)(condition); (void)sizeof(message); } } while (false)
-    #   define c_assert(condition) do { if (false) { (void)(condition); } } while (false)
-    #endif
+  //   # define c_assert(condition)
+  //       do {
+  //         if (! (condition)) {
+  //           std::cerr << "Assertion \`" #condition "\` failed in " << __FILE__
+  //                     << " line " << __LINE__ << std::endl;
+  //           std::terminate();
+  //         }
+  //       } while (false)
+  //   #else
+  //   #   define m_assert(condition, message) do { if (false) { (void)(condition); (void)sizeof(message); } } while (false)
+  //   #   define c_assert(condition) do { if (false) { (void)(condition); } } while (false)
+  //   #endif
 
-    #endif // EXAMPLES_ASSERT_HPP
-  `,
+  //   #endif // EXAMPLES_ASSERT_HPP
+  // `,
   49: `
     CREATE VIEW Failing_Students AS
     SELECT S_NAME, Student_ID
     FROM STUDENT
     WHERE GPA > 40;
   `,
-  50: `
-    FUNCTION_BLOCK SubFB
-    VAR_INPUT
-    TimeIN : BOOL; (* Boolean input variable *)
-    TimeQ : BOOL; (* Boolean input variable *)
-    END_VAR
-    VAR_IN_OUT
-    Timer : TON; (* pointer to instance Time1 of TON – input/output variable *)
-    END_VAR
-    VAR_OUTPUT
-    Time3 : TON; (* 3rd instance of TON *)
-    END_VAR
-    VAR
-    Start : BOOL := TRUE; (* local Boolean variable *)
-    END_VAR
-  `,
+  // 50: `
+  //   FUNCTION_BLOCK SubFB
+  //   VAR_INPUT
+  //   TimeIN : BOOL; (* Boolean input variable *)
+  //   TimeQ : BOOL; (* Boolean input variable *)
+  //   END_VAR
+  //   VAR_IN_OUT
+  //   Timer : TON; (* pointer to instance Time1 of TON – input/output variable *)
+  //   END_VAR
+  //   VAR_OUTPUT
+  //   Time3 : TON; (* 3rd instance of TON *)
+  //   END_VAR
+  //   VAR
+  //   Start : BOOL := TRUE; (* local Boolean variable *)
+  //   END_VAR
+  // `,
   51: `
     if let bestPlayer = players.highestScoringPlayer() {
       recordHolder = """
