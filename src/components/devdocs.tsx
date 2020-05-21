@@ -131,7 +131,7 @@ const Devdocs: React.FC = (): JSX.Element => {
             return (
               <a
                 className={cs(css.item, { [css.selected]: i === queryIndex })}
-                key={item.path}
+                key={item.name + item.path}
                 onClick={() => selectPath(item.path)}>
                 <Markup tagName="span" attributes={{ className: css.typename }} content={`${item.type}:`} />
                 <Markup tagName="span" content={item.name} />
@@ -154,7 +154,7 @@ const Devdocs: React.FC = (): JSX.Element => {
                   <ul className={css.childrens}>
                     {entries.map((item) => {
                       return (
-                        <li key={item.path}>
+                        <li key={item.name + item.path}>
                           <a
                             title={item.name}
                             className={cs(css.item, { [css.current]: currentPath === item.path })}
