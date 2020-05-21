@@ -56,118 +56,19 @@ $tooltip-font-size: 14px;
 @import "~bulma-tooltip";
 // ------------------------------------------------------------------------------------
 
-$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
-@import "~@fortawesome/fontawesome-free/scss/fontawesome";
-@import "~@fortawesome/fontawesome-free/scss/brands";
-@import "~@fortawesome/fontawesome-free/scss/solid";
-@import "~@fortawesome/fontawesome-free/scss/regular";
+// $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+// @import "~@fortawesome/fontawesome-free/scss/fontawesome";
+// @import "~@fortawesome/fontawesome-free/scss/brands";
+// @import "~@fortawesome/fontawesome-free/scss/solid";
+// @import "~@fortawesome/fontawesome-free/scss/regular";
 // plus icons: https://www.iconfont.cn/collections/detail?cid=17211
 
 // https://stackoverflow.com/a/36285419/346701 batter to Official
-.fa-globe {
-  @extend %fa-icon;
-  @extend .fas;
-  @extend .fa-globe;
-}
-// .fa-compass {
-//   @extend %fa-icon;
-//   @extend .far;
-//   @extend .fa-compass;
-// }
-.fa-search {
-  @extend %fa-icon;
-  @extend .fas;
-  @extend .fa-search;
-}
-.fa-angle-left {
-  @extend %fa-icon;
-  @extend .fas;
-  @extend .fa-angle-double-left;
-}
-.fa-angle-right {
-  @extend %fa-icon;
-  @extend .fas;
-  @extend .fa-angle-double-right;
-}
-.fa-question {
-  @extend %fa-icon;
-  @extend .far;
-  @extend .fa-question-circle;
-}
-.fa-twitter {
-  @extend %fa-icon;
-  @extend .fab;
-  @extend .fa-twitter;
-}
-.fa-algolia {
-  @extend %fa-icon;
-  @extend .fab;
-  @extend .fa-algolia;
-}
-.fa-thumbtack {
-  @extend %fa-icon;
-  @extend .fas;
-  @extend .fa-thumbtack;
-}
-.fa-home {
-  @extend %fa-icon;
-  @extend .fas;
-  @extend .fa-home;
-}
-.fa-cubes {
-  @extend %fa-icon;
-  @extend .fas;
-  @extend .fa-cubes;
-}
-.fa-menus {
-  @extend %fa-icon;
-  @extend .fas;
-  @extend .fa-angle-right;
-}
-.fa-devdocs {
-  @extend %fa-icon;
-  @extend .far;
-  @extend .fa-list-alt;
-}
-.fa-thumbsup {
-  @extend %fa-icon;
-  @extend .far;
-  @extend .fa-thumbs-up;
-}
-.fa-group {
-  @extend %fa-icon;
-  @extend .fas;
-  @extend .fa-layer-group;
-}
-.fa-user {
-  @extend %fa-icon;
-  @extend .far;
-  @extend .fa-user-circle;
-}
-.fa-close {
-  @extend %fa-icon;
-  @extend .far;
-  @extend .fa-window-close;
-}
-.fa-image {
-  @extend %fa-icon;
-  @extend .far;
-  @extend .fa-image;
-}
-.fa-email {
-  @extend %fa-icon;
-  @extend .far;
-  @extend .fa-envelope;
-}
-// .fa-up {
+
+// .fa-thumbtack {
 //   @extend %fa-icon;
 //   @extend .fas;
-//   @extend .fa-angle-up;
-// }
-// .fa-down {
-//   @extend %fa-icon;
-//   @extend .fas;
-//   @extend .fa-angle-down;
+//   @extend .fa-thumbtack;
 // }
 
 $hamburger-layer-color: rgba($dh-mute, 0.5);

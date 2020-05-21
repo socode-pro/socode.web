@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"
 import ky from "ky"
 import cs from "classnames"
 import Fuse from "fuse.js"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faThumbsUp } from "@fortawesome/free-regular-svg-icons"
 import { Link, ToolCategory, Grids } from "../utils/tools_data"
 import css from "./tools.module.scss"
 
@@ -71,7 +73,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                         target="_blank"
                         rel="noopener noreferrer">
                         {a.name}
-                        {a.elite && <i className="fa-thumbsup" />}
+                        {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
                       </a>
                     )
                   })}
@@ -92,7 +94,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                         target="_blank"
                         rel="noopener noreferrer">
                         {a.name}
-                        {a.elite && <i className="fa-thumbsup" />}
+                        {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
                       </a>
                     )
                   })}
@@ -116,7 +118,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                         target="_blank"
                         rel="noopener noreferrer">
                         {a.name}
-                        {a.elite && <i className="fa-thumbsup" />}
+                        {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
                       </a>
                     )
                   })}
@@ -138,7 +140,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                         target="_blank"
                         rel="noopener noreferrer">
                         {a.name}
-                        {a.elite && <i className="fa-thumbsup" />}
+                        {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
                       </a>
                     )
                   })}
@@ -162,7 +164,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                         target="_blank"
                         rel="noopener noreferrer">
                         {a.name}
-                        {a.elite && <i className="fa-thumbsup" />}
+                        {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
                       </a>
                     )
                   })}
@@ -183,7 +185,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                         target="_blank"
                         rel="noopener noreferrer">
                         {a.name}
-                        {a.elite && <i className="fa-thumbsup" />}
+                        {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
                       </a>
                     )
                   })}
@@ -208,7 +210,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                           target="_blank"
                           rel="noopener noreferrer">
                           {a.name}
-                          {a.elite && <i className="fa-thumbsup" />}
+                          {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
                         </a>
                       )
                     })}
@@ -229,7 +231,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                           target="_blank"
                           rel="noopener noreferrer">
                           {a.name}
-                          {a.elite && <i className="fa-thumbsup" />}
+                          {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
                         </a>
                       )
                     })}
@@ -252,7 +254,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                         target="_blank"
                         rel="noopener noreferrer">
                         {a.name}
-                        {a.elite && <i className="fa-thumbsup" />}
+                        {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
                       </a>
                     )
                   })}
@@ -277,7 +279,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                       target="_blank"
                       rel="noopener noreferrer">
                       {a.name}
-                      {a.elite && <i className="fa-thumbsup" />}
+                      {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
                     </a>
                   )
                 })}
@@ -299,7 +301,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                       target="_blank"
                       rel="noopener noreferrer">
                       {a.name}
-                      {a.elite && <i className="fa-thumbsup" />}
+                      {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
                     </a>
                   )
                 })}

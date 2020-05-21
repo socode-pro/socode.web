@@ -1,4 +1,4 @@
-@import '../styles/variable';
+@import "../styles/variable";
 
 .grid {
   padding: 15px;
@@ -25,7 +25,7 @@
     &:hover {
       @include underline-hover(1px, 2px);
     }
-    i {
+    svg {
       margin-left: 4px;
     }
   }

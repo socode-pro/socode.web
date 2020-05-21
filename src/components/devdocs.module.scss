@@ -20,7 +20,7 @@
     }
     display: flex;
     align-items: center;
-    i.icon {
+    svg.icon {
       margin: 0 8px;
       transition: transform 0.25s ease;
       color: $grey-lighter;
@@ -55,7 +55,7 @@
 
   &.expanding {
     color: $primary;
-    i.icon {
+    svg.icon {
       color: $primary;
       transform: rotate(90deg);
     }

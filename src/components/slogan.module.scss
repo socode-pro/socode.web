@@ -1,4 +1,4 @@
-@import '../styles/variable';
+@import "../styles/variable";
 
 .slogan {
   position: absolute;
@@ -7,7 +7,7 @@
   text-align: right;
   word-spacing: 0.5em;
   color: $dh-mute;
-  font-family: 'Bree Serif', sans-serif;
+  font-family: "Bree Serif", sans-serif;
   // font-family: "Kreon", sans-serif;
   // font-family: "Patua One", sans-serif;
   span.zh {
@@ -16,7 +16,7 @@
   .scdropdown {
     vertical-align: middle;
   }
-  i.scicon {
+  svg.scicon {
     cursor: pointer;
     margin-left: 5px;
   }
