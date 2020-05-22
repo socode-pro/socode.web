@@ -272,7 +272,7 @@ const SearchInput: React.FC = (): JSX.Element => {
         {
           hint: false,
           autoselect: true,
-          // debug: true
+          // debug: true,
         },
         [
           {

@@ -76,7 +76,7 @@ const MarkdownEditor: React.FC = (): JSX.Element => {
   return (
     <div className={css.editorWapper}>
       <Editor
-        initialValue="### hello. We support markdown, code-highlight and [UML render](https://github.com/nhn/tui.editor/tree/master/plugins/uml)."
+        initialValue="### Hello. We support markdown, [code-highlight](https://github.com/nhn/tui.editor/tree/master/plugins/code-syntax-highlight) and [UML render](https://github.com/nhn/tui.editor/tree/master/plugins/uml)."
         previewStyle="vertical"
         height="100%"
         initialEditType="markdown"
