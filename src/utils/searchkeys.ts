@@ -118,7 +118,7 @@ const SKeys: SKey[] = [
     shortkeys: "ng",
     icon: "angular.svg",
     homelink: "https://angular.io",
-    awesome: "PatrickJS/awesome-angular",
+    awesome: "PatrickJS/awesome-angular/gh-pages",
     devdocs: "angular",
   },
   {

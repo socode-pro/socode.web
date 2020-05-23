@@ -1,6 +1,6 @@
-import { Action, action, Thunk, thunk } from 'easy-peasy'
-import ky from 'ky'
-import dayjs from 'dayjs'
+import { Action, action, Thunk, thunk } from "easy-peasy"
+import ky from "ky"
+import dayjs from "dayjs"
 
 export interface AwesomeModel {
   loading: boolean
@@ -18,7 +18,7 @@ const awesomeModel: AwesomeModel = {
     state.loading = payload
   }),
 
-  markdown: '',
+  markdown: "",
   setMarkdown: action((state, payload) => {
     state.markdown = payload
   }),
@@ -32,6 +32,7 @@ const awesomeModel: AwesomeModel = {
   //   }
   // }),
   getMarkdown: thunk(async (actions, payload) => {
+    const path = payload.awesome + (payload.awesome.split("/").length <= 2 ? "/master" : "")
     actions.setLoading(true)
     try {
       // const time = localStorage.getItem(`awesome_${payload.name}_time`)
@@ -47,21 +48,22 @@ const awesomeModel: AwesomeModel = {
       //     actions.setLoading(false)
       //     return
       //   }
-      // }     
-      const markdown = await ky.get(`https://raw.githubusercontent.com/${payload.awesome}/master/README.md`).text()
+      // }
+
+      const markdown = await ky.get(`https://raw.githubusercontent.com/${path}/README.md`).text()
       // await actions.setMarkdownStorage({ name: payload.name, markdown })
       await actions.setMarkdown(markdown)
     } catch (err) {
       if (err.response?.status === 404) {
         try {
-          const markdown = await ky.get(`https://raw.githubusercontent.com/${payload.awesome}/master/readme.md`).text()
+          const markdown = await ky.get(`https://raw.githubusercontent.com/${path}/readme.md`).text()
           // await actions.setMarkdownStorage({ name: payload.name, markdown })
           await actions.setMarkdown(markdown)
         } catch (e) {
-          console.error('AwesomeModel.getMarkdown.retry', e)
+          console.error("AwesomeModel.getMarkdown.retry", e)
         }
       } else {
-        console.warn('AwesomeModel.getMarkdown', err)
+        console.warn("AwesomeModel.getMarkdown", err)
       }
     }
     actions.setLoading(false)
