@@ -20,7 +20,7 @@ import {
 import { faAlgolia, faGithub } from "@fortawesome/free-brands-svg-icons"
 import { faListAlt } from "@fortawesome/free-regular-svg-icons"
 import Brand from "./brand"
-import CheatSheets from "./cheatsheets"
+import CheatSheets from "./devhints"
 import Rework from "./rework"
 import Tools from "./tools"
 import Awesome from "./awesome"
