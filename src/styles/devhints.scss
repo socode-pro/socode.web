@@ -1,14 +1,14 @@
-@import './variable';
+@import "./variable";
 $dh-mute3: adjust-color($dh-mute, $lightness: 16%);
 $dark-line-color: rgba($dh-mute, 0.2);
 
 // https://github.com/rstacruz/cheatsheets/blob/master/_sass/2017/components/pages-list.scss
 .pages-list {
-  & {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0 20px 20px;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 20px 20px;
+  max-width: 740px;
+  margin: 0 auto;
 
   > .item {
     flex: 0 0 100%;
@@ -49,7 +49,7 @@ $dark-line-color: rgba($dh-mute, 0.2);
   }
 
   & > .info > .title::before {
-    content: '';
+    content: "";
     margin: 0 4px;
   }
 
