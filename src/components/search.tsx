@@ -251,6 +251,9 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     const popstateSearch = (): void => {
+      if (new URLSearchParams(window.location.search).has("k")) {
+        setDisplayKeys(false)
+      }
       search()
     }
     window.addEventListener("popstate", popstateSearch)
