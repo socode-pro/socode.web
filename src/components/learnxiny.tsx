@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import cs from 'classnames'
-import matches from 'dom101/matches'
-import { useStoreActions, useStoreState } from '../utils/hooks'
-import { splitwords, permutateString } from '../utils/permutate'
-import { nextUntil } from '../utils/dom'
-import css from './learnxiny.module.scss'
+import React, { useState, useEffect } from "react"
+import cs from "classnames"
+// import matches from 'dom101/matches'
+import { useStoreActions, useStoreState } from "../Store"
+import { splitwords, permutateString } from "../utils/permutate"
+// import { nextUntil } from '../utils/dom'
+import css from "./learnxiny.module.scss"
 
 let learnxinyElements: NodeListOf<Element> | null = null
 
@@ -26,8 +26,8 @@ function permutate(data: { slug?: string; category?: string }): string[] {
 const Learnxiny: React.FC<Props> = ({ query }: Props): JSX.Element => {
   const [elements, setElements] = useState<NodeListOf<Element> | null>(null)
 
-  const learnxinyHtml = useStoreState<string>(state => state.learnxiny.html)
-  const getLearnxinyHtml = useStoreActions(actions => actions.learnxiny.getHtml)
+  const learnxinyHtml = useStoreState<string>((state) => state.learnxiny.html)
+  const getLearnxinyHtml = useStoreActions((actions) => actions.learnxiny.getHtml)
   useEffect(() => {
     getLearnxinyHtml()
   }, [getLearnxinyHtml])
@@ -37,8 +37,8 @@ const Learnxiny: React.FC<Props> = ({ query }: Props): JSX.Element => {
       setTimeout(() => setElements(learnxinyElements), 0) // setTimeout avoid black box when switching
       return
     }
-    const doc = new DOMParser().parseFromString(learnxinyHtml, 'text/html')
-    const els = doc.querySelectorAll('.container>table')
+    const doc = new DOMParser().parseFromString(learnxinyHtml, "text/html")
+    const els = doc.querySelectorAll(".container>table")
     learnxinyElements = els
     setElements(els)
   }, [learnxinyHtml])
@@ -46,9 +46,9 @@ const Learnxiny: React.FC<Props> = ({ query }: Props): JSX.Element => {
   // https://www.reddit.com/r/reactjs/comments/8k49m3/can_i_render_a_dom_element_inside_jsx/dz5cexl/
   return (
     <>
-      <div className={cs(css.learnxiny)} ref={ref => elements && elements.forEach(e => ref?.appendChild(e))} />
-      <p className={cs(css.powered, { 'dis-none': !elements })}>
-        <a href='https://learnxinyminutes.com/' target='_blank' rel='noopener noreferrer'>
+      <div className={cs(css.learnxiny)} ref={(ref) => elements && elements.forEach((e) => ref?.appendChild(e))} />
+      <p className={cs(css.powered, { "dis-none": !elements })}>
+        <a href="https://learnxinyminutes.com/" target="_blank" rel="noopener noreferrer">
           powered by learnxinyminutes.com
         </a>
       </p>

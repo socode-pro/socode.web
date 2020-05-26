@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Markup } from "interweave"
-import { useStoreActions, useStoreState } from "./utils/hooks"
+import { useStoreActions, useStoreState } from "./Store"
 import { InterfaceLanguage } from "./utils/language"
 import { SettingsType } from "./models/storage"
 import Brand from "./components/brand"

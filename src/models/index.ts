@@ -8,6 +8,7 @@ import devdocsModel, { DevdocsModel } from './devdocs'
 import starsModel, { StarsModel } from './stars'
 import searchKeysModel, { SearchKeysModel } from './searchkeys'
 import trendingModel, { TrendingModel } from './trending'
+import displayModel, { DisplayModel } from './display'
 
 export interface StoreModel {
   search: SearchModel
@@ -20,6 +21,7 @@ export interface StoreModel {
   stars: StarsModel
   searchKeys: SearchKeysModel
   trending: TrendingModel
+  display: DisplayModel
 }
 
 const storeModel: StoreModel = {
@@ -33,6 +35,7 @@ const storeModel: StoreModel = {
   stars: starsModel,
   searchKeys: searchKeysModel,
   trending: trendingModel,
+  display: displayModel,
 }
 
 export default storeModel

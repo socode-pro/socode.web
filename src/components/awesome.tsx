@@ -4,7 +4,7 @@ import marked from "marked"
 import Fuse from "fuse.js"
 import { Markup } from "interweave"
 import { isRelationHref, transRelationHref } from "../utils/assist"
-import { useStoreActions, useStoreState } from "../utils/hooks"
+import { useStoreActions, useStoreState } from "../Store"
 import css from "./awesome.module.scss"
 import Loader from "./loader/loader1"
 

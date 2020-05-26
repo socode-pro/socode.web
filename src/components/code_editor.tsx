@@ -1,15 +1,15 @@
 import React, { useState, useRef, useEffect, useCallback } from "react"
 import Editor, { DiffEditor } from "@monaco-editor/react"
 import cs from "classnames"
-import { useStoreActions, useStoreState } from "../utils/hooks"
+import { useStoreActions, useStoreState } from "../Store"
 import examples from "../utils/editor_examples"
 import languages from "../utils/editor_language"
 import css from "./code_editor.module.scss"
 import Loader1 from "./loader/loader1"
 
 const CodeEditor: React.FC = (): JSX.Element => {
-  const setExpandView = useStoreActions((actions) => actions.search.setExpandView)
-  const setExpandWidthView = useStoreActions((actions) => actions.search.setExpandWidthView)
+  const setExpandView = useStoreActions((actions) => actions.display.setExpandView)
+  const setExpandWidthView = useStoreActions((actions) => actions.display.setExpandWidthView)
   const [language, setLanguage] = useState(19)
   const [wordWrap, setWordWrap] = useState(false)
   const valueGetter = useRef<() => string>()

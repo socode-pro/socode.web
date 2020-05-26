@@ -4,7 +4,7 @@ import cs from "classnames"
 import { InterfaceLanguage } from "../utils/language"
 import { SettingsType } from "../models/storage"
 import { SKey } from "../utils/searchkeys"
-import { useStoreActions, useStoreState } from "../utils/hooks"
+import { useStoreActions, useStoreState } from "../Store"
 // import { useMediaPredicate } from 'react-media-hook'
 import css from "./brand.module.scss"
 
@@ -17,8 +17,8 @@ const words = [
 
 const Brand: React.FC = (): JSX.Element => {
   const { language } = useStoreState<SettingsType>((state) => state.storage.settings)
-  const displaySubtitle = useStoreState<boolean>((state) => state.search.displaySubtitle)
-  const setDisplaySubtitle = useStoreActions((actions) => actions.search.setDisplaySubtitle)
+  const displaySubtitle = useStoreState<boolean>((state) => state.display.displaySubtitle)
+  const setDisplaySubtitle = useStoreActions((actions) => actions.display.setDisplaySubtitle)
 
   const keys = useStoreState<Array<SKey>>((state) => state.searchKeys.keys)
   const setCurrentKey = useStoreActions((actions) => actions.searchKeys.setCurrentKey)

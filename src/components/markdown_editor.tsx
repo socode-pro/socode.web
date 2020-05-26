@@ -34,7 +34,7 @@ import "codemirror/lib/codemirror.css"
 import "@toast-ui/editor/dist/toastui-editor.css"
 import "highlight.js/styles/github.css"
 
-import { useStoreActions, useStoreState } from "../utils/hooks"
+import { useStoreActions, useStoreState } from "../Store"
 import css from "./markdown_editor.module.scss"
 
 hljs.registerLanguage("javascript", javascript)
@@ -65,8 +65,8 @@ hljs.registerLanguage("scss", scss)
 const MarkdownEditor: React.FC = (): JSX.Element => {
   const editorRef = useRef<Editor | null>(null)
 
-  const setExpandView = useStoreActions((actions) => actions.search.setExpandView)
-  const setExpandWidthView = useStoreActions((actions) => actions.search.setExpandWidthView)
+  const setExpandView = useStoreActions((actions) => actions.display.setExpandView)
+  const setExpandWidthView = useStoreActions((actions) => actions.display.setExpandWidthView)
 
   useEffect(() => {
     setExpandView(true)

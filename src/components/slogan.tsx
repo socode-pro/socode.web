@@ -6,7 +6,7 @@ import { faQuestionCircle } from "@fortawesome/free-regular-svg-icons"
 import { InterfaceLanguage } from "../utils/language"
 import useIntl, { Words } from "../utils/useIntl"
 import { SettingsType } from "../models/storage"
-import { useStoreState } from "../utils/hooks"
+import { useStoreState } from "../Store"
 import css from "./slogan.module.scss"
 
 const Slogan: React.FC = (): JSX.Element => {
