@@ -130,7 +130,7 @@ const searchKeysModel: SearchKeysModel = {
     }
   }),
 
-  displayKeys: localStorage.getItem("displayKeys") !== "false",
+  displayKeys: localStorage.getItem("displayKeys") !== "false" && !new URLSearchParams(window.location.search).has("k"),
   setDisplayKeys: action((state, payload) => {
     state.displayKeys = payload
     localStorage.setItem("displayKeys", payload.toString())
