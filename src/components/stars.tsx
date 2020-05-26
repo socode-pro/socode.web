@@ -9,7 +9,7 @@ import { faImage, faWindowClose, faUserCircle } from "@fortawesome/free-regular-
 import { faLayerGroup } from "@fortawesome/free-solid-svg-icons"
 import { faGithub } from "@fortawesome/free-brands-svg-icons"
 import { Stack, StackType } from "../utils/historystacks"
-import { useStoreActions, useStoreState } from "../utils/hooks"
+import { useStoreActions, useStoreState } from "../Store"
 import { IntEnumObjects } from "../utils/assist"
 import OAuth from "./oauth"
 import { DisplayType } from "../models/stars"

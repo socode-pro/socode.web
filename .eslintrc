@@ -46,6 +46,7 @@
     "no-param-reassign": ["warn", { "props": false }],
     "no-nested-ternary": "off",
     "no-unused-expressions": ["warn", { "allowShortCircuit": true, "allowTernary": true }],
-    "no-restricted-syntax": "off"
+    "no-restricted-syntax": "off",
+    "prefer-destructuring": ["error", { "AssignmentExpression": { "array": false } }]
   }
 }

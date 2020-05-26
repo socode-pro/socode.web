@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useStoreState } from './hooks'
+import { useStoreState } from '../Store'
 import { SettingsType } from '../models/storage'
 import Language, { InterfaceLanguage } from './language'
 import { SKeyCategory } from './searchkeys'

@@ -1,12 +1,14 @@
-import { createStore, persist, PersistConfig } from 'easy-peasy'
-import model from './models'
+import { createStore, persist, PersistConfig, createTypedHooks } from 'easy-peasy'
+import model, { StoreModel } from "./models"
 import * as searchService from './services/socode.service'
 import * as npmsService from './services/npms.service'
 import * as starsCacheService from './services/stars.cache.service'
 // import * as starsCacheFirebaseService from './services/stars.cache.firebase.service'
 
-// const historyService = process.env.REACT_APP_REGION === 'china' ? starsCacheService : starsCacheFirebaseService
+export const { useStoreActions, useStoreDispatch, useStoreState } = createTypedHooks<StoreModel>()
+
 const starsService = starsCacheService
+// const starsService = process.env.REACT_APP_REGION === 'china' ? starsCacheService : starsCacheFirebaseService
 
 export interface Injections {
   searchService: typeof searchService
@@ -28,3 +30,4 @@ const debugStore = createStore(model, {
 })
 
 export default process.env.NODE_ENV === 'production' ? store : debugStore
+// export default store

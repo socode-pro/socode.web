@@ -1,7 +1,7 @@
 import React from "react"
 import { StoreProvider } from "easy-peasy"
 import { BrowserRouter, Route, Switch } from "react-router-dom"
-import store from "./store"
+import store from "./Store"
 import Home from "./Home"
 import Privacy from "./Privacy"
 import NoMatch from "./utils/NoMatch"

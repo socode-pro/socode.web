@@ -2,13 +2,11 @@ import React, { useState, useEffect } from "react"
 import cs from "classnames"
 import matches from "dom101/matches"
 import { Markup } from "interweave"
-import { useStoreActions, useStoreState } from "../utils/hooks"
+import { useStoreActions, useStoreState } from "../Store"
 import { splitwords, permutateString } from "../utils/permutate"
 import { nextUntil } from "../utils/dom"
 import Loader1 from "./loader/loader1"
 import css from "./devhints.module.scss"
-
-const cheatSheetsElement: Element | null = null
 
 interface Props {
   query: string
