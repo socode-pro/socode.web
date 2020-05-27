@@ -5,6 +5,9 @@ import { StoreModel } from "./index"
 import { InterfaceLanguage, ProgramLanguage } from "../utils/language"
 import { warn } from "../utils/toast"
 
+const IpapiWarn =
+  "Failed to get your region info, which can help us use the cache closer to you. Maybe it's because your ad block plugin blocked the ipapi.co domain"
+
 export enum SearchModel {
   Devdocs,
   Algolia,
@@ -27,9 +30,9 @@ export interface SettingsType {
 
 export interface RegionData {
   ip: string
-  city: string
   country_code: string
   country_name?: string
+  city?: string
   region_code?: string
   country?: string
   latitude?: string
@@ -133,17 +136,25 @@ const storageModel: StorageModel = {
     }
 
     try {
-      const result = await ky.get("https://ipapi.co/json").json<RegionData>()
-      actions.setRegion(result)
+      const result = await ky.get("https://www.cloudflare.com/cdn-cgi/trace").text()
+      const resultLines = result.split(/\r?\n/)
+
+      const locline = resultLines.find((l) => l.startsWith("loc"))
+      if (!locline) throw new Error("locline null")
+      const ipline = resultLines.find((l) => l.startsWith("ip"))
+      if (!ipline) throw new Error("ipline null")
+
+      actions.setRegion({
+        ip: ipline?.split("=")[1],
+        country_code: locline?.split("=")[1],
+      })
     } catch (err) {
+      console.warn(err)
       try {
-        const result = await ky.get("https://freegeoip.app/json/").json<RegionData>()
+        const result = await ky.get("https://ipapi.co/json").json<RegionData>()
         actions.setRegion(result)
       } catch (err2) {
-        warn(
-          "Failed to get your region info, which can help us use the cache closer to you. Maybe it's because your ad block plugin blocked the ipapi.co domain",
-          true
-        )
+        warn(IpapiWarn, true)
       }
     }
   }),
