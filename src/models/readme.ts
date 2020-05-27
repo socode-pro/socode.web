@@ -1,6 +1,6 @@
-import { Action, action, Thunk, thunk } from 'easy-peasy'
-import ky from 'ky'
-import dayjs from 'dayjs'
+import { Action, action, Thunk, thunk } from "easy-peasy"
+import ky from "ky"
+import dayjs from "dayjs"
 
 export interface ReadmeModel {
   loading: boolean
@@ -17,7 +17,7 @@ const readmeModel: ReadmeModel = {
     state.loading = payload
   }),
 
-  markdown: '',
+  markdown: "",
   setMarkdown: action((state, { name, readme, storage }) => {
     state.markdown = readme
     if (storage) {
@@ -46,10 +46,11 @@ const readmeModel: ReadmeModel = {
       //   }
       // }
 
-      const markdown = await ky.get(`https://raw.githubusercontent.com/${base}/master${path}`).text()
-      actions.setMarkdown({ name, readme: markdown || '', storage: true })
+      // const markdown = await ky.get(`https://raw.githubusercontent.com/${base}/master${path}`).text()
+      const markdown = await ky.get(`https://githubraw.socode.pro/${base}/master${path}`).text()
+      actions.setMarkdown({ name, readme: markdown || "", storage: true })
     } catch (err) {
-      console.warn('ReadmeModel.getMarkdown', err)
+      console.warn("ReadmeModel.getMarkdown", err)
     }
     actions.setLoading(false)
   }),
