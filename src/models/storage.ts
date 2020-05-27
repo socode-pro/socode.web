@@ -159,9 +159,10 @@ const storageModel: StorageModel = {
     }
   }),
 
-  ousideFirewall: true,
+  ousideFirewall: localStorage.getItem("ousideFirewall") !== "false",
   setOusideFirewall: action((state, payload) => {
     state.ousideFirewall = payload
+    localStorage.setItem("ousideFirewall", payload.toString())
   }),
   judgeOusideFirewall: thunk(async (actions) => {
     try {
