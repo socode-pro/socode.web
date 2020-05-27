@@ -50,13 +50,14 @@ const awesomeModel: AwesomeModel = {
       //   }
       // }
 
-      const markdown = await ky.get(`https://raw.githubusercontent.com/${path}/README.md`).text()
+      // const markdown = await ky.get(`https://raw.githubusercontent.com/${path}/README.md`).text()
+      const markdown = await ky.get(`https://githubraw.socode.pro/${path}/README.md`).text()
       // await actions.setMarkdownStorage({ name: payload.name, markdown })
       await actions.setMarkdown(markdown)
     } catch (err) {
       if (err.response?.status === 404) {
         try {
-          const markdown = await ky.get(`https://raw.githubusercontent.com/${path}/readme.md`).text()
+          const markdown = await ky.get(`https://githubraw.socode.pro/${path}/readme.md`).text()
           // await actions.setMarkdownStorage({ name: payload.name, markdown })
           await actions.setMarkdown(markdown)
         } catch (e) {
