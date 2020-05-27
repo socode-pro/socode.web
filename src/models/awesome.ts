@@ -1,6 +1,7 @@
 import { Action, action, Thunk, thunk } from "easy-peasy"
 import ky from "ky"
 import dayjs from "dayjs"
+import { StoreModel } from "./index"
 
 export interface AwesomeModel {
   loading: boolean
@@ -9,7 +10,7 @@ export interface AwesomeModel {
   markdown: string
   setMarkdown: Action<AwesomeModel, string>
   // setMarkdownStorage: Action<AwesomeModel, { name: string; markdown: string }>
-  getMarkdown: Thunk<AwesomeModel, { name: string; awesome: string }>
+  getMarkdown: Thunk<AwesomeModel, { name: string; awesome: string }, void, StoreModel>
 }
 
 const awesomeModel: AwesomeModel = {
@@ -31,8 +32,11 @@ const awesomeModel: AwesomeModel = {
   //     console.error(err)
   //   }
   // }),
-  getMarkdown: thunk(async (actions, payload) => {
+  getMarkdown: thunk(async (actions, payload, { getStoreState }) => {
     const path = payload.awesome + (payload.awesome.split("/").length <= 2 ? "/master" : "")
+    const ousideFirewall = getStoreState().storage.ousideFirewall
+    const domain = ousideFirewall ? "raw.githubusercontent.com" : "githubraw.socode.pro"
+
     actions.setLoading(true)
     try {
       // const time = localStorage.getItem(`awesome_${payload.name}_time`)
@@ -49,15 +53,13 @@ const awesomeModel: AwesomeModel = {
       //     return
       //   }
       // }
-
-      // const markdown = await ky.get(`https://raw.githubusercontent.com/${path}/README.md`).text()
-      const markdown = await ky.get(`https://githubraw.socode.pro/${path}/README.md`).text()
+      const markdown = await ky.get(`https://${domain}/${path}/README.md`).text()
       // await actions.setMarkdownStorage({ name: payload.name, markdown })
       await actions.setMarkdown(markdown)
     } catch (err) {
       if (err.response?.status === 404) {
         try {
-          const markdown = await ky.get(`https://githubraw.socode.pro/${path}/readme.md`).text()
+          const markdown = await ky.get(`https://${domain}/${path}/readme.md`).text()
           // await actions.setMarkdownStorage({ name: payload.name, markdown })
           await actions.setMarkdown(markdown)
         } catch (e) {

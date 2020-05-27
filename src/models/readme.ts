@@ -1,6 +1,7 @@
 import { Action, action, Thunk, thunk } from "easy-peasy"
 import ky from "ky"
 import dayjs from "dayjs"
+import { StoreModel } from "./index"
 
 export interface ReadmeModel {
   loading: boolean
@@ -8,7 +9,7 @@ export interface ReadmeModel {
 
   markdown: string
   setMarkdown: Action<ReadmeModel, { name: string; readme: string; storage?: boolean }>
-  getMarkdown: Thunk<ReadmeModel, { base: string; path: string }>
+  getMarkdown: Thunk<ReadmeModel, { base: string; path: string }, void, StoreModel>
 }
 
 const readmeModel: ReadmeModel = {
@@ -25,10 +26,13 @@ const readmeModel: ReadmeModel = {
       localStorage.setItem(`readme_${name}_time`, dayjs().toJSON())
     }
   }),
-  getMarkdown: thunk(async (actions, { base, path }) => {
+  getMarkdown: thunk(async (actions, { base, path }, { getStoreState }) => {
     if (!path) return
-    actions.setLoading(true)
 
+    const ousideFirewall = getStoreState().storage.ousideFirewall
+    const domain = ousideFirewall ? "raw.githubusercontent.com" : "githubraw.socode.pro"
+
+    actions.setLoading(true)
     const name = base + path
     try {
       // const time = localStorage.getItem(`readme_${name}_time`)
@@ -46,8 +50,7 @@ const readmeModel: ReadmeModel = {
       //   }
       // }
 
-      // const markdown = await ky.get(`https://raw.githubusercontent.com/${base}/master${path}`).text()
-      const markdown = await ky.get(`https://githubraw.socode.pro/${base}/master${path}`).text()
+      const markdown = await ky.get(`https://${domain}/${base}/master${path}`).text()
       actions.setMarkdown({ name, readme: markdown || "", storage: true })
     } catch (err) {
       console.warn("ReadmeModel.getMarkdown", err)

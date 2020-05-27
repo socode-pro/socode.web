@@ -41,8 +41,6 @@
     "docsearch.js": "^2.6.3",
     "dom101": "^2.2.1",
     "easy-peasy": "^3.3.0",
-    "firebase": "^7.12.0",
-    "firebase-encode": "0.0.5",
     "fuse.js": "^6.0.0",
     "hamburgers": "^1.1.3",
     "highcharts": "^8.1.0",
