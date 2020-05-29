@@ -972,7 +972,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                       <FontAwesomeIcon icon={faGithub} />
                     </a>
                     <span className="mgr10">{r.package.version}</span>
-                    <span className="mgr10">{r.package.publisher.username}</span>
+                    <span className="mgr10">{r.package.publisher?.username}</span>
                     <span>{dayjs(r.package.date).format("YYYY-M-D")}</span>
                   </p>
                 </div>
