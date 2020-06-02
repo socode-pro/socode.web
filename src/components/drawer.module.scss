@@ -59,34 +59,35 @@
 
   a.navlink {
     padding: 1.4em 1.5em 1.4em calc(1em + 50px);
-    &.github {
-      background: #fff url(../images/icons8-github.svg) left 0.5em center/50px 50px no-repeat;
+    background-position: left 0.5em center;
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    h3 {
+      @include underline();
     }
-    // &.riot {
-    //   background: #fff url(../images/riot.svg) left 1em center/50px 50px no-repeat;
-    // }
-    // &.qq {
-    //   background: #fff url(../images/qq.svg) left 0.5em center/50px 50px no-repeat;
-    // }
-    // &.feishu {
-    //   background: #fff url(../images/feishu.svg) left 0.7em center/40px 40px no-repeat;
-    // }
+    &:hover {
+      background-color: $white-duck;
+      h3 {
+        @include underline-hover();
+      }
+    }
+    & > span {
+      display: block;
+      color: $grey-light;
+      margin-top: 4px;
+    }
     &.chrome {
-      background: #fff url(../images/icons8-chrome.svg) left 0.5em center/50px 50px no-repeat;
+      background-image: url(../images/icons8-chrome.svg);
     }
     &.edge {
-      background: #fff url(../images/icons8-edge.svg) left 0.5em center/50px 50px no-repeat;
+      background-image: url(../images/icons8-edge.svg);
     }
     &.privacy {
-      background: #fff url(../images/icons8-fingerprint-100.png) left 0.5em center/50px 50px no-repeat;
+      background-image: url(../images/icons8-fingerprint-100.png);
     }
     &.shortcut {
-      background: #fff url(../images/icons8-keyboard-100.png) left 0.5em center/50px 50px no-repeat;
+      background-image: url(../images/icons8-keyboard-100.png);
     }
-    // &.spectrum {
-    //   background: #fff url(../images/spectrum.svg) left 0.7em center/30px 30px no-repeat;
-    //   padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
-    // }
     &.discord {
       background: #fff url(../images/discord.svg) left 0.6em center/30px 30px no-repeat;
       padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
@@ -118,19 +119,50 @@
     //   background: #fafafa url(../images/twitter.svg) center/22px 22px no-repeat;
     //   padding: 0.5em 0.5em 0.5em calc(0.5em + 22px);
     // }
-    h3 {
-      @include underline();
-    }
-    &:hover {
-      background-color: $white-duck;
-      h3 {
-        @include underline-hover();
+  }
+
+  li.loginItem {
+    display: flex;
+    justify-content: space-between;
+    & > a.navlink {
+      flex-grow: 1;
+      &.github {
+        background-image: url(../images/icons8-github.svg);
+      }
+      &.google {
+        background-image: url(../images/icons8-google.svg);
       }
     }
-    span {
-      display: block;
-      color: $grey-light;
-      margin-top: 4px;
+  }
+
+  li.profile {
+    display: block;
+    & > a.navlink {
+      padding: 1.4em 0.5em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      div.profileInfo {
+        display: flex;
+        align-items: center;
+      }
+      svg {
+        font-size: 1.3em;
+      }
+    }
+    :global(a.dropdown-item) {
+      font-size: 1em;
+      &.disable {
+        color: $grey-light;
+        cursor: default;
+        &:hover {
+          background-color: transparent;
+        }
+      }
+      &.logout {
+        text-align: right;
+        color: $red;
+      }
     }
   }
 
@@ -184,4 +216,8 @@
 
 .wechatqr {
   width: 360px !important;
+}
+
+.profileMenuMask {
+  z-index: 19;
 }

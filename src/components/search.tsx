@@ -81,13 +81,13 @@ const SearchInput: React.FC = (): JSX.Element => {
   const removePin = useStoreActions((actions) => actions.searchKeys.removePin)
   const keyIndex = useStoreState<number>((state) => state.searchKeys.keyIndex)
   const setKeyIndex = useStoreActions((actions) => actions.searchKeys.setKeyIndex)
-  
+
   const displayKeys = useStoreState<boolean>((state) => state.display.displayKeys)
   const setDisplayKeys = useStoreActions((actions) => actions.display.setDisplayKeys)
   const wapperTop = useStoreState<number>((state) => state.display.wapperTop)
   const expandView = useStoreState<boolean>((state) => state.display.expandView)
   const expandWidthView = useStoreState<boolean>((state) => state.display.expandWidthView)
-  
+
   const squery = useStoreState<string>((state) => state.search.query)
   const setSquery = useStoreActions((actions) => actions.search.setQuery)
   const timeRange = useStoreState<SearchTimeRange>((state) => state.search.timeRange)
@@ -121,7 +121,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const search = useStoreActions((actions) => actions.search.search)
   const clearResult = useStoreActions((actions) => actions.search.clearResult)
   const lunchUrlAction = useStoreActions((actions) => actions.search.lunchUrl)
-  console.log("currentKey", currentKey.code)
+
   // const initialKeys = useStoreActions(actions => actions.searchKeys.initialKeys)
   const initialCurrentKey = useStoreActions((actions) => actions.searchKeys.initialCurrentKey)
   useEffect(() => {
