@@ -31,9 +31,9 @@ const Drawer: React.FC = (): JSX.Element => {
     right: active ? 0 : 20,
   })
 
-  // useEffect(() => {
-  //   jwtCallback()
-  // }, [jwtCallback])
+  useEffect(() => {
+    jwtCallback()
+  }, [jwtCallback])
 
   useHotkeys(
     "f2",
@@ -81,7 +81,7 @@ const Drawer: React.FC = (): JSX.Element => {
       </animated.div> */}
       <div className={cs(css.drawer, { [css.active]: active })}>
         <aside className={cs("menu", css.jacket)}>
-          {/* <p className="menu-label">Profile</p>
+          <p className="menu-label">Profile</p>
           <ul className="menu-list">
             {!profile && (
               <li className={css.loginItem}>
@@ -142,7 +142,7 @@ const Drawer: React.FC = (): JSX.Element => {
                 />
               </li>
             )}
-          </ul> */}
+          </ul>
           <p className="menu-label">Aside</p>
           <ul className="menu-list">
             <li>
@@ -195,15 +195,6 @@ const Drawer: React.FC = (): JSX.Element => {
               </li>
             )}
 
-            {/* <li>
-              <a
-                className={cs(css.navlink, css.spectrum)}
-                target='_blank'
-                rel='noopener noreferrer'
-                href='https://spectrum.chat/socode'>
-                <h3>Spectrum</h3>
-              </a>
-            </li> */}
             <li>
               <a
                 className={cs(css.navlink, css.telegram)}

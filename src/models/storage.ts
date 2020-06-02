@@ -138,18 +138,18 @@ const storageModel: StorageModel = {
     localStorage.setItem("profile", JSON.stringify(payload))
   }),
   jwtCallback: thunk(async (actions) => {
-    const info2: Profile = {
-      id: 11,
-      role: UserRole.User,
-      username: "zicjin@gmail.com",
-      email: "zicjin@gmail.com",
-      displayName: "Cheney Jin",
-      avatar: "https://avatars2.githubusercontent.com/u/199482",
-      githubToken: "***REMOVED***",
-      // googleToken: "***REMOVED***",
-    }
-    actions.setProfile(info2)
-    return
+    // const info2: Profile = {
+    //   id: 11,
+    //   role: UserRole.User,
+    //   username: "zicjin@gmail.com",
+    //   email: "zicjin@gmail.com",
+    //   displayName: "Cheney Jin",
+    //   avatar: "https://avatars2.githubusercontent.com/u/199482",
+    //   // githubToken: "***REMOVED***",
+    //   googleToken: "***REMOVED***",
+    // }
+    // actions.setProfile(info2)
+    // return
 
     const params = new URLSearchParams(window.location.search)
     if (!params.has("jwt")) return
