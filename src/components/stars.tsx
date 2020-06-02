@@ -11,7 +11,7 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons"
 import { Stack, StackType } from "../utils/historystacks"
 import { useStoreActions, useStoreState } from "../Store"
 import { IntEnumObjects } from "../utils/assist"
-import OAuth from "./oauth"
+// import OAuth from "./oauth"
 import { DisplayType } from "../models/stars"
 import { Repository } from "../services/stars.service"
 import { InterfaceLanguage } from "../utils/language"
@@ -53,7 +53,7 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
   }, [initialCurrentStack])
 
   const language = useStoreState<InterfaceLanguage | undefined>((state) => state.storage.settings.language)
-  const githubToken = useStoreState<string>((state) => state.storage.githubToken)
+  // const githubToken = useStoreState<string>((state) => state.storage.githubToken)
   const displayType = useStoreState<DisplayType>((state) => state.stars.displayType)
   const privateStacks = useStoreState<Array<Stack>>((state) => state.stars.privateStacks)
   const displayStacks = useStoreState<Array<Stack>>((state) => state.stars.displayStacks)
@@ -343,7 +343,7 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
               Download Image
             </a>
           )}
-          {!githubToken && <OAuth />}
+          {/* {!githubToken && <OAuth />} */}
         </div>
 
         {loading && (

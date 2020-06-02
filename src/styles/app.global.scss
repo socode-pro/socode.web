@@ -41,6 +41,7 @@ $body-overflow-y: auto;
 @import "~bulma/sass/elements/icon.sass";
 @import "~bulma/sass/elements/notification.sass";
 @import "~bulma/sass/elements/table.sass";
+@import "~bulma/sass/elements/image.sass";
 @import "~bulma/sass/form/_all.sass";
 // @import '~bulma/sass/components/navbar.sass';
 @import "~bulma/sass/components/dropdown.sass";
@@ -153,8 +154,11 @@ $space-props: (
 .hide-im {
   visibility: hidden !important;
 }
-.pnt {
+.curpnt {
   cursor: pointer;
+}
+.curdef {
+  cursor: default;
 }
 .stretched-link {
   @include stretched-link();
@@ -226,7 +230,7 @@ html.WithJs {
 }
 
 .mask {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;

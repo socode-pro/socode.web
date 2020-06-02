@@ -21,6 +21,12 @@ export enum DarkMode {
   dark,
 }
 
+export enum UserRole {
+  Admin = "admin",
+  Collaborator = "collaborator",
+  User = "user",
+}
+
 export interface SettingsType {
   language?: InterfaceLanguage
   openNewTab?: boolean
@@ -38,6 +44,17 @@ export interface RegionData {
   latitude?: string
   longitude?: string
   utc_offset?: string
+}
+
+export interface Profile {
+  id: number
+  username: string
+  email?: string
+  displayName?: string
+  githubToken?: string
+  googleToken?: string
+  avatar?: string
+  role: UserRole
 }
 
 const defaultSettings = (): SettingsType => {
@@ -67,8 +84,9 @@ export interface StorageModel {
   setSearchModels: Action<StorageModel, { code: string; model: SearchModel }>
   searchModel: Computed<StorageModel, SearchModel, StoreModel>
 
-  githubToken: string
-  setGithubToken: Action<StorageModel, string>
+  profile: Profile | null
+  setProfile: Action<StorageModel, Profile | null>
+  jwtCallback: Thunk<StorageModel>
 
   region: RegionData
   setRegion: Action<StorageModel, RegionData>
@@ -114,10 +132,40 @@ const storageModel: StorageModel = {
     }
   ),
 
-  githubToken: localStorage.getItem("githubToken") || "",
-  setGithubToken: action((state, payload) => {
-    state.githubToken = payload
-    localStorage.setItem("githubToken", payload)
+  profile: JSON.parse(localStorage.getItem("profile") || "null"),
+  setProfile: action((state, payload) => {
+    state.profile = payload
+    localStorage.setItem("profile", JSON.stringify(payload))
+  }),
+  jwtCallback: thunk(async (actions) => {
+    const info2: Profile = {
+      id: 11,
+      role: UserRole.User,
+      username: "zicjin@gmail.com",
+      email: "zicjin@gmail.com",
+      displayName: "Cheney Jin",
+      avatar: "https://avatars2.githubusercontent.com/u/199482",
+      githubToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+      // googleToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+    }
+    actions.setProfile(info2)
+    return
+
+    const params = new URLSearchParams(window.location.search)
+    if (!params.has("jwt")) return
+
+    try {
+      const profile = await ky
+        .get(`${process.env.REACT_APP_NEST}/profile`, {
+          headers: {
+            Authorization: `Bearer ${params.get("jwt")}`,
+          },
+        })
+        .json<Profile>()
+      actions.setProfile(profile)
+    } catch (err) {
+      console.error(err)
+    }
   }),
 
   region: { ip: "", city: "", country_code: "" },
