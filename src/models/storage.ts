@@ -165,6 +165,7 @@ const storageModel: StorageModel = {
         })
         .json<Profile>()
       actions.setProfile({ ...profile, jwt })
+      params.delete("jwt")
     } catch (err) {
       console.error(err)
       actions.setProfile(null)
