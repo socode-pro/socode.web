@@ -154,7 +154,7 @@ const storageModel: StorageModel = {
 
     const params = new URLSearchParams(window.location.search)
     if (!params.has("jwt")) return
-    const jwt = params.get("jwt")
+    const jwt = params.get("jwt") || ""
 
     try {
       const profile = await ky
@@ -164,10 +164,11 @@ const storageModel: StorageModel = {
           },
         })
         .json<Profile>()
-      actions.setProfile({ jwt, ...profile })
+      actions.setProfile({ ...profile, jwt })
     } catch (err) {
-      actions.setProfile(null)
       console.error(err)
+      actions.setProfile(null)
+      // when jwt fail, setProfile(null)
     }
   }),
 
