@@ -55,6 +55,7 @@ export interface Profile {
   googleToken?: string
   avatar?: string
   role: UserRole
+  jwt: string
 }
 
 const defaultSettings = (): SettingsType => {
@@ -153,17 +154,19 @@ const storageModel: StorageModel = {
 
     const params = new URLSearchParams(window.location.search)
     if (!params.has("jwt")) return
+    const jwt = params.get("jwt")
 
     try {
       const profile = await ky
         .get(`${process.env.REACT_APP_NEST}/profile`, {
           headers: {
-            Authorization: `Bearer ${params.get("jwt")}`,
+            Authorization: `Bearer ${jwt}`,
           },
         })
         .json<Profile>()
-      actions.setProfile(profile)
+      actions.setProfile({ jwt, ...profile })
     } catch (err) {
+      actions.setProfile(null)
       console.error(err)
     }
   }),
