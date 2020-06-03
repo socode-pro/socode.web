@@ -3,7 +3,7 @@ import cs from "classnames"
 import { isEdgeChromium, isFirefox } from "../utils/assist"
 import { InterfaceLanguage } from "../utils/language"
 import { SettingsType } from "../models/storage"
-import { useStoreState } from "../utils/hooks"
+import { useStoreState } from "../Store"
 import css from "./extarrow.module.scss"
 
 let deferredPrompt

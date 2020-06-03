@@ -3,8 +3,8 @@ import cs from "classnames"
 import { Markup } from "interweave"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
-import { useStoreActions, useStoreState } from "../utils/hooks"
-import { DevDocEntrie } from "../models/devdocs"
+import { useStoreActions, useStoreState } from "../Store"
+import { DevdocEntrie } from "../models/devdocs"
 import { isRelationHref, transRelationHref } from "../utils/assist"
 import useHotkeys from "../utils/useHotkeys"
 import Loader1 from "./loader/loader1"
@@ -17,10 +17,10 @@ const Devdocs: React.FC = (): JSX.Element => {
   const docLoading = useStoreState<boolean>((state) => state.devdocs.docLoading)
 
   const loadIndex = useStoreActions((actions) => actions.devdocs.loadIndex)
-  const menus = useStoreState<Array<{ group: string; entries: Array<DevDocEntrie> }>>((state) => state.devdocs.menus)
+  const menus = useStoreState<Array<{ group: string; entries: Array<DevdocEntrie> }>>((state) => state.devdocs.menus)
 
   const query = useStoreState<string>((state) => state.search.query)
-  const queryItems = useStoreState<Array<DevDocEntrie>>((state) => state.devdocs.queryItems)
+  const queryItems = useStoreState<Array<DevdocEntrie>>((state) => state.devdocs.queryItems)
   const queryIndex = useStoreState<number>((state) => state.devdocs.queryIndex)
   const setQueryIndex = useStoreActions((actions) => actions.devdocs.setQueryIndex)
 

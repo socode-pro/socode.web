@@ -1,43 +1,18 @@
-import { Action, action, Thunk, thunk, Computed, computed, ActionOn, actionOn, ThunkOn, thunkOn } from "easy-peasy"
-import dayjs from "dayjs"
+import { Action, action, Thunk, thunk, ThunkOn, thunkOn } from "easy-peasy"
 import qrcode from "qrcode"
-import { Injections } from "../store"
+import { Injections } from "../Store"
 import { StoreModel } from "./index"
 import Language, { ProgramLanguage, navigatorLanguage } from "../utils/language"
 import { winSearchParams } from "../utils/assist"
 import { SocodeResult, SearchTimeRange } from "../services/socode.service"
 import { NpmsResult } from "../services/npms.service"
-import { IsUnSearchableKey, IsExpandWidthViewKey } from "../utils/searchkeys"
+import { IsUnSearchableKey } from "../utils/searchkeys"
 
 export interface SMError {
   message: string
 }
 
-const defaultDisplaySubtitle = (): boolean => {
-  const value = localStorage.getItem("displaySubtitle")
-  if (value === null) {
-    const time = localStorage.getItem("displaySubtitleFirstTime")
-    if (!time) {
-      localStorage.setItem("displaySubtitleFirstTime", dayjs().toJSON())
-    } else {
-      return dayjs(time).add(10, "minute").isAfter(dayjs())
-    }
-  }
-  return value !== "false"
-}
-
 export interface SearchModel {
-  expandView: boolean
-  setExpandView: Action<SearchModel, boolean>
-
-  displaySubtitle: boolean
-  setDisplaySubtitle: Action<SearchModel, boolean>
-
-  wapperTop: Computed<SearchModel, number>
-
-  expandWidthView: boolean
-  setExpandWidthView: Action<SearchModel, boolean>
-
   result: SocodeResult | null
   setResult: Action<SearchModel, SocodeResult | null>
 
@@ -78,21 +53,10 @@ export interface SearchModel {
   setDocLanguage: Action<SearchModel, Language>
 
   onInitialCurrentKey: ThunkOn<SearchModel, void, StoreModel>
-  onCurrentKey: ActionOn<SearchModel, StoreModel>
-  onDisplayKeys: ActionOn<SearchModel, StoreModel>
 }
 
 const searchModel: SearchModel = {
-  expandView: false,
-  setExpandView: action((state, payload) => {
-    state.expandView = payload
-  }),
 
-  displaySubtitle: defaultDisplaySubtitle(),
-  setDisplaySubtitle: action((state, payload) => {
-    state.displaySubtitle = payload
-    localStorage.setItem("displaySubtitle", payload.toString())
-  }),
 
   result: null,
   setResult: action((state, payload) => {
@@ -102,19 +66,6 @@ const searchModel: SearchModel = {
   npmResult: null,
   setNpmResult: action((state, payload) => {
     state.npmResult = payload
-  }),
-
-  wapperTop: computed((state) =>
-    state.expandView || (state.result?.results.length || state.npmResult?.results.length || 0) > 0
-      ? -6
-      : state.displaySubtitle
-      ? 150
-      : 130
-  ),
-
-  expandWidthView: false,
-  setExpandWidthView: action((state, payload) => {
-    state.expandWidthView = payload
   }),
 
   loading: false,
@@ -271,27 +222,6 @@ const searchModel: SearchModel = {
       const params = new URLSearchParams(window.location.search)
       if (params.has("q")) {
         actions.search()
-      }
-    }
-  ),
-
-  onCurrentKey: actionOn(
-    (actions, storeActions) => storeActions.searchKeys.setCurrentKey,
-    (state, target) => {
-      if (!target.payload.devdocs && !IsExpandWidthViewKey(target.payload)) {
-        state.expandView = false
-      }
-      if (!IsExpandWidthViewKey(target.payload)) {
-        state.expandWidthView = false
-      }
-    }
-  ),
-
-  onDisplayKeys: actionOn(
-    (actions, storeActions) => storeActions.searchKeys.setDisplayKeys,
-    (state, target) => {
-      if (target.payload) {
-        state.expandWidthView = false
       }
     }
   ),

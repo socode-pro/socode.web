@@ -1,28 +1,29 @@
-import React, { useState, useCallback } from "react"
+import React, { useState, useEffect } from "react"
 import { useSpring, animated } from "react-spring"
 import { Link } from "react-router-dom"
 import cs from "classnames"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faGlobe } from "@fortawesome/free-solid-svg-icons"
+import { faGlobe, faEllipsisH } from "@fortawesome/free-solid-svg-icons"
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons"
-import { faTwitter, faProductHunt } from "@fortawesome/free-brands-svg-icons"
+import { faTwitter, faProductHunt, faGoogle, faGithub } from "@fortawesome/free-brands-svg-icons"
 import useHotkeys from "../utils/useHotkeys"
 import { InterfaceLanguage } from "../utils/language"
 import useIntl, { Words } from "../utils/useIntl"
-import { SettingsType } from "../models/storage"
-import { useStoreActions, useStoreState } from "../utils/hooks"
+import { SettingsType, Profile } from "../models/storage"
+import { useStoreActions, useStoreState } from "../Store"
 import { StringEnumObjects, isEdgeChromium } from "../utils/assist"
-import { error } from "../utils/toast"
 import css from "./drawer.module.scss"
 
 const languageOptions = StringEnumObjects(InterfaceLanguage)
 
 const Drawer: React.FC = (): JSX.Element => {
   const setSettings = useStoreActions((actions) => actions.storage.setSettings)
-  const setGithubToken = useStoreActions((actions) => actions.storage.setGithubToken)
+  const jwtCallback = useStoreActions((actions) => actions.storage.jwtCallback)
   const { language, openNewTab, displayTrending } = useStoreState<SettingsType>((state) => state.storage.settings)
-  const githubToken = useStoreState<string>((state) => state.storage.githubToken)
+  const profile = useStoreState<Profile | null>((state) => state.storage.profile)
+  const setProfile = useStoreActions((actions) => actions.storage.setProfile)
 
+  const [profileMenu, setProfileMenu] = useState(false)
   const [shortcut, setShortcut] = useState(false)
   const [wechatQR, setWechatQR] = useState(false)
   const [active, setActive] = useState(false)
@@ -30,21 +31,9 @@ const Drawer: React.FC = (): JSX.Element => {
     right: active ? 0 : 20,
   })
 
-  const GithubOAuth = useCallback(
-    (e) => {
-      e.preventDefault()
-      const authenticator = new (window as any).netlify.default({})
-      authenticator.authenticate({ provider: "github", scope: "user" }, (err, data) => {
-        if (err) {
-          error(`Error Authenticating with GitHub: ${err}`)
-          return
-        }
-        console.log(JSON.stringify(data))
-        setGithubToken(data.token)
-      })
-    },
-    [setGithubToken]
-  )
+  useEffect(() => {
+    jwtCallback()
+  }, [jwtCallback])
 
   useHotkeys(
     "f2",
@@ -92,26 +81,70 @@ const Drawer: React.FC = (): JSX.Element => {
       </animated.div> */}
       <div className={cs(css.drawer, { [css.active]: active })}>
         <aside className={cs("menu", css.jacket)}>
+          <p className="menu-label">Profile</p>
+          <ul className="menu-list">
+            {!profile && (
+              <li className={css.loginItem}>
+                <a className={cs(css.navlink, css.github)} href={`${process.env.REACT_APP_NEST}/auth/github`}>
+                  <h3>Github</h3>
+                </a>
+                <a className={cs(css.navlink, css.google)} href={`${process.env.REACT_APP_NEST}/auth/google`}>
+                  <h3>Google</h3>
+                </a>
+              </li>
+            )}
+            {!!profile && (
+              <li className={cs(css.profile, "dropdown", "is-right", { "is-active": profileMenu })}>
+                <a className={cs(css.navlink, "dropdown-trigger")} onClick={() => setProfileMenu(true)}>
+                  <div className={cs(css.profileInfo)}>
+                    <figure className="image is-48x48 mgr10">
+                      <img className="is-rounded" src={profile.avatar} alt="avatar" />
+                    </figure>
+                    <h3>{profile.displayName}</h3>
+                  </div>
+                  <FontAwesomeIcon icon={faEllipsisH} className="mgr10" />
+                </a>
+                <div className="dropdown-menu">
+                  <div className="dropdown-content">
+                    {!!profile.githubToken && (
+                      <a className={cs("dropdown-item", css.disable)}>
+                        <FontAwesomeIcon icon={faGithub} className="mgr10" />
+                        Github: {profile.username}
+                      </a>
+                    )}
+                    {!profile.githubToken && (
+                      <a className="dropdown-item" href={`${process.env.REACT_APP_NEST}/auth/github`}>
+                        <FontAwesomeIcon icon={faGithub} className="mgr10" />
+                        Login With Github
+                      </a>
+                    )}
+                    {!!profile.googleToken && (
+                      <a className={cs("dropdown-item", css.disable)}>
+                        <FontAwesomeIcon icon={faGoogle} className="mgr10" />
+                        Google: {profile.username}
+                      </a>
+                    )}
+                    {!profile.googleToken && (
+                      <a className="dropdown-item" href={`${process.env.REACT_APP_NEST}/auth/google`}>
+                        <FontAwesomeIcon icon={faGoogle} className="mgr10" />
+                        Login With Google
+                      </a>
+                    )}
+                    <hr className="dropdown-divider" />
+                    <a className={cs("dropdown-item is-danger", css.logout)} onClick={() => setProfile(null)}>
+                      Logout
+                    </a>
+                  </div>
+                </div>
+                <div
+                  className={cs("mask", css.profileMenuMask, { "dis-none": !profileMenu })}
+                  onClick={() => setProfileMenu(false)}
+                />
+              </li>
+            )}
+          </ul>
           <p className="menu-label">Aside</p>
           <ul className="menu-list">
-            {githubToken && (
-              <li>
-                <a className={cs(css.navlink, css.github)} href="https://github.com/settings/applications?o=used-asc">
-                  <h3>Github Authorized</h3>
-                  {/* <span>to synchronize your settings</span> */}
-                  <span>expand the limit of github api request</span>
-                </a>
-              </li>
-            )}
-            {!githubToken && (
-              <li>
-                <a className={cs(css.navlink, css.github)} onClick={GithubOAuth}>
-                  <h3>Github OAuth</h3>
-                  {/* <span>to synchronize your settings</span> */}
-                  <span>expand the limit of github api request</span>
-                </a>
-              </li>
-            )}
             <li>
               <a
                 className={cs(css.navlink, css.chrome, { [css.edge]: isEdgeChromium })}
@@ -162,15 +195,6 @@ const Drawer: React.FC = (): JSX.Element => {
               </li>
             )}
 
-            {/* <li>
-              <a
-                className={cs(css.navlink, css.spectrum)}
-                target='_blank'
-                rel='noopener noreferrer'
-                href='https://spectrum.chat/socode'>
-                <h3>Spectrum</h3>
-              </a>
-            </li> */}
             <li>
               <a
                 className={cs(css.navlink, css.telegram)}
