@@ -5,6 +5,9 @@ import { StoreModel } from "./index"
 import { InterfaceLanguage, ProgramLanguage } from "../utils/language"
 import { warn } from "../utils/toast"
 
+const IpapiWarn =
+  "Failed to get your region info, which can help us use the cache closer to you. Maybe it's because your ad block plugin blocked the ipapi.co domain"
+
 export enum SearchModel {
   Devdocs,
   Algolia,
@@ -18,6 +21,12 @@ export enum DarkMode {
   dark,
 }
 
+export enum UserRole {
+  Admin = "admin",
+  Collaborator = "collaborator",
+  User = "user",
+}
+
 export interface SettingsType {
   language?: InterfaceLanguage
   openNewTab?: boolean
@@ -27,14 +36,26 @@ export interface SettingsType {
 
 export interface RegionData {
   ip: string
-  city: string
   country_code: string
   country_name?: string
+  city?: string
   region_code?: string
   country?: string
   latitude?: string
   longitude?: string
   utc_offset?: string
+}
+
+export interface Profile {
+  id: number
+  username: string
+  email?: string
+  displayName?: string
+  githubToken?: string
+  googleToken?: string
+  avatar?: string
+  role: UserRole
+  jwt: string
 }
 
 const defaultSettings = (): SettingsType => {
@@ -64,8 +85,9 @@ export interface StorageModel {
   setSearchModels: Action<StorageModel, { code: string; model: SearchModel }>
   searchModel: Computed<StorageModel, SearchModel, StoreModel>
 
-  githubToken: string
-  setGithubToken: Action<StorageModel, string>
+  profile: Profile | null
+  setProfile: Action<StorageModel, Profile | null>
+  jwtCallback: Thunk<StorageModel>
 
   region: RegionData
   setRegion: Action<StorageModel, RegionData>
@@ -111,10 +133,44 @@ const storageModel: StorageModel = {
     }
   ),
 
-  githubToken: localStorage.getItem("githubToken") || "",
-  setGithubToken: action((state, payload) => {
-    state.githubToken = payload
-    localStorage.setItem("githubToken", payload)
+  profile: JSON.parse(localStorage.getItem("profile") || "null"),
+  setProfile: action((state, payload) => {
+    state.profile = payload
+    localStorage.setItem("profile", JSON.stringify(payload))
+  }),
+  jwtCallback: thunk(async (actions) => {
+    // const info2: Profile = {
+    //   id: 11,
+    //   role: UserRole.User,
+    //   username: "zicjin@gmail.com",
+    //   email: "zicjin@gmail.com",
+    //   displayName: "Cheney Jin",
+    //   avatar: "https://avatars2.githubusercontent.com/u/199482",
+    //   // githubToken: "***REMOVED***",
+    //   googleToken: "***REMOVED***",
+    // }
+    // actions.setProfile(info2)
+    // return
+
+    const params = new URLSearchParams(window.location.search)
+    if (!params.has("jwt")) return
+    const jwt = params.get("jwt") || ""
+
+    try {
+      const profile = await ky
+        .get(`${process.env.REACT_APP_NEST}/profile`, {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        })
+        .json<Profile>()
+      actions.setProfile({ ...profile, jwt })
+      params.delete("jwt")
+    } catch (err) {
+      console.error(err)
+      actions.setProfile(null)
+      // when jwt fail, setProfile(null)
+    }
   }),
 
   region: { ip: "", city: "", country_code: "" },
@@ -133,24 +189,33 @@ const storageModel: StorageModel = {
     }
 
     try {
-      const result = await ky.get("https://ipapi.co/json").json<RegionData>()
-      actions.setRegion(result)
+      const result = await ky.get("https://www.cloudflare.com/cdn-cgi/trace").text()
+      const resultLines = result.split(/\r?\n/)
+
+      const locline = resultLines.find((l) => l.startsWith("loc"))
+      if (!locline) throw new Error("locline null")
+      const ipline = resultLines.find((l) => l.startsWith("ip"))
+      if (!ipline) throw new Error("ipline null")
+
+      actions.setRegion({
+        ip: ipline?.split("=")[1],
+        country_code: locline?.split("=")[1],
+      })
     } catch (err) {
+      console.warn(err)
       try {
-        const result = await ky.get("https://freegeoip.app/json/").json<RegionData>()
+        const result = await ky.get("https://ipapi.co/json").json<RegionData>()
         actions.setRegion(result)
       } catch (err2) {
-        warn(
-          "Failed to get your region info, which can help us use the cache closer to you. Maybe it's because your ad block plugin blocked the ipapi.co domain",
-          true
-        )
+        warn(IpapiWarn, true)
       }
     }
   }),
 
-  ousideFirewall: true,
+  ousideFirewall: localStorage.getItem("ousideFirewall") !== "false",
   setOusideFirewall: action((state, payload) => {
     state.ousideFirewall = payload
+    localStorage.setItem("ousideFirewall", payload.toString())
   }),
   judgeOusideFirewall: thunk(async (actions) => {
     try {

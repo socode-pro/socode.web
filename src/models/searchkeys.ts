@@ -28,10 +28,7 @@ export interface SearchKeysModel {
 
   currentKey: SKey
   setCurrentKey: Action<SearchKeysModel, SKey>
-  initialCurrentKey: Action<SearchKeysModel>
-
-  displayKeys: boolean
-  setDisplayKeys: Action<SearchKeysModel, boolean>
+  initialCurrentKey: Thunk<SearchKeysModel, void, void, StoreModel>
 
   keyIndex: number
   setKeyIndex: Action<SearchKeysModel, number>
@@ -112,29 +109,24 @@ const searchKeysModel: SearchKeysModel = {
     state.currentKey = payload
     localStorage.setItem("currentKey", payload.code)
   }),
-  initialCurrentKey: action((state) => {
+  initialCurrentKey: thunk(async (actions, payload, { getState }) => {
+    const { keys } = getState()
     const params = new URLSearchParams(window.location.search)
 
     if (params.has("k")) {
-      const key = state.keys.find((k) => k.code === params.get("k"))
+      const key = keys.find((k) => k.code === params.get("k"))
       if (key) {
-        state.currentKey = key
+        actions.setCurrentKey(key)
         return
       }
     }
 
     const code = localStorage.getItem("currentKey")
-    const key = state.keys.find((k) => k.code === code)
+    const key = keys.find((k) => k.code === code)
     if (key && !key.devdocs && !IsExpandWidthViewKey(key)) {
-      state.currentKey = key
+      actions.setCurrentKey(key)
     }
-  }),
-
-  displayKeys: localStorage.getItem("displayKeys") !== "false",
-  setDisplayKeys: action((state, payload) => {
-    state.displayKeys = payload
-    localStorage.setItem("displayKeys", payload.toString())
-  }),
+  }), // do not change to [action] for support actionOn
 
   keyIndex: 0,
   setKeyIndex: action((state, payload) => {

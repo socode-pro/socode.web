@@ -1,12 +1,12 @@
 import { Action, action, Thunk, thunk, Computed, computed, ActionOn, actionOn, ThunkOn, thunkOn } from "easy-peasy"
 import ky from "ky"
-import Fuse from "fuse.js"
 import groupBy from "lodash/groupBy"
-import set from "lodash/set"
+import Fuse from "fuse.js"
+import FuseHighlight from "../utils/fuse_highlight"
 import { winSearchParams } from "../utils/assist"
 import { StoreModel } from "./index"
 
-const fuseOptions: Fuse.IFuseOptions<DevDocEntrie> = {
+const fuseOptions: Fuse.IFuseOptions<DevdocEntrie> = {
   keys: ["name", "type"],
   threshold: 0.3,
   includeMatches: true,
@@ -14,44 +14,7 @@ const fuseOptions: Fuse.IFuseOptions<DevDocEntrie> = {
   useExtendedSearch: true,
 }
 
-// https://github.com/krisk/Fuse/issues/6#issuecomment-455813098
-type RangeTuple = [number, number]
-const highlightedText = (inputText: string, regions: ReadonlyArray<RangeTuple> = []): string => {
-  let content = ""
-  let nextUnhighlightedRegionStartingIndex = 0
-
-  regions.forEach((region) => {
-    const lastRegionNextIndex = region[1] + 1
-
-    content += [
-      inputText.substring(nextUnhighlightedRegionStartingIndex, region[0]),
-      `<span class="highlight">`,
-      inputText.substring(region[0], lastRegionNextIndex),
-      "</span>",
-    ].join("")
-
-    nextUnhighlightedRegionStartingIndex = lastRegionNextIndex
-  })
-
-  content += inputText.substring(nextUnhighlightedRegionStartingIndex)
-  return content
-}
-
-const FuseHighlight = (result: Fuse.FuseResult<DevDocEntrie>[]): Array<DevDocEntrie> => {
-  return result.map(({ item, matches }) => {
-    const highlightedItem = { ...item }
-    if (matches) {
-      matches.forEach((match: Fuse.FuseResultMatch) => {
-        if (match.key && match.value) {
-          set(highlightedItem, match.key, highlightedText(match.value, match.indices))
-        }
-      })
-    }
-    return highlightedItem
-  })
-}
-
-export interface DevDocMeta {
+export interface DevdocMeta {
   name: string
   slug: string
   type: string
@@ -59,14 +22,14 @@ export interface DevDocMeta {
   db_size: number
 }
 
-export interface DevDocEntrie {
+export interface DevdocEntrie {
   name: string
   path: string
   type: string
 }
 
-interface DevDocIndex {
-  entries: Array<DevDocEntrie>
+interface DevdocIndex {
+  entries: Array<DevdocEntrie>
   types: Array<{
     name: string
     slug: string
@@ -81,23 +44,23 @@ export interface DevdocsModel {
   docLoading: boolean
   setDocLoading: Action<DevdocsModel, boolean>
 
-  metas: DevDocMeta[]
-  setMetas: Action<DevdocsModel, DevDocMeta[]>
+  metas: DevdocMeta[]
+  setMetas: Action<DevdocsModel, DevdocMeta[]>
   initialMetas: Thunk<DevdocsModel, void>
 
-  indexs: Array<DevDocEntrie>
-  setIndexs: Action<DevdocsModel, Array<DevDocEntrie>>
+  indexs: Array<DevdocEntrie>
+  setIndexs: Action<DevdocsModel, Array<DevdocEntrie>>
   loadIndex: Thunk<DevdocsModel, void, void, StoreModel>
   menus: Computed<
     DevdocsModel,
     Array<{
       group: string
-      entries: Array<DevDocEntrie>
+      entries: Array<DevdocEntrie>
     }>
   >
   onCurrentKeyChange: ThunkOn<DevdocsModel, void, StoreModel>
 
-  queryItems: Computed<DevdocsModel, Array<DevDocEntrie>, StoreModel>
+  queryItems: Computed<DevdocsModel, Array<DevdocEntrie>, StoreModel>
   queryIndex: number
   setQueryIndex: Action<DevdocsModel, number>
   onQueryChange: ActionOn<DevdocsModel, StoreModel>
@@ -116,7 +79,7 @@ export interface DevdocsModel {
   selectPath: Thunk<DevdocsModel, string, void, StoreModel>
 }
 
-const devdocsModel: DevdocsModel = {
+const DevdocsModel: DevdocsModel = {
   menuLoading: false,
   setMenuLoading: action((state, payload) => {
     state.menuLoading = payload
@@ -133,7 +96,7 @@ const devdocsModel: DevdocsModel = {
   }),
   initialMetas: thunk(async (actions) => {
     try {
-      const metas = await ky.get(`${process.env.REACT_APP_DOC_HOST}/docs.json`).json<DevDocMeta[]>()
+      const metas = await ky.get(`${process.env.REACT_APP_DOC_HOST}/docs.json`).json<DevdocMeta[]>()
       if (metas !== null) {
         actions.setMetas(metas)
       }
@@ -161,11 +124,11 @@ const devdocsModel: DevdocsModel = {
 
       const indexJson = await ky
         .get(`${process.env.REACT_APP_DOC_HOST}/${currentKey.devdocs}/index.json?${meta.mtime}`)
-        .json<DevDocIndex>()
+        .json<DevdocIndex>()
       actions.setIndexs(indexJson.entries)
-      getStoreActions().search.setExpandView(true)
+      getStoreActions().display.setExpandView(true)
     } catch (err) {
-      console.error("devdocsModel.initialIndex", err)
+      console.error("DevdocsModel.initialIndex", err)
     }
     actions.cleanExpandings()
     actions.setMenuLoading(false)
@@ -188,8 +151,8 @@ const devdocsModel: DevdocsModel = {
   queryItems: computed([(state) => state.indexs, (state, storeState) => storeState.search.query], (indexs, query) => {
     if (!query) return []
     const fuse = new Fuse(indexs, fuseOptions)
-    const result = fuse.search<DevDocEntrie>(query).slice(0, 15)
-    return FuseHighlight(result)
+    const result = fuse.search<DevdocEntrie>(query).slice(0, 15)
+    return FuseHighlight(result, [`<span class="highlight">`, "</span>"])
   }),
   queryIndex: 0,
   setQueryIndex: action((state, payload) => {
@@ -255,10 +218,10 @@ const devdocsModel: DevdocsModel = {
         .text()
       actions.setDocs(html)
     } catch (err) {
-      console.error("devdocsModel.selectDoc", err)
+      console.error("DevdocsModel.selectDoc", err)
     }
     actions.setDocLoading(false)
   }),
 }
 
-export default devdocsModel
+export default DevdocsModel

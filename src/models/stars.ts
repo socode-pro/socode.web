@@ -3,7 +3,7 @@ import ky from "ky"
 import Stacks, { Stack, StackType } from "../utils/historystacks"
 import { winSearchParams } from "../utils/assist"
 import { generateUuid } from "../utils/keygen"
-import { Injections } from "../store"
+import { Injections } from "../Store"
 import { StoreModel } from "./index"
 import { Repository } from "../services/stars.service"
 import { error, warn } from "../utils/toast"
@@ -139,9 +139,13 @@ const starsModel: StarsModel = {
   addPrivateStackRepoAndData: thunk(async (actions, { stackid, repo }, { injections, getStoreState }) => {
     actions.addPrivateStackRepo({ stackid, repo })
     actions.setLoading(true)
-    const { region, githubToken } = getStoreState().storage
+    const { region, profile } = getStoreState().storage
     try {
-      const data = await injections.starsService.getRepoData({ repo, country: region.country_code, githubToken })
+      const data = await injections.starsService.getRepoData({
+        repo,
+        country: region.country_code,
+        token: profile?.githubToken,
+      })
       if (data) {
         actions.pushRepository(data)
         if (data.requiredCacheUpdate) {
@@ -221,7 +225,7 @@ const starsModel: StarsModel = {
     actions.setCurrentStack(stack)
     actions.clearRepositorys()
     actions.setLoading(true)
-    const { region, githubToken } = getStoreState().storage
+    const { region, profile } = getStoreState().storage
     if (stack.type === StackType.Private) {
       winSearchParams({ keyname: "github_stars", stack: stack.id, repos: stack.repos.toString() })
     } else {
@@ -231,7 +235,11 @@ const starsModel: StarsModel = {
     await Promise.all(
       stack.repos.map(async (repo) => {
         try {
-          const data = await injections.starsService.getRepoData({ repo, country: region.country_code, githubToken })
+          const data = await injections.starsService.getRepoData({
+            repo,
+            country: region.country_code,
+            token: profile?.githubToken,
+          })
           if (data) {
             actions.pushRepository(data)
             if (data.requiredCacheUpdate) {

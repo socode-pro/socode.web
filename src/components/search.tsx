@@ -35,7 +35,7 @@ import useSKeyCategoryIntl from "../utils/searchkeysIntl"
 import { getAutocompleteTemplate, getAutocompleteUrl } from "../utils/algolia_template"
 import useHotkeys from "../utils/useHotkeys"
 import { StringEnumObjects, IntEnumObjects, winSearchParams, isFirefox, isInStandaloneMode } from "../utils/assist"
-import { useStoreActions, useStoreState } from "../utils/hooks"
+import { useStoreActions, useStoreState } from "../Store"
 import { SearchTimeRange, SocodeResult } from "../services/socode.service"
 import { NpmsResult } from "../services/npms.service"
 import { SettingsType, SearchModel } from "../models/storage"
@@ -79,13 +79,15 @@ const SearchInput: React.FC = (): JSX.Element => {
   const setCurrentKey = useStoreActions((actions) => actions.searchKeys.setCurrentKey)
   const addPin = useStoreActions((actions) => actions.searchKeys.addPin)
   const removePin = useStoreActions((actions) => actions.searchKeys.removePin)
-  const displayKeys = useStoreState<boolean>((state) => state.searchKeys.displayKeys)
-  const setDisplayKeys = useStoreActions((actions) => actions.searchKeys.setDisplayKeys)
   const keyIndex = useStoreState<number>((state) => state.searchKeys.keyIndex)
   const setKeyIndex = useStoreActions((actions) => actions.searchKeys.setKeyIndex)
 
-  const expandView = useStoreState<boolean>((state) => state.search.expandView)
-  const expandWidthView = useStoreState<boolean>((state) => state.search.expandWidthView)
+  const displayKeys = useStoreState<boolean>((state) => state.display.displayKeys)
+  const setDisplayKeys = useStoreActions((actions) => actions.display.setDisplayKeys)
+  const wapperTop = useStoreState<number>((state) => state.display.wapperTop)
+  const expandView = useStoreState<boolean>((state) => state.display.expandView)
+  const expandWidthView = useStoreState<boolean>((state) => state.display.expandWidthView)
+
   const squery = useStoreState<string>((state) => state.search.query)
   const setSquery = useStoreActions((actions) => actions.search.setQuery)
   const timeRange = useStoreState<SearchTimeRange>((state) => state.search.timeRange)
@@ -114,7 +116,6 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const result = useStoreState<SocodeResult | null>((state) => state.search.result)
   const npmResult = useStoreState<NpmsResult | null>((state) => state.search.npmResult)
-  const wapperTop = useStoreState<number>((state) => state.search.wapperTop)
   const loading = useStoreState<boolean>((state) => state.search.loading)
   const error = useStoreState<SMError | null>((state) => state.search.error)
   const search = useStoreActions((actions) => actions.search.search)
@@ -335,11 +336,10 @@ const SearchInput: React.FC = (): JSX.Element => {
       setKquery("")
       setCurrentKey(key)
       winSearchParams({ keyname: key.code, query: "" })
-      setDisplayKeys(false)
       setKeyIndex(-1)
       setTimeout(() => focusInput(), 200)
     },
-    [clearResultAll, focusInput, setCurrentKey, setDisplayKeys, setKeyIndex, setKquery, setSquery]
+    [clearResultAll, focusInput, setCurrentKey, setKeyIndex, setKquery, setSquery]
   )
 
   const handlerSearch = useCallback(
@@ -972,7 +972,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                       <FontAwesomeIcon icon={faGithub} />
                     </a>
                     <span className="mgr10">{r.package.version}</span>
-                    <span className="mgr10">{r.package.publisher.username}</span>
+                    <span className="mgr10">{r.package.publisher?.username}</span>
                     <span>{dayjs(r.package.date).format("YYYY-M-D")}</span>
                   </p>
                 </div>
