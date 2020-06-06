@@ -143,6 +143,25 @@ const Drawer: React.FC = (): JSX.Element => {
                       </a>
                     )}
                     <hr className="dropdown-divider" />
+                    <a className="dropdown-item" onClick={() => displayShareMenu(true)}>
+                      <FontAwesomeIcon icon={faShareAlt} className="mgr10" />
+                      Have shared with {profile.invitationCount} users
+                    </a>
+                    {shareMenu && (
+                      <div
+                        className={cs(css.shareinput, "dropdown-item", "has-tooltip-warning")}
+                        data-tooltip={tooltips ? "Copied!" : null}>
+                        <input
+                          id="shareinput"
+                          onClick={(e) => (e.target as HTMLInputElement).select()}
+                          value={`https://socode.pro/${profile ? `?invitationCode=${profile.invitationCode}` : ""}`}
+                          onChange={() => null}
+                          data-clipboard-target="#shareinput"
+                          className="input"
+                        />
+                      </div>
+                    )}
+                    <hr className="dropdown-divider" />
                     <a className={cs("dropdown-item is-danger", css.logout)} onClick={() => setProfile(null)}>
                       Logout
                     </a>
@@ -317,7 +336,7 @@ const Drawer: React.FC = (): JSX.Element => {
             <FontAwesomeIcon icon={faEnvelope} />
           </a>
 
-          <div className={cs(css.share, "dropdown", { "is-active": shareMenu })}>
+          {/* <div className={cs(css.share, "dropdown", { "is-active": shareMenu })}>
             <a className={cs(css.navlink, css.footicon, "dropdown-trigger")} onClick={() => displayShareMenu(true)}>
               <FontAwesomeIcon icon={faShareAlt} />
             </a>
@@ -339,7 +358,7 @@ const Drawer: React.FC = (): JSX.Element => {
               className={cs("mask", css.profileMenuMask, { "dis-none": !shareMenu })}
               onClick={() => displayShareMenu(false)}
             />
-          </div>
+          </div> */}
 
           {/* <a>投放广告</a> */}
           {language === InterfaceLanguage.中文 && (
