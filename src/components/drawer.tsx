@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import cs from "classnames"
 import ClipboardJS from "clipboard"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faGlobe, faEllipsisH, faShareAlt } from "@fortawesome/free-solid-svg-icons"
+import { faGlobe, faEllipsisH, faShareAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons"
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons"
 import { faTwitter, faProductHunt, faGoogle, faGithub } from "@fortawesome/free-brands-svg-icons"
 import useHotkeys from "../utils/useHotkeys"
@@ -143,9 +143,10 @@ const Drawer: React.FC = (): JSX.Element => {
                       </a>
                     )}
                     <hr className="dropdown-divider" />
-                    <a className="dropdown-item" onClick={() => displayShareMenu(true)}>
+                    <a className="dropdown-item" onClick={() => displayShareMenu(!shareMenu)}>
                       <FontAwesomeIcon icon={faShareAlt} className="mgr10" />
-                      Have shared with {profile.invitationCount} users
+                      {!!profile.invitationCount && <span>Have shared with {profile.invitationCount} friends</span>}
+                      {!profile.invitationCount && <span>Share with your friends</span>}
                     </a>
                     {shareMenu && (
                       <div
@@ -163,6 +164,7 @@ const Drawer: React.FC = (): JSX.Element => {
                     )}
                     <hr className="dropdown-divider" />
                     <a className={cs("dropdown-item is-danger", css.logout)} onClick={() => setProfile(null)}>
+                      <FontAwesomeIcon icon={faSignOutAlt} className="mgr10" />
                       Logout
                     </a>
                   </div>
