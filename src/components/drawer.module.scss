@@ -104,9 +104,7 @@
       background: #fff url(../images/icons8-forms.svg) left 0.7em center/26px 26px no-repeat;
       padding: 0.8em 0.8em 0.8em calc(1.2em + 30px);
     }
-    &.email,
-    &.twitter,
-    &.producthunt {
+    &.footicon {
       font-size: 18px;
       padding: 0.3em 0.5em;
     }
@@ -163,6 +161,16 @@
         text-align: right;
         color: $red;
       }
+    }
+  }
+
+  div.share {
+    display: inline-block;
+    .footicon {
+      font-size: 17px;
+    }
+    .shareinput {
+      padding: 0;
     }
   }
 

@@ -139,7 +139,8 @@ const starsModel: StarsModel = {
   addPrivateStackRepoAndData: thunk(async (actions, { stackid, repo }, { injections, getStoreState }) => {
     actions.addPrivateStackRepo({ stackid, repo })
     actions.setLoading(true)
-    const { region, profile } = getStoreState().storage
+    const { region } = getStoreState().storage
+    const { profile } = getStoreState().profile
     try {
       const data = await injections.starsService.getRepoData({
         repo,
@@ -225,7 +226,9 @@ const starsModel: StarsModel = {
     actions.setCurrentStack(stack)
     actions.clearRepositorys()
     actions.setLoading(true)
-    const { region, profile } = getStoreState().storage
+    const { region } = getStoreState().storage
+    const { profile } = getStoreState().profile
+
     if (stack.type === StackType.Private) {
       winSearchParams({ keyname: "github_stars", stack: stack.id, repos: stack.repos.toString() })
     } else {
