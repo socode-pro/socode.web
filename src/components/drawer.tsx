@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import { useSpring, animated } from "react-spring"
 import { Link } from "react-router-dom"
 import cs from "classnames"
+import ClipboardJS from "clipboard"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faGlobe, faEllipsisH } from "@fortawesome/free-solid-svg-icons"
+import { faGlobe, faEllipsisH, faShareAlt } from "@fortawesome/free-solid-svg-icons"
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons"
 import { faTwitter, faProductHunt, faGoogle, faGithub } from "@fortawesome/free-brands-svg-icons"
 import useHotkeys from "../utils/useHotkeys"
 import { InterfaceLanguage } from "../utils/language"
 import useIntl, { Words } from "../utils/useIntl"
-import { SettingsType, Profile } from "../models/storage"
+import { SettingsType } from "../models/storage"
+import { Profile } from "../models/profile"
 import { useStoreActions, useStoreState } from "../Store"
 import { StringEnumObjects, isEdgeChromium } from "../utils/assist"
 import css from "./drawer.module.scss"
@@ -18,10 +20,12 @@ const languageOptions = StringEnumObjects(InterfaceLanguage)
 
 const Drawer: React.FC = (): JSX.Element => {
   const setSettings = useStoreActions((actions) => actions.storage.setSettings)
-  const jwtCallback = useStoreActions((actions) => actions.storage.jwtCallback)
   const { language, openNewTab, displayTrending } = useStoreState<SettingsType>((state) => state.storage.settings)
-  const profile = useStoreState<Profile | null>((state) => state.storage.profile)
-  const setProfile = useStoreActions((actions) => actions.storage.setProfile)
+  const profile = useStoreState<Profile | null>((state) => state.profile.profile)
+  const setProfile = useStoreActions((actions) => actions.profile.setProfile)
+
+  const [tooltips, setTooltips] = useState(false)
+  const [shareMenu, setShareMenu] = useState(false)
 
   const [profileMenu, setProfileMenu] = useState(false)
   const [shortcut, setShortcut] = useState(false)
@@ -32,8 +36,16 @@ const Drawer: React.FC = (): JSX.Element => {
   })
 
   useEffect(() => {
-    jwtCallback()
-  }, [jwtCallback])
+    const clipboard = new ClipboardJS("#shareinput")
+    clipboard.on("success", (e) => {
+      if (e.text) setTooltips(true)
+    })
+  }, [])
+
+  const displayShareMenu = useCallback((display) => {
+    setShareMenu(display)
+    setTooltips(false)
+  }, [])
 
   useHotkeys(
     "f2",
@@ -284,22 +296,50 @@ const Drawer: React.FC = (): JSX.Element => {
         <footer className={cs("menu", css.skirt)}>
           <p className="menu-label">Footer</p>
           <a
-            className={cs(css.navlink, css.producthunt)}
+            className={cs(css.navlink, css.footicon)}
             href="https://www.producthunt.com/posts/socode-pro"
             target="_blank"
             rel="noopener noreferrer">
             <FontAwesomeIcon icon={faProductHunt} />
           </a>
           <a
-            className={cs(css.navlink, css.twitter)}
+            className={cs(css.navlink, css.footicon)}
             href="https://twitter.com/socode7"
             target="_blank"
             rel="noopener noreferrer">
             <FontAwesomeIcon icon={faTwitter} />
           </a>
-          <a className={cs(css.navlink, css.email)} href="mailto:elliotreborn@gmail.com">
+          <a
+            className={cs(css.navlink, css.footicon)}
+            target="_blank"
+            rel="noreferrer"
+            href="mailto:elliotreborn@gmail.com">
             <FontAwesomeIcon icon={faEnvelope} />
           </a>
+
+          <div className={cs(css.share, "dropdown", { "is-active": shareMenu })}>
+            <a className={cs(css.navlink, css.footicon, "dropdown-trigger")} onClick={() => displayShareMenu(true)}>
+              <FontAwesomeIcon icon={faShareAlt} />
+            </a>
+            <div className={cs("dropdown-menu")}>
+              <div
+                className={cs(css.shareinput, "dropdown-content", "has-tooltip-warning")}
+                data-tooltip={tooltips ? "Copied!" : null}>
+                <input
+                  id="shareinput"
+                  onClick={(e) => (e.target as HTMLInputElement).select()}
+                  value={`https://socode.pro/${profile ? `?invitationCode=${profile.invitationCode}` : ""}`}
+                  onChange={() => null}
+                  data-clipboard-target="#shareinput"
+                  className="input"
+                />
+              </div>
+            </div>
+            <div
+              className={cs("mask", css.profileMenuMask, { "dis-none": !shareMenu })}
+              onClick={() => displayShareMenu(false)}
+            />
+          </div>
 
           {/* <a>投放广告</a> */}
           {language === InterfaceLanguage.中文 && (
