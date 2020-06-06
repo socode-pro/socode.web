@@ -1,6 +1,8 @@
 import { Action, action, Thunk, thunk } from "easy-peasy"
 import ky from "ky"
 
+const { location, history } = window
+
 export enum UserRole {
   Admin = "admin",
   Collaborator = "collaborator",
@@ -17,6 +19,7 @@ export interface Profile {
   avatar?: string
   role: UserRole
   invitationCode: string
+  invitationCount: number
   jwt: string
 }
 
@@ -54,6 +57,21 @@ const profileModel: ProfileModel = {
   }),
 
   injectParams: thunk(async (actions) => {
+    // const info2: Profile = {
+    //   id: 11,
+    //   role: UserRole.User,
+    //   username: "zicjin@gmail.com",
+    //   email: "zicjin@gmail.com",
+    //   displayName: "Cheney Jin",
+    //   avatar: "https://avatars2.githubusercontent.com/u/199482",
+    //   // githubToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+    //   googleToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+    //   invitationCode: "zxcasdsa",
+    //   invitationCount: 0,
+    //   jwt: "zxfdsfdf",
+    // }
+    // actions.setProfile(info2)
+
     const params = new URLSearchParams(window.location.search)
 
     if (params.has("jwt")) {
@@ -63,6 +81,7 @@ const profileModel: ProfileModel = {
         await actions.judgeInvited()
       }
       params.delete("jwt")
+      history.pushState(null, "", `${location.pathname}?${params.toString()}`)
     }
 
     if (params.has("invitationCode")) {
