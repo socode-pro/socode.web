@@ -162,17 +162,21 @@
         color: $red;
       }
     }
+
+    .shareinput {
+      padding: 0.5em 0.75em 0;
+    }
   }
 
-  div.share {
-    display: inline-block;
-    .footicon {
-      font-size: 17px;
-    }
-    .shareinput {
-      padding: 0;
-    }
-  }
+  // div.share {
+  //   display: inline-block;
+  //   .footicon {
+  //     font-size: 17px;
+  //   }
+  //   .shareinput {
+  //     padding: 0;
+  //   }
+  // }
 
   .field {
     margin: 20px 0;
