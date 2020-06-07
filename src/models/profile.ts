@@ -55,7 +55,7 @@ const defaultSettings = (): Settings => {
 
 export interface ProfileModel {
   jwt: string | null
-  setJwt: Action<ProfileModel, string>
+  setJwt: Action<ProfileModel, string | null>
 
   settings: Settings
   setSettings: Action<ProfileModel, Settings>
@@ -63,6 +63,7 @@ export interface ProfileModel {
   profile: Profile | null
   setProfile: Action<ProfileModel, Profile | null>
 
+  logout: Thunk<ProfileModel>
   loadProfile: Thunk<ProfileModel>
   injectParams: Thunk<ProfileModel>
   judgeInvited: Thunk<ProfileModel>
@@ -72,7 +73,7 @@ const profileModel: ProfileModel = {
   jwt: localStorage.getItem("jwt") || null,
   setJwt: action((state, payload) => {
     state.jwt = payload
-    localStorage.setItem("jwt", payload)
+    localStorage.setItem("jwt", payload || "")
   }),
 
   settings: defaultSettings(),
@@ -94,6 +95,11 @@ const profileModel: ProfileModel = {
   setProfile: action((state, payload) => {
     state.profile = payload
     localStorage.setItem("profile", JSON.stringify(payload))
+  }),
+
+  logout: thunk(async (actions) => {
+    actions.setProfile(null)
+    actions.setJwt(null)
   }),
 
   loadProfile: thunk(async (actions, payload, { getState }) => {
@@ -125,7 +131,7 @@ const profileModel: ProfileModel = {
       }
     } catch (err) {
       console.error(err)
-      actions.setProfile(null)
+      actions.logout()
     }
   }),
 
