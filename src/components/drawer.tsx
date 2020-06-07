@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import cs from "classnames"
 import ClipboardJS from "clipboard"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faGlobe, faEllipsisH, faShareAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons"
+import { faGlobe, faEllipsisH, faShareAlt, faSignOutAlt, faSpinner } from "@fortawesome/free-solid-svg-icons"
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons"
 import { faTwitter, faProductHunt, faGoogle, faGithub } from "@fortawesome/free-brands-svg-icons"
 import useHotkeys from "../utils/useHotkeys"
@@ -23,6 +23,9 @@ const Drawer: React.FC = (): JSX.Element => {
   const { language, openNewTab, displayTrending } = useStoreState<Settings>((state) => state.profile.settings)
   const profile = useStoreState<Profile | null>((state) => state.profile.profile)
   const setProfile = useStoreActions((actions) => actions.profile.setProfile)
+
+  const [githubSpinning, setGithubSpinning] = useState(false)
+  const [googleSpinning, setGoogleSpinning] = useState(false)
 
   const [tooltips, setTooltips] = useState(false)
   const [shareMenu, setShareMenu] = useState(false)
@@ -97,11 +100,19 @@ const Drawer: React.FC = (): JSX.Element => {
           <ul className="menu-list">
             {!profile && (
               <li className={css.loginItem}>
-                <a className={cs(css.navlink, css.github)} href={`${process.env.REACT_APP_NEST}/auth/github`}>
-                  <h3>Github</h3>
+                <a
+                  className={cs(css.navlink, css.github)}
+                  onClick={() => setGithubSpinning(true)}
+                  href={`${process.env.REACT_APP_NEST}/auth/github`}>
+                  {!githubSpinning && <h3>Github</h3>}
+                  {githubSpinning && <FontAwesomeIcon icon={faSpinner} spin />}
                 </a>
-                <a className={cs(css.navlink, css.google)} href={`${process.env.REACT_APP_NEST}/auth/google`}>
-                  <h3>Google</h3>
+                <a
+                  className={cs(css.navlink, css.google)}
+                  onClick={() => setGoogleSpinning(true)}
+                  href={`${process.env.REACT_APP_NEST}/auth/google`}>
+                  {!googleSpinning && <h3>Google</h3>}
+                  {googleSpinning && <FontAwesomeIcon icon={faSpinner} spin />}
                 </a>
               </li>
             )}
