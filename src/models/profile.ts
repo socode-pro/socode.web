@@ -37,22 +37,6 @@ export interface Profile {
   settings?: Settings // In order to transfer data, not to be state
 }
 
-const defaultSettings = (): Settings => {
-  const defaultValue = {
-    language: navigator.language.startsWith(InterfaceLanguage.中文)
-      ? InterfaceLanguage.中文
-      : InterfaceLanguage.English,
-    openNewTab: true,
-    displayTrending: true,
-  }
-
-  const settings = localStorage.getItem("settings")
-  if (settings) {
-    return { ...defaultValue, ...JSON.parse(settings) }
-  }
-  return defaultValue
-}
-
 export interface ProfileModel {
   jwt: string | null
   setJwt: Action<ProfileModel, string | null>
@@ -76,7 +60,14 @@ const profileModel: ProfileModel = {
     localStorage.setItem("jwt", payload || "")
   }),
 
-  settings: defaultSettings(),
+  settings: {
+    language: navigator.language.startsWith(InterfaceLanguage.中文)
+      ? InterfaceLanguage.中文
+      : InterfaceLanguage.English,
+    openNewTab: true,
+    displayTrending: true,
+    darkMode: DarkMode.Light,
+  },
   setSettings: action((state, payload) => {
     state.settings = { ...state.settings, ...payload }
     localStorage.setItem("settings", JSON.stringify(state.settings))
@@ -120,12 +111,14 @@ const profileModel: ProfileModel = {
 
       const localSettings = localStorage.getItem("settings")
       if (localSettings) {
-        await ky.post(`${process.env.REACT_APP_NEST}/users/setting`, {
+        const localSettingsObj = JSON.parse(localSettings)
+        await ky.post(`${process.env.REACT_APP_NEST}/users/settings`, {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
-          json: JSON.parse(localSettings),
+          json: localSettingsObj,
         })
+        actions.setSettings(localSettingsObj)
       } else if (settings) {
         actions.setSettings(settings)
       }
