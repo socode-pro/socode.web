@@ -1,7 +1,21 @@
 import { Action, action, Thunk, thunk } from "easy-peasy"
 import ky from "ky"
+import { InterfaceLanguage } from "../utils/language"
 
 const { location, history } = window
+
+export enum DarkMode {
+  Light,
+  FlowSystem,
+  Dark,
+}
+
+export interface Settings {
+  language?: InterfaceLanguage
+  openNewTab?: boolean
+  displayTrending?: boolean
+  darkMode?: DarkMode
+}
 
 export enum UserRole {
   Admin = "admin",
@@ -20,39 +34,86 @@ export interface Profile {
   role: UserRole
   invitationCode: string
   invitationCount: number
-  jwt: string
+  settings?: Settings // In order to transfer data, not to be state
+}
+
+const defaultSettings = (): Settings => {
+  const defaultValue = {
+    language: navigator.language.startsWith(InterfaceLanguage.中文)
+      ? InterfaceLanguage.中文
+      : InterfaceLanguage.English,
+    openNewTab: true,
+    displayTrending: true,
+  }
+
+  const settings = localStorage.getItem("settings")
+  if (settings) {
+    return { ...defaultValue, ...JSON.parse(settings) }
+  }
+  return defaultValue
 }
 
 export interface ProfileModel {
+  jwt: string | null
+  setJwt: Action<ProfileModel, string>
+
+  settings: Settings
+  setSettings: Action<ProfileModel, Settings>
+
   profile: Profile | null
   setProfile: Action<ProfileModel, Profile | null>
 
-  loadProfile: Thunk<ProfileModel, string>
+  loadProfile: Thunk<ProfileModel>
   injectParams: Thunk<ProfileModel>
   judgeInvited: Thunk<ProfileModel>
 }
 
 const profileModel: ProfileModel = {
+  jwt: null,
+  setJwt: action((state, payload) => {
+    state.jwt = payload
+  }),
+
+  settings: defaultSettings(),
+  setSettings: action((state, payload) => {
+    state.settings = { ...state.settings, ...payload }
+    localStorage.setItem("settings", JSON.stringify(state.settings))
+  }),
+
   profile: JSON.parse(localStorage.getItem("profile") || "null"),
   setProfile: action((state, payload) => {
     state.profile = payload
     localStorage.setItem("profile", JSON.stringify(payload))
   }),
 
-  loadProfile: thunk(async (actions, jwt) => {
+  loadProfile: thunk(async (actions, payload, { getState }) => {
+    const { jwt } = getState()
     try {
-      const profile = await ky
+      const data = await ky
         .get(`${process.env.REACT_APP_NEST}/users/profile`, {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
         })
         .json<Profile>()
-      actions.setProfile({ ...profile, jwt })
+
+      const { settings, ...profile } = data
+      actions.setProfile(profile)
+
+      const localSettings = localStorage.getItem("settings")
+      if (localSettings) {
+        await ky.post(`${process.env.REACT_APP_NEST}/users/setting`, {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+          json: JSON.parse(localSettings),
+        })
+      } else if (settings) {
+        actions.setSettings(settings)
+      }
     } catch (err) {
       console.error(err)
       actions.setProfile(null)
-      // when jwt fail, setProfile(null)
     }
   }),
 
@@ -77,7 +138,8 @@ const profileModel: ProfileModel = {
     if (params.has("jwt")) {
       const jwt = params.get("jwt") || ""
       if (jwt) {
-        await actions.loadProfile(jwt)
+        actions.setJwt(jwt)
+        await actions.loadProfile()
         await actions.judgeInvited()
       }
       params.delete("jwt")
@@ -95,11 +157,8 @@ const profileModel: ProfileModel = {
   judgeInvited: thunk(async (actions, payload, { getState }) => {
     const code = localStorage.getItem("invitationCode")
     if (!code) return
-    const jwt = getState().profile?.jwt
-    if (!jwt) {
-      console.error("jwt null")
-      return
-    }
+    const { jwt } = getState()
+    if (!jwt) return
 
     const pparams = new URLSearchParams()
     pparams.set("invitationCode", code)

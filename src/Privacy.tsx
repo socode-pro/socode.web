@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Markup } from "interweave"
 import { useStoreActions, useStoreState } from "./Store"
 import { InterfaceLanguage } from "./utils/language"
-import { SettingsType } from "./models/storage"
+import { Settings } from "./models/profile"
 import Brand from "./components/brand"
 import "./Privacy.scss"
 
@@ -19,7 +19,7 @@ export enum Words {
 
 const useIntl = (words: Words): string => {
   const [content, setContent] = useState("")
-  const { language } = useStoreState<SettingsType>((state) => state.storage.settings)
+  const { language } = useStoreState<Settings>((state) => state.profile.settings)
 
   useEffect(() => {
     if (language === InterfaceLanguage.中文) {

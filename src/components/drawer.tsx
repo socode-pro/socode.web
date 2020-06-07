@@ -10,8 +10,8 @@ import { faTwitter, faProductHunt, faGoogle, faGithub } from "@fortawesome/free-
 import useHotkeys from "../utils/useHotkeys"
 import { InterfaceLanguage } from "../utils/language"
 import useIntl, { Words } from "../utils/useIntl"
-import { SettingsType } from "../models/storage"
-import { Profile } from "../models/profile"
+import { Settings, Profile } from "../models/profile"
+
 import { useStoreActions, useStoreState } from "../Store"
 import { StringEnumObjects, isEdgeChromium } from "../utils/assist"
 import css from "./drawer.module.scss"
@@ -19,8 +19,8 @@ import css from "./drawer.module.scss"
 const languageOptions = StringEnumObjects(InterfaceLanguage)
 
 const Drawer: React.FC = (): JSX.Element => {
-  const setSettings = useStoreActions((actions) => actions.storage.setSettings)
-  const { language, openNewTab, displayTrending } = useStoreState<SettingsType>((state) => state.storage.settings)
+  const setSettings = useStoreActions((actions) => actions.profile.setSettings)
+  const { language, openNewTab, displayTrending } = useStoreState<Settings>((state) => state.profile.settings)
   const profile = useStoreState<Profile | null>((state) => state.profile.profile)
   const setProfile = useStoreActions((actions) => actions.profile.setProfile)
 

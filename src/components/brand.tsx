@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react"
 import { useSpring, animated, to } from "react-spring"
 import cs from "classnames"
 import { InterfaceLanguage } from "../utils/language"
-import { SettingsType } from "../models/storage"
+import { Settings } from "../models/profile"
 import { SKey } from "../utils/searchkeys"
 import { useStoreActions, useStoreState } from "../Store"
 // import { useMediaPredicate } from 'react-media-hook'
@@ -16,7 +16,7 @@ const words = [
 ]
 
 const Brand: React.FC = (): JSX.Element => {
-  const { language } = useStoreState<SettingsType>((state) => state.storage.settings)
+  const { language } = useStoreState<Settings>((state) => state.profile.settings)
   const displaySubtitle = useStoreState<boolean>((state) => state.display.displaySubtitle)
   const setDisplaySubtitle = useStoreActions((actions) => actions.display.setDisplaySubtitle)
 

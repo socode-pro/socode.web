@@ -56,8 +56,6 @@ export interface SearchModel {
 }
 
 const searchModel: SearchModel = {
-
-
   result: null,
   setResult: action((state, payload) => {
     state.result = payload
@@ -196,7 +194,7 @@ const searchModel: SearchModel = {
     }
 
     if (url) {
-      if (getStoreState().storage.settings.openNewTab) {
+      if (getStoreState().profile.settings.openNewTab) {
         window.open(url, "_blank")?.focus()
       } else {
         window.location.href = url

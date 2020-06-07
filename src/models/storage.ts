@@ -2,7 +2,7 @@ import { Action, action, Thunk, thunk, Computed, computed } from "easy-peasy"
 import ky from "ky"
 import dayjs from "dayjs"
 import { StoreModel } from "./index"
-import { InterfaceLanguage, ProgramLanguage } from "../utils/language"
+import { ProgramLanguage } from "../utils/language"
 import { warn } from "../utils/toast"
 
 const IpapiWarn =
@@ -13,19 +13,6 @@ export enum SearchModel {
   Algolia,
   Awesome,
   Template,
-}
-
-export enum DarkMode {
-  light,
-  flowSystem,
-  dark,
-}
-
-export interface SettingsType {
-  language?: InterfaceLanguage
-  openNewTab?: boolean
-  displayTrending?: boolean
-  darkMode?: DarkMode
 }
 
 export interface RegionData {
@@ -40,26 +27,7 @@ export interface RegionData {
   utc_offset?: string
 }
 
-const defaultSettings = (): SettingsType => {
-  const defaultValue = {
-    language: navigator.language.startsWith(InterfaceLanguage.中文)
-      ? InterfaceLanguage.中文
-      : InterfaceLanguage.English,
-    openNewTab: true,
-    displayTrending: true,
-  }
-
-  const settings = localStorage.getItem("settings")
-  if (settings) {
-    return { ...defaultValue, ...JSON.parse(settings) }
-  }
-  return defaultValue
-}
-
 export interface StorageModel {
-  settings: SettingsType
-  setSettings: Action<StorageModel, SettingsType>
-
   programLanguage: ProgramLanguage
   setProgramLanguage: Action<StorageModel, ProgramLanguage>
 
@@ -77,13 +45,6 @@ export interface StorageModel {
 }
 
 const storageModel: StorageModel = {
-  settings: defaultSettings(),
-
-  setSettings: action((state, payload) => {
-    state.settings = { ...state.settings, ...payload }
-    localStorage.setItem("settings", JSON.stringify(state.settings))
-  }),
-
   programLanguage: parseInt(localStorage.getItem("programLanguage") || "0", 10),
   setProgramLanguage: action((state, payload) => {
     state.programLanguage = payload

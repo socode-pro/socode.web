@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useStoreState } from "../Store"
 import { InterfaceLanguage } from "./language"
-import { SettingsType } from "../models/storage"
+import { Settings } from "../models/profile"
 
 export enum Words {
   ASearchEngineForProgrammers = "A search engine for programmers",
@@ -21,7 +21,7 @@ export enum Words {
 
 const useIntl = (words: Words): string => {
   const [content, setContent] = useState("")
-  const { language } = useStoreState<SettingsType>((state) => state.storage.settings)
+  const { language } = useStoreState<Settings>((state) => state.profile.settings)
 
   useEffect(() => {
     if (language === InterfaceLanguage.中文) {

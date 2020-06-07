@@ -2,14 +2,14 @@ import React, { useEffect, useState, useCallback } from "react"
 import cs from "classnames"
 import { isEdgeChromium, isFirefox } from "../utils/assist"
 import { InterfaceLanguage } from "../utils/language"
-import { SettingsType } from "../models/storage"
+import { Settings } from "../models/profile"
 import { useStoreState } from "../Store"
 import css from "./extarrow.module.scss"
 
 let deferredPrompt
 
 const ExtArrow: React.FC = (): JSX.Element => {
-  const { language } = useStoreState<SettingsType>((state) => state.storage.settings)
+  const { language } = useStoreState<Settings>((state) => state.profile.settings)
   const ousideFirewall = useStoreState<boolean>((state) => state.storage.ousideFirewall)
   const [showPWA, setShowPWA] = useState(false)
 

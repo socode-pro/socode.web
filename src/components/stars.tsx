@@ -53,7 +53,7 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
     initialCurrentStack()
   }, [initialCurrentStack])
 
-  const language = useStoreState<InterfaceLanguage | undefined>((state) => state.storage.settings.language)
+  const language = useStoreState<InterfaceLanguage | undefined>((state) => state.profile.settings.language)
   const profile = useStoreState<Profile | null>((state) => state.profile.profile)
   const displayType = useStoreState<DisplayType>((state) => state.stars.displayType)
   const privateStacks = useStoreState<Array<Stack>>((state) => state.stars.privateStacks)

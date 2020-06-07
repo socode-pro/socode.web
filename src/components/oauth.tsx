@@ -9,7 +9,7 @@ import css from "./oauth.module.scss"
 
 const Slogan: React.FC = (): JSX.Element => {
   const [displayTips, setDisplayTips] = useState(false)
-  const language = useStoreState<InterfaceLanguage | undefined>((state) => state.storage.settings.language)
+  const language = useStoreState<InterfaceLanguage | undefined>((state) => state.profile.settings.language)
 
   return (
     <div className={css.oauthbar}>

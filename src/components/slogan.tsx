@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faQuestionCircle } from "@fortawesome/free-regular-svg-icons"
 import { InterfaceLanguage } from "../utils/language"
 import useIntl, { Words } from "../utils/useIntl"
-import { SettingsType } from "../models/storage"
+import { Settings } from "../models/profile"
 import { useStoreState } from "../Store"
 import css from "./slogan.module.scss"
 
@@ -14,7 +14,7 @@ const Slogan: React.FC = (): JSX.Element => {
   const privacyPolicy = useIntl(Words.PrivacyPolicy)
   const [displayTips, setDisplayTips] = useState(false)
 
-  const { language } = useStoreState<SettingsType>((state) => state.storage.settings)
+  const { language } = useStoreState<Settings>((state) => state.profile.settings)
 
   return (
     <div className={css.slogan}>
