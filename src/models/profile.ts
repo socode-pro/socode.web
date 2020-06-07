@@ -69,9 +69,10 @@ export interface ProfileModel {
 }
 
 const profileModel: ProfileModel = {
-  jwt: null,
+  jwt: localStorage.getItem("jwt") || null,
   setJwt: action((state, payload) => {
     state.jwt = payload
+    localStorage.setItem("jwt", payload)
   }),
 
   settings: defaultSettings(),
@@ -94,6 +95,8 @@ const profileModel: ProfileModel = {
 
   loadProfile: thunk(async (actions, payload, { getState }) => {
     const { jwt } = getState()
+    if (!jwt) return
+
     try {
       const data = await ky
         .get(`${process.env.REACT_APP_NEST}/users/profile`, {
