@@ -73,7 +73,7 @@ const profileModel: ProfileModel = {
     localStorage.setItem("settings", JSON.stringify(state.settings))
 
     if (state.jwt) {
-      ky.post(`${process.env.REACT_APP_NEST}/users/setting`, {
+      ky.post(`${process.env.REACT_APP_NEST}/users/settings`, {
         headers: {
           Authorization: `Bearer ${state.jwt}`,
         },
