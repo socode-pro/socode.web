@@ -1,33 +1,33 @@
-import { useState, useEffect } from 'react'
-import { useStoreState } from '../Store'
-import { SettingsType } from '../models/storage'
-import Language, { InterfaceLanguage } from './language'
-import { SKeyCategory } from './searchkeys'
+import { useState, useEffect } from "react"
+import { useStoreState } from "../Store"
+import { Settings } from "../models/profile"
+import { InterfaceLanguage } from "./language"
+import { SKeyCategory } from "./searchkeys"
 
 const useSKeyCategoryIntl = (category: SKeyCategory): string => {
-  const [word, setWord] = useState('')
-  const { language } = useStoreState<SettingsType>((state) => state.storage.settings)
+  const [word, setWord] = useState("")
+  const { language } = useStoreState<Settings>((state) => state.profile.settings)
 
   useEffect(() => {
     if (language === InterfaceLanguage.中文) {
       switch (category) {
         case SKeyCategory.Search:
-          setWord('搜索')
+          setWord("搜索")
           break
         case SKeyCategory.Tools:
-          setWord('工具')
+          setWord("工具")
           break
         case SKeyCategory.CheatSheets:
-          setWord('Cheat Sheets')
+          setWord("Cheat Sheets")
           break
         case SKeyCategory.Document:
-          setWord('文档')
+          setWord("文档")
           break
         case SKeyCategory.Collection:
-          setWord('导航')
+          setWord("导航")
           break
         case SKeyCategory.Learn:
-          setWord('学习')
+          setWord("学习")
           break
         default:
           break
@@ -35,22 +35,22 @@ const useSKeyCategoryIntl = (category: SKeyCategory): string => {
     } else {
       switch (category) {
         case SKeyCategory.Search:
-          setWord('SEARCH')
+          setWord("SEARCH")
           break
         case SKeyCategory.Tools:
-          setWord('TOOLS')
+          setWord("TOOLS")
           break
         case SKeyCategory.CheatSheets:
-          setWord('Cheat Sheets')
+          setWord("Cheat Sheets")
           break
         case SKeyCategory.Document:
-          setWord('DOCUMENT')
+          setWord("DOCUMENT")
           break
         case SKeyCategory.Collection:
-          setWord('COLLECTION')
+          setWord("COLLECTION")
           break
         case SKeyCategory.Learn:
-          setWord('LEARN')
+          setWord("LEARN")
           break
         default:
           break

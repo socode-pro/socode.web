@@ -71,7 +71,7 @@ const searchKeysModel: SearchKeysModel = {
     [
       (state) => state.keys,
       (state) => state.pins,
-      (state, storeState) => storeState.storage.settings.language,
+      (state, storeState) => storeState.profile.settings.language,
       (state, storeState) => storeState.storage.ousideFirewall,
     ],
     (keys, pins, language, ousideFirewall) => {

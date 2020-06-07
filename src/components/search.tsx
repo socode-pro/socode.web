@@ -38,7 +38,8 @@ import { StringEnumObjects, IntEnumObjects, winSearchParams, isFirefox, isInStan
 import { useStoreActions, useStoreState } from "../Store"
 import { SearchTimeRange, SocodeResult } from "../services/socode.service"
 import { NpmsResult } from "../services/npms.service"
-import { SettingsType, SearchModel } from "../models/storage"
+import { Settings } from "../models/profile"
+import { SearchModel } from "../models/storage"
 import { SMError } from "../models/search"
 import { Suggester, SuggestItem } from "../services/suggest.service"
 import css from "./search.module.scss"
@@ -102,7 +103,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const programLanguage = useStoreState<ProgramLanguage>((state) => state.storage.programLanguage)
   const setProgramLanguage = useStoreActions((actions) => actions.storage.setProgramLanguage)
-  const { language, displayTrending } = useStoreState<SettingsType>((state) => state.storage.settings)
+  const { language, displayTrending } = useStoreState<Settings>((state) => state.profile.settings)
   const searchModel = useStoreState<SearchModel>((state) => state.storage.searchModel)
   const setSearchModels = useStoreActions((actions) => actions.storage.setSearchModels)
 
