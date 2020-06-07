@@ -23,6 +23,7 @@ const Drawer: React.FC = (): JSX.Element => {
   const { language, openNewTab, displayTrending } = useStoreState<Settings>((state) => state.profile.settings)
   const profile = useStoreState<Profile | null>((state) => state.profile.profile)
   const setProfile = useStoreActions((actions) => actions.profile.setProfile)
+  const logout = useStoreActions((actions) => actions.profile.logout)
 
   const [githubSpinning, setGithubSpinning] = useState(false)
   const [googleSpinning, setGoogleSpinning] = useState(false)
@@ -118,7 +119,7 @@ const Drawer: React.FC = (): JSX.Element => {
             )}
             {!!profile && (
               <li className={cs(css.profile, "dropdown", "is-right", { "is-active": profileMenu })}>
-                <a className={cs(css.navlink, "dropdown-trigger")} onClick={() => setProfileMenu(true)}>
+                <a className={cs(css.navlink, "dropdown-trigger")} onClick={() => logout()}>
                   <div className={cs(css.profileInfo)}>
                     <figure className="image is-48x48 mgr10">
                       <img className="is-rounded" src={profile.avatar} alt="avatar" />
