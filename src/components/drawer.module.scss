@@ -123,7 +123,7 @@
     display: flex;
     justify-content: space-between;
     & > a.navlink {
-      flex-grow: 1;
+      flex: 1 50%;
       &.github {
         background-image: url(../images/icons8-github.svg);
       }
