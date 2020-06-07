@@ -82,10 +82,9 @@ const profileModel: ProfileModel = {
     }
   }),
 
-  profile: JSON.parse(localStorage.getItem("profile") || "null"),
+  profile: null,
   setProfile: action((state, payload) => {
     state.profile = payload
-    localStorage.setItem("profile", JSON.stringify(payload))
   }),
 
   logout: thunk(async (actions) => {
