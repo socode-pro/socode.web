@@ -93,10 +93,11 @@ const profileModel: ProfileModel = {
   }),
 
   loadProfile: thunk(async (actions, payload, { getState }) => {
-    const { jwt } = getState()
-    if (!jwt) return
-
+    const localSettings = localStorage.getItem("settings")
     try {
+      const { jwt } = getState()
+      if (jwt) throw new Error("jwt null")
+
       const data = await ky
         .get(`${process.env.REACT_APP_NEST}/users/profile`, {
           headers: {
@@ -108,22 +109,17 @@ const profileModel: ProfileModel = {
       const { settings, ...profile } = data
       actions.setProfile(profile)
 
-      const localSettings = localStorage.getItem("settings")
       if (localSettings) {
-        const localSettingsObj = JSON.parse(localSettings)
-        await ky.post(`${process.env.REACT_APP_NEST}/users/settings`, {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-          json: localSettingsObj,
-        })
-        actions.setSettings(localSettingsObj)
+        actions.setSettings(JSON.parse(localSettings))
       } else if (settings) {
         actions.setSettings(settings)
       }
     } catch (err) {
       console.error(err)
       actions.logout()
+      if (localSettings) {
+        actions.setSettings(JSON.parse(localSettings))
+      }
     }
   }),
 
