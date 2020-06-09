@@ -126,7 +126,7 @@ const profileModel: ProfileModel = {
         actions.setSettings({ settings, post: false })
       }
     } catch (err) {
-      console.warn(err)
+      console.warn(err.message)
       actions.logout()
       if (localSettings) {
         actions.setSettings({ settings: JSON.parse(localSettings), storage: false })
@@ -177,7 +177,6 @@ const profileModel: ProfileModel = {
     const { jwt } = getState()
     if (!jwt) return
 
-    console.log(`invitationCode:${code}`)
     const pparams = new URLSearchParams()
     pparams.set("invitationCode", code)
     try {
