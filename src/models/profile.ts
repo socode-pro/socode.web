@@ -96,7 +96,7 @@ const profileModel: ProfileModel = {
     const localSettings = localStorage.getItem("settings")
     try {
       const { jwt } = getState()
-      if (jwt) throw new Error("jwt null")
+      if (!jwt) throw new Error("jwt null")
 
       const data = await ky
         .get(`${process.env.REACT_APP_NEST}/users/profile`, {
@@ -115,7 +115,7 @@ const profileModel: ProfileModel = {
         actions.setSettings(settings)
       }
     } catch (err) {
-      console.error(err)
+      console.warn(err)
       actions.logout()
       if (localSettings) {
         actions.setSettings(JSON.parse(localSettings))
@@ -142,7 +142,7 @@ const profileModel: ProfileModel = {
     const params = new URLSearchParams(window.location.search)
 
     if (params.has("jwt")) {
-      const jwt = params.get("jwt") || ""
+      const jwt = params.get("jwt")
       if (jwt) {
         actions.setJwt(jwt)
         await actions.loadProfile()
