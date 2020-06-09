@@ -22,7 +22,6 @@ const Drawer: React.FC = (): JSX.Element => {
   const setSettings = useStoreActions((actions) => actions.profile.setSettings)
   const { language, openNewTab, displayTrending } = useStoreState<Settings>((state) => state.profile.settings)
   const profile = useStoreState<Profile | null>((state) => state.profile.profile)
-  const setProfile = useStoreActions((actions) => actions.profile.setProfile)
   const logout = useStoreActions((actions) => actions.profile.logout)
 
   const [githubSpinning, setGithubSpinning] = useState(false)
@@ -119,7 +118,7 @@ const Drawer: React.FC = (): JSX.Element => {
             )}
             {!!profile && (
               <li className={cs(css.profile, "dropdown", "is-right", { "is-active": profileMenu })}>
-                <a className={cs(css.navlink, "dropdown-trigger")} onClick={() => logout()}>
+                <a className={cs(css.navlink, "dropdown-trigger")} onClick={() => setProfileMenu(true)}>
                   <div className={cs(css.profileInfo)}>
                     <figure className="image is-48x48 mgr10">
                       <img className="is-rounded" src={profile.avatar} alt="avatar" />
@@ -175,7 +174,7 @@ const Drawer: React.FC = (): JSX.Element => {
                       </div>
                     )}
                     <hr className="dropdown-divider" />
-                    <a className={cs("dropdown-item is-danger", css.logout)} onClick={() => setProfile(null)}>
+                    <a className={cs("dropdown-item is-danger", css.logout)} onClick={() => logout()}>
                       <FontAwesomeIcon icon={faSignOutAlt} className="mgr10" />
                       Logout
                     </a>
@@ -272,7 +271,7 @@ const Drawer: React.FC = (): JSX.Element => {
                 <div className="select is-rounded">
                   <select
                     value={language}
-                    onChange={(e) => setSettings({ language: e.target.value as InterfaceLanguage })}>
+                    onChange={(e) => setSettings({ settings: { language: e.target.value as InterfaceLanguage } })}>
                     {languageOptions.map((o) => (
                       <option key={o.value} value={o.value}>
                         {o.label}
@@ -292,7 +291,7 @@ const Drawer: React.FC = (): JSX.Element => {
                   id="opennewtab"
                   type="checkbox"
                   checked={openNewTab}
-                  onChange={(e) => setSettings({ openNewTab: e.target.checked })}
+                  onChange={(e) => setSettings({ settings: { openNewTab: e.target.checked } })}
                 />
                 <label htmlFor="opennewtab">{useIntl(Words.OpenNewTab)}</label>
               </div>
@@ -304,7 +303,7 @@ const Drawer: React.FC = (): JSX.Element => {
                   id="displaytrending"
                   type="checkbox"
                   checked={displayTrending}
-                  onChange={(e) => setSettings({ displayTrending: e.target.checked })}
+                  onChange={(e) => setSettings({ settings: { displayTrending: e.target.checked } })}
                 />
                 <label htmlFor="displaytrending">{useIntl(Words.DisplayTrending)}</label>
               </div>

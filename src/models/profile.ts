@@ -42,15 +42,15 @@ export interface ProfileModel {
   setJwt: Action<ProfileModel, string | null>
 
   settings: Settings
-  setSettings: Action<ProfileModel, Settings>
+  setSettings: Action<ProfileModel, { settings: Settings; storage?: boolean; post?: boolean }>
 
   profile: Profile | null
-  setProfile: Action<ProfileModel, Profile | null>
+  setProfile: Action<ProfileModel, { profile: Profile | null; storage?: boolean }>
 
   logout: Thunk<ProfileModel>
   loadProfile: Thunk<ProfileModel>
   injectParams: Thunk<ProfileModel>
-  judgeInvited: Thunk<ProfileModel>
+  postInvited: Thunk<ProfileModel>
 }
 
 const profileModel: ProfileModel = {
@@ -68,11 +68,14 @@ const profileModel: ProfileModel = {
     displayTrending: true,
     darkMode: DarkMode.Light,
   },
-  setSettings: action((state, payload) => {
-    state.settings = { ...state.settings, ...payload }
-    localStorage.setItem("settings", JSON.stringify(state.settings))
+  setSettings: action((state, { settings, storage = true, post = true }) => {
+    state.settings = { ...state.settings, ...settings }
 
-    if (state.jwt) {
+    if (storage) {
+      localStorage.setItem("settings", JSON.stringify(state.settings))
+    }
+
+    if (post && state.jwt) {
       ky.post(`${process.env.REACT_APP_NEST}/users/settings`, {
         headers: {
           Authorization: `Bearer ${state.jwt}`,
@@ -83,17 +86,25 @@ const profileModel: ProfileModel = {
   }),
 
   profile: null,
-  setProfile: action((state, payload) => {
-    state.profile = payload
+  setProfile: action((state, { profile, storage = true }) => {
+    state.profile = profile
+    if (storage) {
+      localStorage.setItem("profile", JSON.stringify(state.profile))
+    }
   }),
 
   logout: thunk(async (actions) => {
-    actions.setProfile(null)
+    actions.setProfile({ profile: null })
     actions.setJwt(null)
   }),
 
   loadProfile: thunk(async (actions, payload, { getState }) => {
     const localSettings = localStorage.getItem("settings")
+    // const localProfiles = localStorage.getItem("profile")
+    // if (localProfiles) { // 第一屏不显示Profile的话可以注释掉
+    //   actions.setProfile({ profile: JSON.parse(localProfiles || "null"), storage: false })
+    // }
+
     try {
       const { jwt } = getState()
       if (!jwt) throw new Error("jwt null")
@@ -107,18 +118,18 @@ const profileModel: ProfileModel = {
         .json<Profile>()
 
       const { settings, ...profile } = data
-      actions.setProfile(profile)
+      actions.setProfile({ profile })
 
       if (localSettings) {
-        actions.setSettings(JSON.parse(localSettings))
+        actions.setSettings({ settings: JSON.parse(localSettings), storage: false })
       } else if (settings) {
-        actions.setSettings(settings)
+        actions.setSettings({ settings, post: false })
       }
     } catch (err) {
       console.warn(err)
       actions.logout()
       if (localSettings) {
-        actions.setSettings(JSON.parse(localSettings))
+        actions.setSettings({ settings: JSON.parse(localSettings), storage: false })
       }
     }
   }),
@@ -141,31 +152,32 @@ const profileModel: ProfileModel = {
 
     const params = new URLSearchParams(window.location.search)
 
-    if (params.has("jwt")) {
-      const jwt = params.get("jwt")
-      if (jwt) {
-        actions.setJwt(jwt)
-        await actions.loadProfile()
-        await actions.judgeInvited()
-      }
-      params.delete("jwt")
-      history.pushState(null, "", `${location.pathname}?${params.toString()}`)
-    }
-
     if (params.has("invitationCode")) {
       const code = params.get("invitationCode")
       if (code) {
         localStorage.setItem("invitationCode", code)
       }
     }
+
+    if (params.has("jwt")) {
+      const jwt = params.get("jwt")
+      if (jwt) {
+        actions.setJwt(jwt)
+        await actions.loadProfile()
+        await actions.postInvited()
+      }
+      params.delete("jwt")
+      history.pushState(null, "", `${location.pathname}?${params.toString()}`)
+    }
   }),
 
-  judgeInvited: thunk(async (actions, payload, { getState }) => {
+  postInvited: thunk(async (actions, payload, { getState }) => {
     const code = localStorage.getItem("invitationCode")
     if (!code) return
     const { jwt } = getState()
     if (!jwt) return
 
+    console.log(`invitationCode:${code}`)
     const pparams = new URLSearchParams()
     pparams.set("invitationCode", code)
     try {
