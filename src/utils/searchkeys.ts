@@ -1979,7 +1979,7 @@ const SKeys: SKey[] = [
       },
     ],
   },
-  // {
+  // { //  remember <Trending /> judge
   //   code: "socode",
   //   name: "socode",
   //   category: SKeyCategory.Search,

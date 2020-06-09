@@ -1021,7 +1021,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           !displayKeys &&
           !loading &&
           !currentKey.devdocs &&
-          (currentKey.template || currentKey.docsearch) && <Trending />}
+          (currentKey.template || currentKey.docsearch || currentKey.code === "npms") && <Trending />}
       </div>
     </>
   )
