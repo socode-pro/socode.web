@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 // https://github.com/modularscale/modularscale-sass
-@import '~modularscale-sass/stylesheets/modularscale';
+@import "~modularscale-sass/stylesheets/modularscale";
 $modularscale: (
   base: 14px,
   ratio: 1.2,
@@ -70,9 +70,9 @@ $fontsize: 14px;
 $fontsize-small: 13px;
 $fontsize-head: 16px;
 
-$font-sans: -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-  'Helvetica Neue', sans-serif;
-$font-mono: Consolas, Menlo, 'Liberation Mono', 'Ubuntu Mono', monospace;
+$font-sans: -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+  "Helvetica Neue", sans-serif;
+$font-mono: Consolas, Menlo, "Liberation Mono", "Ubuntu Mono", monospace;
 
 $card-shadow: 0 0.5em 1em -0.125em rgba($black, 0.1), 0 0px 0 1px rgba($black, 0.02);
 
@@ -121,7 +121,7 @@ $shadow_ionic_focus_invert: 0 6px 12px 0 rgba(255, 255, 255, 0.1), 0 1px 3px 0 r
     left: 0;
     z-index: 1;
     pointer-events: auto;
-    content: '';
+    content: "";
     background-color: rgba(0, 0, 0, 0);
   }
 }
@@ -129,7 +129,7 @@ $shadow_ionic_focus_invert: 0 6px 12px 0 rgba(255, 255, 255, 0.1), 0 1px 3px 0 r
 @mixin split-line($prefix, $color) {
   position: relative;
   &:not(:last-child)::after {
-    content: '';
+    content: "";
     position: absolute;
     transform-origin: center;
     box-sizing: border-box;
@@ -154,7 +154,7 @@ $shadow_ionic_focus_invert: 0 6px 12px 0 rgba(255, 255, 255, 0.1), 0 1px 3px 0 r
   display: inline-block;
   &:after {
     color: $color;
-    content: '';
+    content: "";
     height: 3px;
     opacity: 0;
     transform: translateY(3px) scaleY(0);

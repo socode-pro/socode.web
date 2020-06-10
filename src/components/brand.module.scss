@@ -13,20 +13,20 @@
   & > a {
     color: $grey;
     transition: color 0.4s ease-in-out;
-    & > .home {
-      color: $grey-light;
-      font-size: 16px;
-      position: absolute;
-      top: 10px;
-      left: -22px;
-      opacity: 0;
-      transition: opacity 0.4s ease-in-out;
-    }
-    &:hover {
-      & > .home {
-        opacity: 1;
-      }
-    }
+    // & > .home {
+    //   color: $grey-light;
+    //   font-size: 16px;
+    //   position: absolute;
+    //   top: 10px;
+    //   left: -22px;
+    //   opacity: 0;
+    //   transition: opacity 0.4s ease-in-out;
+    // }
+    // &:hover {
+    //   & > .home {
+    //     opacity: 1;
+    //   }
+    // }
   }
 
   .toggle {

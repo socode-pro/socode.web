@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react"
 import cs from "classnames"
+import { Link } from "react-router-dom"
 import { isEdgeChromium, isFirefox } from "../utils/assist"
 import { InterfaceLanguage } from "../utils/language"
 import { Settings } from "../models/profile"
@@ -52,24 +53,15 @@ const ExtArrow: React.FC = (): JSX.Element => {
       )}
 
       <div className={cs(css.wapper, css.browser)}>
-        <a
+        <Link
+          to="/extension"
           className={cs(css.arrow, {
             [css.edge]: isEdgeChromium && !ousideFirewall,
             [css.firefox]: isFirefox,
-          })}
-          // href="https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/">
-          href={
-            isFirefox
-              ? "https://addons.mozilla.org/zh-CN/firefox/addon/socode-search/" // "https://os.socode.pro/firefox.xpi"
-              : isEdgeChromium && !ousideFirewall
-              ? "https://microsoftedge.microsoft.com/addons/detail/dkeiglafihicmjbbaoopggfnifgjekcl"
-              : ousideFirewall
-              ? "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
-              : "https://www.crx4chrome.com/crx/196956/"
-          }>
+          })}>
           <h3>Search Documents in AddressBar</h3>
           <span>Learn More ⤴</span>
-        </a>
+        </Link>
       </div>
     </div>
   )
