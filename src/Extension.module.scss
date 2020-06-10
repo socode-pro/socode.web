@@ -1,5 +1,9 @@
 @import "./styles/variable";
 
+.extension {
+  z-index: 9;
+}
+
 .title {
   @include ms-respond(font-size, 2);
   margin: 100px 0 20px;
@@ -49,4 +53,13 @@ p.description {
 
 img.preview {
   margin-top: 50px;
+}
+
+.footer {
+  margin-top: 40px;
+  text-align: center;
+  a {
+    margin: 0 10px;
+    font-size: 18px;
+  }
 }
