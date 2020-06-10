@@ -4,7 +4,7 @@ import { useStoreActions, useStoreState } from "./Store"
 import { InterfaceLanguage } from "./utils/language"
 import { Settings } from "./models/profile"
 import Brand from "./components/brand"
-import "./Privacy.scss"
+import "./Privacy.module.scss"
 
 export enum Words {
   PrivacyPolicy = "Privacy Policy",

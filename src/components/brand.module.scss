@@ -1,4 +1,4 @@
-@import '../styles/variable';
+@import "../styles/variable";
 
 .brand {
   margin: 1.5em 0 0;
@@ -8,10 +8,25 @@
   color: $grey-light;
   line-height: 3.5rem;
   font-size: 3rem;
-  font-family: 'Patua One';
+  font-family: "Patua One";
   position: relative;
   & > a {
     color: $grey;
+    transition: color 0.4s ease-in-out;
+    & > .home {
+      color: $grey-light;
+      font-size: 16px;
+      position: absolute;
+      top: 10px;
+      left: -22px;
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+    }
+    &:hover {
+      & > .home {
+        opacity: 1;
+      }
+    }
   }
 
   .toggle {
@@ -38,7 +53,7 @@
     color: rgba(0, 0, 0, 0.2);
     line-height: 2.5rem;
     font-size: 2rem;
-    font-family: 'Kreon';
+    font-family: "Kreon";
     white-space: nowrap;
     & > .adjective {
       color: $primary;

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react"
 import { useSpring, animated, to } from "react-spring"
 import cs from "classnames"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faHome } from "@fortawesome/free-solid-svg-icons"
 import { InterfaceLanguage } from "../utils/language"
 import { Settings } from "../models/profile"
 import { SKey } from "../utils/searchkeys"
@@ -110,7 +112,11 @@ const Brand: React.FC = (): JSX.Element => {
   return (
     <>
       <div className={cs(css.brand)}>
-        <a href="/">$OCODE</a>.PR
+        <a href="/">
+          $OCODE
+          <FontAwesomeIcon icon={faHome} className={css.home} />
+        </a>
+        .PR
         <animated.i
           className={cs(css.toggle)}
           onClick={onToggle}

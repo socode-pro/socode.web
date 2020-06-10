@@ -1,0 +1,52 @@
+@import "./styles/variable";
+
+.title {
+  @include ms-respond(font-size, 2);
+  margin: 100px 0 20px;
+  text-align: center;
+}
+
+p.description {
+  @include ms-respond(font-size, 1);
+  text-align: center;
+  margin: 20px 0;
+}
+
+.wapper {
+  margin: 10px auto;
+  width: 250px;
+  background-color: #fff;
+  box-shadow: $card-shadow;
+  border-radius: 6px;
+  color: $grey-dark;
+  padding: 0.5rem;
+  position: relative;
+  a.arrow {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    line-height: 14px;
+    height: 50px;
+    padding-left: 60px;
+    background: url(./images/icons8-chrome.svg) left/contain no-repeat;
+    &.edge {
+      background: url(./images/icons8-edge.svg) left/contain no-repeat;
+    }
+    &.firefox {
+      background: url(./images/icons8-firefox.svg) left/contain no-repeat;
+    }
+    @include stretched-link;
+
+    opacity: 0.85;
+    transition: opacity 0.4s ease-in-out, color 0.4s ease-in-out;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+img.preview {
+  margin-top: 50px;
+}
