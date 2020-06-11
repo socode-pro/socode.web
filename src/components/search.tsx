@@ -18,7 +18,7 @@ import {
   faThumbtack,
 } from "@fortawesome/free-solid-svg-icons"
 import { faAlgolia, faGithub } from "@fortawesome/free-brands-svg-icons"
-import { faListAlt } from "@fortawesome/free-regular-svg-icons"
+import { faListAlt, faThumbsUp } from "@fortawesome/free-regular-svg-icons"
 import Brand from "./brand"
 import CheatSheets from "./devhints"
 import Rework from "./rework"
@@ -395,6 +395,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                 <span className={css.plus}>+</span>
                 <span className={css.tab}>tab</span>
               </div>
+              {key.usage && <FontAwesomeIcon className={css.usage} icon={faThumbsUp} />}
             </div>
             <div>
               {/* {key.devdocs && <i onClick={() => setAwesomeOrDevdoc(false)} className={cs("fa-devdocs", css.kicon)} />}
@@ -402,7 +403,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
               <FontAwesomeIcon
                 icon={faThumbtack}
-                className={cs(css.thumbtack, { [css.usage]: key.pin })}
+                className={cs(css.thumbtack, { [css.pin]: key.pin })}
                 onClick={(e) => {
                   e.stopPropagation()
                   if (key.pin) {

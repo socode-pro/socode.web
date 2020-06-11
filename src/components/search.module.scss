@@ -294,7 +294,7 @@
       &:hover {
         color: $primary;
       }
-      &.usage {
+      &.pin {
         transform: rotate(90deg);
       }
     }
@@ -318,10 +318,14 @@
           display: inline;
         }
       }
+      svg.usage {
+        display: none;
+      }
     }
   }
   .skey {
     display: flex;
+    align-items: center;
     line-height: 26.208px; // ms-respond x1.6
     .skname {
       padding-left: 46px;
@@ -330,6 +334,9 @@
       background-position: left 0.5em center;
       background-size: contain;
       background-repeat: no-repeat;
+    }
+    svg.usage {
+      color: $primary-light;
     }
     .shortkeys {
       margin: 0 10px;

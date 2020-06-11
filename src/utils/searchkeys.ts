@@ -268,7 +268,6 @@ const SKeys: SKey[] = [
     name: "Bundlephobia",
     category: SKeyCategory.Tools,
     shortkeys: "bp",
-    usage: true,
     icon: "bundlephobia.svg",
     template: "https://bundlephobia.com/result?p=%s",
     tooltips: "find the cost of adding a npm package to your bundle",
@@ -609,7 +608,6 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Tools,
     shortkeys: "ec",
     icon: "encode.png",
-    usage: true,
     iconProps: {
       backgroundSize: "30px",
       backgroundPosition: "left 0.3em center",
@@ -620,7 +618,6 @@ const SKeys: SKey[] = [
     name: "ESLint",
     category: SKeyCategory.Document,
     shortkeys: "es",
-    usage: true,
     icon: "eslint.svg",
     homelink: "https://eslint.org",
     devdocs: "eslint",
@@ -741,7 +738,6 @@ const SKeys: SKey[] = [
     name: "Free Books",
     category: SKeyCategory.Collection,
     shortkeys: "fpb",
-    usage: true,
     icon: "free_programming_books.png",
     tooltips: "Free Programming Books",
     homelink: "https://github.com/EbookFoundation/free-programming-books",
@@ -918,7 +914,6 @@ const SKeys: SKey[] = [
     icon: "google.png",
     template: "https://google.com/search?q=%s&hl=%l",
     bylang: true,
-    usage: true,
     firewalled: true,
   },
   {
@@ -1564,7 +1559,6 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Tools,
     shortkeys: "pwd",
     icon: "password.png",
-    usage: true,
     iconProps: {
       backgroundSize: "30px",
       backgroundPosition: "left 0.3em center",
@@ -1712,7 +1706,6 @@ const SKeys: SKey[] = [
     shortkeys: "pcs",
     icon: "python.svg",
     homelink: "https://gto76.github.io/python-cheatsheet/",
-    usage: true,
     readmes: {
       base: "gto76/python-cheatsheet",
       paths: [
@@ -1757,7 +1750,6 @@ const SKeys: SKey[] = [
     name: "Generate QR Code",
     category: SKeyCategory.Tools,
     shortkeys: "qr",
-    usage: true,
     icon: "qrcode.png",
   },
   {
@@ -2150,6 +2142,7 @@ const SKeys: SKey[] = [
     name: "Tools Tiles",
     category: SKeyCategory.Tools,
     shortkeys: "tt",
+    usage: true,
     tooltips: "Programming Tools Navigation",
     icon: "tiles.png",
   },
