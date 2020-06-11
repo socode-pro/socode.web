@@ -242,6 +242,9 @@ const SKeys: SKey[] = [
     shortkeys: "bs",
     usage: true,
     icon: "bash.svg",
+    iconProps: {
+      backgroundSize: "1.8em",
+    },
     devdocs: "bash",
   },
   {
@@ -470,7 +473,8 @@ const SKeys: SKey[] = [
     shortkeys: "dj",
     hideName: true,
     iconProps: {
-      width: 100,
+      width: 80,
+      backgroundSize: "4em",
     },
     homelink: "https://www.djangoproject.com",
     awesome: "wsvincent/awesome-django",
@@ -805,7 +809,8 @@ const SKeys: SKey[] = [
     icon: "gatsby.svg",
     hideName: true,
     iconProps: {
-      width: 108,
+      width: 98,
+      backgroundSize: "5.4em",
     },
     homelink: "https://www.gatsbyjs.org",
     awesome: "prayash/awesome-gatsby",
@@ -1009,6 +1014,9 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     shortkeys: "hs",
     icon: "haskell.svg",
+    iconProps: {
+      backgroundSize: "1.6em",
+    },
     homelink: "https://www.haskell.org",
     devdocs: "haskell~8",
   },
@@ -1117,6 +1125,9 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     shortkeys: "jk",
     icon: "jenkinsx.svg",
+    iconProps: {
+      backgroundSize: "2em",
+    },
     homelink: "https://jenkins-x.io",
     docsearch: [
       {
@@ -1135,7 +1146,8 @@ const SKeys: SKey[] = [
     icon: "jquery.png",
     hideName: true,
     iconProps: {
-      width: 106,
+      width: 92,
+      backgroundSize: "5em",
     },
     homelink: "https://jquery.com/",
     devdocs: "jquery",
@@ -1173,7 +1185,8 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     hideName: true,
     iconProps: {
-      width: 80,
+      width: 50,
+      backgroundSize: "2.6em",
     },
     shortkeys: "koa",
     icon: "koa.svg",
@@ -1301,7 +1314,8 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     hideName: true,
     iconProps: {
-      width: 80,
+      width: 60,
+      backgroundPosition: "left center",
     },
     shortkeys: "ls",
     icon: "less.svg",
@@ -1335,7 +1349,8 @@ const SKeys: SKey[] = [
     usage: true,
     icon: "markdown.svg",
     iconProps: {
-      backgroundPosition: "left center",
+      backgroundPosition: "left 0.4em center",
+      backgroundSize: "2em",
     },
     devdocs: "markdown",
   },
@@ -1353,6 +1368,9 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     shortkeys: "mdb",
     icon: "mariadb.svg",
+    iconProps: {
+      backgroundPosition: "left center",
+    },
     homelink: "https://mariadb.org",
     devdocs: "mariadb",
   },
@@ -1470,8 +1488,8 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     hideName: true,
     iconProps: {
-      width: 100,
-      backgroundSize: "86%",
+      width: 90,
+      backgroundSize: "80%",
     },
     shortkeys: "nx",
     icon: "nginx.svg",
@@ -1591,7 +1609,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     hideName: true,
     iconProps: {
-      width: 80,
+      width: 60,
     },
     shortkeys: "php",
     icon: "php.svg",
@@ -1607,7 +1625,8 @@ const SKeys: SKey[] = [
     icon: "play.svg",
     hideName: true,
     iconProps: {
-      width: 60,
+      width: 90,
+      backgroundSize: "80%",
     },
     homelink: "https://www.playframework.com",
     docsearch: [
@@ -1712,7 +1731,8 @@ const SKeys: SKey[] = [
     icon: "pytouch.svg",
     hideName: true,
     iconProps: {
-      width: 116,
+      width: 98,
+      backgroundSize: "80%",
     },
     homelink: "https://pytorch.org",
     awesome: "bharathgs/Awesome-pytorch-list",
@@ -1746,7 +1766,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     hideName: true,
     iconProps: {
-      width: 100,
+      width: 82,
     },
     shortkeys: "rl",
     icon: "rails.svg",
@@ -2082,7 +2102,8 @@ const SKeys: SKey[] = [
     icon: "swift.svg",
     hideName: true,
     iconProps: {
-      width: 95,
+      width: 80,
+      backgroundSize: "4.2em",
     },
     homelink: "https://swift.org/",
     awesome: "matteocrippa/awesome-swift",
@@ -2140,7 +2161,8 @@ const SKeys: SKey[] = [
     icon: "typescript.svg",
     hideName: true,
     iconProps: {
-      width: 116,
+      width: 92,
+      backgroundSize: "5em",
     },
     homelink: "https://www.typescriptlang.org",
     awesome: "dzharii/awesome-typescript",
