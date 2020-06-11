@@ -84,3 +84,15 @@
     }
   }
 }
+
+.docContainer {
+  :global(p._attribution-p) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    overflow: hidden;
+    width: 250px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
