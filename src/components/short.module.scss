@@ -5,19 +5,21 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   .forms {
     display: flex;
     align-items: center;
   }
   .shorturlInput {
     margin-top: 10px;
-    width: 100%;
-    input {
-      margin-top: 10px;
-    }
+    width: 200px;
   }
   .error {
     color: $red;
+  }
+  .powered {
+    margin-top: 10px;
+    color: $grey-lighter;
+    font-size: 12px;
   }
 }

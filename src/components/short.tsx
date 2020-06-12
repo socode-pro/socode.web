@@ -15,6 +15,7 @@ interface RelResp {
 const Short: React.FC = (): JSX.Element => {
   const query = useStoreState<string>((state) => state.search.query)
 
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [shorturl, setShorturl] = useState("")
   const [tooltips, setTooltips] = useState(false)
@@ -24,6 +25,8 @@ const Short: React.FC = (): JSX.Element => {
       if (!value) return
       try {
         setError("")
+        setTooltips(false)
+        setLoading(true)
         const params = new URLSearchParams()
         params.set("url", value)
         const resp = await ky
@@ -37,7 +40,9 @@ const Short: React.FC = (): JSX.Element => {
         }
       } catch (err) {
         setError(err.message)
+        setShorturl("")
       }
+      setLoading(false)
     }, 1000)
   )
 
@@ -54,9 +59,10 @@ const Short: React.FC = (): JSX.Element => {
 
   return (
     <div className={cs(css.short)}>
-      <p>The short url for {query}:</p>
       <p className={css.error}>{error}</p>
-      <div className={cs(css.shorturlInput, "has-tooltip-warning")} data-tooltip={tooltips ? "Copied!" : null}>
+      <div
+        className={cs(css.shorturlInput, "control has-tooltip-warning", { "is-loading": loading })}
+        data-tooltip={tooltips ? "Copied!" : null}>
         <input
           id="shorturl"
           className="input"
@@ -66,6 +72,12 @@ const Short: React.FC = (): JSX.Element => {
           data-clipboard-target="#shorturl"
         />
       </div>
+      <p className={css.powered}>
+        powered by{" "}
+        <a target="_blank" rel="noreferrer" href="https://rel.ink/">
+          Relink
+        </a>
+      </p>
     </div>
   )
 }

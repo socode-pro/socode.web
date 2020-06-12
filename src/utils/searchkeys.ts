@@ -1992,10 +1992,10 @@ const SKeys: SKey[] = [
     ],
   },
   {
-    code: "short",
-    name: "shorturl",
+    code: "url",
+    name: "Short URL",
     category: SKeyCategory.Tools,
-    shortkeys: "su",
+    shortkeys: "url",
     icon: "url.png",
   },
   // { //  remember <Trending /> judge

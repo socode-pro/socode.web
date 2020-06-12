@@ -906,7 +906,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               <canvas id="qrcode" />
             </div>
           )}
-          {!displayKeys && currentKey.code === "short" && <Short />}
+          {!displayKeys && currentKey.code === "url" && <Short />}
 
           {error !== null && <div className={css.error}>{error instanceof String ? error : error.message}</div>}
 
