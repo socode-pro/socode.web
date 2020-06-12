@@ -55,7 +55,12 @@ const Encode: React.FC = (): JSX.Element => {
         <a className="button mgb10" onClick={() => setOriginalText(decodeURI(encodedText))}>
           &lt; decodeURI
         </a>
-
+        <a className="button is-primary" onClick={() => setEncodedText(encodeURIComponent(originalText))}>
+          encodeURIComponent &gt;
+        </a>
+        <a className="button mgb10" onClick={() => setOriginalText(decodeURIComponent(encodedText))}>
+          &lt; decodeURIComponent
+        </a>
         <a className="button is-primary" onClick={() => setEncodedText(base64.stringify(Utf8.parse(originalText)))}>
           Base64 &gt;
         </a>
