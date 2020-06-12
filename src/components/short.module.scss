@@ -1,0 +1,23 @@
+@import "../styles/variable";
+
+.short {
+  margin: 5px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  .forms {
+    display: flex;
+    align-items: center;
+  }
+  .shorturlInput {
+    margin-top: 10px;
+    width: 100%;
+    input {
+      margin-top: 10px;
+    }
+  }
+  .error {
+    color: $red;
+  }
+}

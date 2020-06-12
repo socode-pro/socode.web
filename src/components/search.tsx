@@ -29,6 +29,7 @@ import Devdocs from "./devdocs"
 import Slogan from "./slogan"
 import Trending from "./trending"
 import Password from "./password"
+import Short from "./short"
 import Language, { ProgramLanguage, InterfaceLanguage } from "../utils/language"
 import { SKey, IsUnSearchableKey, SKeyCategory, KeyPlaceholder } from "../utils/searchkeys"
 import useSKeyCategoryIntl from "../utils/searchkeysIntl"
@@ -905,6 +906,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               <canvas id="qrcode" />
             </div>
           )}
+          {!displayKeys && currentKey.code === "short" && <Short />}
 
           {error !== null && <div className={css.error}>{error instanceof String ? error : error.message}</div>}
 
