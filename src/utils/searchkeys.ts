@@ -1540,7 +1540,7 @@ const SKeys: SKey[] = [
     code: "nuget",
     name: "NuGet",
     category: SKeyCategory.Search,
-    shortkeys: "ng",
+    shortkeys: "nug",
     icon: "nuget.svg",
     template: "https://nuget.org/packages?q=%s",
   },
