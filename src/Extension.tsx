@@ -112,7 +112,9 @@ const Extension: React.FC = () => {
           </footer>
         </div>
         <div className="column">
-          <img className={css.preview} src={`${process.env.REACT_APP_KEYS_HOST}/address.gif`} alt="preview" />
+          <div className={css.preview}>
+            <img src={`${process.env.REACT_APP_KEYS_HOST}/address.gif`} alt="preview" />
+          </div>
         </div>
       </div>
     </div>

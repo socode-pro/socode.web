@@ -51,8 +51,9 @@ p.description {
   }
 }
 
-img.preview {
+.preview {
   margin-top: 50px;
+  box-shadow: $shadow3;
 }
 
 .footer {
@@ -61,5 +62,6 @@ img.preview {
   a {
     margin: 0 10px;
     font-size: 18px;
+    transition: color 0.4s ease-in-out;
   }
 }
