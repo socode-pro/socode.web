@@ -13,7 +13,7 @@ import css from "./Extension.module.scss"
 import discords from "./utils/discords_canvas"
 
 export enum Words {
-  Description = "You can search for multi-category programming documents quickly and comfortably in the address bar.",
+  Description = "Quickly and comfortably search multiple programming documents in the address bar.",
 }
 
 const useIntl = (words: Words): string => {
@@ -24,7 +24,7 @@ const useIntl = (words: Words): string => {
     if (language === InterfaceLanguage.中文) {
       switch (words) {
         case Words.Description:
-          setContent("在地址栏中快捷舒适地搜索多种类型的编程文档。")
+          setContent("在地址栏中快捷、舒适地搜索多种类型的编程文档。")
           break
         default:
           break
