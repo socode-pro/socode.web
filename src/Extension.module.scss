@@ -40,6 +40,8 @@ p.description {
     }
     &.firefox {
       background: url(./images/icons8-firefox.svg) left/contain no-repeat;
+      background-size: 46px 46px;
+      background-position: left 0.6em center;
     }
     @include stretched-link;
 

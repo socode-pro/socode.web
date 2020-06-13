@@ -13,14 +13,15 @@ import useIntl, { Words } from "../utils/useIntl"
 import { Settings, Profile } from "../models/profile"
 
 import { useStoreActions, useStoreState } from "../Store"
-import { StringEnumObjects, isEdgeChromium } from "../utils/assist"
+import { StringEnumObjects, isEdgeChromium, isFirefox } from "../utils/assist"
 import css from "./drawer.module.scss"
 
 const languageOptions = StringEnumObjects(InterfaceLanguage)
 
 const Drawer: React.FC = (): JSX.Element => {
+  const ousideFirewall = useStoreState<boolean>((state) => state.storage.ousideFirewall)
   const setSettings = useStoreActions((actions) => actions.profile.setSettings)
-  const { language, openNewTab, displayTrending } = useStoreState<Settings>((state) => state.profile.settings)
+  const { language, openNewPage, displayTrending } = useStoreState<Settings>((state) => state.profile.settings)
   const profile = useStoreState<Profile | null>((state) => state.profile.profile)
   const logout = useStoreActions((actions) => actions.profile.logout)
 
@@ -191,10 +192,21 @@ const Drawer: React.FC = (): JSX.Element => {
           <ul className="menu-list">
             <li>
               <a
-                className={cs(css.navlink, css.chrome, { [css.edge]: isEdgeChromium })}
-                href="https://chrome.google.com/webstore/detail/socode/hlkgijncpebndijijbcakkcefmpniacd">
-                <h3>Browser Extension</h3>
-                <span>become the new tab of your browser</span>
+                className={cs(css.navlink, css.chrome, {
+                  [css.edge]: isEdgeChromium && !ousideFirewall,
+                  [css.firefox]: isFirefox,
+                })}
+                href={
+                  isFirefox
+                    ? "https://addons.mozilla.org/zh-CN/firefox/addon/socode/"
+                    : isEdgeChromium && !ousideFirewall
+                    ? "https://microsoftedge.microsoft.com/addons/detail/dkeiglafihicmjbbaoopggfnifgjekcl"
+                    : ousideFirewall
+                    ? "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
+                    : "https://www.crx4chrome.com/crx/196956/"
+                }>
+                <h3>Install to {isFirefox ? "firefox" : isEdgeChromium && !ousideFirewall ? "Edge" : "Chrome"}</h3>
+                <span>Search Documents in AddressBar</span>
               </a>
             </li>
             <li>
@@ -288,12 +300,12 @@ const Drawer: React.FC = (): JSX.Element => {
               <div className={css.field}>
                 <input
                   className="is-checkradio is-circle"
-                  id="opennewtab"
+                  id="openNewPage"
                   type="checkbox"
-                  checked={openNewTab}
-                  onChange={(e) => setSettings({ settings: { openNewTab: e.target.checked } })}
+                  checked={openNewPage}
+                  onChange={(e) => setSettings({ settings: { openNewPage: e.target.checked } })}
                 />
-                <label htmlFor="opennewtab">{useIntl(Words.OpenNewTab)}</label>
+                <label htmlFor="openNewPage">{useIntl(Words.OpenNewPage)}</label>
               </div>
             </li>
             <li>

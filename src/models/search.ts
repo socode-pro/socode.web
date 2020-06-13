@@ -194,7 +194,7 @@ const searchModel: SearchModel = {
     }
 
     if (url) {
-      if (getStoreState().profile.settings.openNewTab) {
+      if (getStoreState().profile.settings.openNewPage) {
         window.open(url, "_blank")?.focus()
       } else {
         window.location.href = url

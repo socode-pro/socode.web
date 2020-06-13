@@ -82,6 +82,11 @@
     &.edge {
       background-image: url(../images/icons8-edge.svg);
     }
+    &.firefox {
+      background-image: url(../images/icons8-firefox.svg);
+      background-size: 46px 46px;
+      background-position: left 0.6em center;
+    }
     &.privacy {
       background-image: url(../images/icons8-fingerprint-100.png);
     }
