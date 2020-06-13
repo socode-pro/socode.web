@@ -80,7 +80,7 @@ export const KeyPlaceholder = (key: SKey, model: SearchModel): string => {
   if (key.readmes) {
     return key.readmes.searched ? "content search..." : "no search"
   }
-  if (key.code === "qrcode") {
+  if (key.code === "qrcode" || key.code === "url") {
     return "input url"
   }
   // if (key.code === "password" || key.code === "encode") {
