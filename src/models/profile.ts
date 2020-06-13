@@ -12,7 +12,7 @@ export enum DarkMode {
 
 export interface Settings {
   language?: InterfaceLanguage
-  openNewTab?: boolean
+  openNewPage?: boolean
   displayTrending?: boolean
   darkMode?: DarkMode
 }
@@ -39,7 +39,7 @@ export interface Profile {
 
 export interface ProfileModel {
   jwt: string | null
-  setJwt: Action<ProfileModel, string | null>
+  setJwt: Action<ProfileModel, { jwt: string | null; storage?: boolean }>
 
   settings: Settings
   setSettings: Action<ProfileModel, { settings: Settings; storage?: boolean; post?: boolean }>
@@ -55,16 +55,18 @@ export interface ProfileModel {
 
 const profileModel: ProfileModel = {
   jwt: localStorage.getItem("jwt") || null,
-  setJwt: action((state, payload) => {
-    state.jwt = payload
-    localStorage.setItem("jwt", payload || "")
+  setJwt: action((state, { jwt, storage = true }) => {
+    state.jwt = jwt
+    if (storage) {
+      localStorage.setItem("jwt", jwt || "")
+    }
   }),
 
   settings: {
     language: navigator.language.startsWith(InterfaceLanguage.中文)
       ? InterfaceLanguage.中文
       : InterfaceLanguage.English,
-    openNewTab: true,
+    openNewPage: true,
     displayTrending: true,
     darkMode: DarkMode.Light,
   },
@@ -95,14 +97,25 @@ const profileModel: ProfileModel = {
 
   logout: thunk(async (actions) => {
     actions.setProfile({ profile: null })
-    actions.setJwt(null)
+    actions.setJwt({ jwt: null })
   }),
 
   loadProfile: thunk(async (actions, payload, { getState }) => {
     const localSettings = localStorage.getItem("settings")
+    if (localSettings) {
+      actions.setSettings({
+        settings: JSON.parse(localSettings),
+        storage: false,
+      })
+    }
+    const localJwt = localStorage.getItem("jwt")
+    if (localJwt) {
+      actions.setJwt({ jwt: localJwt, storage: false })
+    }
+    // 第一屏不显示Profile的话可以注释掉
     // const localProfiles = localStorage.getItem("profile")
-    // if (localProfiles) { // 第一屏不显示Profile的话可以注释掉
-    //   actions.setProfile({ profile: JSON.parse(localProfiles || "null"), storage: false })
+    // if (localProfiles) {
+    //   actions.setProfile({ profile: JSON.parse(localProfiles), storage: false })
     // }
 
     try {
@@ -120,17 +133,18 @@ const profileModel: ProfileModel = {
       const { settings, ...profile } = data
       actions.setProfile({ profile })
 
-      if (localSettings) {
-        actions.setSettings({ settings: JSON.parse(localSettings), storage: false })
-      } else if (settings) {
+      if (settings) {
         actions.setSettings({ settings, post: false })
+      } else if (localSettings) {
+        // sync to nest
+        actions.setSettings({
+          settings: JSON.parse(localSettings),
+          storage: false,
+        })
       }
     } catch (err) {
       console.warn(err.message)
       actions.logout()
-      if (localSettings) {
-        actions.setSettings({ settings: JSON.parse(localSettings), storage: false })
-      }
     }
   }),
 
@@ -162,7 +176,7 @@ const profileModel: ProfileModel = {
     if (params.has("jwt")) {
       const jwt = params.get("jwt")
       if (jwt) {
-        actions.setJwt(jwt)
+        actions.setJwt({ jwt })
         await actions.loadProfile()
         await actions.postInvited()
       }

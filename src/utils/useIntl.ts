@@ -6,7 +6,7 @@ import { Settings } from "../models/profile"
 export enum Words {
   ASearchEngineForProgrammers = "A search engine for programmers",
   ProgrammersStartPage = "Programmer's start page",
-  OpenNewTab = "Open search page in a new tab",
+  OpenNewPage = "Open result in a new page",
   DisplayTrending = "Display Github Trending",
   PrivacyPolicy = "Privacy Policy",
   Shortcut = "Shortcut",
@@ -29,8 +29,8 @@ const useIntl = (words: Words): string => {
         case Words.ASearchEngineForProgrammers:
           setContent("给程序员用的问答搜索")
           break
-        case Words.OpenNewTab:
-          setContent("在新窗口打开页面")
+        case Words.OpenNewPage:
+          setContent("在新窗口打开搜索结果")
           break
         case Words.DisplayTrending:
           setContent("显示 Github Trending")
