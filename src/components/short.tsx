@@ -61,11 +61,11 @@ const Short: React.FC = (): JSX.Element => {
     <div className={cs(css.short)}>
       <p className={css.error}>{error}</p>
       <div
-        className={cs(css.shorturlInput, "control has-tooltip-warning", { "is-loading": loading })}
+        className={cs(css.shorturlInput, "control is-medium has-tooltip-warning", { "is-loading": loading })}
         data-tooltip={tooltips ? "Copied!" : null}>
         <input
           id="shorturl"
-          className="input"
+          className="input is-medium"
           onClick={(e) => (e.target as HTMLInputElement).select()}
           value={shorturl}
           onChange={() => null}
