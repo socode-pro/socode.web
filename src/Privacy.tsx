@@ -8,7 +8,7 @@ import "./Privacy.module.scss"
 
 export enum Words {
   PrivacyPolicy = "Privacy Policy",
-  PrivacyPolicySlogon = "We don't collect or share personal information. That's our privacy policy in a nutshell.",
+  PrivacyPolicySlogon = "We don't collect or share personal information. Get the email address of a github/google account via OAuth only to associate and save the user's settings in the socode.pro. We do not send any emails using this email address.",
   PrivacyPolicyST = "About Search",
   PrivacyPolicySS = '<a href="https://socode.pro/?k=socode">socode search</a> is a privacy-respecting, hackable google search by <a href="https://github.com/asciimoo/searx">searx</a>. convenient for users who do not have access to google.com (such as Chinese users).',
   PrivacyPolicyS0 = "Compared to using google.com. There are these differences in privacy protection:",
@@ -28,7 +28,9 @@ const useIntl = (words: Words): string => {
           setContent("隐私政策")
           break
         case Words.PrivacyPolicySlogon:
-          setContent("我们不收集或共享个人信息。简而言之，这就是我们的隐私政策。")
+          setContent(
+            "我们不收集或共享任何个人信息。通过OAuth获取github/google账号的email地址仅用于关联并保存用户在socode.pro的设置。我们不会使用此email地址发送任何邮件。"
+          )
           break
         case Words.PrivacyPolicyST:
           setContent("关于socode搜索")
