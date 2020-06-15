@@ -50,7 +50,7 @@ const readmeModel: ReadmeModel = {
       //   }
       // }
 
-      const markdown = await ky.get(`https://${domain}/${base}/master${path}`).text()
+      const markdown = await ky.get(`${domain}/${base}/master${path}`).text()
       actions.setMarkdown({ name, readme: markdown || "", storage: true })
     } catch (err) {
       console.warn("ReadmeModel.getMarkdown", err)
