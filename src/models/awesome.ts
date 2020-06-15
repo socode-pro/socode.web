@@ -35,7 +35,7 @@ const awesomeModel: AwesomeModel = {
   getMarkdown: thunk(async (actions, payload, { getStoreState }) => {
     const path = payload.awesome + (payload.awesome.split("/").length <= 2 ? "/master" : "")
     const ousideFirewall = getStoreState().storage.ousideFirewall
-    const domain = ousideFirewall ? "raw.githubusercontent.com" : "githubraw.socode.pro"
+    const host = ousideFirewall ? "https://raw.githubusercontent.com" : `${process.env.REACT_APP_NEST}/firewall`
 
     actions.setLoading(true)
     try {
@@ -53,13 +53,13 @@ const awesomeModel: AwesomeModel = {
       //     return
       //   }
       // }
-      const markdown = await ky.get(`https://${domain}/${path}/README.md`).text()
+      const markdown = await ky.get(`${host}/${path}/README.md`).text()
       // await actions.setMarkdownStorage({ name: payload.name, markdown })
       await actions.setMarkdown(markdown)
     } catch (err) {
       if (err.response?.status === 404) {
         try {
-          const markdown = await ky.get(`https://${domain}/${path}/readme.md`).text()
+          const markdown = await ky.get(`${host}/${path}/readme.md`).text()
           // await actions.setMarkdownStorage({ name: payload.name, markdown })
           await actions.setMarkdown(markdown)
         } catch (e) {
