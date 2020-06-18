@@ -3,8 +3,8 @@ import { useSpring, animated, to } from "react-spring"
 import cs from "classnames"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons"
-import { faTwitter, faTelegram, faDiscord } from "@fortawesome/free-brands-svg-icons"
-import { useStoreActions, useStoreState } from "./Store"
+import { faTwitter, faTelegram, faDiscord, faFirefox, faChrome } from "@fortawesome/free-brands-svg-icons"
+import { useStoreState } from "./Store"
 import { isEdgeChromium, isFirefox } from "./utils/assist"
 import { InterfaceLanguage } from "./utils/language"
 import { Settings } from "./models/profile"
@@ -38,7 +38,6 @@ const useIntl = (words: Words): string => {
 }
 
 const Extension: React.FC = () => {
-  const { language } = useStoreState<Settings>((state) => state.profile.settings)
   const ousideFirewall = useStoreState<boolean>((state) => state.storage.ousideFirewall)
   const [{ xys }, setXys] = useSpring(() => ({
     xys: [0, 0, 1],
@@ -81,9 +80,21 @@ const Extension: React.FC = () => {
                   ? "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
                   : "https://www.crx4chrome.com/crx/196956/"
               }>
-              <h3>Install to {isFirefox ? "firefox" : isEdgeChromium && !ousideFirewall ? "Edge" : "Chrome"}</h3>
+              <h3>Install to {isFirefox ? "Firefox" : isEdgeChromium && !ousideFirewall ? "Edge" : "Chrome"}</h3>
             </a>
           </animated.div>
+          <p className={css.otherlinks}>
+            {isFirefox ? <FontAwesomeIcon icon={faChrome} /> : <FontAwesomeIcon icon={faFirefox} />}
+            <a
+              href={
+                isFirefox
+                  ? "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
+                  : "https://addons.mozilla.org/zh-CN/firefox/addon/socode/"
+              }>
+              Install to {isFirefox ? "Chrome" : "Firefox"}
+            </a>
+          </p>
+
           <footer className={cs(css.footer)}>
             <a
               className={cs(css.navlink, css.telegram)}
