@@ -16,6 +16,19 @@ p.description {
   margin: 20px 0;
 }
 
+p.otherlinks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  a {
+    margin-left: 5px;
+    @include underline();
+    &:hover {
+      @include underline-hover();
+    }
+  }
+}
+
 .wapper {
   margin: 10px auto;
   width: 250px;

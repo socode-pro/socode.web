@@ -1661,7 +1661,7 @@ const SKeys: SKey[] = [
     code: "public_apis",
     name: "Public APIs",
     category: SKeyCategory.Collection,
-    shortkeys: "pa",
+    shortkeys: "api",
     icon: "api.svg",
     usage: true,
     homelink: "https://github.com/public-apis/public-apis",
