@@ -21,7 +21,6 @@ export interface SearchKeysModel {
   pins: Array<string>
   addPin: Action<SearchKeysModel, string>
   removePin: Action<SearchKeysModel, string>
-  pinKeys: Computed<SearchKeysModel, Array<SKey>>
 
   computedKeys: Computed<SearchKeysModel, Array<SKey>, StoreModel>
   searchedKeys: Computed<SearchKeysModel, Array<SKey>>
@@ -65,7 +64,6 @@ const searchKeysModel: SearchKeysModel = {
     state.pins = without(state.pins, pin)
     localStorage.setItem("pins", state.pins.toString())
   }),
-  pinKeys: computed((state) => state.keys.filter((k) => state.pins.includes(k.code))),
 
   computedKeys: computed(
     [
