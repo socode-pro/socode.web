@@ -71,8 +71,8 @@ const SearchInput: React.FC = (): JSX.Element => {
   const [tabIndex, setTabIndex] = useState(0)
 
   const keys = useStoreState<Array<SKey>>((state) => state.searchKeys.keys)
-  const pinKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.pinKeys)
   const computedKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.computedKeys)
+  const pinedKeys = computedKeys.filter((k) => k.pin)
   const searchedKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.searchedKeys)
 
   const kquery = useStoreState<string>((state) => state.searchKeys.kquery)
@@ -832,9 +832,9 @@ const SearchInput: React.FC = (): JSX.Element => {
 
               {!kquery && (
                 <>
-                  {pinKeys.length > 0 && (
+                  {pinedKeys.length > 0 && (
                     <div ref={pinnedTabEl} className={cs(css.skgroup, css.pinnned)}>
-                      {keysDom(pinKeys)}
+                      {keysDom(pinedKeys)}
                     </div>
                   )}
                   <div ref={searchTabEl} className={cs(css.skgroup)}>
