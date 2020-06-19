@@ -45,5 +45,13 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## Tips
 
-先安装 与 docsearch.js dependencies 版本匹配的 algoliasearch、autocomplete.js 包. 然后再安装 docsearch.js，这样 docsearch.js 内就不存在 node_modules 目录，可以节省最终打包体积。
+1 先安装 与 docsearch.js dependencies 版本匹配的 algoliasearch、autocomplete.js 包. 然后再安装 docsearch.js，这样 docsearch.js 内就不存在 node_modules 目录，可以节省最终打包体积。
 warn: [docsearch.js github package.json](https://github.com/algolia/docsearch/blob/master/package.json) 描述不准确，应该是因为发布版本与源码不一致。要以 npm_module/docsearch.js/package.json 显示的实际版本为准
+
+2 react-scripts 的 env 变量与[netlify build 环境变量](https://docs.netlify.com/configure-builds/environment-variables/#declare-variables)没有关联，必须在 Build command 字段填写：
+
+```bash
+env CI='' npm run build
+```
+
+才能避免 react-scripts 在 CI 环境下把 warn 定义为 error
