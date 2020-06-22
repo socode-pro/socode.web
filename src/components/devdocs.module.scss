@@ -17,6 +17,7 @@
     cursor: pointer;
     &:hover {
       background-color: $white-duck;
+      color: $primary;
     }
     display: flex;
     align-items: center;
@@ -33,6 +34,9 @@
       height: 22.4px; // Caused a.item overflow: hidden
       &:hover {
         background-color: $white-duck;
+        a {
+          color: $primary;
+        }
       }
     }
     a.item {
@@ -88,11 +92,12 @@
 .docContainer {
   :global(p._attribution-p) {
     position: absolute;
-    top: 0;
+    top: 1px;
     right: 0;
     overflow: hidden;
     width: 250px;
     white-space: nowrap;
     text-overflow: ellipsis;
+    border-radius: 0;
   }
 }
