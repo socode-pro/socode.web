@@ -74,9 +74,9 @@ const Extension: React.FC = () => {
               href={
                 isFirefox
                   ? "https://addons.mozilla.org/zh-CN/firefox/addon/socode/"
-                  : isEdgeChromium && !ousideFirewall
-                  ? "https://microsoftedge.microsoft.com/addons/detail/dkeiglafihicmjbbaoopggfnifgjekcl"
-                  : ousideFirewall
+                  : // : isEdgeChromium && !ousideFirewall
+                  // ? "https://microsoftedge.microsoft.com/addons/detail/dkeiglafihicmjbbaoopggfnifgjekcl"
+                  ousideFirewall
                   ? "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
                   : "https://www.crx4chrome.com/crx/196956/"
               }>
