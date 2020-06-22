@@ -1221,7 +1221,7 @@ const SKeys: SKey[] = [
     icon: "laravel.svg",
     homelink: "https://laravel.com",
     awesome: "chiraggude/awesome-laravel",
-    devdocs: "laravel~5.7",
+    devdocs: "laravel~7.0",
     docsearch: [
       {
         lang: Language.English,
@@ -2022,6 +2022,19 @@ const SKeys: SKey[] = [
     icon: "spotify.svg",
     homelink: "https://developer.spotify.com",
     template: "https://developer.spotify.com/documentation/?query=%s",
+  },
+  {
+    code: "spring_boot",
+    name: "Spring Boot",
+    category: SKeyCategory.Document,
+    hideName: true,
+    iconProps: {
+      width: 110,
+    },
+    shortkeys: "sb",
+    icon: "spring-boot.svg",
+    homelink: "https://spring.io/projects/spring-boot",
+    devdocs: "spring_boot",
   },
   {
     code: "sqlite",
