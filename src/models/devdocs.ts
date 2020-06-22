@@ -19,6 +19,7 @@ export interface DevdocMeta {
   slug: string
   type: string
   mtime: number
+  release: string
   db_size: number
 }
 
@@ -47,6 +48,9 @@ export interface DevdocsModel {
   metas: DevdocMeta[]
   setMetas: Action<DevdocsModel, DevdocMeta[]>
   initialMetas: Thunk<DevdocsModel, void>
+
+  version: string
+  setVersion: Action<DevdocsModel, string>
 
   indexs: Array<DevdocEntrie>
   setIndexs: Action<DevdocsModel, Array<DevdocEntrie>>
@@ -105,6 +109,11 @@ const DevdocsModel: DevdocsModel = {
     }
   }),
 
+  version: "",
+  setVersion: action((state, payload) => {
+    state.version = payload
+  }),
+
   indexs: [],
   setIndexs: action((state, payload) => {
     state.indexs = payload
@@ -123,9 +132,10 @@ const DevdocsModel: DevdocsModel = {
       }
 
       const indexJson = await ky
-        .get(`${process.env.REACT_APP_DOC_HOST}/${currentKey.devdocs}/index.json?${meta.mtime}`)
-        .json<DevdocIndex>()
+      .get(`${process.env.REACT_APP_DOC_HOST}/${currentKey.devdocs}/index.json?${meta.mtime}`)
+      .json<DevdocIndex>()
       actions.setIndexs(indexJson.entries)
+      actions.setVersion(meta.release)
       getStoreActions().display.setExpandView(true)
     } catch (err) {
       console.error("DevdocsModel.initialIndex", err)
