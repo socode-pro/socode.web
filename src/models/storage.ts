@@ -59,6 +59,10 @@ const storageModel: StorageModel = {
   searchModel: computed(
     [(state) => state.searchModels, (state, storeState) => storeState.searchKeys.currentKey],
     (searchModels, currentKey) => {
+      const params = new URLSearchParams(window.location.search)
+      if (params.has("devdocs")) {
+        return SearchModel.Devdocs
+      }
       if ({}.hasOwnProperty.call(searchModels, currentKey.code)) {
         return searchModels[currentKey.code]
       }
