@@ -13,6 +13,7 @@ import css from "./devdocs.module.scss"
 const Devdocs: React.FC = (): JSX.Element => {
   const docContainer = useRef<HTMLDivElement>(null)
 
+  const version = useStoreState<string>((state) => state.devdocs.version)
   const menuLoading = useStoreState<boolean>((state) => state.devdocs.menuLoading)
   const docLoading = useStoreState<boolean>((state) => state.devdocs.docLoading)
 
@@ -145,6 +146,7 @@ const Devdocs: React.FC = (): JSX.Element => {
       {!query && (
         <div className={cs("columns", "container", css.devdocs)}>
           <div className={cs("column", "is-one-quarter")}>
+            {!!version && <p className={css.version}>version:{version}</p>}
             {menus.map((result) => {
               const { group, entries } = result
               return (

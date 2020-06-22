@@ -8,6 +8,9 @@ import { warn } from "../utils/toast"
 const IpapiWarn =
   "Failed to get your region info, which can help us use the cache closer to you. Maybe it's because your ad block plugin blocked the ipapi.co domain"
 
+const UrlParams = new URLSearchParams(window.location.search)
+let UrlParmsSolved = false
+
 export enum SearchModel {
   Devdocs,
   Algolia,
@@ -59,8 +62,8 @@ const storageModel: StorageModel = {
   searchModel: computed(
     [(state) => state.searchModels, (state, storeState) => storeState.searchKeys.currentKey],
     (searchModels, currentKey) => {
-      const params = new URLSearchParams(window.location.search)
-      if (params.has("devdocs")) {
+      if (!UrlParmsSolved && UrlParams.has("devdocs")) {
+        UrlParmsSolved = true
         return SearchModel.Devdocs
       }
       if ({}.hasOwnProperty.call(searchModels, currentKey.code)) {
