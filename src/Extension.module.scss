@@ -71,8 +71,47 @@ p.otherlinks {
   box-shadow: $shadow3;
 }
 
+.devdocsHeader {
+  margin: 200px auto 20px;
+  @include ms-respond(font-size, 2);
+  text-transform: uppercase;
+}
+
+.devdocsKeys {
+  margin-top: 250px;
+  display: flex;
+  flex-wrap: wrap;
+  .skeybox {
+    cursor: pointer;
+    border-radius: 6px;
+    display: flex;
+    padding: 1em 1em 1em 0.5em;
+    justify-content: space-between;
+    align-items: center;
+    flex-basis: 20%;
+
+    &:hover,
+    &.index {
+      background-color: $white-duck;
+    }
+  }
+  .skey {
+    display: flex;
+    align-items: center;
+    line-height: 26.208px; // ms-respond x1.6
+    .skname {
+      padding-left: 46px;
+      @include ms-respond(font-size, 1);
+      text-shadow: 0 0 $dh-text;
+      background-position: left 0.5em center;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  }
+}
+
 .footer {
-  margin-top: 40px;
+  margin: 40px auto;
   text-align: center;
   a {
     margin: 0 10px;
