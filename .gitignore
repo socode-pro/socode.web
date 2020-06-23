@@ -24,7 +24,6 @@ yarn-debug.log*
 yarn-error.log*
 
 *.scss.d.ts
-src/production.json
 
 # Local Netlify folder
 .netlify
