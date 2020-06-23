@@ -1,6 +1,5 @@
-name: socode.web
+name: socodeweb
 org: socode
-app: socode.app
 component: website
 stage: production
 
