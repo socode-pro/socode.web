@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useCallback } from "react"
 import { useSpring, animated, to } from "react-spring"
 import cs from "classnames"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -11,6 +11,9 @@ import { Settings } from "./models/profile"
 import Brand from "./components/brand"
 import css from "./Extension.module.scss"
 import discords from "./utils/discords_canvas"
+import SKeys, { SKey } from "./utils/searchkeys"
+
+const devdocsKeys = SKeys.filter((k) => k.devdocs)
 
 export enum Words {
   Description = "Quickly and comfortably search multiple programming documents in the address bar.",
@@ -38,6 +41,7 @@ const useIntl = (words: Words): string => {
 }
 
 const Extension: React.FC = () => {
+  const { language } = useStoreState<Settings>((state) => state.profile.settings)
   const ousideFirewall = useStoreState<boolean>((state) => state.storage.ousideFirewall)
   const [{ xys }, setXys] = useSpring(() => ({
     xys: [0, 0, 1],
@@ -47,6 +51,32 @@ const Extension: React.FC = () => {
   useEffect(() => {
     discords()
   }, [])
+
+  const keysDom = useCallback(
+    (gkeys: SKey[]) => {
+      return gkeys.map((key, i) => {
+        let tooltipProps = {}
+        if (key.tooltipsCN && language === InterfaceLanguage.中文) {
+          tooltipProps = { "data-tooltip": key.tooltipsCN }
+        } else if (key.tooltips) {
+          tooltipProps = { "data-tooltip": key.tooltips }
+        }
+        return (
+          <div
+            key={key.code}
+            className={cs(css.skeybox, "has-tooltip-multiline has-tooltip-warning")}
+            {...tooltipProps}>
+            <a className={css.skey} href={`/?k=${key.code}`}>
+              <span className={cs(css.skname)} style={{ backgroundImage: `url(/keys/${key.icon})`, ...key.iconProps }}>
+                {key.hideName ? <>&nbsp;</> : key.name}
+              </span>
+            </a>
+          </div>
+        )
+      })
+    },
+    [language]
+  )
 
   return (
     <div className={cs("container", css.extension)}>
@@ -94,33 +124,6 @@ const Extension: React.FC = () => {
               Install to {isFirefox ? "Chrome" : "Firefox"}
             </a>
           </p>
-
-          <footer className={cs(css.footer)}>
-            <a
-              className={cs(css.navlink, css.telegram)}
-              href="https://t.me/SocodePro"
-              target="_blank"
-              rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faTelegram} />
-            </a>
-            <a
-              className={cs(css.navlink, css.discord)}
-              href="https://discord.gg/QeuD8Ma"
-              target="_blank"
-              rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faDiscord} />
-            </a>
-            <a
-              className={cs(css.navlink, css.twitter)}
-              href="https://twitter.com/socode7"
-              target="_blank"
-              rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faTwitter} />
-            </a>
-            <a className={cs(css.navlink, css.email)} href="mailto:elliotreborn@gmail.com">
-              <FontAwesomeIcon icon={faEnvelope} />
-            </a>
-          </footer>
         </div>
         <div className="column">
           <div className={css.preview}>
@@ -128,6 +131,36 @@ const Extension: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* <h2 className={css.devdocsHeader}>Supported</h2> */}
+      <div className={css.devdocsKeys}>{keysDom(devdocsKeys)}</div>
+
+      <footer className={cs(css.footer)}>
+        <a
+          className={cs(css.navlink, css.telegram)}
+          href="https://t.me/SocodePro"
+          target="_blank"
+          rel="noopener noreferrer">
+          <FontAwesomeIcon icon={faTelegram} />
+        </a>
+        <a
+          className={cs(css.navlink, css.discord)}
+          href="https://discord.gg/QeuD8Ma"
+          target="_blank"
+          rel="noopener noreferrer">
+          <FontAwesomeIcon icon={faDiscord} />
+        </a>
+        <a
+          className={cs(css.navlink, css.twitter)}
+          href="https://twitter.com/socode7"
+          target="_blank"
+          rel="noopener noreferrer">
+          <FontAwesomeIcon icon={faTwitter} />
+        </a>
+        <a className={cs(css.navlink, css.email)} href="mailto:elliotreborn@gmail.com">
+          <FontAwesomeIcon icon={faEnvelope} />
+        </a>
+      </footer>
     </div>
   )
 }
