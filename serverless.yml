@@ -1,0 +1,16 @@
+name: socode.web
+org: socode
+app: socode.app
+component: website
+stage: production
+
+inputs:
+  src:
+    src: ./src
+    index: index.html
+    hook: npm run build
+    dist: ./build
+    websitePath: ./
+  region: ap-shanghai
+  bucketName: socode
+  protocol: https
