@@ -71,6 +71,14 @@ p.otherlinks {
   box-shadow: $shadow3;
 }
 
+.keysWapper {
+  z-index: 9;
+  position: relative;
+  background-color: $white-duck;
+  margin-top: 250px;
+  padding: 60px 60px 60px;
+}
+
 .devdocsHeader {
   margin: 200px auto 20px;
   @include ms-respond(font-size, 2);
@@ -78,7 +86,6 @@ p.otherlinks {
 }
 
 .devdocsKeys {
-  margin-top: 250px;
   display: flex;
   flex-wrap: wrap;
   .skeybox {
@@ -88,11 +95,16 @@ p.otherlinks {
     padding: 1em 1em 1em 0.5em;
     justify-content: space-between;
     align-items: center;
-    flex-basis: 20%;
+    flex-basis: 100%;
+    @media (min-width: 1024px) {
+      & {
+        flex-basis: 20%;
+      }
+    }
 
     &:hover,
     &.index {
-      background-color: $white-duck;
+      background-color: $white;
     }
   }
   .skey {
@@ -111,11 +123,21 @@ p.otherlinks {
 }
 
 .footer {
+  z-index: 9;
+  position: relative;
   margin: 40px auto;
-  text-align: center;
-  a {
-    margin: 0 10px;
-    font-size: 18px;
-    transition: color 0.4s ease-in-out;
+  display: flex;
+  justify-content: space-between;
+  .links {
+    text-align: center;
+    a {
+      margin: 0 10px;
+      font-size: 18px;
+      transition: color 0.4s ease-in-out;
+    }
+  }
+  .infos {
+    color: $grey-light;
+    font-size: 12px;
   }
 }
