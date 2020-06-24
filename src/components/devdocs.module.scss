@@ -11,7 +11,7 @@
 }
 
 .typegroup {
-  // font-family: $font-mono;
+  font-family: $font-sans-doc;
   .typename {
     @include ms-respond(font-size, 1);
     cursor: pointer;

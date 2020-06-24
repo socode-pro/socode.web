@@ -67,9 +67,9 @@ $pink: #fa7c91;
 $primary-gradient: linear-gradient(5deg, $primary, adjust-color($primary, $lightness: 2%, $hue: 16deg));
 
 $fontsize: 14px;
-// $font-sans: -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-//   "Helvetica Neue", sans-serif;
-$font-sans: -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Arial,
+$font-sans: -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+  "Helvetica Neue", sans-serif;
+$font-sans-doc: -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Arial,
   sans-serif;
 // $font-mono: Consolas, Menlo, "Liberation Mono", "Ubuntu Mono", monospace;
 $font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
