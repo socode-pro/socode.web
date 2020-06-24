@@ -271,6 +271,7 @@ html._theme-dark %external-link:after {
   position: relative;
   min-height: calc(100% - 1.25rem);
   font-size: 16px;
+  font-family: $font-sans-doc;
 
   &._page-error {
     position: static;
@@ -397,7 +398,7 @@ html._theme-dark %external-link:after {
     margin: 1.5em 0 1em;
     line-height: 1.3;
     font-weight: 700;
-    font-family: $font-sans;
+    font-family: $font-sans-doc;
   }
   h1 {
     font-size: 1.4em;
