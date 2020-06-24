@@ -694,7 +694,7 @@ const SKeys: SKey[] = [
   },
   {
     code: "fish",
-    name: "fish shell",
+    name: "Fish Shell",
     category: SKeyCategory.Document,
     shortkeys: "fs",
     icon: "fish.svg",
