@@ -1389,7 +1389,7 @@ const SKeys: SKey[] = [
     shortkeys: "mt",
     icon: "meteor.svg",
     homelink: "https://www.meteor.com",
-    devdocs: "meteor~1.5",
+    devdocs: "meteor~1.10",
   },
   {
     code: "material",
