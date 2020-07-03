@@ -96,6 +96,7 @@ p.otherlinks {
     justify-content: space-between;
     align-items: center;
     flex-basis: 100%;
+    position: relative;
     @media (min-width: 1024px) {
       & {
         flex-basis: 20%;
@@ -111,6 +112,7 @@ p.otherlinks {
     display: flex;
     align-items: center;
     line-height: 26.208px; // ms-respond x1.6
+    @include stretched-link;
     .skname {
       padding-left: 46px;
       @include ms-respond(font-size, 1);
