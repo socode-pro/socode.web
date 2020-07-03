@@ -1,6 +1,6 @@
-import { Action, action, Thunk, thunk } from 'easy-peasy'
-import ky from 'ky'
-import dayjs from 'dayjs'
+import { Action, action, Thunk, thunk } from "easy-peasy"
+import ky from "ky"
+import dayjs from "dayjs"
 
 export interface DevhintsModel {
   loading: boolean
@@ -16,19 +16,19 @@ const devhintsModel: DevhintsModel = {
     state.loading = payload
   }),
 
-  html: '',
+  html: "",
   setHtml: action((state, { html, storage }) => {
     state.html = html
     if (storage) {
-      localStorage.setItem('devhints_html', html)
-      localStorage.setItem('devhints_time', dayjs().toJSON())
+      localStorage.setItem("devhints_html", html)
+      localStorage.setItem("devhints_time", dayjs().toJSON())
     }
   }),
   getHtml: thunk(async (actions) => {
     try {
-      const time = localStorage.getItem('devhints_time')
-      if (time && dayjs(time).add(7, 'day').isAfter(dayjs())) {
-        const devhintsHtml = localStorage.getItem('devhints_html')
+      const time = localStorage.getItem("devhints_time")
+      if (time && dayjs(time).add(7, "day").isAfter(dayjs())) {
+        const devhintsHtml = localStorage.getItem("devhints_html")
         if (devhintsHtml) {
           actions.setHtml({ html: devhintsHtml })
           return
@@ -36,10 +36,10 @@ const devhintsModel: DevhintsModel = {
       }
 
       actions.setLoading(true)
-      const html = await ky.get('https://devhints.io/').text()
+      const html = await ky.get("https://nest.socode.pro/firewall/devhints").text()
       await actions.setHtml({ html, storage: true })
     } catch (err) {
-      console.warn('DevhintsModel.getHtml:', err)
+      console.warn("DevhintsModel.getHtml:", err)
     }
     actions.setLoading(false)
   }),

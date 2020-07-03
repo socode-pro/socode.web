@@ -178,7 +178,6 @@ const Extension: React.FC = () => {
           </div>
         </footer>
       </div>
-
     </>
   )
 }
