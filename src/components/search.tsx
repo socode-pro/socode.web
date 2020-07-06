@@ -547,6 +547,17 @@ const SearchInput: React.FC = (): JSX.Element => {
                 <span className={css.name} onClick={() => setDisplayKeys(!displayKeys)}>
                   {currentKey.name}
                 </span>
+                {currentKey.template && (
+                  <span
+                    className={cs(css.model, {
+                      [css.active]: searchModel === SearchModel.Template,
+                    })}
+                    onClick={(e) => {
+                      setSearchModels({ code: currentKey.code, model: SearchModel.Template })
+                    }}>
+                    <FontAwesomeIcon icon={faSearch} className={css.searchModel} />
+                  </span>
+                )}
                 {currentKey.devdocs && (
                   <span
                     className={cs(css.model, {
@@ -686,9 +697,9 @@ const SearchInput: React.FC = (): JSX.Element => {
               </div>
             )}
 
-            {!displayKeys && !currentKey.docsearch && !currentKey.devdocs && (
+            {/* {!displayKeys && !currentKey.docsearch && !currentKey.devdocs && (
               <FontAwesomeIcon icon={faSearch} onClick={() => search()} className={cs(css.sicon)} />
-            )}
+            )} */}
           </div>
 
           {focus &&
