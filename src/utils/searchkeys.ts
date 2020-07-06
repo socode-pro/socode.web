@@ -1906,7 +1906,7 @@ const SKeys: SKey[] = [
     icon: "ruby.svg",
     homelink: "https://www.ruby-lang.org",
     awesome: "markets/awesome-ruby",
-    devdocs: "ruby~2.6",
+    devdocs: "ruby~2.7",
     template: "https://cse.google.com/cse?q=%s&cx=013598269713424429640%3Ag5orptiw95w",
   },
   {
