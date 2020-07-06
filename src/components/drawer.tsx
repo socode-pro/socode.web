@@ -97,7 +97,8 @@ const Drawer: React.FC = (): JSX.Element => {
       </animated.div> */}
       <div className={cs(css.drawer, { [css.active]: active })}>
         <aside className={cs("menu", css.jacket)}>
-          <p className="menu-label">Profile</p>
+          {!profile && <p className="menu-label">Login</p>}
+          {!!profile && <p className="menu-label">Profile</p>}
           <ul className="menu-list">
             {!profile && (
               <li className={css.loginItem}>
