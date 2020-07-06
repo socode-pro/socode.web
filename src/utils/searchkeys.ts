@@ -1334,7 +1334,7 @@ const SKeys: SKey[] = [
     shortkeys: "lua",
     icon: "lua.svg",
     homelink: "https://www.lua.org",
-    devdocs: "lua~5.3",
+    devdocs: "lua~5.4",
   },
   {
     code: "markdown",
