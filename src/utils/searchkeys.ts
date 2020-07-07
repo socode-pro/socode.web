@@ -577,7 +577,7 @@ const SKeys: SKey[] = [
     icon: "elixir.png",
     homelink: "https://elixir-lang.org/",
     awesome: "h4cc/awesome-elixir",
-    devdocs: "elixir~1.9",
+    devdocs: "elixir~1.10",
   },
   {
     code: "ember",
@@ -643,7 +643,7 @@ const SKeys: SKey[] = [
     shortkeys: "el",
     icon: "erlang.png",
     homelink: "https://www.erlang.org",
-    devdocs: "erlang~21",
+    devdocs: "erlang~23",
   },
   {
     code: "explainshell",
@@ -699,7 +699,7 @@ const SKeys: SKey[] = [
     shortkeys: "fs",
     icon: "fish.svg",
     homelink: "https://fishshell.com",
-    devdocs: "fish~3.0",
+    devdocs: "fish~3.1",
   },
   {
     code: "flask",
@@ -1172,7 +1172,7 @@ const SKeys: SKey[] = [
     shortkeys: "jl",
     hideName: true,
     icon: "julia.svg",
-    devdocs: "julia~1.2",
+    devdocs: "julia~1.4",
   },
   {
     code: "koa",
