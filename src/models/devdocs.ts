@@ -21,12 +21,24 @@ export interface DevdocMeta {
   mtime: number
   release: string
   db_size: number
+  links: {
+    home: string
+    home_matchs?: Array<{
+      url: string
+      startsWith?: string
+      remove?: string
+      add?: string
+    }>
+    disableUrl: boolean
+    code: string
+  }
 }
 
 export interface DevdocEntrie {
   name: string
   path: string
   type: string
+  url?: string
 }
 
 interface DevdocIndex {
@@ -132,8 +144,8 @@ const DevdocsModel: DevdocsModel = {
       }
 
       const indexJson = await ky
-      .get(`${process.env.REACT_APP_DOC_HOST}/${currentKey.devdocs}/index.json?${meta.mtime}`)
-      .json<DevdocIndex>()
+        .get(`${process.env.REACT_APP_DOC_HOST}/${currentKey.devdocs}/index.json?${meta.mtime}`)
+        .json<DevdocIndex>()
       actions.setIndexs(indexJson.entries)
       actions.setVersion(meta.release)
       getStoreActions().display.setExpandView(true)
