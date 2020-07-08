@@ -26,8 +26,8 @@ const devhintsModel: DevhintsModel = {
   }),
   getHtml: thunk(async (actions) => {
     try {
-      const time = localStorage.getItem("devhints_time")
-      if (time && dayjs(time).add(7, "day").isAfter(dayjs())) {
+      const devhintsTime = localStorage.getItem("devhints_time")
+      if (devhintsTime && dayjs(devhintsTime).add(7, "day").isAfter(dayjs())) {
         const devhintsHtml = localStorage.getItem("devhints_html")
         if (devhintsHtml) {
           actions.setHtml({ html: devhintsHtml })
@@ -37,7 +37,7 @@ const devhintsModel: DevhintsModel = {
 
       actions.setLoading(true)
       const html = await ky.get("https://nest.socode.pro/firewall/devhints").text()
-      await actions.setHtml({ html, storage: true })
+      actions.setHtml({ html, storage: true })
     } catch (err) {
       console.warn("DevhintsModel.getHtml:", err)
     }
