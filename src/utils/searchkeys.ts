@@ -466,6 +466,14 @@ const SKeys: SKey[] = [
     ],
   },
   {
+    code: "devdocs",
+    name: "Documents",
+    category: SKeyCategory.Document,
+    shortkeys: "doc",
+    icon: "devdocs.png",
+    usage: true,
+  },
+  {
     code: "django",
     name: "Django",
     category: SKeyCategory.Document,

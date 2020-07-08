@@ -12,6 +12,8 @@ interface Props {
   query: string
 }
 
+const hrefRegExp = /href="\./g
+
 function permutate(data: { slug?: string; category?: string }): string[] {
   let words: string[] = []
   if (data.slug) {
@@ -42,11 +44,6 @@ const Devhints: React.FC<Props> = ({ query }: Props): JSX.Element => {
         const words = permutate(data)
 
         el.setAttribute("data-search-index", words.join(" "))
-        const href = el.getAttribute("href")
-        if (href) {
-          el.setAttribute("href", href.replace("./", "https://devhints.io/"))
-          el.setAttribute("target", "_blank")
-        }
       })
 
       // https://github.com/rstacruz/cheatsheets/blob/master/_js/behaviors/searchable-header.js
@@ -59,11 +56,6 @@ const Devhints: React.FC<Props> = ({ query }: Props): JSX.Element => {
           .split(" ")
 
         el.setAttribute("data-search-index", keywords.join(" "))
-        const href = el.getAttribute("href")
-        if (href) {
-          el.setAttribute("href", href.replace("./", "https://devhints.io/"))
-          el.setAttribute("target", "_blank")
-        }
       })
 
       const missing = element.querySelector<HTMLElement>(".missing-message")
@@ -95,18 +87,16 @@ const Devhints: React.FC<Props> = ({ query }: Props): JSX.Element => {
   }, [query])
 
   useEffect(() => {
-    const getElement = (): void => {
-      const el = document.querySelector(`.${css.cheatsheets} .pages-list`)
-      setElement(el)
-    }
-
-    const bodyHtmlReg = /<body.*?>([\s\S]*)<\/body>/.exec(devhintsHtml) || []
-    if (bodyHtmlReg.length > 1) {
+    const bodyHtmlReg = /<body.*?>([\s\S]*)<\/body>/.exec(devhintsHtml)
+    if (bodyHtmlReg && bodyHtmlReg.length > 1) {
       const bodyDoc = new DOMParser().parseFromString(bodyHtmlReg[1], "text/html")
       const pageDoc = bodyDoc.querySelector(".pages-list")
       if (pageDoc) {
-        setMarkup(pageDoc.outerHTML)
-        setTimeout(getElement, 0) // setTimeout avoid black box when switching
+        const html = pageDoc.outerHTML.replace(hrefRegExp, 'target="_blank" href="https://devhints.io/')
+        setMarkup(html)
+        setTimeout(() => {
+          setElement(document.querySelector(`.${css.cheatsheets} .pages-list`))
+        }, 0) // setTimeout avoid black box when switching
       }
     }
   }, [devhintsHtml])
@@ -122,7 +112,7 @@ const Devhints: React.FC<Props> = ({ query }: Props): JSX.Element => {
         className={cs(css.cheatsheets, { [css.loaddone]: element })}
         ref={(ref) => element && ref?.appendChild(element)}
       /> */}
-      {devhintsHtml && (
+      {markup && (
         <Markup content={markup} attributes={{ className: cs(css.cheatsheets, { [css.loaddone]: element }) }} />
       )}
       <p className={cs(css.devhints, { "dis-none": !element })}>
