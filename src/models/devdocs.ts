@@ -41,7 +41,7 @@ export interface DevdocEntrie {
   url?: string
 }
 
-interface DevdocIndex {
+export interface DevdocIndex {
   entries: Array<DevdocEntrie>
   types: Array<{
     name: string
@@ -95,7 +95,7 @@ export interface DevdocsModel {
   selectPath: Thunk<DevdocsModel, string, void, StoreModel>
 }
 
-const DevdocsModel: DevdocsModel = {
+const devdocsModel: DevdocsModel = {
   menuLoading: false,
   setMenuLoading: action((state, payload) => {
     state.menuLoading = payload
@@ -246,4 +246,4 @@ const DevdocsModel: DevdocsModel = {
   }),
 }
 
-export default DevdocsModel
+export default devdocsModel

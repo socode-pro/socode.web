@@ -10,13 +10,15 @@ const Home: React.FC = () => {
   const judgeOusideFirewall = useStoreActions((actions) => actions.storage.judgeOusideFirewall)
   const injectParams = useStoreActions((actions) => actions.profile.injectParams)
   const loadProfile = useStoreActions((actions) => actions.profile.loadProfile)
+  const initialMetas = useStoreActions((actions) => actions.devdocs.initialMetas)
 
   useEffect(() => {
     judgeRegion()
     judgeOusideFirewall()
     injectParams()
     loadProfile()
-  }, [judgeRegion, judgeOusideFirewall, injectParams, loadProfile])
+    initialMetas()
+  }, [judgeRegion, judgeOusideFirewall, injectParams, loadProfile, initialMetas])
 
   return (
     <>
