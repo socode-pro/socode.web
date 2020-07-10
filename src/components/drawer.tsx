@@ -192,6 +192,17 @@ const Drawer: React.FC = (): JSX.Element => {
           <p className="menu-label">Aside</p>
           <ul className="menu-list">
             <li>
+              <Link
+                className={cs(css.navlink, css.chrome, {
+                  [css.edge]: isEdgeChromium && !ousideFirewall,
+                  [css.firefox]: isFirefox,
+                })}
+                to="/extension">
+                <h3>{useIntl(Words.SearchDocumentsInAddressBar)}</h3>
+                <span>Learn More ⤴</span>
+              </Link>
+            </li>
+            <li>
               <a
                 className={cs(css.navlink, css.chrome, {
                   [css.edge]: isEdgeChromium && !ousideFirewall,
@@ -199,23 +210,19 @@ const Drawer: React.FC = (): JSX.Element => {
                 })}
                 href={
                   isFirefox
-                    ? "https://addons.mozilla.org/zh-CN/firefox/addon/socode/"
-                    : isEdgeChromium && !ousideFirewall
-                    ? "https://microsoftedge.microsoft.com/addons/detail/dkeiglafihicmjbbaoopggfnifgjekcl"
-                    : ousideFirewall
-                    ? "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
-                    : "https://www.crx4chrome.com/crx/196956/"
+                    ? "https://addons.mozilla.org/zh-CN/firefox/addon/new-tab-by-socode-pro/"
+                    : "https://chrome.google.com/webstore/detail/awesome-programming-in-th/midlnalokbplpicoooemgpodiphdmllc"
                 }>
-                <h3>Install to {isFirefox ? "firefox" : isEdgeChromium && !ousideFirewall ? "Edge" : "Chrome"}</h3>
-                <span>Search Documents in AddressBar</span>
+                <h3>NewTab by SOCODE.PRO</h3>
+                <span>Learn More ⤴</span>
               </a>
             </li>
-            <li>
+            {/* <li>
               <a className={cs(css.navlink, css.shortcut)} onClick={() => setShortcut(true)}>
                 <h3>{useIntl(Words.Shortcut)}</h3>
                 <span>quick switch search engine</span>
               </a>
-            </li>
+            </li> */}
             <li>
               <Link to="/privacy" className={cs(css.navlink, css.privacy)}>
                 <h3>{useIntl(Words.PrivacyPolicy)}</h3>

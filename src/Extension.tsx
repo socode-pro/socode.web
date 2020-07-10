@@ -114,8 +114,8 @@ const Extension: React.FC = () => {
                 <h3>Install to {isFirefox ? "Firefox" : isEdgeChromium && !ousideFirewall ? "Edge" : "Chrome"}</h3>
               </a>
             </animated.div>
-            <p className={css.otherlinks}>
-              {isFirefox ? <FontAwesomeIcon icon={faChrome} /> : <FontAwesomeIcon icon={faFirefox} />}
+            <p className={cs(css.otherlinks, "mgt20")}>
+              <FontAwesomeIcon icon={isFirefox ? faChrome : faFirefox} />
               <a
                 href={
                   isFirefox
@@ -123,6 +123,17 @@ const Extension: React.FC = () => {
                     : "https://addons.mozilla.org/zh-CN/firefox/addon/socode/"
                 }>
                 Install to {isFirefox ? "Chrome" : "Firefox"}
+              </a>
+            </p>
+            <p className={cs(css.otherlinks)}>
+              <FontAwesomeIcon icon={isFirefox ? faFirefox : faChrome} />
+              <a
+                href={
+                  isFirefox
+                    ? "https://addons.mozilla.org/zh-CN/firefox/addon/new-tab-by-socode-pro/"
+                    : "https://chrome.google.com/webstore/detail/awesome-programming-in-th/midlnalokbplpicoooemgpodiphdmllc"
+                }>
+                NewTab by SOCODE.PRO
               </a>
             </p>
           </div>
