@@ -6,6 +6,7 @@ import learnxinyModel, { LearnxinyModel } from "./learnxiny"
 import awesomeModel, { AwesomeModel } from "./awesome"
 import readmeModel, { ReadmeModel } from "./readme"
 import devdocsModel, { DevdocsModel } from "./devdocs"
+import devdocsUnitedModel, { DevdocsUnitedModel } from "./devdocs_united"
 import starsModel, { StarsModel } from "./stars"
 import searchKeysModel, { SearchKeysModel } from "./searchkeys"
 import trendingModel, { TrendingModel } from "./trending"
@@ -20,6 +21,7 @@ export interface StoreModel {
   awesome: AwesomeModel
   readme: ReadmeModel
   devdocs: DevdocsModel
+  devdocsUnited: DevdocsUnitedModel
   stars: StarsModel
   searchKeys: SearchKeysModel
   trending: TrendingModel
@@ -35,6 +37,7 @@ const storeModel: StoreModel = {
   awesome: awesomeModel,
   readme: readmeModel,
   devdocs: devdocsModel,
+  devdocsUnited: devdocsUnitedModel,
   stars: starsModel,
   searchKeys: searchKeysModel,
   trending: trendingModel,

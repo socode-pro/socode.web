@@ -27,7 +27,7 @@
     "@testing-library/react": "^10.3.0",
     "@testing-library/user-event": "^12.0.2",
     "@toast-ui/editor-plugin-code-syntax-highlight": "^1.0.0",
-    "@toast-ui/editor-plugin-uml": "^1.0.0", 
+    "@toast-ui/editor-plugin-uml": "^1.0.0",
     "@toast-ui/react-editor": "^2.2.0",
     "algoliasearch": "3.24.5",
     "autocomplete.js": "^0.36.0",
@@ -60,6 +60,7 @@
     "react-media-hook": "^0.4.6",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",
+    "react-select": "^3.1.0",
     "react-spring": "^9.0.0-beta.34",
     "source-map-explorer": "^2.4.1",
     "typescript": "^3.9.5"
