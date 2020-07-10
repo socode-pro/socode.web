@@ -17,6 +17,7 @@ export enum Words {
   SwitchToGithub = "Switch to Github",
   NextPage = "Next page",
   PreviousPage = "Previous page",
+  SearchDocumentsInAddressBar = "Search Documents in AddressBar",
 }
 
 const useIntl = (words: Words): string => {
@@ -26,6 +27,9 @@ const useIntl = (words: Words): string => {
   useEffect(() => {
     if (language === InterfaceLanguage.中文) {
       switch (words) {
+        case Words.SearchDocumentsInAddressBar:
+          setContent("在浏览器地址栏搜索文档")
+          break
         case Words.ASearchEngineForProgrammers:
           setContent("给程序员用的问答搜索")
           break

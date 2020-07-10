@@ -165,11 +165,11 @@ const SearchInput: React.FC = (): JSX.Element => {
         setKquery(e.target.value)
       } else {
         setSquery(e.target.value)
-        debounceSuggeste?.cancel()
+        debounceSuggeste.cancel()
         debounceSuggeste(e.target.value)
       }
     },
-    [debounceSuggeste, debounceSuggeste?.cancel, displayKeys, setKquery, setSquery]
+    [debounceSuggeste, displayKeys, setKquery, setSquery]
   )
 
   const clearResultAll = useCallback(() => {
@@ -179,8 +179,13 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [clearResult])
 
   const focusInput = useCallback(() => {
-    document.getElementById(`docsearch_input`)?.focus()
-    inputEl.current?.focus()
+    const docinput = document.getElementById(`docsearch_input`)
+    if (docinput) {
+      docinput.focus()
+    }
+    if (inputEl.current) {
+      inputEl.current.focus()
+    }
   }, [])
 
   useHotkeys(
@@ -284,7 +289,8 @@ const SearchInput: React.FC = (): JSX.Element => {
           },
         ]
       ).on("autocomplete:selected", (event, data) => {
-        window.open(getAutocompleteUrl(currentKey.code, data), "_blank")?.focus()
+        const win = window.open(getAutocompleteUrl(currentKey.code, data), "_blank")
+        if (win) win.focus()
       })
       return
     }
@@ -319,7 +325,8 @@ const SearchInput: React.FC = (): JSX.Element => {
       inputSelector: `#docsearch_input`,
       algoliaOptions: { ...dsConfig.algoliaOptions, hitsPerPage: 7 },
       handleSelected: (input, event, data) => {
-        window.open(data.url, "_blank")?.focus()
+        const win = window.open(data.url, "_blank")
+        if (win) win.focus()
       },
       autocompleteOptions: {
         tabAutocomplete: false,
@@ -353,7 +360,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       } else {
         clearResultAll()
         search()
-        e?.target?.blur()
+        if (e && e.target) e.target.blur()
       }
     },
     [changeKey, clearResultAll, displayKeys, keyIndex, search, searchedKeys]
@@ -430,11 +437,11 @@ const SearchInput: React.FC = (): JSX.Element => {
         changeKey(key)
         return false
       }
-      if (displayKeys ? kquery.endsWith("`") : squery.endsWith("`")) {
-        setDisplayKeys(!displayKeys)
-        setTimeout(focusInput, 0)
-        return false
-      }
+      // if (displayKeys ? kquery.endsWith("`") : squery.endsWith("`")) {
+      //   setDisplayKeys(!displayKeys)
+      //   setTimeout(focusInput, 0)
+      //   return false
+      // }
       return true
     },
     [keys, squery, kquery, focusInput],
@@ -452,43 +459,43 @@ const SearchInput: React.FC = (): JSX.Element => {
     [css.input]
   )
 
-  useHotkeys(
-    "`",
-    () => {
-      if (document.activeElement?.tagName !== "INPUT") {
-        setDisplayKeys(true)
-        setTimeout(focusInput, 0)
-        return false
-      }
-      return true
-    },
-    [displayKeys, focusInput],
-    ["BODY"]
-  )
+  // useHotkeys(
+  //   "`",
+  //   () => {
+  //     if (document.activeElement?.tagName !== "INPUT") {
+  //       setDisplayKeys(true)
+  //       setTimeout(focusInput, 0)
+  //       return false
+  //     }
+  //     return true
+  //   },
+  //   [displayKeys, focusInput],
+  //   ["BODY"]
+  // )
 
   const switchTab = useCallback((index: number) => {
     setTabIndex(index)
     switch (index) {
       case 0:
-        pinnedTabEl.current?.scrollIntoView()
+        if (pinnedTabEl.current) pinnedTabEl.current.scrollIntoView()
         break
       case SKeyCategory.Search:
-        searchTabEl.current?.scrollIntoView()
+        if (searchTabEl.current) searchTabEl.current.scrollIntoView()
         break
       case SKeyCategory.Tools:
-        toolsTabEl.current?.scrollIntoView()
+        if (toolsTabEl.current) toolsTabEl.current.scrollIntoView()
         break
       case SKeyCategory.Collection:
-        collectionTabEl.current?.scrollIntoView()
+        if (collectionTabEl.current) collectionTabEl.current.scrollIntoView()
         break
       case SKeyCategory.CheatSheets:
-        cheatSheetsTabEl.current?.scrollIntoView()
+        if (cheatSheetsTabEl.current) cheatSheetsTabEl.current.scrollIntoView()
         break
       case SKeyCategory.Learn:
-        learnTabEl.current?.scrollIntoView()
+        if (learnTabEl.current) learnTabEl.current.scrollIntoView()
         break
       case SKeyCategory.Document:
-        documentTabEl.current?.scrollIntoView()
+        if (documentTabEl.current) documentTabEl.current.scrollIntoView()
         break
       default:
         break
