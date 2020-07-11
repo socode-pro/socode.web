@@ -22,16 +22,17 @@ const { location, history } = window
 
 // https://stackoverflow.com/a/41542008
 export const winSearchParams = (params: {
-  keyname?: string
+  key?: string
   query?: string
-  devdocs?: string
+  docspath?: string
+  docscode?: string
   stack?: string
   repos?: string
 }): void => {
   const searchParams = new URLSearchParams(window.location.search)
-  if (params.keyname !== undefined) {
-    if (params.keyname) {
-      searchParams.set("k", params.keyname)
+  if (params.key !== undefined) {
+    if (params.key) {
+      searchParams.set("k", params.key)
     } else {
       searchParams.delete("k")
     }
@@ -43,11 +44,18 @@ export const winSearchParams = (params: {
       searchParams.delete("q")
     }
   }
-  if (params.devdocs !== undefined) {
-    if (params.devdocs) {
-      searchParams.set("devdocs", params.devdocs)
+  if (params.docspath !== undefined) {
+    if (params.docspath) {
+      searchParams.set("docspath", params.docspath)
     } else {
-      searchParams.delete("devdocs")
+      searchParams.delete("docspath")
+    }
+  }
+  if (params.docscode !== undefined) {
+    if (params.docscode) {
+      searchParams.set("docscode", params.docscode)
+    } else {
+      searchParams.delete("docscode")
     }
   }
   if (params.stack !== undefined) {

@@ -34,7 +34,7 @@ const Devdocs: React.FC = (): JSX.Element => {
 
   const popstateSelect = useCallback(async () => {
     const searchParams = new URLSearchParams(window.location.search)
-    const path = searchParams.get("devdocs")
+    const path = searchParams.get("docspath")
     if (path) {
       selectPath(path)
     }
@@ -77,7 +77,8 @@ const Devdocs: React.FC = (): JSX.Element => {
         tag.setAttribute("href", `/?${searchParams.toString()}`)
       }
     })
-  }, [docs, currentPath])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [docs])
 
   useHotkeys(
     "down",

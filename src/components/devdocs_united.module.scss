@@ -105,10 +105,15 @@
   }
 }
 
-p.version {
+div.currentMeta {
   margin-left: 24px;
-  color: #7a7a7a;
-  font-size: 0.75em;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  .metaName {
+    @include ms-respond(font-size, 1);
+  }
+  .metaVersion {
+    color: #7a7a7a;
+    font-size: 0.75em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
 }

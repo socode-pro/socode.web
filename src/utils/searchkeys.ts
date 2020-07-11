@@ -63,7 +63,8 @@ export const IsUnSearchableKey = (key: SKey): boolean =>
   key.code === "password" ||
   key.code === "code_editor" ||
   key.code === "markdown_editor" ||
-  key.code === "encode"
+  key.code === "encode" ||
+  key.code === "devdocs"
 
 export const IsExpandWidthViewKey = (key: SKey): boolean => key.code === "code_editor" || key.code === "markdown_editor"
 
