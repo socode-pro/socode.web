@@ -11,7 +11,6 @@ const Home: React.FC = () => {
   const judgeOusideFirewall = useStoreActions((actions) => actions.storage.judgeOusideFirewall)
   const injectParams = useStoreActions((actions) => actions.profile.injectParams)
   const loadProfile = useStoreActions((actions) => actions.profile.loadProfile)
-  const setSettings = useStoreActions((actions) => actions.profile.setSettings)
 
   useEffect(() => {
     judgeRegion()
