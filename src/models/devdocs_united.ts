@@ -233,7 +233,11 @@ const devdocsUnitedModel: DevdocsUnitedModel = {
   }),
 
   selectPath: thunk(async (actions, { code, path }, { getState, getStoreState, getStoreActions }) => {
-    if (path === getState().currentPath) return
+    if (path === getState().currentPath) {
+      actions.setQueryIndex(0)
+      getStoreActions().search.setQuery("")
+      return
+    }
 
     const key = getState().keys.find((k) => k.code === code)
     if (!key) return
