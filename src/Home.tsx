@@ -7,17 +7,18 @@ import { isInStandaloneMode } from "./utils/assist"
 
 const Home: React.FC = () => {
   const judgeRegion = useStoreActions((actions) => actions.storage.judgeRegion)
+  const initialMetas = useStoreActions((actions) => actions.storage.initialMetas)
   const judgeOusideFirewall = useStoreActions((actions) => actions.storage.judgeOusideFirewall)
   const injectParams = useStoreActions((actions) => actions.profile.injectParams)
   const loadProfile = useStoreActions((actions) => actions.profile.loadProfile)
-  const initialMetas = useStoreActions((actions) => actions.devdocs.initialMetas)
+  const setSettings = useStoreActions((actions) => actions.profile.setSettings)
 
   useEffect(() => {
     judgeRegion()
+    initialMetas()
     judgeOusideFirewall()
     injectParams()
     loadProfile()
-    initialMetas()
   }, [judgeRegion, judgeOusideFirewall, injectParams, loadProfile, initialMetas])
 
   return (

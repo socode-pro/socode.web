@@ -4,38 +4,49 @@ import { Markup } from "interweave"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { useStoreActions, useStoreState } from "../Store"
-import { DevdocEntrie } from "../models/devdocs"
 import { DevdocEntrieWithKey } from "../models/devdocs_united"
+import { DevdocMeta } from "../models/storage"
 import { isRelationHref, transRelationHref } from "../utils/assist"
 import useHotkeys from "../utils/useHotkeys"
 import Loader1 from "./loader/loader1"
+import { Settings } from "../models/profile"
 import css from "./devdocs_united.module.scss"
 
 const DevdocsUnited: React.FC = (): JSX.Element => {
   const docContainer = useRef<HTMLDivElement>(null)
+  const { addressBarKeys } = useStoreState<Settings>((state) => state.profile.settings)
+  const loadIndexsByKeys = useStoreActions((actions) => actions.devdocsUnited.loadIndexsByKeys)
 
-  const version = useStoreState<string>((state) => state.devdocs.version)
-  const menuLoading = useStoreState<boolean>((state) => state.devdocs.menuLoading)
-  const docLoading = useStoreState<boolean>((state) => state.devdocs.docLoading)
-  const menus = useStoreState<Array<{ group: string; entries: Array<DevdocEntrie> }>>((state) => state.devdocs.menus)
+  const menuLoading = useStoreState<boolean>((state) => state.devdocsUnited.menuLoading)
+  const docLoading = useStoreState<boolean>((state) => state.devdocsUnited.docLoading)
+
+  const currentMenus = useStoreState<Array<{ group: string; entries: Array<DevdocEntrieWithKey> }>>(
+    (state) => state.devdocsUnited.currentMenus
+  )
+  const currentMeta = useStoreState<DevdocMeta | null>((state) => state.devdocsUnited.currentMeta)
 
   const query = useStoreState<string>((state) => state.search.query)
   const queryItems = useStoreState<Array<DevdocEntrieWithKey>>((state) => state.devdocsUnited.queryItems)
-  const queryIndex = useStoreState<number>((state) => state.devdocs.queryIndex)
-  const setQueryIndex = useStoreActions((actions) => actions.devdocs.setQueryIndex)
+  const queryIndex = useStoreState<number>((state) => state.devdocsUnited.queryIndex)
+  const setQueryIndex = useStoreActions((actions) => actions.devdocsUnited.setQueryIndex)
 
-  const expandings = useStoreState<{ [index: string]: boolean }>((state) => state.devdocs.expandings)
-  const toggleExpanding = useStoreActions((actions) => actions.devdocs.toggleExpanding)
+  const expandings = useStoreState<{ [index: string]: boolean }>((state) => state.devdocsUnited.expandings)
+  const toggleExpanding = useStoreActions((actions) => actions.devdocsUnited.toggleExpanding)
 
-  const docs = useStoreState<string>((state) => state.devdocs.docs)
-  const currentPath = useStoreState<string>((state) => state.devdocs.currentPath)
-  const selectPath = useStoreActions((actions) => actions.devdocs.selectPath)
+  const docs = useStoreState<string>((state) => state.devdocsUnited.docs)
+  const currentPath = useStoreState<string>((state) => state.devdocsUnited.currentPath)
+  const selectPath = useStoreActions((actions) => actions.devdocsUnited.selectPath)
+
+  useEffect(() => {
+    addressBarKeys && loadIndexsByKeys(addressBarKeys)
+  }, [addressBarKeys, loadIndexsByKeys])
 
   const popstateSelect = useCallback(async () => {
     const searchParams = new URLSearchParams(window.location.search)
-    const path = searchParams.get("devdocs")
-    if (path) {
-      selectPath(path)
+    const code = searchParams.get("docscode")
+    const path = searchParams.get("docspath")
+    if (code && path) {
+      selectPath({ code, path })
     }
   }, [selectPath])
 
@@ -72,7 +83,8 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
         tag.setAttribute("href", `/?${searchParams.toString()}`)
       }
     })
-  }, [docs, currentPath])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [docs])
 
   useHotkeys(
     "down",
@@ -108,7 +120,8 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
     "enter",
     () => {
       if (queryItems.length) {
-        selectPath(queryItems[queryIndex].path)
+        const item = queryItems[queryIndex]
+        selectPath({ code: item.key, path: item.path })
         return false
       }
       return true
@@ -130,7 +143,7 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
               <a
                 className={cs(css.item, { [css.selected]: i === queryIndex })}
                 key={item.name + item.path}
-                onClick={() => selectPath(item.path)}>
+                onClick={() => selectPath({ code: item.key, path: item.path })}>
                 <span className={css.keyname}>{item.key}</span>
                 <Markup tagName="span" attributes={{ className: css.typename }} content={`${item.type}:`} />
                 <Markup tagName="span" content={item.name} />
@@ -142,8 +155,13 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
       {!query && (
         <div className={cs("columns", "container", css.devdocs)}>
           <div className={cs("column", "is-one-quarter")}>
-            {!!version && <p className={css.version}>version:{version}</p>}
-            {menus.map((result) => {
+            {!!currentMeta && (
+              <div className={css.currentMeta}>
+                <p className={css.metaName}>{currentMeta.name}</p>
+                <p className={css.metaVersion}>version:{currentMeta.release}</p>
+              </div>
+            )}
+            {currentMenus.map((result) => {
               const { group, entries } = result
               return (
                 <div key={group} className={cs(css.typegroup, { [css.expanding]: expandings[group] })}>
@@ -158,7 +176,7 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
                           <a
                             title={item.name}
                             className={cs(css.item, { [css.current]: currentPath === item.path })}
-                            onClick={() => selectPath(item.path)}>
+                            onClick={() => selectPath({ code: item.key, path: item.path })}>
                             {item.name}
                           </a>
                         </li>

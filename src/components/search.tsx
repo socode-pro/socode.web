@@ -348,7 +348,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       setSquery("")
       setKquery("")
       setCurrentKey(key)
-      winSearchParams({ keyname: key.code, query: "" })
+      winSearchParams({ key: key.code, query: "" })
       setKeyIndex(-1)
       setTimeout(() => focusInput(), 200)
     },
