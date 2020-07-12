@@ -106,7 +106,7 @@ const searchKeysModel: SearchKeysModel = {
     return state.keys.filter((k) => k.devdocs)
   }),
 
-  currentKey: SKeys.find((k) => k.code === "github") || SKeys[0],
+  currentKey: SKeys[0],
   setCurrentKey: action((state, payload) => {
     state.keyIndex = 0
     state.currentKey = payload

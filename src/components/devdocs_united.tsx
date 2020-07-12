@@ -37,10 +37,6 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
   const currentPath = useStoreState<string>((state) => state.devdocsUnited.currentPath)
   const selectPath = useStoreActions((actions) => actions.devdocsUnited.selectPath)
 
-  useEffect(() => {
-    addressBarKeys && loadIndexsByKeys(addressBarKeys)
-  }, [addressBarKeys, loadIndexsByKeys])
-
   const popstateSelect = useCallback(async () => {
     const searchParams = new URLSearchParams(window.location.search)
     const code = searchParams.get("docscode")
@@ -51,15 +47,21 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
   }, [selectPath])
 
   useEffect(() => {
-    popstateSelect()
-  }, [popstateSelect])
-
-  useEffect(() => {
     window.addEventListener("popstate", popstateSelect)
     return () => {
       window.removeEventListener("popstate", popstateSelect)
     }
   }, [popstateSelect])
+
+  useEffect(() => {
+    ;(async (): Promise<void> => {
+      if (addressBarKeys) {
+        await loadIndexsByKeys(addressBarKeys)
+      }
+      popstateSelect()
+    })()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     if (!docs || !docContainer.current) return
@@ -136,15 +138,17 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
 
   return (
     <>
-      {!!query && (
+      {!!queryItems.length && (
         <div className={cs(css.searchItems)}>
           {queryItems.map((item, i) => {
             return (
               <a
                 className={cs(css.item, { [css.selected]: i === queryIndex })}
-                key={item.name + item.path}
+                // 没有 add/remove item 需求的时候可以使用索引作为key
+                // eslint-disable-next-line react/no-array-index-key
+                key={i}
                 onClick={() => selectPath({ code: item.key, path: item.path })}>
-                <span className={css.keyname}>{item.key}</span>
+                <Markup tagName="span" attributes={{ className: css.keyname }} content={item.key} />
                 <Markup tagName="span" attributes={{ className: css.typename }} content={`${item.type}:`} />
                 <Markup tagName="span" content={item.name} />
               </a>
@@ -152,15 +156,13 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
           })}
         </div>
       )}
-      {!query && (
+      {!query && !!currentMeta && (
         <div className={cs("columns", "container", css.devdocs)}>
           <div className={cs("column", "is-one-quarter")}>
-            {!!currentMeta && (
-              <div className={css.currentMeta}>
-                <p className={css.metaName}>{currentMeta.name}</p>
-                <p className={css.metaVersion}>version:{currentMeta.release}</p>
-              </div>
-            )}
+            <div className={css.currentMeta}>
+              <p className={css.metaName}>{currentMeta.name}</p>
+              <p className={css.metaVersion}>version:{currentMeta.release}</p>
+            </div>
             {currentMenus.map((result) => {
               const { group, entries } = result
               return (
