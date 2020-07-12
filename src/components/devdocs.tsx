@@ -129,7 +129,7 @@ const Devdocs: React.FC = (): JSX.Element => {
 
   return (
     <>
-      {!!query && (
+      {!!queryItems.length && (
         <div className={cs(css.searchItems)}>
           {queryItems.map((item, i) => {
             return (
@@ -144,7 +144,7 @@ const Devdocs: React.FC = (): JSX.Element => {
           })}
         </div>
       )}
-      {!query && (
+      {!queryItems.length && (
         <div className={cs("columns", "container", css.devdocs)}>
           <div className={cs("column", "is-one-quarter")}>
             {!!version && <p className={css.version}>version:{version}</p>}

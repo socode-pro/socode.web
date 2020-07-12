@@ -652,7 +652,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                   label: (
                     <span
                       className={css.selectItem}
-                      style={{ backgroundImage: `url(/assets/keys/${k.icon})`, ...k.iconProps }}>
+                      style={{ backgroundImage: `url(/keys/${k.icon})`, ...k.iconProps }}>
                       {k.name} <i>{k.shortkeys}</i>
                     </span>
                   ),

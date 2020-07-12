@@ -39,7 +39,7 @@ export interface SKey {
     appId?: string
     apiKey: string
     indexName: string
-    algoliaOptions?: object
+    algoliaOptions?: Record<string, unknown>
     lang: Language
     byAutocomplete?: boolean
   }>
@@ -91,6 +91,14 @@ export const KeyPlaceholder = (key: SKey, model: SearchModel): string => {
 }
 
 const SKeys: SKey[] = [
+  {
+    code: "devdocs",
+    name: "Documents",
+    category: SKeyCategory.Search,
+    shortkeys: "doc",
+    icon: "devdocs.png",
+    usage: true,
+  },
   {
     code: "_30seconds",
     name: "30 seconds of code",
@@ -465,14 +473,6 @@ const SKeys: SKey[] = [
         algoliaOptions: { facetFilters: ["language:zh-CN"] },
       },
     ],
-  },
-  {
-    code: "devdocs",
-    name: "Documents",
-    category: SKeyCategory.Document,
-    shortkeys: "doc",
-    icon: "devdocs.png",
-    usage: true,
   },
   {
     code: "django",

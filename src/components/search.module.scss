@@ -185,6 +185,19 @@
 
   .devdocs_select {
     border: none 0;
+    .selectItem {
+      padding-right: 72px;
+      background-position: right center !important;
+      background-size: contain !important;
+      background-repeat: no-repeat;
+      display: inline-block;
+      width: 100% !important;
+      i {
+        color: $grey-lighter;
+        margin-left: 5px;
+        font-style: normal;
+      }
+    }
   }
 }
 

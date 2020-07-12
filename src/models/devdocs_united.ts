@@ -61,6 +61,7 @@ export interface DevdocsUnitedModel {
   concatIndexs: Action<DevdocsUnitedModel, Array<DevdocEntrieWithKey>>
   pushIndexs: Thunk<DevdocsUnitedModel, SKey, void, StoreModel>
   loadIndexsByKeys: Thunk<DevdocsUnitedModel, string[]>
+  onKeysChange: ThunkOn<DevdocsUnitedModel, void, StoreModel>
 
   queryItems: Computed<DevdocsUnitedModel, Array<DevdocEntrieWithKey>, StoreModel>
   queryIndex: number
@@ -132,6 +133,7 @@ const devdocsUnitedModel: DevdocsUnitedModel = {
         .json<DevdocIndex>()
       const indexWithKey: Array<DevdocEntrieWithKey> = indexJson.entries.map((e) => ({
         ...e,
+        // id: shortid.generate(),
         key: payload.code,
         shortkeys: payload.shortkeys,
         url: getEntrieUrl(e, meta),
@@ -146,19 +148,31 @@ const devdocsUnitedModel: DevdocsUnitedModel = {
     actions.setIndexs(indexs.filter((e) => payload.includes(e.key)))
 
     const addedCodes = payload.filter((c) => !keys.some((k) => k.code === c))
-    addedCodes.forEach((c) => {
-      const key = SKeys.find((k) => k.code === c)
-      if (!key) throw new Error(`changeIndexsByKeys addedCodes:${c} null`)
-      actions.pushIndexs(key)
-    })
+    await Promise.all(
+      addedCodes.map(async (code) => {
+        const key = SKeys.find((k) => k.code === code)
+        if (!key) throw new Error(`addedCodes:${code} null`)
+        console.log(`pushIndexs ${key.name}`)
+        await actions.pushIndexs(key)
+      })
+    )
 
-    const newKeys = payload.map((c) => {
-      const key = SKeys.find((k) => k.code === c)
-      if (!key) throw new Error(`changeIndexsByKeys newKeys:${c} null`)
-      return key
-    })
-    actions.setKeys(newKeys)
+    actions.setKeys(
+      payload.map((c) => {
+        const key = SKeys.find((k) => k.code === c)
+        if (!key) throw new Error(`newKeys:${c} null`)
+        return key
+      })
+    )
   }),
+  onKeysChange: thunkOn(
+    (actions, storeActions) => storeActions.profile.setSettings,
+    async (actions, target) => {
+      const { addressBarKeys } = target.payload.settings
+      if (!addressBarKeys) return
+      actions.loadIndexsByKeys(addressBarKeys)
+    }
+  ),
 
   queryItems: computed(
     [(state) => state.indexs, (state) => state.keys, (state, storeState) => storeState.search.query],
@@ -251,6 +265,7 @@ const devdocsUnitedModel: DevdocsUnitedModel = {
       .map(([group, entries]) => ({ group, entries }))
       .sort((a, b) => a.group.localeCompare(b.group))
     actions.setCurrentMenus(menus)
+    getStoreActions().display.setExpandView(true)
 
     winSearchParams({ docscode: code, docspath: path })
 
