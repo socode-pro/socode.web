@@ -30,6 +30,26 @@ export interface RegionData {
   utc_offset?: string
 }
 
+export interface DevdocMeta {
+  name: string
+  slug: string
+  type: string
+  mtime: number
+  release: string
+  db_size: number
+  links: {
+    home: string
+    home_matchs?: Array<{
+      url: string
+      startsWith?: string
+      remove?: string
+      add?: string
+    }>
+    disableUrl: boolean
+    code: string
+  }
+}
+
 export interface StorageModel {
   programLanguage: ProgramLanguage
   setProgramLanguage: Action<StorageModel, ProgramLanguage>
@@ -45,6 +65,10 @@ export interface StorageModel {
   ousideFirewall: boolean
   setOusideFirewall: Action<StorageModel, boolean>
   judgeOusideFirewall: Thunk<StorageModel>
+
+  metas: DevdocMeta[]
+  setMetas: Action<StorageModel, DevdocMeta[]>
+  initialMetas: Thunk<StorageModel, void>
 }
 
 const storageModel: StorageModel = {
@@ -144,6 +168,22 @@ const storageModel: StorageModel = {
     //   actions.setOusideFirewall(false)
     // }
     // image.src = "http://youtube.com/favicon.ico"
+  }),
+
+  metas: JSON.parse(localStorage.getItem("metas") || "[]"),
+  setMetas: action((state, payload) => {
+    state.metas = payload
+    localStorage.setItem("metas", JSON.stringify(payload))
+  }),
+  initialMetas: thunk(async (actions) => {
+    try {
+      const metas = await ky.get(`${process.env.REACT_APP_DOC_HOST}/docs.json`).json<DevdocMeta[]>()
+      if (metas !== null) {
+        actions.setMetas(metas)
+      }
+    } catch (err) {
+      console.error(err)
+    }
   }),
 }
 

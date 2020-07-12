@@ -24,6 +24,7 @@ export interface SearchKeysModel {
 
   computedKeys: Computed<SearchKeysModel, Array<SKey>, StoreModel>
   searchedKeys: Computed<SearchKeysModel, Array<SKey>>
+  addressBarKeys: Computed<SearchKeysModel, Array<SKey>>
 
   currentKey: SKey
   setCurrentKey: Action<SearchKeysModel, SKey>
@@ -101,7 +102,11 @@ const searchKeysModel: SearchKeysModel = {
     return ckeys
   }),
 
-  currentKey: SKeys.find((k) => k.code === "github") || SKeys[0],
+  addressBarKeys: computed((state) => {
+    return state.keys.filter((k) => k.devdocs)
+  }),
+
+  currentKey: SKeys[0],
   setCurrentKey: action((state, payload) => {
     state.keyIndex = 0
     state.currentKey = payload

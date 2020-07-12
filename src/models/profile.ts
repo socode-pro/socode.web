@@ -12,9 +12,11 @@ export enum DarkMode {
 
 export interface Settings {
   language?: InterfaceLanguage
+  useOriginUrl?: boolean
   openNewPage?: boolean
   displayTrending?: boolean
   darkMode?: DarkMode
+  addressBarKeys?: Array<string>
 }
 
 export enum UserRole {
@@ -54,21 +56,15 @@ export interface ProfileModel {
 }
 
 const profileModel: ProfileModel = {
-  jwt: localStorage.getItem("jwt") || null,
-  setJwt: action((state, { jwt, storage = true }) => {
-    state.jwt = jwt
-    if (storage) {
-      localStorage.setItem("jwt", jwt || "")
-    }
-  }),
-
   settings: {
     language: navigator.language.startsWith(InterfaceLanguage.中文)
       ? InterfaceLanguage.中文
       : InterfaceLanguage.English,
+    useOriginUrl: false,
     openNewPage: true,
     displayTrending: true,
     darkMode: DarkMode.Light,
+    addressBarKeys: ["css", "javascript"],
   },
   setSettings: action((state, { settings, storage = true, post = true }) => {
     state.settings = { ...state.settings, ...settings }
@@ -84,6 +80,14 @@ const profileModel: ProfileModel = {
         },
         json: state.settings,
       })
+    }
+  }),
+
+  jwt: localStorage.getItem("jwt") || null,
+  setJwt: action((state, { jwt, storage = true }) => {
+    state.jwt = jwt
+    if (storage) {
+      localStorage.setItem("jwt", jwt || "")
     }
   }),
 
@@ -106,13 +110,16 @@ const profileModel: ProfileModel = {
       actions.setSettings({
         settings: JSON.parse(localSettings),
         storage: false,
+        post: false,
       })
     }
+
     const localJwt = localStorage.getItem("jwt")
     if (localJwt) {
       actions.setJwt({ jwt: localJwt, storage: false })
     }
-    // 第一屏不显示Profile的话可以注释掉
+
+    // 第一屏不显示Profile的话可以移除
     // const localProfiles = localStorage.getItem("profile")
     // if (localProfiles) {
     //   actions.setProfile({ profile: JSON.parse(localProfiles), storage: false })
@@ -120,7 +127,10 @@ const profileModel: ProfileModel = {
 
     try {
       const { jwt } = getState()
-      if (!jwt) throw new Error("jwt null")
+      if (!jwt) {
+        actions.logout()
+        return
+      }
 
       const data = await ky
         .get(`${process.env.REACT_APP_NEST}/users/profile`, {
@@ -136,34 +146,16 @@ const profileModel: ProfileModel = {
       if (settings) {
         actions.setSettings({ settings, post: false })
       } else if (localSettings) {
-        // sync to nest
-        actions.setSettings({
-          settings: JSON.parse(localSettings),
-          storage: false,
-        })
+        // post to nest
+        actions.setSettings({ settings: JSON.parse(localSettings), storage: false })
       }
     } catch (err) {
-      console.warn(err.message)
+      console.error(err.message)
       actions.logout()
     }
   }),
 
   injectParams: thunk(async (actions) => {
-    // const info2: Profile = {
-    //   id: 11,
-    //   role: UserRole.User,
-    //   username: "zicjin@gmail.com",
-    //   email: "zicjin@gmail.com",
-    //   displayName: "Cheney Jin",
-    //   avatar: "https://avatars2.githubusercontent.com/u/199482",
-    //   // githubToken: "***REMOVED***",
-    //   googleToken: "***REMOVED***",
-    //   invitationCode: "zxcasdsa",
-    //   invitationCount: 0,
-    //   jwt: "zxfdsfdf",
-    // }
-    // actions.setProfile(info2)
-
     const params = new URLSearchParams(window.location.search)
 
     if (params.has("invitationCode")) {

@@ -230,9 +230,9 @@ const starsModel: StarsModel = {
     const { profile } = getStoreState().profile
 
     if (stack.type === StackType.Private) {
-      winSearchParams({ keyname: "github_stars", stack: stack.id, repos: stack.repos.toString() })
+      winSearchParams({ key: "github_stars", stack: stack.id, repos: stack.repos.toString() })
     } else {
-      winSearchParams({ keyname: "github_stars", stack: stack.id, repos: "" })
+      winSearchParams({ key: "github_stars", stack: stack.id, repos: "" })
     }
 
     await Promise.all(
