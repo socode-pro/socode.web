@@ -14,26 +14,6 @@ const fuseOptions: Fuse.IFuseOptions<DevdocEntrie> = {
   useExtendedSearch: true,
 }
 
-export interface DevdocMeta {
-  name: string
-  slug: string
-  type: string
-  mtime: number
-  release: string
-  db_size: number
-  links: {
-    home: string
-    home_matchs?: Array<{
-      url: string
-      startsWith?: string
-      remove?: string
-      add?: string
-    }>
-    disableUrl: boolean
-    code: string
-  }
-}
-
 export interface DevdocEntrie {
   name: string
   path: string
@@ -41,7 +21,7 @@ export interface DevdocEntrie {
   url?: string
 }
 
-interface DevdocIndex {
+export interface DevdocIndex {
   entries: Array<DevdocEntrie>
   types: Array<{
     name: string
@@ -56,10 +36,6 @@ export interface DevdocsModel {
 
   docLoading: boolean
   setDocLoading: Action<DevdocsModel, boolean>
-
-  metas: DevdocMeta[]
-  setMetas: Action<DevdocsModel, DevdocMeta[]>
-  initialMetas: Thunk<DevdocsModel, void>
 
   version: string
   setVersion: Action<DevdocsModel, string>
@@ -95,7 +71,7 @@ export interface DevdocsModel {
   selectPath: Thunk<DevdocsModel, string, void, StoreModel>
 }
 
-const DevdocsModel: DevdocsModel = {
+const devdocsModel: DevdocsModel = {
   menuLoading: false,
   setMenuLoading: action((state, payload) => {
     state.menuLoading = payload
@@ -104,21 +80,6 @@ const DevdocsModel: DevdocsModel = {
   docLoading: false,
   setDocLoading: action((state, payload) => {
     state.docLoading = payload
-  }),
-
-  metas: [],
-  setMetas: action((state, payload) => {
-    state.metas = payload
-  }),
-  initialMetas: thunk(async (actions) => {
-    try {
-      const metas = await ky.get(`${process.env.REACT_APP_DOC_HOST}/docs.json`).json<DevdocMeta[]>()
-      if (metas !== null) {
-        actions.setMetas(metas)
-      }
-    } catch (err) {
-      console.error(err)
-    }
   }),
 
   version: "",
@@ -130,17 +91,14 @@ const DevdocsModel: DevdocsModel = {
   setIndexs: action((state, payload) => {
     state.indexs = payload
   }),
-  loadIndex: thunk(async (actions, payload, { getState, getStoreState, getStoreActions }) => {
+  loadIndex: thunk(async (actions, payload, { getStoreState, getStoreActions }) => {
     actions.setMenuLoading(true)
     try {
       const { currentKey } = getStoreState().searchKeys
-      let meta = getState().metas.find((m) => m.slug === currentKey.devdocs)
+      const { metas } = getStoreState().storage
+      const meta = metas.find((m) => m.slug === currentKey.devdocs)
       if (!meta) {
-        await actions.initialMetas()
-        meta = getState().metas.find((m) => m.slug === currentKey.devdocs)
-        if (!meta) {
-          throw new Error("loadIndex meta null")
-        }
+        throw new Error("loadIndex meta null")
       }
 
       const indexJson = await ky
@@ -219,14 +177,14 @@ const DevdocsModel: DevdocsModel = {
   selectPath: thunk(async (actions, path, { getState, getStoreState, getStoreActions }) => {
     if (path === getState().currentPath) return
 
-    winSearchParams({ devdocs: path })
+    winSearchParams({ docspath: path })
     actions.expandByPath(path)
     actions.setCurrentPath(path)
     actions.setQueryIndex(0)
     actions.setDocs("")
     getStoreActions().search.setQuery("")
 
-    const { metas } = getState()
+    const { metas } = getStoreState().storage
     const { currentKey } = getStoreState().searchKeys
 
     try {
@@ -246,4 +204,4 @@ const DevdocsModel: DevdocsModel = {
   }),
 }
 
-export default DevdocsModel
+export default devdocsModel

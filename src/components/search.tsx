@@ -19,6 +19,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import { faAlgolia, faGithub } from "@fortawesome/free-brands-svg-icons"
 import { faListAlt, faThumbsUp } from "@fortawesome/free-regular-svg-icons"
+import Select, { OptionTypeBase, OptionsType } from "react-select"
 import Brand from "./brand"
 import CheatSheets from "./devhints"
 import Rework from "./rework"
@@ -26,6 +27,7 @@ import Tools from "./tools"
 import Awesome from "./awesome"
 import Readme from "./readme"
 import Devdocs from "./devdocs"
+import DevdocsUnited from "./devdocs_united"
 import Slogan from "./slogan"
 import Trending from "./trending"
 import Password from "./password"
@@ -72,6 +74,7 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const keys = useStoreState<Array<SKey>>((state) => state.searchKeys.keys)
   const computedKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.computedKeys)
+  const addressBarKeysObj = useStoreState<Array<SKey>>((state) => state.searchKeys.addressBarKeys)
   const pinedKeys = computedKeys.filter((k) => k.pin)
   const searchedKeys = useStoreState<Array<SKey>>((state) => state.searchKeys.searchedKeys)
 
@@ -104,7 +107,8 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const programLanguage = useStoreState<ProgramLanguage>((state) => state.storage.programLanguage)
   const setProgramLanguage = useStoreActions((actions) => actions.storage.setProgramLanguage)
-  const { language, displayTrending } = useStoreState<Settings>((state) => state.profile.settings)
+  const { language, displayTrending, addressBarKeys } = useStoreState<Settings>((state) => state.profile.settings)
+  const setSettings = useStoreActions((actions) => actions.profile.setSettings)
   const searchModel = useStoreState<SearchModel>((state) => state.storage.searchModel)
   const setSearchModels = useStoreActions((actions) => actions.storage.setSearchModels)
 
@@ -344,7 +348,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       setSquery("")
       setKquery("")
       setCurrentKey(key)
-      winSearchParams({ keyname: key.code, query: "" })
+      winSearchParams({ key: key.code, query: "" })
       setKeyIndex(-1)
       setTimeout(() => focusInput(), 200)
     },
@@ -637,6 +641,40 @@ const SearchInput: React.FC = (): JSX.Element => {
               </div>
             )}
 
+            {currentKey.code === "devdocs" && (
+              <Select
+                placeholder="Select Categories"
+                isMulti
+                isClearable={false}
+                // menuIsOpen
+                className={css.devdocs_select}
+                options={addressBarKeysObj.map((k) => ({
+                  value: k.code,
+                  label: (
+                    <span
+                      className={css.selectItem}
+                      style={{ backgroundImage: `url(/keys/${k.icon})`, ...k.iconProps }}>
+                      {k.name} <i>{k.shortkeys}</i>
+                    </span>
+                  ),
+                }))}
+                value={addressBarKeys?.map((k) => ({ value: k, label: k }))}
+                onChange={(value, { action, removedValue }: any) => {
+                  if (action === "select-option" && value) {
+                    setSettings({
+                      settings: { addressBarKeys: (value as OptionsType<OptionTypeBase>).map((o) => o.value) },
+                    })
+                  } else if (action === "remove-value" && removedValue) {
+                    setSettings({
+                      settings: { addressBarKeys: addressBarKeys?.filter((t) => t !== removedValue.value) },
+                    })
+                  } else if (action === "clear") {
+                    setSettings({ settings: { addressBarKeys: [] } })
+                  }
+                }}
+              />
+            )}
+
             {!displayKeys && searchModel === SearchModel.Algolia && (currentKey.docsearch || []).length > 1 && (
               <div className="select is-rounded mgr10">
                 <select
@@ -893,6 +931,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             </Suspense>
           )}
           {!displayKeys && searchModel === SearchModel.Devdocs && <Devdocs />}
+          {!displayKeys && currentKey.code === "devdocs" && <DevdocsUnited />}
           {!displayKeys && searchModel === SearchModel.Awesome && currentKey.awesome && (
             <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} query={squery} />
           )}
