@@ -1,6 +1,7 @@
 import { Action, action, Thunk, thunk, Computed, computed, ActionOn, actionOn, ThunkOn, thunkOn } from "easy-peasy"
 import ky from "ky"
 import groupBy from "lodash/groupBy"
+import debounce from "lodash/debounce"
 import Fuse from "fuse.js"
 import { winSearchParams } from "../utils/assist"
 import FuseHighlight from "../utils/fuse_highlight"
@@ -143,28 +144,31 @@ const devdocsUnitedModel: DevdocsUnitedModel = {
       console.error("DevdocsUnitedModel.pushIndexs", err)
     }
   }),
-  loadIndexsByKeys: thunk(async (actions, payload, { getState }) => {
-    const { keys, indexs } = getState()
-    actions.setIndexs(indexs.filter((e) => payload.includes(e.key)))
+  loadIndexsByKeys: thunk(
+    debounce(async (actions, payload, { getState }) => {
+      // console.log("loadIndexsByKeys")
+      const { keys, indexs } = getState()
+      actions.setIndexs(indexs.filter((e) => payload.includes(e.key)))
+      const addedCodes = payload.filter((c) => !keys.some((k) => k.code === c))
 
-    const addedCodes = payload.filter((c) => !keys.some((k) => k.code === c))
-    await Promise.all(
-      addedCodes.map(async (code) => {
-        const key = SKeys.find((k) => k.code === code)
-        if (!key) throw new Error(`addedCodes:${code} null`)
-        console.log(`pushIndexs ${key.name}`)
-        await actions.pushIndexs(key)
-      })
-    )
+      actions.setKeys(
+        payload.map((c) => {
+          const key = SKeys.find((k) => k.code === c)
+          if (!key) throw new Error(`newKeys:${c} null`)
+          return key
+        })
+      )
 
-    actions.setKeys(
-      payload.map((c) => {
-        const key = SKeys.find((k) => k.code === c)
-        if (!key) throw new Error(`newKeys:${c} null`)
-        return key
-      })
-    )
-  }),
+      await Promise.all(
+        addedCodes.map(async (code) => {
+          const key = SKeys.find((k) => k.code === code)
+          if (!key) throw new Error(`addedCodes:${code} null`)
+          // console.log(`pushIndexs ${key.name}`)
+          await actions.pushIndexs(key)
+        })
+      )
+    }, 1000)
+  ),
   onKeysChange: thunkOn(
     (actions, storeActions) => storeActions.profile.setSettings,
     async (actions, target) => {

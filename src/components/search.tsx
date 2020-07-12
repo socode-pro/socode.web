@@ -645,6 +645,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               <Select
                 placeholder="Select Categories"
                 isMulti
+                isClearable={false}
                 // menuIsOpen
                 className={css.devdocs_select}
                 options={addressBarKeysObj.map((k) => ({

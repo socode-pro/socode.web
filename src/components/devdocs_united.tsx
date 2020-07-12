@@ -148,8 +148,8 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
                 // eslint-disable-next-line react/no-array-index-key
                 key={i}
                 onClick={() => selectPath({ code: item.key, path: item.path })}>
-                <Markup tagName="span" attributes={{ className: css.keyname }} content={item.key} />
-                <Markup tagName="span" attributes={{ className: css.typename }} content={`${item.type}:`} />
+                <Markup tagName="span" attributes={{ className: css.keyname }} content={`${item.key}:`} />
+                <Markup tagName="span" attributes={{ className: css.typename }} content={`${item.type} `} />
                 <Markup tagName="span" content={item.name} />
               </a>
             )
