@@ -56,7 +56,7 @@ const searchKeysModel: SearchKeysModel = {
     }
   }),
 
-  pins: localStorage.getItem("pins")?.split(",") || [],
+  pins: localStorage.getItem("pins")?.split(",") || ["devdocs"],
   addPin: action((state, pin) => {
     state.pins = [pin, ...state.pins]
     localStorage.setItem("pins", state.pins.toString())
