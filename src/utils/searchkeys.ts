@@ -94,7 +94,7 @@ const SKeys: SKey[] = [
   {
     code: "devdocs",
     name: "Documents",
-    category: SKeyCategory.Search,
+    category: SKeyCategory.Document,
     shortkeys: "doc",
     icon: "devdocs.png",
     usage: true,
