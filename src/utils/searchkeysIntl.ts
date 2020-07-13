@@ -17,17 +17,11 @@ const useSKeyCategoryIntl = (category: SKeyCategory): string => {
         case SKeyCategory.Tools:
           setWord("工具")
           break
-        case SKeyCategory.CheatSheets:
-          setWord("Cheat Sheets")
+        case SKeyCategory.Information:
+          setWord("资料")
           break
         case SKeyCategory.Document:
           setWord("文档")
-          break
-        case SKeyCategory.Collection:
-          setWord("导航")
-          break
-        case SKeyCategory.Learn:
-          setWord("学习")
           break
         default:
           break
@@ -40,17 +34,11 @@ const useSKeyCategoryIntl = (category: SKeyCategory): string => {
         case SKeyCategory.Tools:
           setWord("TOOLS")
           break
-        case SKeyCategory.CheatSheets:
-          setWord("Cheat Sheets")
+        case SKeyCategory.Information:
+          setWord("INFORMATION")
           break
         case SKeyCategory.Document:
           setWord("DOCUMENT")
-          break
-        case SKeyCategory.Collection:
-          setWord("COLLECTION")
-          break
-        case SKeyCategory.Learn:
-          setWord("LEARN")
           break
         default:
           break

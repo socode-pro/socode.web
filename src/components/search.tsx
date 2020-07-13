@@ -61,9 +61,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const inputEl = useRef<HTMLInputElement & { onsearch: (e: InputEvent) => void }>(null)
   const pinnedTabEl = useRef<HTMLDivElement>(null)
   const searchTabEl = useRef<HTMLDivElement>(null)
-  const cheatSheetsTabEl = useRef<HTMLDivElement>(null)
-  const collectionTabEl = useRef<HTMLDivElement>(null)
-  const learnTabEl = useRef<HTMLDivElement>(null)
+  const informationTabEl = useRef<HTMLDivElement>(null)
   const toolsTabEl = useRef<HTMLDivElement>(null)
   const documentTabEl = useRef<HTMLDivElement>(null)
 
@@ -114,10 +112,8 @@ const SearchInput: React.FC = (): JSX.Element => {
 
   const searchIntl = useSKeyCategoryIntl(SKeyCategory.Search)
   const toolsIntl = useSKeyCategoryIntl(SKeyCategory.Tools)
-  const cheatSheetsIntl = useSKeyCategoryIntl(SKeyCategory.CheatSheets)
+  const informationIntl = useSKeyCategoryIntl(SKeyCategory.Information)
   const documentIntl = useSKeyCategoryIntl(SKeyCategory.Document)
-  const collectionIntl = useSKeyCategoryIntl(SKeyCategory.Collection)
-  const learnIntl = useSKeyCategoryIntl(SKeyCategory.Learn)
   const pinnedIntl = language === InterfaceLanguage.中文 ? "置顶" : "PINNED"
 
   const result = useStoreState<SocodeResult | null>((state) => state.search.result)
@@ -489,14 +485,8 @@ const SearchInput: React.FC = (): JSX.Element => {
       case SKeyCategory.Tools:
         if (toolsTabEl.current) toolsTabEl.current.scrollIntoView()
         break
-      case SKeyCategory.Collection:
-        if (collectionTabEl.current) collectionTabEl.current.scrollIntoView()
-        break
-      case SKeyCategory.CheatSheets:
-        if (cheatSheetsTabEl.current) cheatSheetsTabEl.current.scrollIntoView()
-        break
-      case SKeyCategory.Learn:
-        if (learnTabEl.current) learnTabEl.current.scrollIntoView()
+      case SKeyCategory.Information:
+        if (informationTabEl.current) informationTabEl.current.scrollIntoView()
         break
       case SKeyCategory.Document:
         if (documentTabEl.current) documentTabEl.current.scrollIntoView()
@@ -514,16 +504,8 @@ const SearchInput: React.FC = (): JSX.Element => {
         setTabIndex(SKeyCategory.Document)
         return
       }
-      if ((learnTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
-        setTabIndex(SKeyCategory.Learn)
-        return
-      }
-      if ((cheatSheetsTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
-        setTabIndex(SKeyCategory.CheatSheets)
-        return
-      }
-      if ((collectionTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
-        setTabIndex(SKeyCategory.Collection)
+      if ((informationTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
+        setTabIndex(SKeyCategory.Information)
         return
       }
       if ((toolsTabEl.current?.getBoundingClientRect().top || 999) <= tabHeight) {
@@ -864,19 +846,9 @@ const SearchInput: React.FC = (): JSX.Element => {
                     {toolsIntl}
                   </a>
                   <a
-                    className={cs({ [css.current]: tabIndex === SKeyCategory.Collection })}
-                    onClick={() => switchTab(SKeyCategory.Collection)}>
-                    {collectionIntl}
-                  </a>
-                  <a
-                    className={cs({ [css.current]: tabIndex === SKeyCategory.CheatSheets })}
-                    onClick={() => switchTab(SKeyCategory.CheatSheets)}>
-                    {cheatSheetsIntl}
-                  </a>
-                  <a
-                    className={cs({ [css.current]: tabIndex === SKeyCategory.Learn })}
-                    onClick={() => switchTab(SKeyCategory.Learn)}>
-                    {learnIntl}
+                    className={cs({ [css.current]: tabIndex === SKeyCategory.Information })}
+                    onClick={() => switchTab(SKeyCategory.Information)}>
+                    {informationIntl}
                   </a>
                   <a
                     className={cs({ [css.current]: tabIndex === SKeyCategory.Document })}
@@ -901,17 +873,9 @@ const SearchInput: React.FC = (): JSX.Element => {
                     {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Tools))}
                     <div className={css.kdesc}>{toolsIntl}</div>
                   </div>
-                  <div ref={collectionTabEl} className={cs(css.skgroup)}>
-                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Collection))}
-                    <div className={css.kdesc}>{collectionIntl}</div>
-                  </div>
-                  <div ref={cheatSheetsTabEl} className={cs(css.skgroup)}>
-                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.CheatSheets))}
-                    <div className={css.kdesc}>{cheatSheetsIntl}</div>
-                  </div>
-                  <div ref={learnTabEl} className={cs(css.skgroup)}>
-                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Learn))}
-                    <div className={css.kdesc}>{learnIntl}</div>
+                  <div ref={informationTabEl} className={cs(css.skgroup)}>
+                    {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Information))}
+                    <div className={css.kdesc}>{informationIntl}</div>
                   </div>
                   <div ref={documentTabEl} className={cs(css.skgroup)}>
                     {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Document))}

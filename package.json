@@ -7,8 +7,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build_and_route": "react-scripts build && sh copyitem.sh",
     "build_china": "cross-env REACT_APP_ANALYTICS_ID=159039195-2 react-scripts build",
+    "route": "sh copyitem.sh",
+    "route_win": "@powershell -NoProfile -Command ./copyitem.ps1",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "analyze": "source-map-explorer 'build/static/js/*.js'"

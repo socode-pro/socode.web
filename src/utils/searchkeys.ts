@@ -4,10 +4,8 @@ import { SearchModel } from "../models/storage"
 export enum SKeyCategory {
   Search = 1,
   Tools = 2,
-  Collection = 3,
-  CheatSheets = 4,
-  Learn = 5,
-  Document = 6,
+  Information = 3,
+  Document = 4,
 }
 
 export interface SKey {
@@ -94,7 +92,7 @@ const SKeys: SKey[] = [
   {
     code: "devdocs",
     name: "Documents",
-    category: SKeyCategory.Document,
+    category: SKeyCategory.Search,
     shortkeys: "doc",
     icon: "devdocs.png",
     usage: true,
@@ -158,7 +156,7 @@ const SKeys: SKey[] = [
   {
     code: "awesome_cheatsheet",
     name: "Awesome CheatSheet",
-    category: SKeyCategory.CheatSheets,
+    category: SKeyCategory.Information,
     shortkeys: "acs",
     icon: "awesome.svg",
     homelink: "https://github.com/detailyang/awesome-cheatsheet",
@@ -180,7 +178,7 @@ const SKeys: SKey[] = [
   {
     code: "awesome_mac",
     name: "Awesome Mac",
-    category: SKeyCategory.Collection,
+    category: SKeyCategory.Information,
     shortkeys: "mac",
     icon: "apple.svg",
     homelink: "https://github.com/jaywcjlove/awesome-mac",
@@ -331,7 +329,7 @@ const SKeys: SKey[] = [
   {
     code: "command",
     name: "The Art of Command Line",
-    category: SKeyCategory.Learn,
+    category: SKeyCategory.Information,
     shortkeys: "cl",
     icon: "command.png",
     homelink: "https://github.com/jlevy/the-art-of-command-line",
@@ -418,7 +416,7 @@ const SKeys: SKey[] = [
   {
     code: "cheatsheets",
     name: "CheatSheets",
-    category: SKeyCategory.CheatSheets,
+    category: SKeyCategory.Information,
     shortkeys: "cs",
     icon: "devhints.png",
     usage: true,
@@ -745,7 +743,7 @@ const SKeys: SKey[] = [
   {
     code: "free_programming_books",
     name: "Free Books",
-    category: SKeyCategory.Collection,
+    category: SKeyCategory.Information,
     shortkeys: "fpb",
     icon: "free_programming_books.png",
     tooltips: "Free Programming Books",
@@ -850,7 +848,7 @@ const SKeys: SKey[] = [
   {
     code: "github_cheatsheet",
     name: "Github CheatSheet",
-    category: SKeyCategory.CheatSheets,
+    category: SKeyCategory.Information,
     shortkeys: "gcs",
     icon: "github.svg",
     homelink: "https://github.com/tiimgreen/github-cheat-sheet",
@@ -1265,7 +1263,7 @@ const SKeys: SKey[] = [
   {
     code: "learn_regex",
     name: "Learn Regex",
-    category: SKeyCategory.Learn,
+    category: SKeyCategory.Information,
     usage: true,
     shortkeys: "lr",
     icon: "regex.svg",
@@ -1669,7 +1667,7 @@ const SKeys: SKey[] = [
   {
     code: "public_apis",
     name: "Public APIs",
-    category: SKeyCategory.Collection,
+    category: SKeyCategory.Information,
     shortkeys: "api",
     icon: "api.svg",
     usage: true,
@@ -1711,7 +1709,7 @@ const SKeys: SKey[] = [
   {
     code: "python_cheatsheet",
     name: "Python CheatSheet",
-    category: SKeyCategory.CheatSheets,
+    category: SKeyCategory.Information,
     shortkeys: "pcs",
     icon: "python.svg",
     homelink: "https://gto76.github.io/python-cheatsheet/",
@@ -1863,7 +1861,7 @@ const SKeys: SKey[] = [
   {
     code: "react_native_styling",
     name: "React Native Styling",
-    category: SKeyCategory.CheatSheets,
+    category: SKeyCategory.Information,
     shortkeys: "rns",
     icon: "react.svg",
     homelink: "https://github.com/vhpoet/react-native-styling-cheat-sheet",
@@ -1889,7 +1887,7 @@ const SKeys: SKey[] = [
   {
     code: "rework",
     name: "Rework",
-    category: SKeyCategory.Collection,
+    category: SKeyCategory.Information,
     shortkeys: "rw",
     usage: true,
     icon: "rework.png",
@@ -2077,7 +2075,7 @@ const SKeys: SKey[] = [
   {
     code: "system_design_primer",
     name: "System Design Primer",
-    category: SKeyCategory.Learn,
+    category: SKeyCategory.Information,
     shortkeys: "sdp",
     icon: "sdp.png",
     homelink: "https://github.com/donnemartin/system-design-primer",
