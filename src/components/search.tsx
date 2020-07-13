@@ -623,7 +623,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               </div>
             )}
 
-            {currentKey.code === "devdocs" && (
+            {!displayKeys && currentKey.code === "devdocs" && (
               <Select
                 placeholder="Select Categories"
                 isMulti
