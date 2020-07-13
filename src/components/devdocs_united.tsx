@@ -161,7 +161,7 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
           <div className={cs("column", "is-one-quarter")}>
             <div className={css.currentMeta}>
               <p className={css.metaName}>{currentMeta.name}</p>
-              <p className={css.metaVersion}>version:{currentMeta.release}</p>
+              {currentMeta.release && <p className={css.metaVersion}>version:{currentMeta.release}</p>}
             </div>
             {currentMenus.map((result) => {
               const { group, entries } = result
