@@ -213,7 +213,7 @@ const Drawer: React.FC = (): JSX.Element => {
                     ? "https://addons.mozilla.org/zh-CN/firefox/addon/new-tab-by-socode-pro/"
                     : "https://chrome.google.com/webstore/detail/awesome-programming-in-th/midlnalokbplpicoooemgpodiphdmllc"
                 }>
-                <h3>NewTab by SOCODE.PRO</h3>
+                <h3>{useIntl(Words.SearchDocumentsInNewTab)}</h3>
                 <span>Learn More ⤴</span>
               </a>
             </li>
