@@ -18,6 +18,7 @@ export enum Words {
   NextPage = "Next page",
   PreviousPage = "Previous page",
   SearchDocumentsInAddressBar = "Search Documents in AddressBar",
+  SearchDocumentsInNewTab = "Search Documents in the NewTab",
 }
 
 const useIntl = (words: Words): string => {
@@ -29,6 +30,9 @@ const useIntl = (words: Words): string => {
       switch (words) {
         case Words.SearchDocumentsInAddressBar:
           setContent("在浏览器地址栏搜索文档")
+          break
+        case Words.SearchDocumentsInNewTab:
+          setContent("在浏览器NewTab搜索文档")
           break
         case Words.ASearchEngineForProgrammers:
           setContent("给程序员用的问答搜索")

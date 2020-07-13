@@ -17,6 +17,7 @@ const devdocsKeys = SKeys.filter((k) => k.devdocs)
 
 export enum Words {
   Description = "Quickly and comfortably search multiple programming documents in the address bar.",
+  SearchDocumentsInNewTab = "Search Documents in the NewTab",
 }
 
 const useIntl = (words: Words): string => {
@@ -28,6 +29,9 @@ const useIntl = (words: Words): string => {
       switch (words) {
         case Words.Description:
           setContent("在地址栏中快捷、舒适地搜索多种类型的编程文档。")
+          break
+        case Words.SearchDocumentsInNewTab:
+          setContent("在浏览器NewTab搜索文档")
           break
         default:
           break
@@ -133,7 +137,7 @@ const Extension: React.FC = () => {
                     ? "https://addons.mozilla.org/zh-CN/firefox/addon/new-tab-by-socode-pro/"
                     : "https://chrome.google.com/webstore/detail/awesome-programming-in-th/midlnalokbplpicoooemgpodiphdmllc"
                 }>
-                NewTab by SOCODE.PRO
+                {useIntl(Words.SearchDocumentsInNewTab)}
               </a>
             </p>
           </div>
