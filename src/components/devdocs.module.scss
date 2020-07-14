@@ -1,7 +1,9 @@
 @import "../styles/variable";
 
 .devdocs {
-  height: calc(100vh - 58px);
+  @media screen and (min-width: 769px), print {
+    height: calc(100vh - 58px);
+  }
   margin-bottom: 0 !important;
   background-color: $white;
   & > :global(.column) {

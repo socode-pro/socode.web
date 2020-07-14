@@ -3,7 +3,7 @@ import cs from "classnames"
 import { useStoreActions, useStoreState } from "../Store"
 import { TrendingSince } from "../models/trending"
 import { IntEnumObjects, StringEnumObjects } from "../utils/assist"
-import { ProgramLanguage, TrendingSpokenLanguage } from "../utils/language"
+import { ProgramLanguage, TrendingSpokenLanguage, GithubLanguageColor } from "../utils/language"
 import css from "./trending.module.scss"
 import Loader from "./loader/loader1"
 
@@ -70,7 +70,15 @@ const Trending: React.FC = (): JSX.Element => {
                   </span>
                 </h4>
                 <p className={css.description}>
-                  {r.language && <span className={css.language}>{r.language}</span>}
+                  {r.language && (
+                    <span className={css.language}>
+                      <span
+                        className={css.languageColor}
+                        style={{ backgroundColor: GithubLanguageColor[r.language] }}
+                      />
+                      {r.language}
+                    </span>
+                  )}
                   {r.description}
                 </p>
               </li>

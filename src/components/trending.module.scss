@@ -1,4 +1,4 @@
-@import '../styles/variable';
+@import "../styles/variable";
 
 div.trending {
   position: absolute;
@@ -52,7 +52,7 @@ ul.result {
       background-color: #fff;
       border: 1px solid #e5e8ed;
       border-radius: 4px;
-      box-shadow: 0 1px 0 rgba(0,0,0,.2), 0 0 0 2px #fff inset;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #fff inset;
       padding: 2px 4px;
       color: $grey-light;
       .allstars {
@@ -73,6 +73,17 @@ ul.result {
     color: $grey;
     font-size: 0.8em;
     margin-right: 6px;
+    text-shadow: 0 0 $dh-text;
+    span.languageColor {
+      position: relative;
+      top: 1px;
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 4px;
+      box-shadow: $shadow2;
+    }
   }
 }
 
