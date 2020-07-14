@@ -85,8 +85,8 @@
 
   & > .prefix {
     @include ms-respond(font-size, 1);
-    // display: flex;
-    // align-items: center;
+    display: flex;
+    align-items: center;
     user-select: none;
     margin-right: 8px;
     border-radius: 3px;
@@ -113,6 +113,14 @@
       display: inline-block;
       line-height: 32px;
       padding: 0 3px 0 8px;
+      @media (max-width: 768px) {
+        & {
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          width: 40px;
+        }
+      }
     }
     span.model {
       padding: 0 3px;
@@ -184,7 +192,10 @@
   }
 
   .devdocs_select {
-    border: none 0;
+    min-width: 230px;
+    & > div {
+      border-color: $grey-lighter;
+    }
     .selectItem {
       padding-right: 72px;
       background-position: right center !important;

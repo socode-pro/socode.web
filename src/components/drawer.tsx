@@ -204,7 +204,7 @@ const Drawer: React.FC = (): JSX.Element => {
             </li>
             <li>
               <a
-                className={cs(css.navlink, css.chrome, {
+                className={cs(css.navlink, css.newtab, {
                   [css.edge]: isEdgeChromium && !ousideFirewall,
                   [css.firefox]: isFirefox,
                 })}
