@@ -3,6 +3,7 @@ import ky from "ky"
 import groupBy from "lodash/groupBy"
 import debounce from "lodash/debounce"
 import Fuse from "fuse.js"
+import shortid from "shortid"
 import { winSearchParams } from "../utils/assist"
 import FuseHighlight from "../utils/fuse_highlight"
 import { StoreModel } from "./index"
@@ -21,7 +22,7 @@ const fuseOptions: Fuse.IFuseOptions<DevdocEntrieWithKey> = {
 }
 
 const getEntrieUrl = (entrie: DevdocEntrie, meta: DevdocMeta | undefined): string | undefined => {
-  if (!meta || meta.links.disableUrl) return undefined
+  if (!meta || (meta.links && meta.links.disableUrl)) return undefined
   if (!entrie.url) return undefined
 
   if (meta.links.home_matchs) {
@@ -134,10 +135,10 @@ const devdocsUnitedModel: DevdocsUnitedModel = {
         .json<DevdocIndex>()
       const indexWithKey: Array<DevdocEntrieWithKey> = indexJson.entries.map((e) => ({
         ...e,
-        // id: shortid.generate(),
         key: payload.code,
         shortkeys: payload.shortkeys,
         url: getEntrieUrl(e, meta),
+        id: shortid.generate(),
       }))
       actions.concatIndexs(indexWithKey)
     } catch (err) {

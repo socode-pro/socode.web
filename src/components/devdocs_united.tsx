@@ -146,7 +146,7 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
                 className={cs(css.item, { [css.selected]: i === queryIndex })}
                 // 没有 add/remove item 需求的时候可以使用索引作为key
                 // eslint-disable-next-line react/no-array-index-key
-                key={i}
+                key={item.id}
                 onClick={() => selectPath({ code: item.key, path: item.path })}>
                 <Markup tagName="span" attributes={{ className: css.keyname }} content={`${item.key}:`} />
                 <Markup tagName="span" attributes={{ className: css.typename }} content={`${item.type} `} />
@@ -174,7 +174,7 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
                   <ul className={css.childrens}>
                     {entries.map((item) => {
                       return (
-                        <li key={item.name + item.path}>
+                        <li key={item.id}>
                           <a
                             title={item.name}
                             className={cs(css.item, { [css.current]: currentPath === item.path })}
