@@ -1,6 +1,7 @@
 import { Action, action, Thunk, thunk, Computed, computed, ActionOn, actionOn, ThunkOn, thunkOn } from "easy-peasy"
 import ky from "ky"
 import groupBy from "lodash/groupBy"
+import shortid from "shortid"
 import Fuse from "fuse.js"
 import FuseHighlight from "../utils/fuse_highlight"
 import { winSearchParams } from "../utils/assist"
@@ -19,6 +20,7 @@ export interface DevdocEntrie {
   path: string
   type: string
   url?: string
+  id: string
 }
 
 export interface DevdocIndex {
@@ -104,7 +106,11 @@ const devdocsModel: DevdocsModel = {
       const indexJson = await ky
         .get(`${process.env.REACT_APP_DOC_HOST}/${currentKey.devdocs}/index.json?${meta.mtime}`)
         .json<DevdocIndex>()
-      actions.setIndexs(indexJson.entries)
+      const indexWithId: Array<DevdocEntrie> = indexJson.entries.map((e) => ({
+        ...e,
+        id: shortid.generate(),
+      }))
+      actions.setIndexs(indexWithId)
       actions.setVersion(meta.release)
       getStoreActions().display.setExpandView(true)
     } catch (err) {

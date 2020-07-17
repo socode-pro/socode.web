@@ -63,6 +63,7 @@
     "react-scripts": "^3.4.1",
     "react-select": "^3.1.0",
     "react-spring": "^9.0.0-beta.34",
+    "shortid": "^2.2.15",
     "source-map-explorer": "^2.4.1",
     "typescript": "^3.9.6"
   },
