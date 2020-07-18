@@ -113,7 +113,7 @@ const searchKeysModel: SearchKeysModel = {
     localStorage.setItem("currentKey", payload.code)
   }),
   initialCurrentKey: thunk(async (actions, payload, { getState }) => {
-    const { keys } = getState()
+    const { keys, currentKey } = getState()
     const params = new URLSearchParams(window.location.search)
 
     if (params.has("k")) {
@@ -126,7 +126,7 @@ const searchKeysModel: SearchKeysModel = {
 
     const code = localStorage.getItem("currentKey")
     const key = keys.find((k) => k.code === code)
-    if (key && !key.devdocs && !IsExpandWidthViewKey(key)) {
+    if (key && key !== currentKey && !key.devdocs && !IsExpandWidthViewKey(key)) {
       actions.setCurrentKey(key)
     }
   }), // do not change to [action] for support actionOn

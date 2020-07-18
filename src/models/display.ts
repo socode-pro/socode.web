@@ -1,4 +1,4 @@
-import { Action, action, Computed, computed, ActionOn, actionOn } from "easy-peasy"
+import { Action, action, Computed, computed, ThunkOn, thunkOn } from "easy-peasy"
 import dayjs from "dayjs"
 import { StoreModel } from "./index"
 import { IsExpandWidthViewKey } from "../utils/searchkeys"
@@ -31,7 +31,7 @@ export interface DisplayModel {
   expandWidthView: boolean
   setExpandWidthView: Action<DisplayModel, boolean>
 
-  onCurrentKey: ActionOn<DisplayModel, StoreModel>
+  onCurrentKey: ThunkOn<DisplayModel, void, StoreModel>
 }
 
 const displayModel: DisplayModel = {
@@ -70,15 +70,15 @@ const displayModel: DisplayModel = {
     state.expandWidthView = payload
   }),
 
-  onCurrentKey: actionOn(
+  onCurrentKey: thunkOn(
     (actions, storeActions) => storeActions.searchKeys.setCurrentKey,
-    (state, target) => {
-      state.displayKeys = false
+    (actions, target) => {
+      actions.setDisplayKeys(false)
       if (!target.payload.devdocs && !IsExpandWidthViewKey(target.payload)) {
-        state.expandView = false
+        actions.setExpandView(false)
       }
       if (!IsExpandWidthViewKey(target.payload)) {
-        state.expandWidthView = false
+        actions.setExpandWidthView(false)
       }
     }
   ),
