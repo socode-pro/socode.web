@@ -33,6 +33,7 @@ export interface SKey {
   tooltips?: string
   tooltipsCN?: string
   devdocs?: string
+  cheatsheets?: string
   docsearch?: ReadonlyArray<{
     appId?: string
     apiKey: string
@@ -135,6 +136,7 @@ const SKeys: SKey[] = [
     shortkeys: "as",
     icon: "ansible.svg",
     devdocs: "ansible~2.9",
+    cheatsheets: "ansible",
   },
   {
     code: "apache",
@@ -253,6 +255,7 @@ const SKeys: SKey[] = [
       backgroundSize: "1.8em",
     },
     devdocs: "bash",
+    cheatsheets: "bash",
   },
   {
     code: "bootstrap",
@@ -262,6 +265,7 @@ const SKeys: SKey[] = [
     icon: "bootstrap.svg",
     homelink: "https://getbootstrap.com",
     devdocs: "bootstrap~4",
+    cheatsheets: "bootstrap",
     docsearch: [
       {
         lang: Language.English,
@@ -428,6 +432,7 @@ const SKeys: SKey[] = [
     usage: true,
     icon: "css.svg",
     devdocs: "css",
+    cheatsheets: "css",
   },
   {
     code: "dart",
@@ -525,6 +530,7 @@ const SKeys: SKey[] = [
     homelink: "https://docs.docker.com",
     awesome: "veggiemonk/awesome-docker",
     devdocs: "docker~19",
+    cheatsheets: "docker",
     // template: 'https://docs.docker.com/search/?q=%s',
   },
   {
@@ -574,6 +580,7 @@ const SKeys: SKey[] = [
     homelink: "https://elixir-lang.org/",
     awesome: "h4cc/awesome-elixir",
     devdocs: "elixir~1.10",
+    cheatsheets: "elixir",
   },
   {
     code: "ember",
@@ -587,6 +594,7 @@ const SKeys: SKey[] = [
     },
     homelink: "https://www.emberjs.com",
     devdocs: "ember",
+    cheatsheets: "ember",
     docsearch: [
       {
         lang: Language.English,
@@ -659,6 +667,7 @@ const SKeys: SKey[] = [
     icon: "expressjs.png",
     homelink: "https://expressjs.com",
     devdocs: "express",
+    cheatsheets: "express",
     docsearch: [
       {
         lang: Language.English,
@@ -679,6 +688,7 @@ const SKeys: SKey[] = [
       width: 96,
     },
     homelink: "https://www.fastify.io",
+    cheatsheets: "fastify",
     docsearch: [
       {
         lang: Language.English,
@@ -696,6 +706,7 @@ const SKeys: SKey[] = [
     icon: "fish.svg",
     homelink: "https://fishshell.com",
     devdocs: "fish~3.1",
+    cheatsheets: "fish-shell",
   },
   {
     code: "flask",
@@ -822,6 +833,7 @@ const SKeys: SKey[] = [
     shortkeys: "git",
     icon: "git.svg",
     devdocs: "git",
+    cheatsheets: "git-revisions",
   },
   {
     code: "github",
@@ -888,6 +900,7 @@ const SKeys: SKey[] = [
     awesome: "avelino/awesome-go",
     devdocs: "go",
     template: "https://golang.org/search?q=%s",
+    cheatsheets: "go",
   },
   {
     code: "godoc",
@@ -1002,6 +1015,7 @@ const SKeys: SKey[] = [
       backgroundPosition: "left center",
     },
     homelink: "https://gulpjs.com",
+    cheatsheets: "gulp",
     docsearch: [
       {
         lang: Language.English,
@@ -1055,6 +1069,7 @@ const SKeys: SKey[] = [
     shortkeys: "html",
     icon: "html.svg",
     devdocs: "html",
+    cheatsheets: "html",
   },
   {
     code: "http",
@@ -1100,6 +1115,7 @@ const SKeys: SKey[] = [
     icon: "javascript.svg",
     awesome: "sorrycc/awesome-javascript",
     devdocs: "javascript",
+    cheatsheets: "es6",
   },
   {
     code: "jekyll",
@@ -1113,6 +1129,7 @@ const SKeys: SKey[] = [
     },
     homelink: "https://jekyllrb.com",
     devdocs: "jekyll",
+    cheatsheets: "jekyll",
     docsearch: [
       {
         lang: Language.English,
@@ -1153,6 +1170,7 @@ const SKeys: SKey[] = [
     },
     homelink: "https://jquery.com/",
     devdocs: "jquery",
+    cheatsheets: "jquery",
     docsearch: [
       {
         lang: Language.English,
@@ -1195,6 +1213,7 @@ const SKeys: SKey[] = [
     homelink: "https://koajs.com",
     awesome: "ellerbrock/awesome-koa",
     devdocs: "koa",
+    cheatsheets: "koa",
   },
   {
     code: "kotlin",
@@ -1205,6 +1224,7 @@ const SKeys: SKey[] = [
     homelink: "https://kotlinlang.org",
     awesome: "KotlinBy/awesome-kotlin",
     devdocs: "kotlin",
+    cheatsheets: "kotlin",
     docsearch: [
       {
         lang: Language.English,
@@ -1323,6 +1343,7 @@ const SKeys: SKey[] = [
     icon: "less.svg",
     homelink: "http://lesscss.org",
     devdocs: "less",
+    cheatsheets: "less",
   },
   {
     code: "lodash",
@@ -1333,6 +1354,7 @@ const SKeys: SKey[] = [
     icon: "lodash.svg",
     homelink: "https://lodash.com",
     devdocs: "lodash~4",
+    cheatsheets: "lodash",
   },
   {
     code: "lua",
@@ -1342,6 +1364,7 @@ const SKeys: SKey[] = [
     icon: "lua.svg",
     homelink: "https://www.lua.org",
     devdocs: "lua~5.4",
+    cheatsheets: "lua",
   },
   {
     code: "markdown",
@@ -1355,6 +1378,7 @@ const SKeys: SKey[] = [
       backgroundSize: "2em",
     },
     devdocs: "markdown",
+    cheatsheets: "markdown",
   },
   {
     name: "Markdown Editor",
@@ -1375,6 +1399,7 @@ const SKeys: SKey[] = [
     },
     homelink: "https://mariadb.org",
     devdocs: "mariadb",
+    cheatsheets: "mysql",
   },
   {
     code: "maven",
@@ -1451,6 +1476,7 @@ const SKeys: SKey[] = [
     // template: 'https://docs.microsoft.com/%l/search/?search=%s',
     template: "https://docs.microsoft.com/%l/dotnet/api/index?term=%s",
     bylang: true,
+    cheatsheets: "csharp7",
   },
   {
     code: "netlify",
@@ -1511,6 +1537,7 @@ const SKeys: SKey[] = [
     awesome: "sindresorhus/awesome-nodejs",
     devdocs: "node",
     template: "https://google.com/search?q=%s%20site:nodejs.org",
+    cheatsheets: "nodejs",
   },
   {
     code: "npms",
@@ -1603,6 +1630,7 @@ const SKeys: SKey[] = [
     icon: "phoenix.svg",
     homelink: "http://www.phoenixframework.org/",
     devdocs: "phoenix",
+    cheatsheets: "phoenix",
   },
   {
     code: "php",
@@ -1617,6 +1645,7 @@ const SKeys: SKey[] = [
     homelink: "https://www.php.net",
     awesome: "ziadoz/awesome-php",
     devdocs: "php",
+    cheatsheets: "wip/php",
   },
   {
     code: "play",
@@ -1648,6 +1677,7 @@ const SKeys: SKey[] = [
     homelink: "https://www.postgresql.org",
     awesome: "dhamaniasad/awesome-postgres",
     devdocs: "postgresql~12",
+    cheatsheets: "postgresql",
   },
   {
     code: "prettier",
@@ -1705,6 +1735,7 @@ const SKeys: SKey[] = [
     awesome: "vinta/awesome-python",
     devdocs: "python~3.8",
     template: "https://python.org/search/?q=%s",
+    cheatsheets: "python",
   },
   {
     code: "python_cheatsheet",
@@ -1772,6 +1803,7 @@ const SKeys: SKey[] = [
     homelink: "https://www.ruby-lang.org",
     awesome: "markets/awesome-ruby",
     devdocs: "rails~6.0",
+    cheatsheets: "rails",
   },
   {
     code: "react",
@@ -1782,6 +1814,7 @@ const SKeys: SKey[] = [
     icon: "react.svg",
     homelink: "https://reactjs.org",
     awesome: "enaqx/awesome-react",
+    cheatsheets: "react",
     devdocs: "react",
     docsearch: [
       {
@@ -1914,6 +1947,7 @@ const SKeys: SKey[] = [
     homelink: "https://www.ruby-lang.org",
     awesome: "markets/awesome-ruby",
     devdocs: "ruby~2.7",
+    cheatsheets: "ruby",
     template: "https://cse.google.com/cse?q=%s&cx=013598269713424429640%3Ag5orptiw95w",
   },
   {
@@ -1951,6 +1985,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     shortkeys: "ss",
     icon: "sass.svg",
+    cheatsheets: "sass",
     devdocs: "sass",
     docsearch: [
       {
@@ -2179,6 +2214,7 @@ const SKeys: SKey[] = [
     },
     homelink: "https://www.typescriptlang.org",
     awesome: "dzharii/awesome-typescript",
+    cheatsheets: "typescript",
     devdocs: "typescript",
     docsearch: [
       {
@@ -2219,6 +2255,7 @@ const SKeys: SKey[] = [
     icon: "vue.png",
     homelink: "https://vuejs.org",
     awesome: "vuejs/awesome-vue",
+    cheatsheets: "vue",
     devdocs: "vue~2",
     docsearch: [
       {
@@ -2270,6 +2307,7 @@ const SKeys: SKey[] = [
     devdocs: "webpack",
     homelink: "https://webpack.js.org",
     awesome: "webpack-contrib/awesome-webpack",
+    cheatsheets: "webpack",
     docsearch: [
       {
         lang: Language.English,
@@ -2286,6 +2324,7 @@ const SKeys: SKey[] = [
     icon: "yarn.svg",
     homelink: "https://yarnpkg.com",
     devdocs: "yarn",
+    cheatsheets: "yarn",
   },
 ]
 

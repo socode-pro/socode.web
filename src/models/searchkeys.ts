@@ -126,7 +126,8 @@ const searchKeysModel: SearchKeysModel = {
 
     const code = localStorage.getItem("currentKey")
     const key = keys.find((k) => k.code === code)
-    if (key && key !== currentKey && !key.devdocs && !IsExpandWidthViewKey(key)) {
+    // if (key && key !== currentKey && !key.devdocs && !IsExpandWidthViewKey(key)) {
+    if (key && key !== currentKey && !IsExpandWidthViewKey(key)) {
       actions.setCurrentKey(key)
     }
   }), // do not change to [action] for support actionOn

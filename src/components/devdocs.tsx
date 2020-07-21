@@ -20,7 +20,6 @@ const Devdocs: React.FC = (): JSX.Element => {
   const loadIndex = useStoreActions((actions) => actions.devdocs.loadIndex)
   const menus = useStoreState<Array<{ group: string; entries: Array<DevdocEntrie> }>>((state) => state.devdocs.menus)
 
-  const query = useStoreState<string>((state) => state.search.query)
   const queryItems = useStoreState<Array<DevdocEntrie>>((state) => state.devdocs.queryItems)
   const queryIndex = useStoreState<number>((state) => state.devdocs.queryIndex)
   const setQueryIndex = useStoreActions((actions) => actions.devdocs.setQueryIndex)

@@ -112,7 +112,7 @@ const devdocsModel: DevdocsModel = {
       }))
       actions.setIndexs(indexWithId)
       actions.setVersion(meta.release)
-      getStoreActions().display.setExpandView(true)
+      // getStoreActions().display.setExpandView(true)
     } catch (err) {
       console.error("DevdocsModel.initialIndex", err)
     }
