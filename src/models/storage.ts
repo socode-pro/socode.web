@@ -16,6 +16,7 @@ export enum SearchModel {
   Algolia,
   Awesome,
   Template,
+  Cheatsheets,
 }
 
 export interface RegionData {
@@ -98,6 +99,9 @@ const storageModel: StorageModel = {
       }
       if (currentKey.docsearch) {
         return SearchModel.Algolia
+      }
+      if (currentKey.cheatsheets) {
+        return SearchModel.Cheatsheets
       }
       return SearchModel.Template
     }

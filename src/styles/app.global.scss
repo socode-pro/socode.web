@@ -3,9 +3,19 @@
 @import "animate";
 @import "googlefonts";
 @import "devdocs";
-@import "devhints";
 @import "rework";
 // @import 'learnx';
+
+@import "devhints/pages-list";
+@import "devhints/h2-section";
+@import "devhints/h3-section";
+@import "devhints/h3-section-list";
+@import "devhints/markdown/code.scss";
+@import "devhints/markdown/headings";
+@import "devhints/markdown/local-anchor";
+@import "devhints/markdown/p";
+@import "devhints/markdown/table";
+@import "devhints/markdown/ul";
 
 // https://bulma.io/documentation/customize/with-node-sass/#6-add-your-own-bulma-styles
 $purple: $primary; // #8A4D76;

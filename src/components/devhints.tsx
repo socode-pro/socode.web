@@ -13,6 +13,7 @@ interface Props {
 }
 
 const hrefRegExp = /href="\./g
+const bodyHtmlRegExp = /<body.*?>([\s\S]*)<\/body>/
 
 function permutate(data: { slug?: string; category?: string }): string[] {
   let words: string[] = []
@@ -30,11 +31,11 @@ const Devhints: React.FC<Props> = ({ query }: Props): JSX.Element => {
   const [markup, setMarkup] = useState<string | null>(null)
 
   const loading = useStoreState<boolean>((state) => state.devhints.loading)
-  const devhintsHtml = useStoreState<string>((state) => state.devhints.html)
-  const getDevhintsHtml = useStoreActions((actions) => actions.devhints.getHtml)
+  const html = useStoreState<string>((state) => state.devhints.html)
+  const getHtml = useStoreActions((actions) => actions.devhints.getHtml)
   useEffect(() => {
-    getDevhintsHtml()
-  }, [getDevhintsHtml])
+    getHtml()
+  }, [getHtml])
 
   useEffect(() => {
     if (element) {
@@ -87,19 +88,19 @@ const Devhints: React.FC<Props> = ({ query }: Props): JSX.Element => {
   }, [query])
 
   useEffect(() => {
-    const bodyHtmlReg = /<body.*?>([\s\S]*)<\/body>/.exec(devhintsHtml)
+    const bodyHtmlReg = bodyHtmlRegExp.exec(html)
     if (bodyHtmlReg && bodyHtmlReg.length > 1) {
       const bodyDoc = new DOMParser().parseFromString(bodyHtmlReg[1], "text/html")
       const pageDoc = bodyDoc.querySelector(".pages-list")
       if (pageDoc) {
-        const html = pageDoc.outerHTML.replace(hrefRegExp, 'target="_blank" href="https://devhints.io/')
-        setMarkup(html)
+        const resultHtml = pageDoc.outerHTML.replace(hrefRegExp, 'target="_blank" href="https://devhints.io/')
+        setMarkup(resultHtml)
         setTimeout(() => {
           setElement(document.querySelector(`.${css.cheatsheets} .pages-list`))
         }, 0) // setTimeout avoid black box when switching
       }
     }
-  }, [devhintsHtml])
+  }, [html])
 
   if (loading) {
     return <Loader1 type={2} />

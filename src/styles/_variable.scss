@@ -51,6 +51,7 @@ $dh-body: #f1f3f5;
 $dh-head: #111;
 $dh-text: #345;
 $dh-mute: #678;
+$dh-gray-bg: mix($dh-body, white, 50%);
 
 $line: rgba($dh-mute, 0.05);
 $line-dark: rgba($dh-mute, 0.2);
@@ -174,5 +175,36 @@ $shadow_ionic_focus_invert: 0 6px 12px 0 rgba(255, 255, 255, 0.1), 0 1px 3px 0 r
     background: currentColor;
     opacity: 1;
     transform: translateY(0) scaleY(1);
+  }
+}
+
+$code-size: 0.96em;
+$code-line-height: 1.5;
+$column: 400px;
+$area-width: $column * 3 + 32px;
+
+@mixin section-gutter($property, $multiplier: 1) {
+  #{$property}: 16px * $multiplier;
+
+  @media (max-width: $area-width + 32px) {
+    #{$property}: 8px * $multiplier;
+  }
+}
+
+@mixin heading-style {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 16px + 8px;
+  margin-top: 64px;
+  position: relative;
+
+  @media (max-width: 768px) {
+    margin-bottom: 8px;
+    margin-top: 32px;
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: 8px;
+    margin-top: 32px;
   }
 }

@@ -16,12 +16,14 @@ import {
   faCubes,
   faHome,
   faThumbtack,
+  faAlignCenter,
 } from "@fortawesome/free-solid-svg-icons"
 import { faAlgolia, faGithub } from "@fortawesome/free-brands-svg-icons"
 import { faListAlt, faThumbsUp } from "@fortawesome/free-regular-svg-icons"
 import Select, { OptionTypeBase, OptionsType } from "react-select"
 import Brand from "./brand"
 import CheatSheets from "./devhints"
+import CheatSheetsItem from "./devhintsItem"
 import Rework from "./rework"
 import Tools from "./tools"
 import Awesome from "./awesome"
@@ -584,6 +586,17 @@ const SearchInput: React.FC = (): JSX.Element => {
                     <FontAwesomeIcon icon={faCubes} />
                   </span>
                 )}
+                {currentKey.cheatsheets && (
+                  <span
+                    className={cs(css.model, {
+                      [css.active]: searchModel === SearchModel.Cheatsheets,
+                    })}
+                    onClick={(e) => {
+                      setSearchModels({ code: currentKey.code, model: SearchModel.Cheatsheets })
+                    }}>
+                    <FontAwesomeIcon icon={faAlignCenter} />
+                  </span>
+                )}
               </span>
             )}
 
@@ -887,6 +900,7 @@ const SearchInput: React.FC = (): JSX.Element => {
           )}
 
           {!displayKeys && currentKey.code === "cheatsheets" && <CheatSheets query={squery} />}
+          {!displayKeys && searchModel === SearchModel.Cheatsheets && <CheatSheetsItem />}
           {!displayKeys && currentKey.code === "rework" && <Rework />}
           {!displayKeys && currentKey.code === "tools" && <Tools query={squery} />}
           {!displayKeys && currentKey.code === "github_stars" && (

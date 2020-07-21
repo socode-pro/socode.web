@@ -270,7 +270,7 @@ const devdocsUnitedModel: DevdocsUnitedModel = {
       .map(([group, entries]) => ({ group, entries }))
       .sort((a, b) => a.group.localeCompare(b.group))
     actions.setCurrentMenus(menus)
-    getStoreActions().display.setExpandView(true)
+    // getStoreActions().display.setExpandView(true)
 
     winSearchParams({ docscode: code, docspath: path })
 
