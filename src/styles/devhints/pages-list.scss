@@ -1,6 +1,5 @@
-@import "./variable";
+@import "../variable";
 $dh-mute3: adjust-color($dh-mute, $lightness: 16%);
-$dark-line-color: rgba($dh-mute, 0.2);
 
 // https://github.com/rstacruz/cheatsheets/blob/master/_sass/2017/components/pages-list.scss
 .pages-list {
@@ -81,7 +80,7 @@ $dark-line-color: rgba($dh-mute, 0.2);
 
 .pages-list > .category {
   @include ms-respond(font-size, 1);
-  border-bottom: solid 1px $dark-line-color;
+  border-bottom: solid 1px $line-dark;
   margin: 16px 0;
   padding: 0 0 16px 0;
   font-weight: normal;
