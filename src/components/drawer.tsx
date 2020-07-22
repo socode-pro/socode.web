@@ -17,6 +17,7 @@ import { StringEnumObjects, isEdgeChromium, isFirefox } from "../utils/assist"
 import css from "./drawer.module.scss"
 
 const languageOptions = StringEnumObjects(InterfaceLanguage)
+let deferredPrompt
 
 const Drawer: React.FC = (): JSX.Element => {
   const ousideFirewall = useStoreState<boolean>((state) => state.storage.ousideFirewall)
@@ -30,6 +31,7 @@ const Drawer: React.FC = (): JSX.Element => {
 
   const [tooltips, setTooltips] = useState(false)
   const [shareMenu, setShareMenu] = useState(false)
+  const [showPWA, setShowPWA] = useState(true)
 
   const [profileMenu, setProfileMenu] = useState(false)
   const [shortcut, setShortcut] = useState(false)
@@ -44,6 +46,27 @@ const Drawer: React.FC = (): JSX.Element => {
     clipboard.on("success", (e) => {
       if (e.text) setTooltips(true)
     })
+
+    // https://web.dev/customize-install/
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault()
+      deferredPrompt = e
+      setShowPWA(true)
+    })
+  }, [])
+
+  const InstallPWA = useCallback(() => {
+    setShowPWA(false)
+    if (deferredPrompt) {
+      deferredPrompt.prompt()
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === "accepted") {
+          console.log("User accepted pwa prompt")
+        } else {
+          console.log("User dismissed pwa prompt")
+        }
+      })
+    }
   }, [])
 
   const displayShareMenu = useCallback((display) => {
@@ -191,6 +214,18 @@ const Drawer: React.FC = (): JSX.Element => {
           </ul>
           <p className="menu-label">Aside</p>
           <ul className="menu-list">
+            {showPWA && (
+              <li>
+                <a className={cs(css.navlink, css.pwa)} onClick={() => InstallPWA()}>
+                  <h3>Install the PWA</h3>
+                  {language === InterfaceLanguage.中文 ? (
+                    <span>使用你喜欢的方式快速启动SOCODE.PRO</span>
+                  ) : (
+                    <span>Quickly launch our app any way you like!</span>
+                  )}
+                </a>
+              </li>
+            )}
             <li>
               <Link
                 className={cs(css.navlink, css.chrome, {
