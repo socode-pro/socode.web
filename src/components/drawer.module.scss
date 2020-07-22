@@ -81,6 +81,13 @@
     }
     &.newtab {
       background-image: url(../images/icons8-add-tab.png);
+      background-size: 42px 42px;
+      background-position: left 0.7em center;
+    }
+    &.pwa {
+      background-image: url(../images/pwa.png);
+      background-size: 44px 44px;
+      background-position: left 0.8em center;
     }
     &.edge {
       background-image: url(../images/icons8-edge.svg);

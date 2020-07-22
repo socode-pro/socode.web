@@ -75,7 +75,10 @@ export const KeyPlaceholder = (key: SKey, model: SearchModel): string => {
     return "menu search..."
   }
   if (key.docsearch && model === SearchModel.Algolia) {
-    return "algolia document search..."
+    return "algolia search..."
+  }
+  if (key.docsearch && model === SearchModel.Cheatsheets) {
+    return "cheat sheets"
   }
   if (key.readmes) {
     return key.readmes.searched ? "content search..." : "no search"
