@@ -84,10 +84,10 @@ div.repos {
 
 .footer {
   text-align: right;
-  color: $gray;
+  color: $grey;
 
   a.domain {
-    color: $gray;
+    color: $grey;
     transition: color 0.4s ease-in-out, border 0.4s ease-in-out;
     @include underline();
     &:hover {

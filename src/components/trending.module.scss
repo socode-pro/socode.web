@@ -4,7 +4,6 @@ div.trending {
   position: absolute;
   top: calc(124px + 112px); // Brand 112px
   width: 100%;
-  margin-bottom: 20px;
   & > div.container {
     margin: 0 auto;
     max-width: 768px;
@@ -89,5 +88,5 @@ ul.result {
 
 a.more {
   display: inline-block;
-  margin-top: 15px;
+  margin: 15px 0 10px;
 }
