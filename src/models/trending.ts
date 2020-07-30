@@ -1,30 +1,33 @@
-import { Action, action, Thunk, thunk, ThunkOn, thunkOn, Computed, computed } from 'easy-peasy'
-import ky from 'ky'
-import dayjs from 'dayjs'
-import { ProgramLanguage, TrendingSpokenLanguage } from '../utils/language'
-import { StoreModel } from './index'
+import { Action, action, Thunk, thunk, ThunkOn, thunkOn, Computed, computed } from "easy-peasy"
+import ky from "ky"
+import dayjs from "dayjs"
+import { ProgramLanguage, TrendingSpokenLanguage } from "../utils/language"
+import { StoreModel } from "./index"
+
+const listHeight = window.innerHeight - 124 - 112 - 26.25 - 47.4
+const responsiveCount = Math.floor(listHeight / 55.4)
 
 export enum TrendingSince {
-  Daily = 'daily',
-  Weekly = 'weekly',
-  Monthly = 'monthly',
+  Daily = "daily",
+  Weekly = "weekly",
+  Monthly = "monthly",
 }
 
 export interface Repository {
-  author: string,
-  name: string,
-  avatar: string,
-  url: string,
-  description: string,
-  language: string,
-  languageColor: string,
-  stars: number,
-  forks: number,
-  currentPeriodStars: number,
+  author: string
+  name: string
+  avatar: string
+  url: string
+  description: string
+  language: string
+  languageColor: string
+  stars: number
+  forks: number
+  currentPeriodStars: number
   builtBy: {
-    href: string,
-    avator: string,
-    username: string,
+    href: string
+    avator: string
+    username: string
   }
 }
 
@@ -62,23 +65,21 @@ const trendingModel: TrendingModel = {
   setRepositorys: action((state, payload) => {
     state.repositories = payload
   }),
-  list: computed(state =>
-    state.expanded ? state.repositories : state.repositories.slice(0, 10)
-  ),
+  list: computed((state) => (state.expanded ? state.repositories : state.repositories.slice(0, responsiveCount))),
 
-  spoken: localStorage.getItem('trendingSpoken') as TrendingSpokenLanguage || TrendingSpokenLanguage.All,
+  spoken: (localStorage.getItem("trendingSpoken") as TrendingSpokenLanguage) || TrendingSpokenLanguage.All,
   setSpoken: action((state, payload) => {
     state.spoken = payload
-    localStorage.setItem('trendingSpoken', payload)
+    localStorage.setItem("trendingSpoken", payload)
   }),
 
-  since: localStorage.getItem('trendingSince') as TrendingSince || TrendingSince.Daily,
+  since: (localStorage.getItem("trendingSince") as TrendingSince) || TrendingSince.Daily,
   setSince: action((state, payload) => {
     state.since = payload
-    localStorage.setItem('trendingSince', payload)
+    localStorage.setItem("trendingSince", payload)
   }),
 
-  url: 'https://github.com/trending',
+  url: "https://github.com/trending",
   setUrl: action((state, payload) => {
     state.url = payload
   }),
@@ -86,7 +87,7 @@ const trendingModel: TrendingModel = {
   expanded: false,
   onReadMore: action((state) => {
     if (state.expanded) {
-      window.open(state.url, '_blank')?.focus()
+      window.open(state.url, "_blank")?.focus()
     } else {
       state.expanded = true
     }
@@ -95,7 +96,7 @@ const trendingModel: TrendingModel = {
   fetch: thunk(async (actions, target, { getState, getStoreState }) => {
     const { spoken, since } = getState()
     const { programLanguage } = getStoreState().storage
-    const language =  ProgramLanguage[programLanguage].toLowerCase().replace(' ', '-').replace('#', '%23')
+    const language = ProgramLanguage[programLanguage].toLowerCase().replace(" ", "-").replace("#", "%23")
 
     // storageService.getLocal 与 ky.get 执行时间不确定，可能出现逻辑错误。
     // const params = localStorage.getItem('repos_params')
@@ -107,42 +108,42 @@ const trendingModel: TrendingModel = {
     //   const repos = JSON.parse(localStorage.getItem('repos') || '[]')
     //   actions.setRepositorys(repos)
     // } else {
-      actions.setLoading(true)
-      try {
-        const searchParams = new URLSearchParams()
-        searchParams.set('spoken_language_code', spoken)
-        searchParams.set('since', since)
-        if (programLanguage !== ProgramLanguage.All) {
-          searchParams.set('language', language)
-        }
-        const data = await ky.get('https://github-trending-api.now.sh/repositories', { searchParams }).json<Array<Repository>>()
-        actions.setRepositorys(data)
-        // localStorage.setItem('repos_params', spoken + language + since)
-        // localStorage.setItem('repos_times', dayjs().toJSON())
-        // localStorage.setItem('repos', JSON.stringify(data.slice(0,12)))
-      } catch (err) {
-        console.error(err)
+    actions.setLoading(true)
+    try {
+      const searchParams = new URLSearchParams()
+      searchParams.set("spoken_language_code", spoken)
+      searchParams.set("since", since)
+      if (programLanguage !== ProgramLanguage.All) {
+        searchParams.set("language", language)
       }
-      actions.setLoading(false)
+      const data = await ky
+        .get("https://github-trending-api.now.sh/repositories", { searchParams })
+        .json<Array<Repository>>()
+      actions.setRepositorys(data)
+      // localStorage.setItem('repos_params', spoken + language + since)
+      // localStorage.setItem('repos_times', dayjs().toJSON())
+      // localStorage.setItem('repos', JSON.stringify(data.slice(0,12)))
+    } catch (err) {
+      console.error(err)
+    }
+    actions.setLoading(false)
     // }
 
     const urlparams = new URLSearchParams()
-    urlparams.set('since', since)
+    urlparams.set("since", since)
     if (spoken) {
-      urlparams.set('spoken_language_code', spoken)
+      urlparams.set("spoken_language_code", spoken)
     }
-    actions.setUrl(`https://github.com/trending/${programLanguage !== ProgramLanguage.All? language: ''}?${urlparams.toString()}`)
+    actions.setUrl(
+      `https://github.com/trending/${programLanguage !== ProgramLanguage.All ? language : ""}?${urlparams.toString()}`
+    )
   }),
 
   onFetchParamsChanged: thunkOn(
-    (actions, storeActions) => [
-      actions.setSpoken,
-      actions.setSince,
-      storeActions.storage.setProgramLanguage,
-    ],
+    (actions, storeActions) => [actions.setSpoken, actions.setSince, storeActions.storage.setProgramLanguage],
     (actions, target, { getState }) => {
       actions.fetch()
-    },
+    }
   ),
 }
 

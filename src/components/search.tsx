@@ -39,7 +39,14 @@ import { SKey, IsUnSearchableKey, SKeyCategory, KeyPlaceholder } from "../utils/
 import useSKeyCategoryIntl from "../utils/searchkeysIntl"
 import { getAutocompleteTemplate, getAutocompleteUrl } from "../utils/algolia_template"
 import useHotkeys from "../utils/useHotkeys"
-import { StringEnumObjects, IntEnumObjects, winSearchParams, isFirefox, isInStandaloneMode } from "../utils/assist"
+import {
+  StringEnumObjects,
+  IntEnumObjects,
+  winSearchParams,
+  isFirefox,
+  isInStandaloneMode,
+  isEdgeChromium,
+} from "../utils/assist"
 import { useStoreActions, useStoreState } from "../Store"
 import { SearchTimeRange, SocodeResult } from "../services/socode.service"
 import { NpmsResult } from "../services/npms.service"
@@ -105,6 +112,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const docLanguage = useStoreState<Language>((state) => state.search.docLanguage)
   const setDocLanguage = useStoreActions((actions) => actions.search.setDocLanguage)
 
+  const ousideFirewall = useStoreState<boolean>((state) => state.storage.ousideFirewall)
   const programLanguage = useStoreState<ProgramLanguage>((state) => state.storage.programLanguage)
   const setProgramLanguage = useStoreActions((actions) => actions.storage.setProgramLanguage)
   const { language, displayTrending, addressBarKeys } = useStoreState<Settings>((state) => state.profile.settings)
@@ -880,10 +888,43 @@ const SearchInput: React.FC = (): JSX.Element => {
                   )}
                   <div ref={searchTabEl} className={cs(css.skgroup)}>
                     {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Search))}
+                    <div key="submit_res" className={cs(css.skeybox, css.operation)}>
+                      <div className={css.skey}>
+                        <a
+                          className={cs(css.skname, css.submit_res)}
+                          href={
+                            language === InterfaceLanguage.中文
+                              ? "https://jinshuju.net/f/n63rZZ"
+                              : "https://forms.gle/G3UwA1CgThaSBv437"
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer">
+                          {language === InterfaceLanguage.中文 ? "提交您的资源" : "Submit Your Resources"}
+                        </a>
+                      </div>
+                    </div>
                     <div className={css.kdesc}>{searchIntl}</div>
                   </div>
                   <div ref={toolsTabEl} className={cs(css.skgroup)}>
                     {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Tools))}
+                    <div key="newtab" className={cs(css.skeybox, css.operation)}>
+                      <div className={css.skey}>
+                        <a
+                          className={cs(css.skname, css.newtab, {
+                            [css.edge]: isEdgeChromium && !ousideFirewall,
+                            [css.firefox]: isFirefox,
+                          })}
+                          href={
+                            isFirefox
+                              ? "https://addons.mozilla.org/zh-CN/firefox/addon/new-tab-by-socode-pro/"
+                              : "https://chrome.google.com/webstore/detail/awesome-programming-in-th/midlnalokbplpicoooemgpodiphdmllc"
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer">
+                          {language === InterfaceLanguage.中文 ? "替换浏览器NewTab" : "Replace Browser's NewTab"}
+                        </a>
+                      </div>
+                    </div>
                     <div className={css.kdesc}>{toolsIntl}</div>
                   </div>
                   <div ref={informationTabEl} className={cs(css.skgroup)}>
@@ -892,6 +933,20 @@ const SearchInput: React.FC = (): JSX.Element => {
                   </div>
                   <div ref={documentTabEl} className={cs(css.skgroup)}>
                     {keysDom(computedKeys.filter((k) => k.category === SKeyCategory.Document))}
+                    <div key="address" className={cs(css.skeybox, css.operation)}>
+                      <div className={css.skey}>
+                        <a
+                          className={cs(css.skname, css.chrome, {
+                            [css.edge]: isEdgeChromium && !ousideFirewall,
+                            [css.firefox]: isFirefox,
+                          })}
+                          href="/extension">
+                          {language === InterfaceLanguage.中文
+                            ? "在浏览器地址栏搜索文档"
+                            : "Search Documents in AddressBar"}
+                        </a>
+                      </div>
+                    </div>
                     <div className={css.kdesc}>{documentIntl}</div>
                   </div>
                 </>

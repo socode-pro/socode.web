@@ -84,6 +84,8 @@
   }
 
   & > .prefix {
+    height: 32px;
+    line-height: 32px;
     @include ms-respond(font-size, 1);
     display: flex;
     align-items: center;
@@ -110,8 +112,7 @@
     }
 
     span.name {
-      display: inline-block;
-      line-height: 32px;
+      font-family: "Roboto Slab";
       padding: 0 3px 0 8px;
       @media (max-width: 768px) {
         & {
@@ -124,7 +125,9 @@
     }
     span.model {
       padding: 0 3px;
-      line-height: 32px;
+      display: flex;
+      align-items: center;
+      height: 32px;
       &.active {
         color: $primary;
       }
@@ -141,6 +144,7 @@
     color: rgba($dh-mute, 0.5);
     @include ms-respond(font-size, 2);
     margin: 0 6px;
+    font-family: "Roboto Slab";
   }
 
   // Hide prefix in mobiel
@@ -355,37 +359,69 @@
         display: none;
       }
     }
-  }
-  .skey {
-    display: flex;
-    align-items: center;
-    line-height: 26.208px; // ms-respond x1.6
-    .skname {
-      padding-left: 46px;
-      @include ms-respond(font-size, 1);
-      text-shadow: 0 0 $dh-text;
-      background-position: left 0.5em center;
-      background-size: contain;
-      background-repeat: no-repeat;
-    }
-    svg.usage {
-      color: $primary-light;
-    }
-    .shortkeys {
-      margin: 0 10px;
-      color: $grey-light;
-      .plus {
-        margin-left: 6px;
-        display: none;
+
+    .skey {
+      display: flex;
+      align-items: center;
+      line-height: 26.208px; // ms-respond x1.6
+      .skname {
+        padding-left: 46px;
+        @include ms-respond(font-size, 1);
+        text-shadow: 0 0 $dh-text;
+        background-position: left 0.5em center;
+        background-size: contain;
+        background-repeat: no-repeat;
       }
-      .tab {
-        margin-left: 6px;
-        background-color: #f5f5f5;
-        border: 1px solid #e5e8ed;
-        border-radius: 4px;
-        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #fff inset;
-        padding: 2px 5px;
-        display: none;
+      svg.usage {
+        color: $primary-light;
+      }
+      .shortkeys {
+        margin: 0 10px;
+        color: $grey-light;
+        .plus {
+          margin-left: 6px;
+          display: none;
+        }
+        .tab {
+          margin-left: 6px;
+          background-color: #f5f5f5;
+          border: 1px solid #e5e8ed;
+          border-radius: 4px;
+          box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #fff inset;
+          padding: 2px 5px;
+          display: none;
+        }
+      }
+    }
+
+    &.operation {
+      position: relative; // for stretched-link
+      padding: 1em 1em 1em 0.5em;
+      &:hover {
+        background-color: transparent;
+        padding: 0.7em 0.7em 0.7em 0.2em;
+        border: 0.3em dashed $grey-lighter;
+      }
+      .skname {
+        @include stretched-link;
+        color: $grey-light;
+        &.submit_res {
+          background-image: url(../images/icons8-forms.svg);
+        }
+        &.newtab {
+          background-image: url(../images/icons8-add-tab.png);
+        }
+        &.chrome {
+          background-image: url(../images/icons8-chrome.svg);
+        }
+        &.firefox {
+          background-image: url(../images/icons8-firefox.svg);
+          background-size: 46px 46px;
+          background-position: left 0.6em center;
+        }
+        &.edge {
+          background-image: url(../images/icons8-edge.svg);
+        }
       }
     }
   }

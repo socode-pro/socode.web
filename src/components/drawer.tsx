@@ -239,16 +239,13 @@ const Drawer: React.FC = (): JSX.Element => {
             </li>
             <li>
               <a
-                className={cs(css.navlink, css.newtab, {
-                  [css.edge]: isEdgeChromium && !ousideFirewall,
-                  [css.firefox]: isFirefox,
-                })}
+                className={cs(css.navlink, css.newtab)}
                 href={
                   isFirefox
                     ? "https://addons.mozilla.org/zh-CN/firefox/addon/new-tab-by-socode-pro/"
                     : "https://chrome.google.com/webstore/detail/awesome-programming-in-th/midlnalokbplpicoooemgpodiphdmllc"
                 }>
-                <h3>{useIntl(Words.SearchDocumentsInNewTab)}</h3>
+                <h3>{useIntl(Words.ReplaceNewTab)}</h3>
                 <span>Learn More ⤴</span>
               </a>
             </li>
