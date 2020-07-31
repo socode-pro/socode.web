@@ -899,7 +899,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                           }
                           target="_blank"
                           rel="noopener noreferrer">
-                          {language === InterfaceLanguage.中文 ? "提交您的资源" : "Submit Your Resources"}
+                          {language === InterfaceLanguage.中文 ? "提交您喜欢的资源" : "Submit your favorite resources"}
                         </a>
                       </div>
                     </div>
