@@ -268,29 +268,6 @@ const Drawer: React.FC = (): JSX.Element => {
 
           <p className="menu-label">request feature / report bug</p>
           <ul className="menu-list">
-            {language === InterfaceLanguage.English && (
-              <li>
-                <a
-                  className={cs(css.navlink, css.form)}
-                  href="https://forms.gle/G3UwA1CgThaSBv437"
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  <h3>Submit Your Resources</h3>
-                </a>
-              </li>
-            )}
-            {language === InterfaceLanguage.中文 && (
-              <li>
-                <a
-                  className={cs(css.navlink, css.form)}
-                  href="https://jinshuju.net/f/n63rZZ"
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  <h3>提交您的资源</h3>
-                </a>
-              </li>
-            )}
-
             <li>
               <a
                 className={cs(css.navlink, css.telegram)}
