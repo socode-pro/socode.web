@@ -219,7 +219,7 @@ const Drawer: React.FC = (): JSX.Element => {
                 <a className={cs(css.navlink, css.pwa)} onClick={() => InstallPWA()}>
                   <h3>Install the PWA</h3>
                   {language === InterfaceLanguage.中文 ? (
-                    <span>使用你喜欢的方式快速启动SOCODE.PRO</span>
+                    <span>使用你喜欢的方式快速启动应用</span>
                   ) : (
                     <span>Quickly launch our app any way you like!</span>
                   )}
@@ -404,9 +404,9 @@ const Drawer: React.FC = (): JSX.Element => {
 
           {/* <a>投放广告</a> */}
           {language === InterfaceLanguage.中文 && (
-            <p className="mgt10">
-              <a href="http://beian.miit.gov.cn/state/outPortal/loginPortal.action">苏ICP备18044337号-2</a>
-            </p>
+            <a className="mgl10" href="http://beian.miit.gov.cn/state/outPortal/loginPortal.action">
+              苏ICP备18044337号-2
+            </a>
           )}
           <p className={css.slogon}>Hack your life</p>
           <p className={css.principles}>and become a professional mistake maker.</p>
