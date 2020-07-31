@@ -341,25 +341,6 @@
     //   display: none;
     // }
 
-    &:hover,
-    &.index {
-      background-color: $white-duck;
-      // a.kicon,
-      // i.kicon,
-      svg.thumbtack {
-        display: inline-block;
-      }
-      .shortkeys {
-        .plus,
-        .tab {
-          display: inline;
-        }
-      }
-      svg.usage {
-        display: none;
-      }
-    }
-
     .skey {
       display: flex;
       align-items: center;
@@ -391,6 +372,25 @@
           padding: 2px 5px;
           display: none;
         }
+      }
+    }
+
+    &:hover,
+    &.index {
+      background-color: $white-duck;
+      // a.kicon,
+      // i.kicon,
+      svg.thumbtack {
+        display: inline-block;
+      }
+      .shortkeys {
+        .plus,
+        .tab {
+          display: inline;
+        }
+      }
+      svg.usage {
+        display: none;
       }
     }
 
