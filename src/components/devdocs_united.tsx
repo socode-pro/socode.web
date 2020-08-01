@@ -7,6 +7,7 @@ import { useStoreActions, useStoreState } from "../Store"
 import { DevdocEntrieWithKey } from "../models/devdocs_united"
 import { DevdocMeta } from "../models/storage"
 import { isRelationHref, transRelationHref } from "../utils/assist"
+import { getPathParam, setPathParam } from "../utils/pathParam"
 import useHotkeys from "../utils/useHotkeys"
 import Loader1 from "./loader/loader1"
 import { Settings } from "../models/profile"
@@ -38,9 +39,8 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
   const selectPath = useStoreActions((actions) => actions.devdocsUnited.selectPath)
 
   const popstateSelect = useCallback(async () => {
-    const searchParams = new URLSearchParams(window.location.search)
-    const code = searchParams.get("docscode")
-    const path = searchParams.get("docspath")
+    const code = getPathParam("docscode")
+    const path = getPathParam("docspath")
     if (code && path) {
       selectPath({ code, path })
     }
@@ -81,7 +81,7 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
       if (href && isRelationHref(href)) {
         const nhref = transRelationHref(href, currentPath)
         const searchParams = new URLSearchParams(window.location.search)
-        searchParams.set("devdocs", nhref)
+        setPathParam(searchParams, "docspath", nhref)
         tag.setAttribute("href", `/?${searchParams.toString()}`)
       }
     })

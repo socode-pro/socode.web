@@ -1,7 +1,7 @@
 import { Action, action, Computed, computed, Thunk, thunk, ActionOn, actionOn } from "easy-peasy"
 import ky from "ky"
 import Stacks, { Stack, StackType } from "../utils/historystacks"
-import { winSearchParams } from "../utils/assist"
+import { setupPathParams } from "../utils/pathParam"
 import { generateUuid } from "../utils/keygen"
 import { Injections } from "../Store"
 import { StoreModel } from "./index"
@@ -133,7 +133,7 @@ const starsModel: StarsModel = {
     const stack = state.privateStacks.find((s) => s.id === stackid)
     if (stack && !stack.repos.includes(repo)) {
       stack.repos.push(repo)
-      winSearchParams({ stack: stackid, repos: stack.repos.toString() })
+      setupPathParams({ stack: stackid, repos: stack.repos.toString() })
     }
   }),
   addPrivateStackRepoAndData: thunk(async (actions, { stackid, repo }, { injections, getStoreState }) => {
@@ -166,7 +166,7 @@ const starsModel: StarsModel = {
     const stack = state.privateStacks.find((s) => s.id === stackid)
     if (!stack) return
     stack.repos = stack.repos.filter((r) => r !== repo)
-    winSearchParams({ stack: stackid, repos: stack.repos.toString() })
+    setupPathParams({ stack: stackid, repos: stack.repos.toString() })
 
     if (state.currentStack?.id === stack.id) {
       // removeRepoFromStore(state.repositorys.find(r => r.name === repo))
@@ -230,9 +230,9 @@ const starsModel: StarsModel = {
     const { profile } = getStoreState().profile
 
     if (stack.type === StackType.Private) {
-      winSearchParams({ key: "github_stars", stack: stack.id, repos: stack.repos.toString() })
+      setupPathParams({ key: "github_stars", stack: stack.id, repos: stack.repos.toString() })
     } else {
-      winSearchParams({ key: "github_stars", stack: stack.id, repos: "" })
+      setupPathParams({ key: "github_stars", stack: stack.id, repos: "" })
     }
 
     await Promise.all(

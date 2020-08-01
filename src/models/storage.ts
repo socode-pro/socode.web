@@ -3,12 +3,12 @@ import ky from "ky"
 import dayjs from "dayjs"
 import { StoreModel } from "./index"
 import { ProgramLanguage } from "../utils/language"
+import { getPathParam } from "../utils/pathParam"
 import { warn } from "../utils/toast"
 
 const IpapiWarn =
   "Failed to get your region info, which can help us use the cache closer to you. Maybe it's because your ad block plugin blocked the ipapi.co domain"
 
-const UrlParams = new URLSearchParams(window.location.search)
 let UrlParmsSolved = false
 
 export enum SearchModel {
@@ -87,7 +87,7 @@ const storageModel: StorageModel = {
   searchModel: computed(
     [(state) => state.searchModels, (state, storeState) => storeState.searchKeys.currentKey],
     (searchModels, currentKey) => {
-      if (!UrlParmsSolved && UrlParams.has("devdocs")) {
+      if (!UrlParmsSolved && getPathParam("docscode")) {
         UrlParmsSolved = true
         return SearchModel.Devdocs
       }

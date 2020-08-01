@@ -3,7 +3,7 @@ import qrcode from "qrcode"
 import { Injections } from "../Store"
 import { StoreModel } from "./index"
 import Language, { ProgramLanguage, navigatorLanguage } from "../utils/language"
-import { winSearchParams } from "../utils/assist"
+import { setupPathParams } from "../utils/pathParam"
 import { SocodeResult, SearchTimeRange } from "../services/socode.service"
 import { NpmsResult } from "../services/npms.service"
 import { IsUnSearchableKey } from "../utils/searchkeys"
@@ -137,7 +137,7 @@ const searchModel: SearchModel = {
     const { currentKey } = getStoreState().searchKeys
 
     if ((new URLSearchParams(window.location.search).get("q") || "") !== query) {
-      winSearchParams({ query })
+      setupPathParams({ query })
     }
 
     if (!query || IsUnSearchableKey(currentKey)) {

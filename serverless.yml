@@ -7,7 +7,7 @@ inputs:
   src:
     src: ./src
     index: index.html
-    hook: npm run build && npm run route
+    hook: npm run build && npm run route_win
     dist: ./build
     websitePath: ./
   region: ap-shanghai
