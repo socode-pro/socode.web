@@ -175,7 +175,8 @@ const Devdocs: React.FC = (): JSX.Element => {
           </div>
           <div className={cs("column", css.docContainer)} ref={docContainer}>
             {docLoading && <Loader1 type={1} />}
-            {docs && <Markup content={docs} attributes={{ className: "_page pd10" }} />}
+            {/* {docs && <Markup content={docs} attributes={{ className: "_page pd10" }} />} */}
+            {docs && <div className="_page pd10" dangerouslySetInnerHTML={{ __html: docs }} />}
           </div>
         </div>
       )}
