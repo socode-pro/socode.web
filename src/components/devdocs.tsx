@@ -6,6 +6,7 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { useStoreActions, useStoreState } from "../Store"
 import { DevdocEntrie } from "../models/devdocs"
 import { isRelationHref, transRelationHref } from "../utils/assist"
+import { getPathParam, setPathParam } from "../utils/pathParam"
 import useHotkeys from "../utils/useHotkeys"
 import Loader1 from "./loader/loader1"
 import css from "./devdocs.module.scss"
@@ -32,8 +33,7 @@ const Devdocs: React.FC = (): JSX.Element => {
   const selectPath = useStoreActions((actions) => actions.devdocs.selectPath)
 
   const popstateSelect = useCallback(async () => {
-    const searchParams = new URLSearchParams(window.location.search)
-    const path = searchParams.get("docspath")
+    const path = getPathParam("docspath")
     if (path) {
       selectPath(path)
     }
@@ -72,7 +72,7 @@ const Devdocs: React.FC = (): JSX.Element => {
       if (href && isRelationHref(href)) {
         const nhref = transRelationHref(href, currentPath)
         const searchParams = new URLSearchParams(window.location.search)
-        searchParams.set("devdocs", nhref)
+        setPathParam(searchParams, "docspath", nhref)
         tag.setAttribute("href", `/?${searchParams.toString()}`)
       }
     })

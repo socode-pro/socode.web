@@ -4,7 +4,7 @@ import groupBy from "lodash/groupBy"
 import debounce from "lodash/debounce"
 import Fuse from "fuse.js"
 import shortid from "shortid"
-import { winSearchParams } from "../utils/assist"
+import { setupPathParams } from "../utils/pathParam"
 import FuseHighlight from "../utils/fuse_highlight"
 import { StoreModel } from "./index"
 import SKeys, { SKey } from "../utils/searchkeys"
@@ -127,7 +127,7 @@ const devdocsUnitedModel: DevdocsUnitedModel = {
       const { metas } = getStoreState().storage
       const meta = metas.find((m) => m.slug === payload.devdocs)
       if (!meta) {
-        throw new Error("loadIndex meta null")
+        throw new Error(`pushIndexs meta ${payload.devdocs} null`)
       }
 
       const indexJson = await ky
@@ -272,7 +272,7 @@ const devdocsUnitedModel: DevdocsUnitedModel = {
     actions.setCurrentMenus(menus)
     // getStoreActions().display.setExpandView(true)
 
-    winSearchParams({ docscode: code, docspath: path })
+    setupPathParams({ docscode: code, docspath: path })
 
     actions.expandByPath(path)
     actions.setCurrentPath(path)

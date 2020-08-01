@@ -4,7 +4,7 @@ import groupBy from "lodash/groupBy"
 import shortid from "shortid"
 import Fuse from "fuse.js"
 import FuseHighlight from "../utils/fuse_highlight"
-import { winSearchParams } from "../utils/assist"
+import { setupPathParams } from "../utils/pathParam"
 import { StoreModel } from "./index"
 
 const fuseOptions: Fuse.IFuseOptions<DevdocEntrie> = {
@@ -100,7 +100,7 @@ const devdocsModel: DevdocsModel = {
       const { metas } = getStoreState().storage
       const meta = metas.find((m) => m.slug === currentKey.devdocs)
       if (!meta) {
-        throw new Error("loadIndex meta null")
+        throw new Error(`loadIndex meta ${currentKey.devdocs} null`)
       }
 
       const indexJson = await ky
@@ -114,7 +114,7 @@ const devdocsModel: DevdocsModel = {
       actions.setVersion(meta.release)
       // getStoreActions().display.setExpandView(true)
     } catch (err) {
-      console.error("DevdocsModel.initialIndex", err)
+      console.warn("DevdocsModel.loadIndex", err)
     }
     actions.cleanExpandings()
     actions.setMenuLoading(false)
@@ -183,7 +183,7 @@ const devdocsModel: DevdocsModel = {
   selectPath: thunk(async (actions, path, { getState, getStoreState, getStoreActions }) => {
     if (path === getState().currentPath) return
 
-    winSearchParams({ docspath: path })
+    setupPathParams({ docspath: path })
     actions.expandByPath(path)
     actions.setCurrentPath(path)
     actions.setQueryIndex(0)

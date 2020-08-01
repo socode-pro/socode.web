@@ -39,14 +39,8 @@ import { SKey, IsUnSearchableKey, SKeyCategory, KeyPlaceholder } from "../utils/
 import useSKeyCategoryIntl from "../utils/searchkeysIntl"
 import { getAutocompleteTemplate, getAutocompleteUrl } from "../utils/algolia_template"
 import useHotkeys from "../utils/useHotkeys"
-import {
-  StringEnumObjects,
-  IntEnumObjects,
-  winSearchParams,
-  isFirefox,
-  isInStandaloneMode,
-  isEdgeChromium,
-} from "../utils/assist"
+import { StringEnumObjects, IntEnumObjects, isFirefox, isInStandaloneMode, isEdgeChromium } from "../utils/assist"
+import { setupPathParams } from "../utils/pathParam"
 import { useStoreActions, useStoreState } from "../Store"
 import { SearchTimeRange, SocodeResult } from "../services/socode.service"
 import { NpmsResult } from "../services/npms.service"
@@ -354,7 +348,7 @@ const SearchInput: React.FC = (): JSX.Element => {
       setSquery("")
       setKquery("")
       setCurrentKey(key)
-      winSearchParams({ key: key.code, query: "" })
+      setupPathParams({ key: key.code, query: "" })
       setKeyIndex(-1)
       setTimeout(() => focusInput(), 200)
     },

@@ -18,64 +18,6 @@ export const IntEnumObjects = (enumme, prefix?: string): Array<{ label: string; 
     .map((key, i) => ({ label: i === 0 && prefix ? prefix + enumme[key] : enumme[key], value: parseInt(key, 10) }))
 }
 
-const { location, history } = window
-
-// https://stackoverflow.com/a/41542008
-export const winSearchParams = (params: {
-  key?: string
-  query?: string
-  docspath?: string
-  docscode?: string
-  stack?: string
-  repos?: string
-}): void => {
-  const searchParams = new URLSearchParams(window.location.search)
-  if (params.key !== undefined) {
-    if (params.key) {
-      searchParams.set("k", params.key)
-    } else {
-      searchParams.delete("k")
-    }
-  }
-  if (params.query !== undefined) {
-    if (params.query) {
-      searchParams.set("q", params.query)
-    } else {
-      searchParams.delete("q")
-    }
-  }
-  if (params.docspath !== undefined) {
-    if (params.docspath) {
-      searchParams.set("docspath", params.docspath)
-    } else {
-      searchParams.delete("docspath")
-    }
-  }
-  if (params.docscode !== undefined) {
-    if (params.docscode) {
-      searchParams.set("docscode", params.docscode)
-    } else {
-      searchParams.delete("docscode")
-    }
-  }
-  if (params.stack !== undefined) {
-    if (params.stack) {
-      searchParams.set("stack", params.stack)
-    } else {
-      searchParams.delete("stack")
-    }
-  }
-  if (params.repos !== undefined) {
-    if (params.repos) {
-      searchParams.set("repos", params.repos)
-    } else {
-      searchParams.delete("repos")
-    }
-  }
-
-  history.pushState(null, "", `${location.pathname}${[...searchParams].length ? `?${searchParams.toString()}` : ""}`)
-}
-
 export const isRelationHref = (href: string): boolean =>
   !href.startsWith("http") && !href.startsWith("/?") && !href.startsWith("#")
 
@@ -96,6 +38,7 @@ export const transRelationHref = (href: string, currentPath: string): string => 
 
 export const isChrome =
   !!(window as any).chrome && (!!(window as any).chrome.webstore || !!(window as any).chrome.runtime)
+
 export const isEdgeChromium = isChrome && navigator.userAgent.indexOf("Edg") !== -1
 
 // https://stackoverflow.com/a/52695341/346701
