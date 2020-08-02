@@ -65,7 +65,9 @@ export const setPathParam = (
   return searchParams
 }
 
-export const getPathParam = (param: "k" | "q" | "docscode" | "docspath" | "stack" | "repos"): string | null => {
+export const getPathParam = (
+  param: "k" | "q" | "docscode" | "docspath" | "devdocs" | "stack" | "repos"
+): string | null => {
   const searchParams = new URLSearchParams(location.search)
   return searchParams.get(param)
 }

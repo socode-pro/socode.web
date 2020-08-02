@@ -36,6 +36,12 @@ const Devdocs: React.FC = (): JSX.Element => {
     const path = getPathParam("docspath")
     if (path) {
       selectPath(path)
+    } else {
+      // temp fix
+      const path2 = getPathParam("devdocs")
+      if (path2) {
+        selectPath(path2)
+      }
     }
   }, [selectPath])
 
