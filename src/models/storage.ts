@@ -87,7 +87,7 @@ const storageModel: StorageModel = {
   searchModel: computed(
     [(state) => state.searchModels, (state, storeState) => storeState.searchKeys.currentKey],
     (searchModels, currentKey) => {
-      if (!UrlParmsSolved && getPathParam("docscode")) {
+      if (!UrlParmsSolved && (getPathParam("docspath") || getPathParam("devdocs"))) {
         UrlParmsSolved = true
         return SearchModel.Devdocs
       }
