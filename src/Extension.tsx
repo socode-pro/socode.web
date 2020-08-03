@@ -110,10 +110,11 @@ const Extension: React.FC = () => {
                   isFirefox
                     ? "https://addons.mozilla.org/zh-CN/firefox/addon/socode/"
                     : // : isEdgeChromium && !ousideFirewall
-                    // ? "https://microsoftedge.microsoft.com/addons/detail/dkeiglafihicmjbbaoopggfnifgjekcl"
-                    ousideFirewall
-                    ? "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
-                    : "https://www.crx4chrome.com/crx/196956/"
+                      // ? "https://microsoftedge.microsoft.com/addons/detail/dkeiglafihicmjbbaoopggfnifgjekcl"
+                      // ousideFirewall
+                      // ? "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
+                      //   :
+                      "https://www.crx4chrome.com/crx/196956/"
                 }>
                 <h3>Install to {isFirefox ? "Firefox" : isEdgeChromium && !ousideFirewall ? "Edge" : "Chrome"}</h3>
               </a>
@@ -123,7 +124,7 @@ const Extension: React.FC = () => {
               <a
                 href={
                   isFirefox
-                    ? "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
+                    ? "https://www.crx4chrome.com/crx/196956/"
                     : "https://addons.mozilla.org/zh-CN/firefox/addon/socode/"
                 }>
                 Install to {isFirefox ? "Chrome" : "Firefox"}
