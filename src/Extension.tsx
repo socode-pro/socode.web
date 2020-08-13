@@ -113,8 +113,7 @@ const Extension: React.FC = () => {
                     // ? "https://microsoftedge.microsoft.com/addons/detail/dkeiglafihicmjbbaoopggfnifgjekcl"
                     ousideFirewall
                     ? "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
-                      :
-                      "https://www.crx4chrome.com/crx/196956/"
+                    : "https://www.crx4chrome.com/crx/196956/"
                 }>
                 <h3>Install to {isFirefox ? "Firefox" : isEdgeChromium && !ousideFirewall ? "Edge" : "Chrome"}</h3>
               </a>
