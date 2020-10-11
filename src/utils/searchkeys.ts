@@ -2329,6 +2329,18 @@ const SKeys: SKey[] = [
     devdocs: "yarn",
     cheatsheets: "yarn",
   },
+  {
+    code: "yandex",
+    name: "Яндекс",
+    category: SKeyCategory.Search,
+    shortkeys: "yd",
+    icon: "yandex.svg",
+    hideName: true,
+    iconProps: {
+      width: 80,
+    },
+    homelink: "https://yandex.ru/",
+  },
 ]
 
 // console.log(JSON.stringify(SKeys))
