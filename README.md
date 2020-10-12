@@ -55,3 +55,9 @@ env CI='' npm run build
 ```
 
 才能避免 react-scripts 在 CI 环境下把 warn 定义为 error
+
+3 海外用netlify部署。国内用腾讯云serverless部署。不再使用coding静态站点。
+`
+serverless deploy
+`
+注意目前没法指定配置文件为serverless_win.yml，所以必须修改serverless.yml 内 npm run route 为 npm run route_win。登录授权时须使用elliotreborn@gmail.com腾讯云账号，用相机识别二维码而不是微信。
