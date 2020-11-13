@@ -116,8 +116,8 @@ const trendingModel: TrendingModel = {
       if (programLanguage !== ProgramLanguage.All) {
         searchParams.set("language", language)
       }
-      // https://github.com/huchenme/github-trending-api/issues/130#issuecomment-703483762
-      const data = await ky.get("https://gtrend.yapie.me/repositories", { searchParams }).json<Array<Repository>>()
+      // https://github.com/huchenme/github-trending-api/issues/130#issuecomment-708848154
+      const data = await ky.get("https://github-trending-api.waningflow.com/repositories", { searchParams }).json<Array<Repository>>()
       actions.setRepositorys(data)
       // localStorage.setItem('repos_params', spoken + language + since)
       // localStorage.setItem('repos_times', dayjs().toJSON())
