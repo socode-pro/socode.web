@@ -5,7 +5,7 @@ import { ProgramLanguage, TrendingSpokenLanguage } from "../utils/language"
 import { StoreModel } from "./index"
 
 const listHeight = window.innerHeight - 124 - 112 - 26.25 - 47.4
-const responsiveCount = Math.floor(listHeight / 55.4)
+const responsiveCount = Math.floor(listHeight / 57)
 
 export enum TrendingSince {
   Daily = "daily",
