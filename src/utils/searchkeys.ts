@@ -1608,7 +1608,7 @@ const SKeys: SKey[] = [
     shortkeys: "pl",
     icon: "perl.svg",
     homelink: "https://www.perl.org",
-    devdocs: "perl~5.26",
+    devdocs: "perl~5.32",
   },
   {
     code: "pipenv",
