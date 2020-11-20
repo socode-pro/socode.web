@@ -138,7 +138,7 @@ const storageModel: StorageModel = {
     } catch (err) {
       console.warn(err)
       try {
-        const result = await ky.get("https://ipapi.co/json").json<RegionData>()
+        const result = await ky.get("https://freegeoip.app/json").json<RegionData>()
         actions.setRegion(result)
       } catch (err2) {
         warn(IpapiWarn, true)
