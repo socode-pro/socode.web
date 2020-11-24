@@ -5,7 +5,7 @@ import { ProgramLanguage, TrendingSpokenLanguage } from "../utils/language"
 import { StoreModel } from "./index"
 
 const listHeight = window.innerHeight - 124 - 112 - 26.25 - 47.4
-const responsiveCount = Math.floor(listHeight / 55.4)
+const responsiveCount = Math.floor(listHeight / 57)
 
 export enum TrendingSince {
   Daily = "daily",
@@ -116,8 +116,8 @@ const trendingModel: TrendingModel = {
       if (programLanguage !== ProgramLanguage.All) {
         searchParams.set("language", language)
       }
-      // https://github.com/huchenme/github-trending-api/issues/130#issuecomment-703483762
-      const data = await ky.get("https://gtrend.yapie.me/repositories", { searchParams }).json<Array<Repository>>()
+      // https://github.com/huchenme/github-trending-api/issues/130#issuecomment-708848154
+      const data = await ky.get("https://github-trending-api.waningflow.com/repositories", { searchParams }).json<Array<Repository>>()
       actions.setRepositorys(data)
       // localStorage.setItem('repos_params', spoken + language + since)
       // localStorage.setItem('repos_times', dayjs().toJSON())

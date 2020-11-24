@@ -241,6 +241,7 @@ const Stacks: Stack[] = [
       "buefy/buefy",
       "vuetifyjs/vuetify",
       "vueComponent/ant-design-vue",
+      "iview/iview",
     ],
   },
   {
