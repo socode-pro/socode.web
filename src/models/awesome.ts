@@ -57,16 +57,12 @@ const awesomeModel: AwesomeModel = {
       // await actions.setMarkdownStorage({ name: payload.name, markdown })
       await actions.setMarkdown(markdown)
     } catch (err) {
-      if (err.response?.status === 404) {
-        try {
-          const markdown = await ky.get(`${host}/${path}/readme.md`).text()
-          // await actions.setMarkdownStorage({ name: payload.name, markdown })
-          await actions.setMarkdown(markdown)
-        } catch (e) {
-          console.error("AwesomeModel.getMarkdown.retry", e)
-        }
-      } else {
-        console.warn("AwesomeModel.getMarkdown", err)
+      try {
+        const markdown = await ky.get(`${host}/${path}/readme.md`).text()
+        // await actions.setMarkdownStorage({ name: payload.name, markdown })
+        await actions.setMarkdown(markdown)
+      } catch (e) {
+        console.error("AwesomeModel.getMarkdown.retry", e)
       }
     }
     actions.setLoading(false)
