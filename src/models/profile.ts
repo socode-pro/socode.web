@@ -167,12 +167,12 @@ const profileModel: ProfileModel = {
 
     if (params.has("jwt")) {
       const jwt = params.get("jwt")
+      params.delete("jwt")
       if (jwt) {
         actions.setJwt({ jwt })
         await actions.loadProfile()
         await actions.postInvited()
       }
-      params.delete("jwt")
       history.pushState(null, "", `${location.pathname}?${params.toString()}`)
     }
   }),
