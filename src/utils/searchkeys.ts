@@ -425,7 +425,7 @@ const SKeys: SKey[] = [
     icon: "crystal.svg",
     homelink: "https://crystal-lang.org",
     awesome: "veelenga/awesome-crystal",
-    devdocs: "crystal~0.31",
+    devdocs: "crystal",
   },
   {
     code: "css",
@@ -1251,7 +1251,7 @@ const SKeys: SKey[] = [
     icon: "laravel.svg",
     homelink: "https://laravel.com",
     awesome: "chiraggude/awesome-laravel",
-    devdocs: "laravel~7.0",
+    devdocs: "laravel~8",
     docsearch: [
       {
         lang: Language.English,
