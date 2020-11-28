@@ -83,12 +83,15 @@ const storageModel: StorageModel = {
   setSearchModels: action((state, { code, model }) => {
     state.searchModels = { ...state.searchModels, [code]: model }
     localStorage.setItem("searchModels", JSON.stringify(state.searchModels))
+    if (model !== SearchModel.Devdocs) {
+      const searchParams = new URLSearchParams(window.location.search)
+      searchParams.delete("docspath")
+    }
   }),
   searchModel: computed(
     [(state) => state.searchModels, (state, storeState) => storeState.searchKeys.currentKey],
     (searchModels, currentKey) => {
-      if (!UrlParmsSolved && (getPathParam("docspath") || getPathParam("devdocs"))) {
-        UrlParmsSolved = true
+      if (getPathParam("docspath")) {
         return SearchModel.Devdocs
       }
       if ({}.hasOwnProperty.call(searchModels, currentKey.code)) {
