@@ -229,7 +229,7 @@ const SKeys: SKey[] = [
       backgroundPosition: "left 0.2em center",
     },
     homelink: "https://babeljs.io",
-    devdocs: "babel",
+    devdocs: "babel~7",
     docsearch: [
       {
         lang: Language.English,
@@ -1131,7 +1131,7 @@ const SKeys: SKey[] = [
       width: 80,
     },
     homelink: "https://jekyllrb.com",
-    devdocs: "jekyll",
+    devdocs: "jekyll~4",
     cheatsheets: "jekyll",
     docsearch: [
       {
@@ -1736,7 +1736,7 @@ const SKeys: SKey[] = [
     icon: "python.svg",
     homelink: "https://python.org",
     awesome: "vinta/awesome-python",
-    devdocs: "python~3.8",
+    devdocs: "python~3.9",
     template: "https://python.org/search/?q=%s",
     cheatsheets: "python",
   },
@@ -2193,7 +2193,7 @@ const SKeys: SKey[] = [
     icon: "tensorflow.svg",
     homelink: "https://www.tensorflow.org",
     awesome: "jtoy/awesome-tensorflow",
-    devdocs: "tensorflow~python",
+    devdocs: "tensorflow~2.3",
   },
   {
     code: "tools",
@@ -2307,7 +2307,7 @@ const SKeys: SKey[] = [
     iconProps: {
       width: 100,
     },
-    devdocs: "webpack",
+    devdocs: "webpack~5",
     homelink: "https://webpack.js.org",
     awesome: "webpack-contrib/awesome-webpack",
     cheatsheets: "webpack",
