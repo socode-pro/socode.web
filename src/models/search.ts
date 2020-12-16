@@ -184,7 +184,7 @@ const searchModel: SearchModel = {
     if (payload) {
       url = payload
     } else {
-      url = currentKey.template?.replace("%s", query)
+      url = currentKey.template?.replace("%s", encodeURIComponent(query))
       if (url && currentKey.bylang && searchLanguage) {
         url = url?.replace("%l", searchLanguage)
       }
