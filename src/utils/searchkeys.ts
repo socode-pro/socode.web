@@ -485,6 +485,14 @@ const SKeys: SKey[] = [
     devdocs: "django~3.0",
   },
   {
+    code: "dogedoge",
+    name: "DogeDoge",
+    category: SKeyCategory.Search,
+    shortkeys: "dg",
+    icon: "dogedoge.png",
+    template: "https://www.dogedoge.com/results?q=%s",
+  },
+  {
     code: "drupal",
     name: "drupal",
     category: SKeyCategory.Document,
