@@ -488,9 +488,10 @@ const SKeys: SKey[] = [
     code: "dogedoge",
     name: "DogeDoge",
     category: SKeyCategory.Search,
-    shortkeys: "dg",
+    shortkeys: "dog",
     icon: "dogedoge.png",
     template: "https://www.dogedoge.com/results?q=%s",
+    availableLang: InterfaceLanguage.中文,
   },
   {
     code: "drupal",
