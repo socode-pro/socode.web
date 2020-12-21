@@ -702,7 +702,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               </a>
             )}
 
-            {result !== null && (
+            {!displayKeys && result !== null && (
               <div className="select is-rounded mgl10">
                 {/* https://www.typescriptlang.org/docs/handbook/jsx.html#the-as-operator */}
                 <select value={timeRange} onChange={(e) => setTimeRange(e.target.value as SearchTimeRange)}>
@@ -948,158 +948,160 @@ const SearchInput: React.FC = (): JSX.Element => {
             </div>
           )}
 
-          {!displayKeys && currentKey.code === "cheatsheets" && <CheatSheets query={squery} />}
-          {!displayKeys && searchModel === SearchModel.Cheatsheets && <CheatSheetsItem />}
-          {!displayKeys && currentKey.code === "rework" && <Rework />}
-          {!displayKeys && currentKey.code === "tools" && <Tools query={squery} />}
-          {!displayKeys && currentKey.code === "github_stars" && (
-            <Suspense fallback={<Loader1 type={2} />}>
-              <GithubStars query={squery} />
-            </Suspense>
-          )}
-          {!displayKeys && searchModel === SearchModel.Devdocs && <Devdocs />}
-          {!displayKeys && currentKey.code === "devdocs" && <DevdocsUnited />}
-          {!displayKeys && searchModel === SearchModel.Awesome && currentKey.awesome && (
-            <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} query={squery} />
-          )}
-          {!displayKeys && currentKey.readmes && (
-            <Readme
-              base={currentKey.readmes.base}
-              paths={currentKey.readmes.paths}
-              query={currentKey.readmes.searched ? squery : undefined}
-            />
-          )}
-          {!displayKeys && currentKey.code === "encode" && (
-            <Suspense fallback={<Loader1 type={2} />}>
-              <Encode />
-            </Suspense>
-          )}
-          {!displayKeys && currentKey.code === "code_editor" && (
-            <Suspense fallback={<Loader1 type={2} />}>
-              <CodeEditor />
-            </Suspense>
-          )}
-          {!displayKeys && currentKey.code === "markdown_editor" && (
-            <Suspense fallback={<Loader1 type={2} />}>
-              <MarkdownEditor />
-            </Suspense>
-          )}
-          {!displayKeys && currentKey.code === "password" && <Password />}
-          {!displayKeys && currentKey.code === "qrcode" && (
-            <div className="tac">
-              <canvas id="qrcode" />
-            </div>
-          )}
-          {!displayKeys && currentKey.code === "url" && <Short />}
+          {!displayKeys && <>
+            {currentKey.code === "cheatsheets" && <CheatSheets query={squery} />}
+            {searchModel === SearchModel.Cheatsheets && <CheatSheetsItem />}
+            {currentKey.code === "rework" && <Rework />}
+            {currentKey.code === "tools" && <Tools query={squery} />}
+            {currentKey.code === "github_stars" && (
+              <Suspense fallback={<Loader1 type={2} />}>
+                <GithubStars query={squery} />
+              </Suspense>
+            )}
+            {searchModel === SearchModel.Devdocs && <Devdocs />}
+            {currentKey.code === "devdocs" && <DevdocsUnited />}
+            {searchModel === SearchModel.Awesome && currentKey.awesome && (
+              <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} query={squery} />
+            )}
+            {currentKey.readmes && (
+              <Readme
+                base={currentKey.readmes.base}
+                paths={currentKey.readmes.paths}
+                query={currentKey.readmes.searched ? squery : undefined}
+              />
+            )}
+            {currentKey.code === "encode" && (
+              <Suspense fallback={<Loader1 type={2} />}>
+                <Encode />
+              </Suspense>
+            )}
+            {currentKey.code === "code_editor" && (
+              <Suspense fallback={<Loader1 type={2} />}>
+                <CodeEditor />
+              </Suspense>
+            )}
+            {currentKey.code === "markdown_editor" && (
+              <Suspense fallback={<Loader1 type={2} />}>
+                <MarkdownEditor />
+              </Suspense>
+            )}
+            {currentKey.code === "password" && <Password />}
+            {currentKey.code === "qrcode" && (
+              <div className="tac">
+                <canvas id="qrcode" />
+              </div>
+            )}
+            {currentKey.code === "url" && <Short />}
+
+            {/* {result !== null && (
+              <div className={css.searchResult}>
+                {result.results.map((r) => (
+                  <div key={r.url} className={css.result}>
+                    <h4 className={css.header}>
+                      <a href={r.url} target="_blank" rel="noopener noreferrer">
+                        {r.title}
+                      </a>
+                    </h4>
+                    <p className={css.external}>{r.pretty_url}</p>
+                    <Highlighter
+                      className={css.content}
+                      highlightClassName={css.highlighter}
+                      searchWords={squery.split(" ")}
+                      autoEscape
+                      textToHighlight={r.content}
+                    />
+                  </div>
+                ))}
+
+                <div className={cs(css.pagination, "field has-addons")}>
+                  {pageno !== 1 && (
+                    <p className="control">
+                      <button type="button" className="button is-rounded" onClick={() => prevPage()}>
+                        <span className="icon">
+                          <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                        </span>
+                        <span>Previous Page</span>
+                      </button>
+                    </p>
+                  )}
+                  {result.paging && (
+                    <p className="control">
+                      <button type="button" className="button is-rounded" onClick={() => nextPage()}>
+                        <span>Next Page</span>
+                        <span className="icon">
+                          <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                        </span>
+                      </button>
+                    </p>
+                  )}
+                </div>
+
+                {result.results.length === 0 && <div className={css.notFound}>not found anything.</div>}
+              </div>
+            )} */}
+
+            {npmResult !== null && (
+              <div className={css.searchResult}>
+                {npmResult.results.map((r) => (
+                  <div key={r.package.links.npm} className={css.result}>
+                    <h4 className={css.header}>
+                      <a href={r.package.links.npm} target="_blank" rel="noopener noreferrer">
+                        {r.package.name}
+                      </a>
+                    </h4>
+                    <p className={css.content}>{r.package.description}</p>
+                    <p className={css.infos}>
+                      <a
+                        href={r.package.links.repository}
+                        className={css.github}
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        <FontAwesomeIcon icon={faGithub} />
+                      </a>
+                      <span className="mgr10">{r.package.version}</span>
+                      <span className="mgr10">{r.package.publisher?.username}</span>
+                      <span>{dayjs(r.package.date).format("YYYY-M-D")}</span>
+                    </p>
+                  </div>
+                ))}
+
+                <div className={cs(css.pagination, "field has-addons")}>
+                  {pageno !== 1 && (
+                    <p className="control">
+                      <button type="button" className="button is-rounded" onClick={() => prevPage()}>
+                        <span className="icon">
+                          <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                        </span>
+                        <span>Previous Page</span>
+                      </button>
+                    </p>
+                  )}
+                  {npmResult.total > pageno * 10 && (
+                    <p className="control">
+                      <button type="button" className="button is-rounded" onClick={() => nextPage()}>
+                        <span>Next Page</span>
+                        <span className="icon">
+                          <FontAwesomeIcon icon={faAngleDoubleRight} />
+                        </span>
+                      </button>
+                    </p>
+                  )}
+                </div>
+
+                {npmResult.results.length === 0 && <div className={css.notFound}>not found anything.</div>}
+              </div>
+            )}
+
+            {(result !== null || npmResult !== null) && (
+              <div className={css.closer} onClick={clearResultAll}>
+                <a className="delete is-medium" />
+              </div>
+            )}
+          </>}
 
           {error !== null && <div className={css.error}>{error instanceof String ? error : error.message}</div>}
 
-          {/* {result !== null && (
-            <div className={css.searchResult}>
-              {result.results.map((r) => (
-                <div key={r.url} className={css.result}>
-                  <h4 className={css.header}>
-                    <a href={r.url} target="_blank" rel="noopener noreferrer">
-                      {r.title}
-                    </a>
-                  </h4>
-                  <p className={css.external}>{r.pretty_url}</p>
-                  <Highlighter
-                    className={css.content}
-                    highlightClassName={css.highlighter}
-                    searchWords={squery.split(" ")}
-                    autoEscape
-                    textToHighlight={r.content}
-                  />
-                </div>
-              ))}
-
-              <div className={cs(css.pagination, "field has-addons")}>
-                {pageno !== 1 && (
-                  <p className="control">
-                    <button type="button" className="button is-rounded" onClick={() => prevPage()}>
-                      <span className="icon">
-                        <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                      </span>
-                      <span>Previous Page</span>
-                    </button>
-                  </p>
-                )}
-                {result.paging && (
-                  <p className="control">
-                    <button type="button" className="button is-rounded" onClick={() => nextPage()}>
-                      <span>Next Page</span>
-                      <span className="icon">
-                        <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                      </span>
-                    </button>
-                  </p>
-                )}
-              </div>
-
-              {result.results.length === 0 && <div className={css.notFound}>not found anything.</div>}
-            </div>
-          )} */}
-
-          {npmResult !== null && (
-            <div className={css.searchResult}>
-              {npmResult.results.map((r) => (
-                <div key={r.package.links.npm} className={css.result}>
-                  <h4 className={css.header}>
-                    <a href={r.package.links.npm} target="_blank" rel="noopener noreferrer">
-                      {r.package.name}
-                    </a>
-                  </h4>
-                  <p className={css.content}>{r.package.description}</p>
-                  <p className={css.infos}>
-                    <a
-                      href={r.package.links.repository}
-                      className={css.github}
-                      target="_blank"
-                      rel="noopener noreferrer">
-                      <FontAwesomeIcon icon={faGithub} />
-                    </a>
-                    <span className="mgr10">{r.package.version}</span>
-                    <span className="mgr10">{r.package.publisher?.username}</span>
-                    <span>{dayjs(r.package.date).format("YYYY-M-D")}</span>
-                  </p>
-                </div>
-              ))}
-
-              <div className={cs(css.pagination, "field has-addons")}>
-                {pageno !== 1 && (
-                  <p className="control">
-                    <button type="button" className="button is-rounded" onClick={() => prevPage()}>
-                      <span className="icon">
-                        <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                      </span>
-                      <span>Previous Page</span>
-                    </button>
-                  </p>
-                )}
-                {npmResult.total > pageno * 10 && (
-                  <p className="control">
-                    <button type="button" className="button is-rounded" onClick={() => nextPage()}>
-                      <span>Next Page</span>
-                      <span className="icon">
-                        <FontAwesomeIcon icon={faAngleDoubleRight} />
-                      </span>
-                    </button>
-                  </p>
-                )}
-              </div>
-
-              {npmResult.results.length === 0 && <div className={css.notFound}>not found anything.</div>}
-            </div>
-          )}
-
           {loading && <Loader1 type={2} />}
-
-          {result !== null && (
-            <div className={css.closer} onClick={clearResultAll}>
-              <a className="delete is-medium" />
-            </div>
-          )}
 
           {!isInStandaloneMode && result === null && currentKey.name === "socode" && <Slogan />}
         </animated.div>
