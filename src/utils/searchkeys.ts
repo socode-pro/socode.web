@@ -138,7 +138,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     shortkeys: "as",
     icon: "ansible.svg",
-    devdocs: "ansible~2.9",
+    devdocs: "ansible~2.10",
     cheatsheets: "ansible",
   },
   {
@@ -482,7 +482,7 @@ const SKeys: SKey[] = [
     homelink: "https://www.djangoproject.com",
     awesome: "wsvincent/awesome-django",
     icon: "django.svg",
-    devdocs: "django~3.0",
+    devdocs: "django~3.1",
   },
   {
     code: "dogedoge",
@@ -591,7 +591,7 @@ const SKeys: SKey[] = [
     icon: "elixir.png",
     homelink: "https://elixir-lang.org/",
     awesome: "h4cc/awesome-elixir",
-    devdocs: "elixir~1.10",
+    devdocs: "elixir~1.11",
     cheatsheets: "elixir",
   },
   {
@@ -1209,7 +1209,7 @@ const SKeys: SKey[] = [
     shortkeys: "jl",
     hideName: true,
     icon: "julia.svg",
-    devdocs: "julia~1.4",
+    devdocs: "julia~1.5",
   },
   {
     code: "koa",
@@ -1354,7 +1354,7 @@ const SKeys: SKey[] = [
     shortkeys: "ls",
     icon: "less.svg",
     homelink: "http://lesscss.org",
-    devdocs: "less",
+    devdocs: "less~3",
     cheatsheets: "less",
   },
   {
