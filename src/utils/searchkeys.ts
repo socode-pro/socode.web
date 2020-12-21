@@ -1491,6 +1491,15 @@ const SKeys: SKey[] = [
     cheatsheets: "csharp7",
   },
   {
+    code: "dom",
+    name: "DOM",
+    category: SKeyCategory.Document,
+    shortkeys: "dom",
+    icon: "html.svg",
+    devdocs: "dom",
+    cheatsheets: "dom-selection",
+  },
+  {
     code: "netlify",
     name: "netlify",
     category: SKeyCategory.Document,
