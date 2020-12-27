@@ -156,14 +156,23 @@ const storageModel: StorageModel = {
   }),
   judgeOusideFirewall: thunk(async (actions) => {
     try {
-      // https://juejin.im/post/58edfdb544d904005776688d
-      await ky("//graph.facebook.com/feed?callback=h", {
+      await ky("//ajax.googleapis.com/ajax/libs/scriptaculous/1.9.0/scriptaculous.js", {
         timeout: 4000,
       })
       actions.setOusideFirewall(true)
     } catch (err) {
       actions.setOusideFirewall(false)
     }
+
+    // try {
+    //   // https://juejin.im/post/58edfdb544d904005776688d(已失效)
+    //   await ky("//graph.facebook.com/feed?callback=h", {
+    //     timeout: 4000,
+    //   })
+    //   actions.setOusideFirewall(true)
+    // } catch (err) {
+    //   actions.setOusideFirewall(false)
+    // }
 
     // 图片资源会导致浏览器UI处于loading状态
     // https://segmentfault.com/q/1010000005061694
