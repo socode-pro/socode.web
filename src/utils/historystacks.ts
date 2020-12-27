@@ -343,6 +343,12 @@ const Stacks: Stack[] = [
     type: StackType.Frontend,
     repos: ["pandao/editor.md", "nhn/tui.editor", "joemccann/dillinger", "benweet/stackedit"],
   },
+  {
+    id: "doc-website",
+    name: "Documentation Website",
+    type: StackType.Frontend,
+    repos: ["docsifyjs/docsify", "doczjs/docz", "facebook/Docusaurus", "sphinx-doc/sphinx"]
+  }
 ]
 
 // console.log(JSON.stringify(Stacks))
