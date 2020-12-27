@@ -1573,7 +1573,7 @@ const SKeys: SKey[] = [
     },
     homelink: "https://npms.io",
     usage: true,
-    firewalled: true,
+    // firewalled: true,
     tooltips: "npms.io: a better and open source search for node packages",
     tooltipsCN: "npms.io：更好的、开放源码的node packages搜索",
   },
