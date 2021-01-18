@@ -2,7 +2,7 @@ import { Action, action, Thunk, thunk, Computed, computed, ActionOn, actionOn } 
 import without from "lodash/without"
 import ky from "ky"
 import Fuse from "fuse.js"
-import SKeys, { SKey, IsExpandWidthViewKey } from "../utils/searchkeys"
+import SKeys, { SKey, IsExpandWidthViewKey, SKeyCategory } from "../utils/searchkeys"
 import { StoreModel } from "./index"
 
 const fuseOptions: Fuse.IFuseOptions<SKey> = {
@@ -110,7 +110,10 @@ const searchKeysModel: SearchKeysModel = {
   setCurrentKey: action((state, payload) => {
     state.keyIndex = 0
     state.currentKey = payload
-    localStorage.setItem("currentKey", payload.code)
+    const { category, cnotAsDefault } = state.currentKey
+    if (category === SKeyCategory.Search || category === SKeyCategory.Document || !cnotAsDefault) {
+      localStorage.setItem("currentKey", payload.code)
+    }
   }),
   initialCurrentKey: thunk(async (actions, payload, { getState }) => {
     const { keys, currentKey } = getState()

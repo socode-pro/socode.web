@@ -34,6 +34,7 @@ export interface SKey {
   tooltipsCN?: string
   devdocs?: string
   cheatsheets?: string
+  cnotAsDefault?: boolean
   docsearch?: ReadonlyArray<{
     appId?: string
     apiKey: string
@@ -330,6 +331,7 @@ const SKeys: SKey[] = [
     icon: "command.png",
     homelink: "https://github.com/jlevy/the-art-of-command-line",
     tooltips: "Master the command line, in one page",
+    cnotAsDefault: true,
     readmes: {
       base: "jlevy/the-art-of-command-line",
       paths: [
@@ -584,6 +586,7 @@ const SKeys: SKey[] = [
     shortkeys: "code",
     icon: "editor.svg",
     usage: true,
+    cnotAsDefault: true,
   },
   {
     name: "Electron",
@@ -649,6 +652,7 @@ const SKeys: SKey[] = [
       backgroundSize: "30px",
       backgroundPosition: "left 0.3em center",
     },
+    cnotAsDefault: true,
   },
   {
     code: "eslint",
@@ -781,6 +785,7 @@ const SKeys: SKey[] = [
     icon: "free_programming_books.png",
     tooltips: "Free Programming Books",
     homelink: "https://github.com/EbookFoundation/free-programming-books",
+    cnotAsDefault: true,
     readmes: {
       base: "EbookFoundation/free-programming-books",
       searched: true,
@@ -922,6 +927,7 @@ const SKeys: SKey[] = [
     homelink: "https://github-stars.socode.pro",
     tooltips: "comparison of star trend data for multiple GitHub repository",
     tooltipsCN: "GitHub repositorys 的 star 趋势数据对比",
+    cnotAsDefault: true,
   },
   {
     code: "go",
@@ -1321,6 +1327,7 @@ const SKeys: SKey[] = [
     shortkeys: "reg",
     icon: "regex.svg",
     homelink: "https://github.com/ziishaned/learn-regex",
+    cnotAsDefault: true,
     readmes: {
       base: "ziishaned/learn-regex",
       paths: [
@@ -1420,6 +1427,7 @@ const SKeys: SKey[] = [
     shortkeys: "mde",
     icon: "markdown_editor.png",
     usage: true,
+    cnotAsDefault: true,
   },
   {
     code: "mariadb",
@@ -1618,6 +1626,7 @@ const SKeys: SKey[] = [
       backgroundSize: "30px",
       backgroundPosition: "left 0.3em center",
     },
+    cnotAsDefault: true,
   },
   {
     code: "perl",
@@ -1725,6 +1734,7 @@ const SKeys: SKey[] = [
     homelink: "https://github.com/public-apis/public-apis",
     tooltips: "a collective list of free APIs for use in software and web development.",
     tooltipsCN: "免费API的集合列表",
+    cnotAsDefault: true,
     readmes: {
       base: "zicjin/public-apis",
       searched: true,
@@ -1810,6 +1820,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Tools,
     shortkeys: "qr",
     icon: "qrcode.png",
+    cnotAsDefault: true,
   },
   {
     code: "rails",
@@ -1919,6 +1930,7 @@ const SKeys: SKey[] = [
     shortkeys: "rns",
     icon: "react.svg",
     homelink: "https://github.com/vhpoet/react-native-styling-cheat-sheet",
+    cnotAsDefault: true,
     readmes: {
       base: "vhpoet/react-native-styling-cheat-sheet",
       paths: [
@@ -2140,6 +2152,7 @@ const SKeys: SKey[] = [
     icon: "sdp.png",
     homelink: "https://github.com/donnemartin/system-design-primer",
     tooltips: "Learn how to design large-scale systems",
+    cnotAsDefault: true,
     readmes: {
       base: "donnemartin/system-design-primer",
       paths: [
@@ -2251,6 +2264,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Tools,
     shortkeys: "url",
     icon: "url.png",
+    cnotAsDefault: true,
   },
   {
     code: "utf",
