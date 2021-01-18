@@ -1,5 +1,9 @@
 const { location, history } = window
 
+export const setupLocation = (searchParams: URLSearchParams): void => {
+  history.pushState(null, "", `${location.pathname}${[...searchParams].length ? `?${searchParams.toString()}` : ""}`)
+}
+
 // https://stackoverflow.com/a/41542008
 export const setupPathParams = (params: {
   key?: string
@@ -53,7 +57,7 @@ export const setupPathParams = (params: {
     }
   }
 
-  history.pushState(null, "", `${location.pathname}${[...searchParams].length ? `?${searchParams.toString()}` : ""}`)
+  setupLocation(searchParams)
 }
 
 export const setPathParam = (
@@ -65,9 +69,7 @@ export const setPathParam = (
   return searchParams
 }
 
-export const getPathParam = (
-  param: "k" | "q" | "docscode" | "docspath" | "stack" | "repos"
-): string | null => {
+export const getPathParam = (param: "k" | "q" | "docscode" | "docspath" | "stack" | "repos"): string | null => {
   const searchParams = new URLSearchParams(location.search)
   return searchParams.get(param)
 }

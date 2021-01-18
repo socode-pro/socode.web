@@ -40,11 +40,10 @@ const Devdocs: React.FC = (): JSX.Element => {
   }, [selectPath])
 
   useEffect(() => {
-    const initial = async (): Promise<void> => {
+    (async () => {
       await loadIndex()
       await popstateSelect()
-    }
-    initial()
+    })()
   }, [loadIndex, popstateSelect])
 
   useEffect(() => {

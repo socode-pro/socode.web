@@ -3,7 +3,7 @@ import ky from "ky"
 import dayjs from "dayjs"
 import { StoreModel } from "./index"
 import { ProgramLanguage } from "../utils/language"
-import { getPathParam } from "../utils/pathParam"
+import { getPathParam, setupLocation } from "../utils/pathParam"
 import { warn } from "../utils/toast"
 
 const IpapiWarn =
@@ -86,6 +86,7 @@ const storageModel: StorageModel = {
     if (model !== SearchModel.Devdocs) {
       const searchParams = new URLSearchParams(window.location.search)
       searchParams.delete("docspath")
+      setupLocation(searchParams)
     }
   }),
   searchModel: computed(
