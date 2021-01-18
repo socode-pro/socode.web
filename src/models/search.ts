@@ -6,7 +6,6 @@ import Language, { ProgramLanguage, navigatorLanguage } from "../utils/language"
 import { setupPathParams } from "../utils/pathParam"
 import { SocodeResult, SearchTimeRange } from "../services/socode.service"
 import { NpmsResult } from "../services/npms.service"
-import { IsUnSearchableKey } from "../utils/searchkeys"
 
 export interface SMError {
   message: string
@@ -140,7 +139,7 @@ const searchModel: SearchModel = {
       setupPathParams({ query })
     }
 
-    if (!query || IsUnSearchableKey(currentKey)) {
+    if (!query) {
       actions.clearResult()
       return
     }
@@ -169,36 +168,37 @@ const searchModel: SearchModel = {
       actions.setLoading(false)
     } else if (currentKey.code === "qrcode") {
       actions.setQrcode(query)
-    } else {
+    } else if (currentKey.template) {
       actions.lunchUrl()
     }
   }),
 
-  lunchUrl: thunk((state, payload, { getStoreState, getState }) => {
-    state.error = null
-    const { query, searchLanguage } = getState()
-    const { programLanguage } = getStoreState().storage
+  lunchUrl: thunk((actions, payload, { getStoreState, getState }) => {
     const { currentKey } = getStoreState().searchKeys
-    let url: string | undefined = ""
+    const { query, searchLanguage } = getState()
+    const { storage, profile } = getStoreState()
+    let url = ""
 
     if (payload) {
       url = payload
     } else {
-      url = currentKey.template?.replace("%s", encodeURIComponent(query))
-      if (url && currentKey.bylang && searchLanguage) {
-        url = url?.replace("%l", searchLanguage)
+      if (!currentKey.template || !query) {
+        return
       }
-      if (url && currentKey.bypglang) {
-        url = url?.replace("%pl", ProgramLanguage[programLanguage])
+      url = currentKey.template.replace("%s", encodeURIComponent(query))
+      if (currentKey.bylang && searchLanguage) {
+        url = url.replace("%l", searchLanguage)
+      }
+      if (currentKey.bypglang) {
+        url = url.replace("%pl", ProgramLanguage[storage.programLanguage])
       }
     }
 
-    if (url) {
-      if (getStoreState().profile.settings.openNewPage) {
-        window.open(url, "_blank")?.focus()
-      } else {
-        window.location.href = url
-      }
+    actions.setError(null)
+    if (profile.settings.openNewPage) {
+      window.open(url, "_blank")?.focus()
+    } else {
+      window.location.href = url
     }
   }),
 
