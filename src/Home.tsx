@@ -24,7 +24,7 @@ const Home: React.FC = () => {
     <>
       <Search />
       <Drawer />
-      {!isInStandaloneMode && <ExtArrow />}
+      {/* {!isInStandaloneMode && <ExtArrow />} */}
     </>
   )
 }
