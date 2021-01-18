@@ -35,6 +35,7 @@ export interface SKey {
   devdocs?: string
   cheatsheets?: string
   cnotAsDefault?: boolean
+  isSuggestable?: boolean
   docsearch?: ReadonlyArray<{
     appId?: string
     apiKey: string
@@ -52,19 +53,6 @@ export interface SKey {
     searched?: boolean
   }
 }
-
-export const IsUnSearchableKey = (key: SKey): boolean =>
-  !!key.docsearch ||
-  !!key.devdocs ||
-  !!key.readmes ||
-  key.code === "cheatsheets" ||
-  key.code === "tools" ||
-  key.code === "github_stars" ||
-  key.code === "password" ||
-  key.code === "code_editor" ||
-  key.code === "markdown_editor" ||
-  key.code === "encode" ||
-  key.code === "devdocs"
 
 export const IsExpandWidthViewKey = (key: SKey): boolean => key.code === "code_editor" || key.code === "markdown_editor"
 
@@ -247,6 +235,7 @@ const SKeys: SKey[] = [
     icon: "baidu.png",
     template: "https://www.baidu.com/s?wd=%s",
     availableLang: InterfaceLanguage.中文,
+    isSuggestable: true,
   },
   {
     code: "bash",
@@ -287,6 +276,7 @@ const SKeys: SKey[] = [
     template: "https://bundlephobia.com/result?p=%s",
     tooltips: "find the cost of adding a npm package to your bundle",
     tooltipsCN: "检查NPM包的大小",
+    isSuggestable: true,
   },
   {
     code: "c_lang",
@@ -494,6 +484,7 @@ const SKeys: SKey[] = [
     icon: "dogedoge.png",
     template: "https://www.dogedoge.com/results?q=%s",
     availableLang: InterfaceLanguage.中文,
+    isSuggestable: true,
   },
   {
     code: "drupal",
@@ -557,6 +548,7 @@ const SKeys: SKey[] = [
     template: "https://duckduckgo.com/?q=%s&t=%l",
     bylang: true,
     firewalled: true,
+    isSuggestable: true,
   },
   {
     code: "dotnet",
@@ -569,6 +561,7 @@ const SKeys: SKey[] = [
     template: "https://docs.microsoft.com/%l/dotnet/api/index?term=%s",
     bylang: true,
     cheatsheets: "csharp7",
+    isSuggestable: true,
   },
   {
     code: "dom",
@@ -883,6 +876,7 @@ const SKeys: SKey[] = [
     bypglang: true,
     usage: true,
     tooltips: "search repositorie",
+    isSuggestable: true,
   },
   {
     code: "github_cheatsheet",
@@ -974,6 +968,7 @@ const SKeys: SKey[] = [
     template: "https://google.com/search?q=%s&hl=%l",
     bylang: true,
     firewalled: true,
+    isSuggestable: true,
   },
   {
     code: "gradle",
@@ -1584,6 +1579,7 @@ const SKeys: SKey[] = [
     // firewalled: true,
     tooltips: "npms.io: a better and open source search for node packages",
     tooltipsCN: "npms.io：更好的、开放源码的node packages搜索",
+    isSuggestable: true,
   },
   {
     code: "npm",
@@ -1598,6 +1594,7 @@ const SKeys: SKey[] = [
     },
     homelink: "https://www.npmjs.com",
     template: "https://www.npmjs.com/search?q=%s",
+    isSuggestable: true,
   },
   {
     code: "nuget",
@@ -2132,6 +2129,7 @@ const SKeys: SKey[] = [
     icon: "stackoverflow.svg",
     template: "https://stackoverflow.com/search?q=%s",
     tooltips: "Q&A communities",
+    isSuggestable: true,
   },
   {
     code: "caniuse",
@@ -2372,6 +2370,7 @@ const SKeys: SKey[] = [
       width: 80,
     },
     homelink: "https://yandex.ru/",
+    isSuggestable: true,
   },
 ]
 

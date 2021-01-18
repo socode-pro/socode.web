@@ -35,7 +35,7 @@ import Trending from "./trending"
 import Password from "./password"
 import Short from "./short"
 import Language, { ProgramLanguage, InterfaceLanguage } from "../utils/language"
-import { SKey, IsUnSearchableKey, SKeyCategory, KeyPlaceholder } from "../utils/searchkeys"
+import { SKey, SKeyCategory, KeyPlaceholder } from "../utils/searchkeys"
 import useSKeyCategoryIntl from "../utils/searchkeysIntl"
 import { getAutocompleteTemplate, getAutocompleteUrl } from "../utils/algolia_template"
 import useHotkeys from "../utils/useHotkeys"
@@ -126,7 +126,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const error = useStoreState<SMError | null>((state) => state.search.error)
   const search = useStoreActions((actions) => actions.search.search)
   const clearResult = useStoreActions((actions) => actions.search.clearResult)
-  const lunchUrlAction = useStoreActions((actions) => actions.search.lunchUrl)
+  const lunchUrl = useStoreActions((actions) => actions.search.lunchUrl)
 
   // const initialKeys = useStoreActions(actions => actions.searchKeys.initialKeys)
   const initialCurrentKey = useStoreActions((actions) => actions.searchKeys.initialCurrentKey)
@@ -153,7 +153,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const debounceSuggeste = useCallback(
     debounce<(value: string) => Promise<void>>(async (value) => {
       setSuggesteIndex(-1)
-      if (!value || IsUnSearchableKey(currentKey)) {
+      if (!value || !currentKey.isSuggestable) {
         setSuggeste(null)
         return
       }
@@ -252,13 +252,13 @@ const SearchInput: React.FC = (): JSX.Element => {
       clearResultAll()
 
       if (url) {
-        lunchUrlAction(url)
+        lunchUrl(url)
       } else {
         setSquery(q)
         search()
       }
     },
-    [clearResultAll, lunchUrlAction, search, setSquery]
+    [clearResultAll, lunchUrl, search, setSquery]
   )
 
   useEffect(() => {
@@ -746,10 +746,10 @@ const SearchInput: React.FC = (): JSX.Element => {
 
           {focus &&
             !displayKeys &&
+            currentKey.isSuggestable &&
             suggeste !== null &&
             suggeste.words.length > 0 &&
-            suggeste.key === currentKey.code &&
-            !IsUnSearchableKey(currentKey) && (
+            suggeste.key === currentKey.code && (
               <div
                 className={cs(css.suggeste, "dropdown is-active")}
                 style={{ marginLeft: currentKey.name.length * 7 + 45 }}>
