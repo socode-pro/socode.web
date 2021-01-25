@@ -109,22 +109,31 @@ const trendingModel: TrendingModel = {
     //   actions.setRepositorys(repos)
     // } else {
     actions.setLoading(true)
-    try {
-      const searchParams = new URLSearchParams()
-      searchParams.set("spoken_language_code", spoken)
-      searchParams.set("since", since)
-      if (programLanguage !== ProgramLanguage.All) {
-        searchParams.set("language", language)
-      }
-      // https://github.com/huchenme/github-trending-api/issues/130#issuecomment-708848154
-      const data = await ky.get("https://github-trending-api.waningflow.com/repositories", { searchParams }).json<Array<Repository>>()
-      actions.setRepositorys(data)
-      // localStorage.setItem('repos_params', spoken + language + since)
-      // localStorage.setItem('repos_times', dayjs().toJSON())
-      // localStorage.setItem('repos', JSON.stringify(data.slice(0,12)))
-    } catch (err) {
-      console.error(err)
+
+    const searchParams = new URLSearchParams()
+    searchParams.set("spoken_language_code", spoken)
+    searchParams.set("since", since)
+    if (programLanguage !== ProgramLanguage.All) {
+      searchParams.set("language", language)
     }
+
+    let data
+    try {
+      // https://github.com/huchenme/github-trending-api/issues/130#issuecomment-710780770
+      data = await ky
+        .get("https://github-trending-api-wonder.herokuapp.com", { searchParams })
+        .json<Array<Repository>>()
+    } catch (err) {
+      // https://github.com/huchenme/github-trending-api/issues/130#issuecomment-708848154
+      data = await ky
+        .get("https://github-trending-api.waningflow.com/repositories", { searchParams })
+        .json<Array<Repository>>()
+    }
+
+    actions.setRepositorys(data)
+    // localStorage.setItem('repos_params', spoken + language + since)
+    // localStorage.setItem('repos_times', dayjs().toJSON())
+    // localStorage.setItem('repos', JSON.stringify(data.slice(0,12)))
     actions.setLoading(false)
     // }
 
