@@ -958,7 +958,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                 <GithubStars query={squery} />
               </Suspense>
             )}
-            {searchModel === SearchModel.Devdocs && <Devdocs />}
+            {currentKey.devdocs && searchModel === SearchModel.Devdocs && <Devdocs />}
             {currentKey.code === "devdocs" && <DevdocsUnited />}
             {searchModel === SearchModel.Awesome && currentKey.awesome && (
               <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} query={squery} />

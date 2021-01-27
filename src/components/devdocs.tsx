@@ -18,7 +18,6 @@ const Devdocs: React.FC = (): JSX.Element => {
   const menuLoading = useStoreState<boolean>((state) => state.devdocs.menuLoading)
   const docLoading = useStoreState<boolean>((state) => state.devdocs.docLoading)
 
-  const loadIndex = useStoreActions((actions) => actions.devdocs.loadIndex)
   const menus = useStoreState<Array<{ group: string; entries: Array<DevdocEntrie> }>>((state) => state.devdocs.menus)
 
   const queryItems = useStoreState<Array<DevdocEntrie>>((state) => state.devdocs.queryItems)
@@ -38,13 +37,6 @@ const Devdocs: React.FC = (): JSX.Element => {
       selectPath(path)
     }
   }, [selectPath])
-
-  useEffect(() => {
-    (async () => {
-      await loadIndex()
-      await popstateSelect()
-    })()
-  }, [loadIndex, popstateSelect])
 
   useEffect(() => {
     window.addEventListener("popstate", popstateSelect)
