@@ -214,6 +214,28 @@
       }
     }
   }
+
+  .inphotkey {
+    margin: 0 20px;
+    color: $grey-light;
+    font-size: 12px;
+    span {
+      background-color: #f5f5f5;
+      border: 1px solid #e5e8ed;
+      border-radius: 4px;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #fff inset;
+      padding: 2px 5px;
+      &.keya {
+        margin-left: 6px;
+      }
+    }
+  }
+
+  &:focus-within {
+    .inphotkey {
+      display: none;
+    }
+  }
 }
 
 .docsearch {
