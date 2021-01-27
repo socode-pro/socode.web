@@ -87,7 +87,6 @@ export interface DevdocsUnitedModel {
 
   expandings: { [type: string]: boolean }
   toggleExpanding: Action<DevdocsUnitedModel, string>
-  cleanExpandings: Action<DevdocsUnitedModel>
   expandByPath: Action<DevdocsUnitedModel, string>
 
   currentPath: string
@@ -225,11 +224,6 @@ const devdocsUnitedModel: DevdocsUnitedModel = {
   expandings: {},
   toggleExpanding: action((state, type) => {
     state.expandings[type] = !state.expandings[type]
-  }),
-  cleanExpandings: action((state) => {
-    for (const [key] of Object.entries(state.expandings)) {
-      state.expandings[key] = false
-    }
   }),
   expandByPath: action((state, path) => {
     const item = state.indexs.find((i) => i.path === path)

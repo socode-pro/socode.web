@@ -4,7 +4,7 @@ import groupBy from "lodash/groupBy"
 import shortid from "shortid"
 import Fuse from "fuse.js"
 import FuseHighlight from "../utils/fuse_highlight"
-import { setupPathParams } from "../utils/pathParam"
+import { setupPathParams, getPathParam } from "../utils/pathParam"
 import { StoreModel } from "./index"
 
 const fuseOptions: Fuse.IFuseOptions<DevdocEntrie> = {
@@ -61,7 +61,6 @@ export interface DevdocsModel {
 
   expandings: { [type: string]: boolean }
   toggleExpanding: Action<DevdocsModel, string>
-  cleanExpandings: Action<DevdocsModel>
   expandByPath: Action<DevdocsModel, string>
 
   currentPath: string
@@ -116,7 +115,6 @@ const devdocsModel: DevdocsModel = {
     } catch (err) {
       console.warn("DevdocsModel.loadIndex", err)
     }
-    actions.cleanExpandings()
     actions.setMenuLoading(false)
   }),
   menus: computed((state) =>
@@ -130,6 +128,10 @@ const devdocsModel: DevdocsModel = {
       if (target.payload.devdocs) {
         actions.loadIndex()
         actions.setDocs("")
+        const path = getPathParam("docspath")
+        if (path) {
+          actions.selectPath(path)
+        }
       }
     }
   ),
@@ -155,11 +157,6 @@ const devdocsModel: DevdocsModel = {
   toggleExpanding: action((state, type) => {
     state.expandings[type] = !state.expandings[type]
   }),
-  cleanExpandings: action((state) => {
-    for (const [key] of Object.entries(state.expandings)) {
-      state.expandings[key] = false
-    }
-  }),
   expandByPath: action((state, path) => {
     const item = state.indexs.find((i) => i.path === path)
     if (item) {
@@ -180,9 +177,7 @@ const devdocsModel: DevdocsModel = {
     state.docs = payload
   }),
 
-  selectPath: thunk(async (actions, path, { getState, getStoreState, getStoreActions }) => {
-    if (path === getState().currentPath) return
-
+  selectPath: thunk(async (actions, path, { getStoreState, getStoreActions }) => {
     setupPathParams({ docspath: path })
     actions.expandByPath(path)
     actions.setCurrentPath(path)
