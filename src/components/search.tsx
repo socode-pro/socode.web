@@ -193,7 +193,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [])
 
   useHotkeys(
-    "/",
+    "ctrl+k",
     () => {
       if (document.activeElement?.tagName !== "INPUT") {
         focusInput()
@@ -637,6 +637,11 @@ const SearchInput: React.FC = (): JSX.Element => {
                 />
               </div>
             )}
+
+            <div className={css.inphotkey}>
+              <span>CTRL</span>
+              <span className={css.keya}>K</span>
+            </div>
 
             {!displayKeys && currentKey.code === "devdocs" && (
               <Select

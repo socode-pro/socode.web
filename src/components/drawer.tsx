@@ -433,7 +433,7 @@ const Drawer: React.FC = (): JSX.Element => {
               <div className={css.section}>
                 <div className={css.label}>Searching</div>
                 <div>
-                  <span className={css.shortcut}>/</span>
+                  <span className={css.shortcut}>ctrl+k</span>
                   <span className={css.description}>{useIntl(Words.FocusToInput)}</span>
                 </div>
                 <div>
