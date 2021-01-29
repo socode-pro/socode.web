@@ -39,7 +39,7 @@ import { SKey, SKeyCategory, KeyPlaceholder } from "../utils/searchkeys"
 import useSKeyCategoryIntl from "../utils/searchkeysIntl"
 import { getAutocompleteTemplate, getAutocompleteUrl } from "../utils/algolia_template"
 import useHotkeys from "../utils/useHotkeys"
-import { StringEnumObjects, IntEnumObjects, isFirefox, isInStandaloneMode, isEdgeChromium } from "../utils/assist"
+import { StringEnumObjects, IntEnumObjects, isFirefox, isInStandaloneMode, isEdgeChromium, getCrossCtrl } from "../utils/assist"
 import { setupPathParams } from "../utils/pathParam"
 import { useStoreActions, useStoreState } from "../Store"
 import { SearchTimeRange, SocodeResult } from "../services/socode.service"
@@ -51,6 +51,7 @@ import { Suggester, SuggestItem } from "../services/suggest.service"
 import css from "./search.module.scss"
 import Loader1 from "./loader/loader1"
 
+const crossCtrl = getCrossCtrl()
 const GithubStars = lazy(() => import("./stars"))
 const Encode = lazy(() => import("./encode"))
 const CodeEditor = lazy(() => import("./code_editor"))
@@ -193,7 +194,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [])
 
   useHotkeys(
-    "ctrl+k",
+    crossCtrl? `${crossCtrl}+k`: '',
     () => {
       if (document.activeElement?.tagName !== "INPUT") {
         focusInput()
@@ -642,10 +643,10 @@ const SearchInput: React.FC = (): JSX.Element => {
               </div>
             )}
 
-            <div className={css.inphotkey}>
-              <span>CTRL</span>
+            {crossCtrl && <div className={css.inphotkey}>
+              <span>{crossCtrl}</span>
               <span className={css.keya}>K</span>
-            </div>
+            </div>}
 
             {!displayKeys && currentKey.code === "devdocs" && (
               <Select
