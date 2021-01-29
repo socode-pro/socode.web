@@ -2370,7 +2370,8 @@ const SKeys: SKey[] = [
       width: 80,
     },
     homelink: "https://yandex.ru/",
-    isSuggestable: true,
+    template: "https://yandex.ru/search/?text=%s",
+    // isSuggestable: true,
   },
 ]
 

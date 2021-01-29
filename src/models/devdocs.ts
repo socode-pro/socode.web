@@ -124,9 +124,9 @@ const devdocsModel: DevdocsModel = {
   ),
   onCurrentKeyChange: thunkOn(
     (actions, storeActions) => storeActions.searchKeys.setCurrentKey,
-    (actions, target) => {
+    async (actions, target) => {
       if (target.payload.devdocs) {
-        actions.loadIndex()
+        await actions.loadIndex()
         actions.setDocs("")
         const path = getPathParam("docspath")
         if (path) {

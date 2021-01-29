@@ -14,6 +14,8 @@ interface Props {
 const fuseOptions: Fuse.IFuseOptions<Link> = {
   keys: ["name", "label", "title"],
   threshold: 0.4,
+  minMatchCharLength: 2,
+  useExtendedSearch: true,
 }
 
 const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {

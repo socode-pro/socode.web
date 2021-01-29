@@ -17,7 +17,9 @@ interface Item {
 
 const fuseOptions: Fuse.IFuseOptions<Item> = {
   keys: ["text", "description"],
-  threshold: 0.6,
+  threshold: 0.3,
+  minMatchCharLength: 2,
+  useExtendedSearch: true,
 }
 
 interface Props {
@@ -26,7 +28,7 @@ interface Props {
     path: string
     lang: Language
   }>
-  query?: string
+  query: string
 }
 
 const getTags = (base: string, body: Element): NodeListOf<HTMLElement> => {

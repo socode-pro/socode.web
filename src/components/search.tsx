@@ -544,7 +544,11 @@ const SearchInput: React.FC = (): JSX.Element => {
                 <span className={css.name} onClick={() => setDisplayKeys(!displayKeys)}>
                   {currentKey.name}
                 </span>
-                {currentKey.template && (
+                {currentKey.template && 
+                (currentKey.devdocs !== undefined || 
+                currentKey.docsearch !== undefined || 
+                currentKey.awesome !== undefined || 
+                currentKey.cheatsheets !== undefined) && (
                   <span
                     className={cs(css.model, {
                       [css.active]: searchModel === SearchModel.Template,
@@ -972,7 +976,7 @@ const SearchInput: React.FC = (): JSX.Element => {
               <Readme
                 base={currentKey.readmes.base}
                 paths={currentKey.readmes.paths}
-                query={currentKey.readmes.searched ? squery : undefined}
+                query={currentKey.readmes.searched ? squery : ''}
               />
             )}
             {currentKey.code === "encode" && (
