@@ -8,6 +8,8 @@ import { StoreModel } from "./index"
 const fuseOptions: Fuse.IFuseOptions<SKey> = {
   keys: ["name", "shortkeys"],
   threshold: 0.3,
+  minMatchCharLength: 2,
+  useExtendedSearch: true,
 }
 
 export interface SearchKeysModel {

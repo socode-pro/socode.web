@@ -22,6 +22,8 @@ import Loader from "./loader/loader1"
 const fuseOptions: Fuse.IFuseOptions<Stack> = {
   keys: ["name", "repos"],
   threshold: 0.3,
+  minMatchCharLength: 2,
+  useExtendedSearch: true,
 }
 
 Chartkick.use(Highcharts)
