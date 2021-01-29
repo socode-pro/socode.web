@@ -13,9 +13,10 @@ import useIntl, { Words } from "../utils/useIntl"
 import { Settings, Profile } from "../models/profile"
 
 import { useStoreActions, useStoreState } from "../Store"
-import { StringEnumObjects, isEdgeChromium, isFirefox } from "../utils/assist"
+import { StringEnumObjects, isEdgeChromium, isFirefox, getCrossCtrl } from "../utils/assist"
 import css from "./drawer.module.scss"
 
+const crossCtrl = getCrossCtrl()
 const languageOptions = StringEnumObjects(InterfaceLanguage)
 let deferredPrompt
 
@@ -433,7 +434,7 @@ const Drawer: React.FC = (): JSX.Element => {
               <div className={css.section}>
                 <div className={css.label}>Searching</div>
                 <div>
-                  <span className={css.shortcut}>ctrl+k</span>
+                  {crossCtrl &&<span className={css.shortcut}>{crossCtrl}+k</span>}
                   <span className={css.description}>{useIntl(Words.FocusToInput)}</span>
                 </div>
                 <div>

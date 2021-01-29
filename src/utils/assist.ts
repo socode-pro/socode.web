@@ -48,3 +48,47 @@ export const isInStandaloneMode =
   document.referrer.includes("android-app://")
 
 export const isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox") > -1
+
+// https://stackoverflow.com/a/38241481
+enum OSPlatform {
+  UnKnow,
+  MacOS,
+  iOS,
+  Windows,
+  Android,
+  Linux,
+}
+
+const userAgent = window.navigator.userAgent
+const platform = window.navigator.platform
+const macosPlatforms = ["Macintosh", "MacIntel", "MacPPC", "Mac68K"]
+const windowsPlatforms = ["Win32", "Win64", "Windows", "WinCE"]
+const iosPlatforms = ["iPhone", "iPad", "iPod"]
+let os: OSPlatform = OSPlatform.UnKnow
+
+if (macosPlatforms.indexOf(platform) !== -1) {
+  os = OSPlatform.MacOS
+} else if (iosPlatforms.indexOf(platform) !== -1) {
+  os = OSPlatform.iOS
+} else if (windowsPlatforms.indexOf(platform) !== -1) {
+  os = OSPlatform.Windows
+} else if (/Android/.test(userAgent)) {
+  os = OSPlatform.Android
+} else if (/Linux/.test(platform)) {
+  os = OSPlatform.Linux
+}
+
+export const osPlatform = os
+
+export const getCrossCtrl = (): string => {
+  switch (osPlatform) {
+    case OSPlatform.Windows:
+      return "CTRL"
+    case OSPlatform.MacOS:
+      return "⌘"
+    case OSPlatform.Android:
+    case OSPlatform.iOS:
+    default:
+      return ""
+  }
+}
