@@ -572,15 +572,15 @@ const SKeys: SKey[] = [
     devdocs: "dom",
     cheatsheets: "dom-selection",
   },
-  {
-    name: "Code Editor",
-    code: "code_editor",
-    category: SKeyCategory.Tools,
-    shortkeys: "code",
-    icon: "editor.svg",
-    usage: true,
-    cnotAsDefault: true,
-  },
+  // {
+  //   name: "Code Editor",
+  //   code: "code_editor",
+  //   category: SKeyCategory.Tools,
+  //   shortkeys: "code",
+  //   icon: "editor.svg",
+  //   usage: true,
+  //   cnotAsDefault: true,
+  // },
   {
     name: "Electron",
     code: "electron",
@@ -2197,6 +2197,24 @@ const SKeys: SKey[] = [
     homelink: "https://www.terraform.io/",
     awesome: "shuaibiyy/awesome-terraform",
     devdocs: "terraform",
+  },
+  {
+    code: "tailwindcss",
+    name: "tailwindcss",
+    category: SKeyCategory.Document,
+    shortkeys: "tw",
+    icon: "tailwindcss.svg",
+    iconProps: {
+      backgroundSize: "34px",
+    },
+    homelink: "https://tailwindcss.com",
+    docsearch: [
+      {
+        lang: Language.English,
+        apiKey: "3df93446658cd9c4e314d4c02a052188",
+        indexName: "tailwindcss",
+      },
+    ],
   },
   {
     code: "taro",

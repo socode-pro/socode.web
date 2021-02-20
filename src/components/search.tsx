@@ -54,7 +54,7 @@ import Loader1 from "./loader/loader1"
 const crossCtrl = getCrossCtrl()
 const GithubStars = lazy(() => import("./stars"))
 const Encode = lazy(() => import("./encode"))
-const CodeEditor = lazy(() => import("./code_editor"))
+// const CodeEditor = lazy(() => import("./code_editor"))
 const MarkdownEditor = lazy(() => import("./markdown_editor"))
 
 const languageOptions = StringEnumObjects(Language)
@@ -348,8 +348,8 @@ const SearchInput: React.FC = (): JSX.Element => {
       clearResultAll()
       setSquery("")
       setKquery("")
+      setupPathParams({ key: key.code, query: "", docspath: "", docscode: "" })
       setCurrentKey(key)
-      setupPathParams({ key: key.code, query: "" })
       setKeyIndex(-1)
       setTimeout(() => focusInput(), 200)
     },
@@ -985,11 +985,11 @@ const SearchInput: React.FC = (): JSX.Element => {
                 <Encode />
               </Suspense>
             )}
-            {currentKey.code === "code_editor" && (
+            {/* {currentKey.code === "code_editor" && (
               <Suspense fallback={<Loader1 type={2} />}>
                 <CodeEditor />
               </Suspense>
-            )}
+            )} */}
             {currentKey.code === "markdown_editor" && (
               <Suspense fallback={<Loader1 type={2} />}>
                 <MarkdownEditor />
