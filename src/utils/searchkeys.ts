@@ -622,7 +622,7 @@ const SKeys: SKey[] = [
       width: 76,
     },
     homelink: "https://www.emberjs.com",
-    devdocs: "ember",
+    devdocs: "ember~3",
     cheatsheets: "ember",
     docsearch: [
       {
@@ -735,7 +735,7 @@ const SKeys: SKey[] = [
     shortkeys: "fs",
     icon: "fish.svg",
     homelink: "https://fishshell.com",
-    devdocs: "fish~3.1",
+    devdocs: "fish~3.2",
     cheatsheets: "fish-shell",
   },
   {
@@ -1068,7 +1068,7 @@ const SKeys: SKey[] = [
       backgroundSize: "1.6em",
     },
     homelink: "https://www.haskell.org",
-    devdocs: "haskell~8",
+    devdocs: "haskell~9",
   },
   {
     code: "hex",
@@ -1377,7 +1377,7 @@ const SKeys: SKey[] = [
     shortkeys: "ls",
     icon: "less.svg",
     homelink: "http://lesscss.org",
-    devdocs: "less~3",
+    devdocs: "less~4",
     cheatsheets: "less",
   },
   {
@@ -1703,7 +1703,7 @@ const SKeys: SKey[] = [
     icon: "postgresql.svg",
     homelink: "https://www.postgresql.org",
     awesome: "dhamaniasad/awesome-postgres",
-    devdocs: "postgresql~12",
+    devdocs: "postgresql~13",
     cheatsheets: "postgresql",
   },
   {
@@ -2240,7 +2240,7 @@ const SKeys: SKey[] = [
     icon: "tensorflow.svg",
     homelink: "https://www.tensorflow.org",
     awesome: "jtoy/awesome-tensorflow",
-    devdocs: "tensorflow~2.3",
+    devdocs: "tensorflow~2.4",
   },
   {
     code: "tools",
@@ -2307,7 +2307,7 @@ const SKeys: SKey[] = [
     homelink: "https://vuejs.org",
     awesome: "vuejs/awesome-vue",
     cheatsheets: "vue",
-    devdocs: "vue~2",
+    devdocs: "vue~3",
     docsearch: [
       {
         appId: "BH4D9OD16A",
