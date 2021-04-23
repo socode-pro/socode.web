@@ -474,7 +474,7 @@ const SKeys: SKey[] = [
     homelink: "https://www.djangoproject.com",
     awesome: "wsvincent/awesome-django",
     icon: "django.svg",
-    devdocs: "django~3.1",
+    devdocs: "django~3.2",
   },
   {
     code: "dogedoge",
@@ -1231,7 +1231,7 @@ const SKeys: SKey[] = [
     shortkeys: "jl",
     hideName: true,
     icon: "julia.svg",
-    devdocs: "julia~1.5",
+    devdocs: "julia~1.6",
   },
   {
     code: "koa",
