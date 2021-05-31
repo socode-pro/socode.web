@@ -608,7 +608,7 @@ const SKeys: SKey[] = [
     icon: "elixir.png",
     homelink: "https://elixir-lang.org/",
     awesome: "h4cc/awesome-elixir",
-    devdocs: "elixir~1.11",
+    devdocs: "elixir~1.12",
     cheatsheets: "elixir",
   },
   {
@@ -677,7 +677,7 @@ const SKeys: SKey[] = [
     shortkeys: "el",
     icon: "erlang.png",
     homelink: "https://www.erlang.org",
-    devdocs: "erlang~23",
+    devdocs: "erlang~24",
   },
   {
     code: "explainshell",
