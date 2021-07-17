@@ -230,6 +230,19 @@ const Stacks: Stack[] = [
     ],
   },
   {
+    id: "redux",
+    name: "Redux",
+    type: StackType.Frontend,
+    repos: [
+      "facebookexperimental/Recoil",
+      "pmndrs/zustand",
+      "ctrlplusb/easy-peasy",
+      "pmndrs/jotai",
+      "diegohaz/constate",
+      "rematch/rematch",
+    ],
+  },
+  {
     id: "vue-ui",
     name: "Vue UI",
     type: StackType.Frontend,
@@ -347,8 +360,8 @@ const Stacks: Stack[] = [
     id: "doc-website",
     name: "Documentation Website",
     type: StackType.Frontend,
-    repos: ["docsifyjs/docsify", "doczjs/docz", "facebook/Docusaurus", "sphinx-doc/sphinx"]
-  }
+    repos: ["docsifyjs/docsify", "doczjs/docz", "facebook/Docusaurus", "sphinx-doc/sphinx"],
+  },
 ]
 
 // console.log(JSON.stringify(Stacks))
