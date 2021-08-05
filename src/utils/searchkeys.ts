@@ -735,7 +735,7 @@ const SKeys: SKey[] = [
     shortkeys: "fs",
     icon: "fish.svg",
     homelink: "https://fishshell.com",
-    devdocs: "fish~3.2",
+    devdocs: "fish~3.3",
     cheatsheets: "fish-shell",
   },
   {
