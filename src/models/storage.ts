@@ -145,7 +145,8 @@ const storageModel: StorageModel = {
         const result = await ky.get("https://freegeoip.app/json").json<RegionData>()
         actions.setRegion(result)
       } catch (err2) {
-        warn(IpapiWarn, true)
+        console.warn(IpapiWarn)
+        // warn(IpapiWarn, true)
       }
     }
   }),
