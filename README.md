@@ -8,6 +8,7 @@
 ![Dependencies](https://img.shields.io/david/Derealize/derealize)
 ![Dev Dependencies](https://img.shields.io/david/dev/Derealize/derealize)
 [![license-mit](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/huhu/rust-search-extension/blob/master/LICENSE-MIT)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/849b52f9-6cde-4240-b203-527665fe7989/deploy-status)](https://app.netlify.com/sites/trusting-austin-65110a/deploys)
 [![Discord](https://img.shields.io/discord/674837663865372722)](https://discord.gg/NZgYrZcr8B)
 [![WeChat](https://aleen42.github.io/badges/src/wechat.svg)](https://keys.socode.pro/wechat.png)
 
