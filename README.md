@@ -29,3 +29,9 @@ $ cd socode.web
 $ npm install
 $ npm start
 ```
+
+## Todo
+
+- [ ] split searchkeys.ts into multiple independent files
+- [ ] [regular](https://github.com/gskinner/regexr/)
+- [ ] Publish to firefox/edge addons
