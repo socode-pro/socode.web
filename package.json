@@ -1,7 +1,7 @@
 {
   "name": "socode.web",
-  "version": "0.1.0",
-  "description": "Awesome Programming",
+  "version": "1.0.0",
+  "description": "searchbox for programming",
   "private": true,
   "homepage": "https://socode.pro",
   "scripts": {
@@ -87,7 +87,7 @@
   },
   "browserslist": {
     "production": [
-      "chrome 64",
+      "chrome 80",
       "firefox 70"
     ],
     "development": [
