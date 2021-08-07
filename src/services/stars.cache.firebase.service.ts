@@ -7,7 +7,7 @@ export default {}
 // import { Repository, getStarHistory, fetchCurrentStars } from "./stars.service"
 
 // const fbconfig = {
-//   apiKey: "***REMOVED***",
+//   apiKey: "AIzaSyBPuZu6gbYL_IxW6UCYusHHrbzxHpsWNSE",
 //   authDomain: "github-stars-history.firebaseapp.com",
 //   databaseURL: "https://github-stars-history.firebaseio.com",
 //   projectId: "github-stars-history",
