@@ -359,6 +359,13 @@ const Drawer: React.FC = (): JSX.Element => {
           <p className="menu-label">Footer</p>
           <a
             className={cs(css.navlink, css.footicon)}
+            href="https://github.com/socode-pro/socode.web"
+            target="_blank"
+            rel="noopener noreferrer">
+            <FontAwesomeIcon icon={faGithub} />
+          </a>
+          <a
+            className={cs(css.navlink, css.footicon)}
             href="https://www.producthunt.com/posts/socode-pro"
             target="_blank"
             rel="noopener noreferrer">
@@ -434,7 +441,7 @@ const Drawer: React.FC = (): JSX.Element => {
               <div className={css.section}>
                 <div className={css.label}>Searching</div>
                 <div>
-                  {crossCtrl &&<span className={css.shortcut}>{crossCtrl}+k</span>}
+                  {crossCtrl && <span className={css.shortcut}>{crossCtrl}+k</span>}
                   <span className={css.description}>{useIntl(Words.FocusToInput)}</span>
                 </div>
                 <div>
