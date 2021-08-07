@@ -32,6 +32,6 @@ $ npm start
 
 ## Todo
 
-- [ ] split searchkeys.ts into multiple independent files
+- [ ] split [searchkeys.ts](src/utils/searchkeys.ts) into multiple independent files
 - [ ] [regular](https://github.com/gskinner/regexr/)
 - [ ] Publish to firefox/edge addons
