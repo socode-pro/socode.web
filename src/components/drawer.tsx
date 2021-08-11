@@ -410,12 +410,7 @@ const Drawer: React.FC = (): JSX.Element => {
             />
           </div> */}
 
-          {/* <a>投放广告</a> */}
-          {language === InterfaceLanguage.中文 && (
-            <a className="mgl10" href="http://beian.miit.gov.cn/state/outPortal/loginPortal.action">
-              苏ICP备18044337号-2
-            </a>
-          )}
+          {/* <a>Sponsor</a> */}
           <p className={css.slogon}>Hack your life</p>
           <p className={css.principles}>and become a professional mistake maker.</p>
         </footer>
