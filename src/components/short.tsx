@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react"
-import ky from "ky"
+import ky, { HTTPError } from "ky"
 import debounce from "lodash/debounce"
 import ClipboardJS from "clipboard"
 import cs from "classnames"
 import { useStoreState } from "../Store"
 import css from "./short.module.scss"
+import { DebouncedFunc } from "lodash"
 
 interface RelResp {
   hashid: string
@@ -20,8 +21,8 @@ const Short: React.FC = (): JSX.Element => {
   const [shorturl, setShorturl] = useState("")
   const [tooltips, setTooltips] = useState(false)
 
-  const debounceQuery = useRef<(value: string) => Promise<void>>(
-    debounce<(value: string) => Promise<void>>(async (value) => {
+  const debounceQuery = useRef<DebouncedFunc<(value: string) => Promise<void>>>(
+    debounce<(value: string) => Promise<void>>(async (value: string) => {
       if (!value) return
       try {
         setError("")
@@ -39,7 +40,8 @@ const Short: React.FC = (): JSX.Element => {
           setShorturl("")
         }
       } catch (err) {
-        setError(err.message)
+        const error = err as HTTPError
+        setError(error.message)
         setShorturl("")
       }
       setLoading(false)
