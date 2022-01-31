@@ -127,7 +127,7 @@ const SKeys: SKey[] = [
     category: SKeyCategory.Document,
     shortkeys: "as",
     icon: "ansible.svg",
-    devdocs: "ansible~2.10",
+    devdocs: "ansible",
     cheatsheets: "ansible",
   },
   {
@@ -474,7 +474,7 @@ const SKeys: SKey[] = [
     homelink: "https://www.djangoproject.com",
     awesome: "wsvincent/awesome-django",
     icon: "django.svg",
-    devdocs: "django~3.2",
+    devdocs: "django~4.0",
   },
   // {
   //   code: "dogedoge",
@@ -565,7 +565,7 @@ const SKeys: SKey[] = [
   },
   {
     code: "dom",
-    name: "DOM",
+    name: "Web APIs",
     category: SKeyCategory.Document,
     shortkeys: "dom",
     icon: "html.svg",
@@ -1231,7 +1231,7 @@ const SKeys: SKey[] = [
     shortkeys: "jl",
     hideName: true,
     icon: "julia.svg",
-    devdocs: "julia~1.6",
+    devdocs: "julia~1.7",
   },
   {
     code: "koa",
@@ -1257,7 +1257,7 @@ const SKeys: SKey[] = [
     icon: "kotlin.svg",
     homelink: "https://kotlinlang.org",
     awesome: "KotlinBy/awesome-kotlin",
-    devdocs: "kotlin",
+    devdocs: "kotlin~1.6",
     cheatsheets: "kotlin",
     docsearch: [
       {
@@ -1632,7 +1632,7 @@ const SKeys: SKey[] = [
     shortkeys: "pl",
     icon: "perl.svg",
     homelink: "https://www.perl.org",
-    devdocs: "perl~5.32",
+    devdocs: "perl~5.34",
   },
   {
     code: "pipenv",
@@ -1703,7 +1703,7 @@ const SKeys: SKey[] = [
     icon: "postgresql.svg",
     homelink: "https://www.postgresql.org",
     awesome: "dhamaniasad/awesome-postgres",
-    devdocs: "postgresql~13",
+    devdocs: "postgresql~14",
     cheatsheets: "postgresql",
   },
   {
@@ -1761,7 +1761,7 @@ const SKeys: SKey[] = [
     icon: "python.svg",
     homelink: "https://python.org",
     awesome: "vinta/awesome-python",
-    devdocs: "python~3.9",
+    devdocs: "python~3.10",
     template: "https://python.org/search/?q=%s",
     cheatsheets: "python",
   },
@@ -1831,7 +1831,7 @@ const SKeys: SKey[] = [
     icon: "rails.svg",
     homelink: "https://www.ruby-lang.org",
     awesome: "markets/awesome-ruby",
-    devdocs: "rails~6.1",
+    devdocs: "rails~7.0",
     cheatsheets: "rails",
   },
   {
@@ -2367,16 +2367,16 @@ const SKeys: SKey[] = [
       },
     ],
   },
-  {
-    code: "yarn",
-    name: "yarn",
-    category: SKeyCategory.Document,
-    shortkeys: "yr",
-    icon: "yarn.svg",
-    homelink: "https://yarnpkg.com",
-    devdocs: "yarn",
-    cheatsheets: "yarn",
-  },
+  // {
+  //   code: "yarn",
+  //   name: "yarn",
+  //   category: SKeyCategory.Document,
+  //   shortkeys: "yr",
+  //   icon: "yarn.svg",
+  //   homelink: "https://yarnpkg.com",
+  //   devdocs: "yarn",
+  //   cheatsheets: "yarn",
+  // },
   {
     code: "yandex",
     name: "Яндекс",
