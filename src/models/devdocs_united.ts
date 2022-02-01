@@ -23,7 +23,7 @@ const fuseOptions: Fuse.IFuseOptions<DevdocEntrieWithKey> = {
 
 const getEntrieUrl = (entrie: DevdocEntrie, meta: DevdocMeta | undefined): string | undefined => {
   if (!meta || (meta.links && meta.links.disableUrl)) return undefined
-  if (!entrie.url) return undefined
+  if (!entrie.url || !meta.links) return undefined
 
   if (meta.links.home_matchs) {
     let result
