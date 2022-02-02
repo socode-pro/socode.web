@@ -32,7 +32,6 @@ const Drawer: React.FC = (): JSX.Element => {
 
   const [tooltips, setTooltips] = useState(false)
   const [shareMenu, setShareMenu] = useState(false)
-  const [showPWA, setShowPWA] = useState(true)
 
   const [profileMenu, setProfileMenu] = useState(false)
   const [shortcut, setShortcut] = useState(false)
@@ -50,14 +49,17 @@ const Drawer: React.FC = (): JSX.Element => {
 
     // https://web.dev/customize-install/
     window.addEventListener("beforeinstallprompt", (e) => {
-      e.preventDefault()
+      // e.preventDefault()
       deferredPrompt = e
-      setShowPWA(true)
+    })
+
+    window.addEventListener("appinstalled", () => {
+      console.log("PWA was installed")
+      deferredPrompt = null
     })
   }, [])
 
   const InstallPWA = useCallback(() => {
-    setShowPWA(false)
     if (deferredPrompt) {
       deferredPrompt.prompt()
       deferredPrompt.userChoice.then((choiceResult) => {
@@ -215,7 +217,7 @@ const Drawer: React.FC = (): JSX.Element => {
           </ul>
           <p className="menu-label">Aside</p>
           <ul className="menu-list">
-            {showPWA && (
+            {!!deferredPrompt && (
               <li>
                 <a className={cs(css.navlink, css.pwa)} onClick={() => InstallPWA()}>
                   <h3>Install the PWA</h3>
