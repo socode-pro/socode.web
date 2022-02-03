@@ -73,9 +73,9 @@ const searchKeysModel: SearchKeysModel = {
       (state) => state.keys,
       (state) => state.pins,
       (state, storeState) => storeState.profile.settings.language,
-      (state, storeState) => storeState.storage.ousideFirewall,
+      (state, storeState) => storeState.storage.insideFirewall,
     ],
-    (keys, pins, language, ousideFirewall) => {
+    (keys, pins, language, insideFirewall) => {
       const computedKeys = keys.filter((key) => {
         if (key.availableLang) {
           return key.availableLang === language
@@ -83,7 +83,7 @@ const searchKeysModel: SearchKeysModel = {
         if (key.disableLang) {
           return key.disableLang !== language
         }
-        if (key.firewalled && !ousideFirewall) {
+        if (key.firewalled && insideFirewall) {
           return false
         }
         return true

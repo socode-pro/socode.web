@@ -63,9 +63,9 @@ export interface StorageModel {
   setRegion: Action<StorageModel, RegionData>
   judgeRegion: Thunk<StorageModel>
 
-  ousideFirewall: boolean
-  setOusideFirewall: Action<StorageModel, boolean>
-  judgeOusideFirewall: Thunk<StorageModel>
+  insideFirewall: boolean
+  setInsideFirewall: Action<StorageModel, boolean>
+  judgeInsideFirewall: Thunk<StorageModel>
 
   metas: DevdocMeta[]
   setMetas: Action<StorageModel, DevdocMeta[]>
@@ -153,19 +153,19 @@ const storageModel: StorageModel = {
     }
   }),
 
-  ousideFirewall: localStorage.getItem("ousideFirewall") !== "false",
-  setOusideFirewall: action((state, payload) => {
-    state.ousideFirewall = payload
-    localStorage.setItem("ousideFirewall", payload.toString())
+  insideFirewall: localStorage.getItem("insideFirewall") === "true",
+  setInsideFirewall: action((state, payload) => {
+    state.insideFirewall = payload
+    localStorage.setItem("insideFirewall", payload.toString())
   }),
-  judgeOusideFirewall: thunk(async (actions) => {
+  judgeInsideFirewall: thunk(async (actions) => {
     try {
       await ky("//ajax.googleapis.com/ajax/libs/scriptaculous/1.9.0/scriptaculous.js", {
         timeout: 4000,
       })
-      actions.setOusideFirewall(true)
+      actions.setInsideFirewall(false)
     } catch (err) {
-      actions.setOusideFirewall(false)
+      actions.setInsideFirewall(true)
     }
 
     // try {
@@ -173,19 +173,19 @@ const storageModel: StorageModel = {
     //   await ky("//graph.facebook.com/feed?callback=h", {
     //     timeout: 4000,
     //   })
-    //   actions.setOusideFirewall(true)
+    //   actions.setInsideFirewall(false)
     // } catch (err) {
-    //   actions.setOusideFirewall(false)
+    //   actions.setInsideFirewall(true)
     // }
 
     // 图片资源会导致浏览器UI处于loading状态
     // https://segmentfault.com/q/1010000005061694
     // const image = new Image()
     // image.onload = () => {
-    //   actions.setOusideFirewall(true)
+    //   actions.setInsideFirewall(false)
     // }
     // image.onerror = () => {
-    //   actions.setOusideFirewall(false)
+    //   actions.setInsideFirewall(true)
     // }
     // image.src = "http://youtube.com/favicon.ico"
   }),

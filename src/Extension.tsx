@@ -46,7 +46,7 @@ const useIntl = (words: Words): string => {
 
 const Extension: React.FC = () => {
   const { language } = useStoreState<Settings>((state) => state.profile.settings)
-  const ousideFirewall = useStoreState<boolean>((state) => state.storage.ousideFirewall)
+  const insideFirewall = useStoreState<boolean>((state) => state.storage.insideFirewall)
   const [{ xys }, setXys] = useSpring(() => ({
     xys: [0, 0, 1],
     config: { mass: 5, tension: 350, friction: 40 },
@@ -103,19 +103,19 @@ const Extension: React.FC = () => {
               onMouseLeave={() => setXys({ xys: [0, 0, 1] })}>
               <a
                 className={cs(css.arrow, {
-                  [css.edge]: isEdgeChromium && !ousideFirewall,
+                  [css.edge]: isEdgeChromium && insideFirewall,
                   [css.firefox]: isFirefox,
                 })}
                 href={
                   isFirefox
                     ? "https://addons.mozilla.org/zh-CN/firefox/addon/socode/"
-                    : // : isEdgeChromium && !ousideFirewall
+                    : // : isEdgeChromium && insideFirewall
                     // ? "https://microsoftedge.microsoft.com/addons/detail/dkeiglafihicmjbbaoopggfnifgjekcl"
-                    ousideFirewall
-                    ? "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
-                    : "https://www.crx4chrome.com/crx/196956/"
+                    insideFirewall
+                    ? "https://www.crx4chrome.com/crx/196956/"
+                    : "https://chrome.google.com/webstore/detail/hlkgijncpebndijijbcakkcefmpniacd/"
                 }>
-                <h3>Install to {isFirefox ? "Firefox" : isEdgeChromium && !ousideFirewall ? "Edge" : "Chrome"}</h3>
+                <h3>Install to {isFirefox ? "Firefox" : isEdgeChromium && insideFirewall ? "Edge" : "Chrome"}</h3>
               </a>
             </animated.div>
             <p className={cs(css.otherlinks, "mgt20")}>

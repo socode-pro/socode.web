@@ -29,8 +29,8 @@ const readmeModel: ReadmeModel = {
   getMarkdown: thunk(async (actions, { base, path }, { getStoreState }) => {
     if (!path) return
 
-    const ousideFirewall = getStoreState().storage.ousideFirewall
-    const domain = ousideFirewall ? "https://raw.githubusercontent.com" : `${process.env.REACT_APP_NEST}/firewall`
+    const insideFirewall = getStoreState().storage.insideFirewall
+    const domain = insideFirewall ? `${process.env.REACT_APP_NEST}/firewall` : "https://raw.githubusercontent.com"
 
     actions.setLoading(true)
     const name = base + path

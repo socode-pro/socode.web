@@ -11,7 +11,7 @@ let deferredPrompt
 
 const ExtArrow: React.FC = (): JSX.Element => {
   const { language } = useStoreState<Settings>((state) => state.profile.settings)
-  const ousideFirewall = useStoreState<boolean>((state) => state.storage.ousideFirewall)
+  const insideFirewall = useStoreState<boolean>((state) => state.storage.insideFirewall)
   const [showPWA, setShowPWA] = useState(false)
 
   // https://web.dev/customize-install/
@@ -56,7 +56,7 @@ const ExtArrow: React.FC = (): JSX.Element => {
         <Link
           to="/extension"
           className={cs(css.arrow, {
-            [css.edge]: isEdgeChromium && !ousideFirewall,
+            [css.edge]: isEdgeChromium && insideFirewall,
             [css.firefox]: isFirefox,
           })}>
           <h3>Search Documents in AddressBar</h3>
