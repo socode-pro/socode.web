@@ -127,7 +127,7 @@ const storageModel: StorageModel = {
     }
 
     try {
-      const result = await ky.get("https://www.cloudflare.com/cdn-cgi/trace").text()
+      const result = await ky.get("https://1.1.1.1/cdn-cgi/trace").text()
       const resultLines = result.split(/\r?\n/)
 
       const locline = resultLines.find((l) => l.startsWith("loc"))
@@ -142,7 +142,9 @@ const storageModel: StorageModel = {
     } catch (err) {
       console.warn(err)
       try {
-        const result = await ky.get("https://freegeoip.app/json").json<RegionData>()
+        const result = await ky
+          .get("https://api.freegeoip.app/json/?apikey=3f8fb190-8494-11ec-a263-3f394ab48586")
+          .json<RegionData>()
         actions.setRegion(result)
       } catch (err2) {
         console.warn(IpapiWarn)
