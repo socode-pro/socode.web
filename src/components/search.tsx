@@ -39,7 +39,14 @@ import { SKey, SKeyCategory, KeyPlaceholder } from "../utils/searchkeys"
 import useSKeyCategoryIntl from "../utils/searchkeysIntl"
 import { getAutocompleteTemplate, getAutocompleteUrl } from "../utils/algolia_template"
 import useHotkeys from "../utils/useHotkeys"
-import { StringEnumObjects, IntEnumObjects, isFirefox, isInStandaloneMode, isEdgeChromium, getCrossCtrl } from "../utils/assist"
+import {
+  StringEnumObjects,
+  IntEnumObjects,
+  isFirefox,
+  isInStandaloneMode,
+  isEdgeChromium,
+  getCrossCtrl,
+} from "../utils/assist"
 import { setupPathParams } from "../utils/pathParam"
 import { useStoreActions, useStoreState } from "../Store"
 import { SearchTimeRange, SocodeResult } from "../services/socode.service"
@@ -107,7 +114,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   const docLanguage = useStoreState<Language>((state) => state.search.docLanguage)
   const setDocLanguage = useStoreActions((actions) => actions.search.setDocLanguage)
 
-  const ousideFirewall = useStoreState<boolean>((state) => state.storage.ousideFirewall)
+  const insideFirewall = useStoreState<boolean>((state) => state.storage.insideFirewall)
   const programLanguage = useStoreState<ProgramLanguage>((state) => state.storage.programLanguage)
   const setProgramLanguage = useStoreActions((actions) => actions.storage.setProgramLanguage)
   const { language, displayTrending, addressBarKeys } = useStoreState<Settings>((state) => state.profile.settings)
@@ -194,7 +201,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [])
 
   useHotkeys(
-    crossCtrl? `${crossCtrl}+k`: '',
+    crossCtrl ? `${crossCtrl}+k` : "",
     () => {
       if (document.activeElement?.tagName !== "INPUT") {
         focusInput()
@@ -545,21 +552,21 @@ const SearchInput: React.FC = (): JSX.Element => {
                 <span className={css.name} onClick={() => setDisplayKeys(!displayKeys)}>
                   {currentKey.name}
                 </span>
-                {currentKey.template && 
-                (currentKey.devdocs !== undefined || 
-                currentKey.docsearch !== undefined || 
-                currentKey.awesome !== undefined || 
-                currentKey.cheatsheets !== undefined) && (
-                  <span
-                    className={cs(css.model, {
-                      [css.active]: searchModel === SearchModel.Template,
-                    })}
-                    onClick={(e) => {
-                      setSearchModels({ code: currentKey.code, model: SearchModel.Template })
-                    }}>
-                    <FontAwesomeIcon icon={faSearch} className={css.searchModel} />
-                  </span>
-                )}
+                {currentKey.template &&
+                  (currentKey.devdocs !== undefined ||
+                    currentKey.docsearch !== undefined ||
+                    currentKey.awesome !== undefined ||
+                    currentKey.cheatsheets !== undefined) && (
+                    <span
+                      className={cs(css.model, {
+                        [css.active]: searchModel === SearchModel.Template,
+                      })}
+                      onClick={(e) => {
+                        setSearchModels({ code: currentKey.code, model: SearchModel.Template })
+                      }}>
+                      <FontAwesomeIcon icon={faSearch} className={css.searchModel} />
+                    </span>
+                  )}
                 {currentKey.devdocs && (
                   <span
                     className={cs(css.model, {
@@ -643,10 +650,12 @@ const SearchInput: React.FC = (): JSX.Element => {
               </div>
             )}
 
-            {crossCtrl && <div className={css.inphotkey}>
-              <span>{crossCtrl}</span>
-              <span className={css.keya}>K</span>
-            </div>}
+            {crossCtrl && (
+              <div className={css.inphotkey}>
+                <span>{crossCtrl}</span>
+                <span className={css.keya}>K</span>
+              </div>
+            )}
 
             {!displayKeys && currentKey.code === "devdocs" && (
               <Select
@@ -915,7 +924,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                       <div className={css.skey}>
                         <a
                           className={cs(css.skname, css.newtab, {
-                            [css.edge]: isEdgeChromium && !ousideFirewall,
+                            [css.edge]: isEdgeChromium && insideFirewall,
                             [css.firefox]: isFirefox,
                           })}
                           href={
@@ -941,7 +950,7 @@ const SearchInput: React.FC = (): JSX.Element => {
                       <div className={css.skey}>
                         <a
                           className={cs(css.skname, css.chrome, {
-                            [css.edge]: isEdgeChromium && !ousideFirewall,
+                            [css.edge]: isEdgeChromium && insideFirewall,
                             [css.firefox]: isFirefox,
                           })}
                           href="/extension">
@@ -958,52 +967,53 @@ const SearchInput: React.FC = (): JSX.Element => {
             </div>
           )}
 
-          {!displayKeys && <>
-            {currentKey.code === "cheatsheets" && <CheatSheets query={squery} />}
-            {searchModel === SearchModel.Cheatsheets && <CheatSheetsItem />}
-            {currentKey.code === "rework" && <Rework />}
-            {currentKey.code === "tools" && <Tools query={squery} />}
-            {currentKey.code === "github_stars" && (
-              <Suspense fallback={<Loader1 type={2} />}>
-                <GithubStars query={squery} />
-              </Suspense>
-            )}
-            {currentKey.devdocs && searchModel === SearchModel.Devdocs && <Devdocs />}
-            {currentKey.code === "devdocs" && <DevdocsUnited />}
-            {searchModel === SearchModel.Awesome && currentKey.awesome && (
-              <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} query={squery} />
-            )}
-            {currentKey.readmes && (
-              <Readme
-                base={currentKey.readmes.base}
-                paths={currentKey.readmes.paths}
-                query={currentKey.readmes.searched ? squery : ''}
-              />
-            )}
-            {currentKey.code === "encode" && (
-              <Suspense fallback={<Loader1 type={2} />}>
-                <Encode />
-              </Suspense>
-            )}
-            {/* {currentKey.code === "code_editor" && (
+          {!displayKeys && (
+            <>
+              {currentKey.code === "cheatsheets" && <CheatSheets query={squery} />}
+              {searchModel === SearchModel.Cheatsheets && <CheatSheetsItem />}
+              {currentKey.code === "rework" && <Rework />}
+              {currentKey.code === "tools" && <Tools query={squery} />}
+              {currentKey.code === "github_stars" && (
+                <Suspense fallback={<Loader1 type={2} />}>
+                  <GithubStars query={squery} />
+                </Suspense>
+              )}
+              {currentKey.devdocs && searchModel === SearchModel.Devdocs && <Devdocs />}
+              {currentKey.code === "devdocs" && <DevdocsUnited />}
+              {searchModel === SearchModel.Awesome && currentKey.awesome && (
+                <Awesome name={currentKey.shortkeys} awesome={currentKey.awesome} query={squery} />
+              )}
+              {currentKey.readmes && (
+                <Readme
+                  base={currentKey.readmes.base}
+                  paths={currentKey.readmes.paths}
+                  query={currentKey.readmes.searched ? squery : ""}
+                />
+              )}
+              {currentKey.code === "encode" && (
+                <Suspense fallback={<Loader1 type={2} />}>
+                  <Encode />
+                </Suspense>
+              )}
+              {/* {currentKey.code === "code_editor" && (
               <Suspense fallback={<Loader1 type={2} />}>
                 <CodeEditor />
               </Suspense>
             )} */}
-            {currentKey.code === "markdown_editor" && (
-              <Suspense fallback={<Loader1 type={2} />}>
-                <MarkdownEditor />
-              </Suspense>
-            )}
-            {currentKey.code === "password" && <Password />}
-            {currentKey.code === "qrcode" && (
-              <div className="tac">
-                <canvas id="qrcode" />
-              </div>
-            )}
-            {currentKey.code === "url" && <Short />}
+              {currentKey.code === "markdown_editor" && (
+                <Suspense fallback={<Loader1 type={2} />}>
+                  <MarkdownEditor />
+                </Suspense>
+              )}
+              {currentKey.code === "password" && <Password />}
+              {currentKey.code === "qrcode" && (
+                <div className="tac">
+                  <canvas id="qrcode" />
+                </div>
+              )}
+              {currentKey.code === "url" && <Short />}
 
-            {/* {result !== null && (
+              {/* {result !== null && (
               <div className={css.searchResult}>
                 {result.results.map((r) => (
                   <div key={r.url} className={css.result}>
@@ -1050,64 +1060,65 @@ const SearchInput: React.FC = (): JSX.Element => {
               </div>
             )} */}
 
-            {npmResult !== null && (
-              <div className={css.searchResult}>
-                {npmResult.results.map((r) => (
-                  <div key={r.package.links.npm} className={css.result}>
-                    <h4 className={css.header}>
-                      <a href={r.package.links.npm} target="_blank" rel="noopener noreferrer">
-                        {r.package.name}
-                      </a>
-                    </h4>
-                    <p className={css.content}>{r.package.description}</p>
-                    <p className={css.infos}>
-                      <a
-                        href={r.package.links.repository}
-                        className={css.github}
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        <FontAwesomeIcon icon={faGithub} />
-                      </a>
-                      <span className="mgr10">{r.package.version}</span>
-                      <span className="mgr10">{r.package.publisher?.username}</span>
-                      <span>{dayjs(r.package.date).format("YYYY-M-D")}</span>
-                    </p>
+              {npmResult !== null && (
+                <div className={css.searchResult}>
+                  {npmResult.results.map((r) => (
+                    <div key={r.package.links.npm} className={css.result}>
+                      <h4 className={css.header}>
+                        <a href={r.package.links.npm} target="_blank" rel="noopener noreferrer">
+                          {r.package.name}
+                        </a>
+                      </h4>
+                      <p className={css.content}>{r.package.description}</p>
+                      <p className={css.infos}>
+                        <a
+                          href={r.package.links.repository}
+                          className={css.github}
+                          target="_blank"
+                          rel="noopener noreferrer">
+                          <FontAwesomeIcon icon={faGithub} />
+                        </a>
+                        <span className="mgr10">{r.package.version}</span>
+                        <span className="mgr10">{r.package.publisher?.username}</span>
+                        <span>{dayjs(r.package.date).format("YYYY-M-D")}</span>
+                      </p>
+                    </div>
+                  ))}
+
+                  <div className={cs(css.pagination, "field has-addons")}>
+                    {pageno !== 1 && (
+                      <p className="control">
+                        <button type="button" className="button is-rounded" onClick={() => prevPage()}>
+                          <span className="icon">
+                            <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                          </span>
+                          <span>Previous Page</span>
+                        </button>
+                      </p>
+                    )}
+                    {npmResult.total > pageno * 10 && (
+                      <p className="control">
+                        <button type="button" className="button is-rounded" onClick={() => nextPage()}>
+                          <span>Next Page</span>
+                          <span className="icon">
+                            <FontAwesomeIcon icon={faAngleDoubleRight} />
+                          </span>
+                        </button>
+                      </p>
+                    )}
                   </div>
-                ))}
 
-                <div className={cs(css.pagination, "field has-addons")}>
-                  {pageno !== 1 && (
-                    <p className="control">
-                      <button type="button" className="button is-rounded" onClick={() => prevPage()}>
-                        <span className="icon">
-                          <FontAwesomeIcon icon={faAngleDoubleLeft} />
-                        </span>
-                        <span>Previous Page</span>
-                      </button>
-                    </p>
-                  )}
-                  {npmResult.total > pageno * 10 && (
-                    <p className="control">
-                      <button type="button" className="button is-rounded" onClick={() => nextPage()}>
-                        <span>Next Page</span>
-                        <span className="icon">
-                          <FontAwesomeIcon icon={faAngleDoubleRight} />
-                        </span>
-                      </button>
-                    </p>
-                  )}
+                  {npmResult.results.length === 0 && <div className={css.notFound}>not found anything.</div>}
                 </div>
+              )}
 
-                {npmResult.results.length === 0 && <div className={css.notFound}>not found anything.</div>}
-              </div>
-            )}
-
-            {(result !== null || npmResult !== null) && (
-              <div className={css.closer} onClick={clearResultAll}>
-                <a className="delete is-medium" />
-              </div>
-            )}
-          </>}
+              {(result !== null || npmResult !== null) && (
+                <div className={css.closer} onClick={clearResultAll}>
+                  <a className="delete is-medium" />
+                </div>
+              )}
+            </>
+          )}
 
           {error !== null && <div className={css.error}>{error instanceof String ? error : error.message}</div>}
 
