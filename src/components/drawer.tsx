@@ -21,7 +21,7 @@ const languageOptions = StringEnumObjects(InterfaceLanguage)
 let deferredPrompt
 
 const Drawer: React.FC = (): JSX.Element => {
-  const ousideFirewall = useStoreState<boolean>((state) => state.storage.ousideFirewall)
+  const insideFirewall = useStoreState<boolean>((state) => state.storage.insideFirewall)
   const setSettings = useStoreActions((actions) => actions.profile.setSettings)
   const { language, openNewPage, displayTrending } = useStoreState<Settings>((state) => state.profile.settings)
   const profile = useStoreState<Profile | null>((state) => state.profile.profile)
@@ -232,7 +232,7 @@ const Drawer: React.FC = (): JSX.Element => {
             <li>
               <Link
                 className={cs(css.navlink, css.chrome, {
-                  [css.edge]: isEdgeChromium && !ousideFirewall,
+                  [css.edge]: isEdgeChromium && insideFirewall,
                   [css.firefox]: isFirefox,
                 })}
                 to="/extension">
