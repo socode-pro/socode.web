@@ -311,7 +311,7 @@ const SKeys: SKey[] = [
     icon: "clojure.svg",
     homelink: "https://clojure.org",
     awesome: "razum2um/awesome-clojure",
-    devdocs: "clojure~1.10",
+    devdocs: "clojure~1.11",
   },
   {
     code: "command",
@@ -462,6 +462,16 @@ const SKeys: SKey[] = [
     ],
   },
   {
+    code: "deno",
+    name: "Deno",
+    category: SKeyCategory.Document,
+    shortkeys: "dn",
+    homelink: "https://deno.land",
+    awesome: "denolib/awesome-deno",
+    icon: "Deno.svg",
+    devdocs: "deno",
+  },
+  {
     code: "django",
     name: "Django",
     category: SKeyCategory.Document,
@@ -474,7 +484,7 @@ const SKeys: SKey[] = [
     homelink: "https://www.djangoproject.com",
     awesome: "wsvincent/awesome-django",
     icon: "django.svg",
-    devdocs: "django~4.0",
+    devdocs: "django~4.1",
   },
   // {
   //   code: "dogedoge",
@@ -534,7 +544,7 @@ const SKeys: SKey[] = [
     },
     homelink: "https://docs.docker.com",
     awesome: "veggiemonk/awesome-docker",
-    devdocs: "docker~19",
+    devdocs: "docker",
     cheatsheets: "docker",
     // template: 'https://docs.docker.com/search/?q=%s',
   },
@@ -608,7 +618,7 @@ const SKeys: SKey[] = [
     icon: "elixir.png",
     homelink: "https://elixir-lang.org/",
     awesome: "h4cc/awesome-elixir",
-    devdocs: "elixir~1.12",
+    devdocs: "elixir~1.13",
     cheatsheets: "elixir",
   },
   {
@@ -648,6 +658,15 @@ const SKeys: SKey[] = [
     cnotAsDefault: true,
   },
   {
+    code: "esbuild",
+    name: "esbuild",
+    category: SKeyCategory.Document,
+    shortkeys: "eb",
+    icon: "esbuild.svg",
+    homelink: "https://esbuild.github.io/",
+    devdocs: "esbuild",
+  },
+  {
     code: "eslint",
     name: "ESLint",
     category: SKeyCategory.Document,
@@ -677,7 +696,7 @@ const SKeys: SKey[] = [
     shortkeys: "el",
     icon: "erlang.png",
     homelink: "https://www.erlang.org",
-    devdocs: "erlang~24",
+    devdocs: "erlang~25",
   },
   {
     code: "explainshell",
@@ -735,7 +754,7 @@ const SKeys: SKey[] = [
     shortkeys: "fs",
     icon: "fish.svg",
     homelink: "https://fishshell.com",
-    devdocs: "fish~3.3",
+    devdocs: "fish~3.5",
     cheatsheets: "fish-shell",
   },
   {
@@ -1138,7 +1157,7 @@ const SKeys: SKey[] = [
     shortkeys: "jv",
     icon: "java.png",
     awesome: "akullpp/awesome-java",
-    devdocs: "openjdk~8",
+    devdocs: "openjdk~18",
     template: "https://docs.oracle.com/apps/search/search.jsp?category=java&q=%s",
   },
   {
@@ -1257,7 +1276,7 @@ const SKeys: SKey[] = [
     icon: "kotlin.svg",
     homelink: "https://kotlinlang.org",
     awesome: "KotlinBy/awesome-kotlin",
-    devdocs: "kotlin~1.6",
+    devdocs: "kotlin~1.7",
     cheatsheets: "kotlin",
     docsearch: [
       {
@@ -1268,6 +1287,17 @@ const SKeys: SKey[] = [
         byAutocomplete: true,
       },
     ],
+  },
+  {
+    code: "k8s",
+    name: "Kubernetes",
+    category: SKeyCategory.Document,
+    hideName: true,
+    shortkeys: "k8s",
+    icon: "Kubernetes.svg",
+    homelink: "https://kubernetes.io",
+    awesome: "ramitsurana/awesome-kubernetes",
+    devdocs: "kubernetes",
   },
   // learnxiny: {
   //     //   name: 'Learn X in Y minutes',
@@ -1632,7 +1662,7 @@ const SKeys: SKey[] = [
     shortkeys: "pl",
     icon: "perl.svg",
     homelink: "https://www.perl.org",
-    devdocs: "perl~5.34",
+    devdocs: "perl~5.36",
   },
   {
     code: "pipenv",
@@ -1976,7 +2006,7 @@ const SKeys: SKey[] = [
     icon: "ruby.svg",
     homelink: "https://www.ruby-lang.org",
     awesome: "markets/awesome-ruby",
-    devdocs: "ruby~3",
+    devdocs: "ruby~3.1",
     cheatsheets: "ruby",
     template: "https://cse.google.com/cse?q=%s&cx=013598269713424429640%3Ag5orptiw95w",
   },
@@ -2037,7 +2067,7 @@ const SKeys: SKey[] = [
     },
     homelink: "https://www.scala-lang.org",
     awesome: "lauris/awesome-scala",
-    devdocs: "scala~2.13_library",
+    devdocs: "scala~3.1",
     docsearch: [
       {
         lang: Language.English,
@@ -2207,6 +2237,7 @@ const SKeys: SKey[] = [
     iconProps: {
       backgroundSize: "34px",
     },
+    devdocs: "tailwindcss",
     homelink: "https://tailwindcss.com",
     docsearch: [
       {
@@ -2240,7 +2271,7 @@ const SKeys: SKey[] = [
     icon: "tensorflow.svg",
     homelink: "https://www.tensorflow.org",
     awesome: "jtoy/awesome-tensorflow",
-    devdocs: "tensorflow~2.4",
+    devdocs: "tensorflow~2.9",
   },
   {
     code: "tools",
@@ -2296,6 +2327,25 @@ const SKeys: SKey[] = [
     homelink: "https://www.utf8icons.com",
     template: "https://www.utf8icons.com/search?query=%s",
     tooltips: "Search UTF-8 icons",
+  },
+  {
+    code: "vite",
+    name: "Vite",
+    category: SKeyCategory.Document,
+    shortkeys: "vt",
+    icon: "vite.svg",
+    homelink: "https://vitejs.dev/",
+    awesome: "vitejs/awesome-vite",
+    devdocs: "vite",
+    docsearch: [
+      {
+        lang: Language.English,
+        appId: "7H67QR5P0A",
+        apiKey: "deaab78bcdfe96b599497d25acc6460e",
+        indexName: "vitejs",
+        algoliaOptions: { facetFilters: ["tags:en"] },
+      },
+    ],
   },
   {
     code: "vue",
