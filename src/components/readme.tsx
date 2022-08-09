@@ -161,7 +161,7 @@ const Readme: React.FC<Props> = ({ base, paths, query }: Props): JSX.Element => 
           </select>
         </div>
       )}
-      {markup && <Markup content={markup} attributes={{ className: "markdown-body" }} />}
+      {markup && <Markup content={markup} tagName="div" attributes={{ className: "markdown-body" }} />}
     </>
   )
 }
