@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import cs from "classnames"
-import marked from "marked"
+import { marked } from "marked"
 import Fuse from "fuse.js"
 import { Markup } from "interweave"
 import { isRelationHref, transRelationHref } from "../utils/assist"

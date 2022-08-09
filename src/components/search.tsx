@@ -284,7 +284,7 @@ const SearchInput: React.FC = (): JSX.Element => {
     if (!dsConfig || !docsearchHack || searchModel !== SearchModel.Algolia) return
 
     if (dsConfig.byAutocomplete) {
-      const client = algoliasearch(dsConfig.appId, dsConfig.apiKey)
+      const client = algoliasearch(dsConfig.appId || "", dsConfig.apiKey)
       const index = client.initIndex(dsConfig.indexName)
 
       autocomplete(

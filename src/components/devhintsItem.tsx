@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import cs from "classnames"
 import { Markup } from "interweave"
 
-import hljs from "highlight.js/lib/highlight"
+import hljs from "highlight.js"
 import javascript from "highlight.js/lib/languages/javascript"
 import java from "highlight.js/lib/languages/java"
 import python from "highlight.js/lib/languages/python"
@@ -10,7 +10,7 @@ import hlcss from "highlight.js/lib/languages/css"
 import php from "highlight.js/lib/languages/php"
 import ruby from "highlight.js/lib/languages/ruby"
 import shell from "highlight.js/lib/languages/shell"
-import csharp from "highlight.js/lib/languages/cs"
+import csharp from "highlight.js/lib/languages/csharp"
 import swift from "highlight.js/lib/languages/swift"
 import go from "highlight.js/lib/languages/go"
 import scala from "highlight.js/lib/languages/scala"
@@ -78,7 +78,7 @@ const DevhintsItem: React.FC = (): JSX.Element => {
       if (mainDoc) {
         wrapify(mainDoc)
         mainDoc.querySelectorAll("pre code").forEach((block) => {
-          hljs.highlightBlock(block)
+          hljs.highlightBlock(block as HTMLElement)
         })
         setMarkup(mainDoc.outerHTML)
       } else {
@@ -86,7 +86,7 @@ const DevhintsItem: React.FC = (): JSX.Element => {
         if (postDoc) {
           addClass(postDoc, "single")
           postDoc.querySelectorAll("pre code").forEach((block) => {
-            hljs.highlightBlock(block)
+            hljs.highlightBlock(block as HTMLElement)
           })
           setMarkup(postDoc.outerHTML)
         }
@@ -100,7 +100,7 @@ const DevhintsItem: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <Markup content={markup} attributes={{ className: cs(css.cheatsheets) }} />
+      <Markup content={markup} tagName="div" attributes={{ className: cs(css.cheatsheets) }} />
       <p className={cs(css.devhints)}>
         <a href="https://devhints.io/" target="_blank" rel="noopener noreferrer">
           powered by devhints
