@@ -1,12 +1,3 @@
-export interface Link {
-  name: string
-  href: string
-  label?: string
-  category?: ToolCategory
-  elite?: boolean
-  title?: string
-}
-
 export enum ToolCategory {
   Playground,
   PlaygroundBackend,
@@ -18,6 +9,15 @@ export enum ToolCategory {
   Encode,
   Diff,
   Minifier,
+}
+
+export interface Link {
+  name: string
+  href: string
+  label?: string
+  category?: ToolCategory
+  elite?: boolean
+  title?: string
 }
 
 export const Grids: Array<Link> = [

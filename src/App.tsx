@@ -8,21 +8,19 @@ import Extension from "./Extension"
 import NoMatch from "./utils/NoMatch"
 import "./styles/app.global.scss"
 
-const App: React.FC = () => {
-  return (
-    <div className="app">
-      <StoreProvider store={store}>
-        <BrowserRouter>
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/privacy" component={Privacy} />
-            <Route path="/extension" component={Extension} />
-            <Route component={NoMatch} />
-          </Switch>
-        </BrowserRouter>
-      </StoreProvider>
-    </div>
-  )
-}
+const App: React.FC = () => (
+  <div className="app">
+    <StoreProvider store={store}>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/privacy" component={Privacy} />
+          <Route path="/extension" component={Extension} />
+          <Route component={NoMatch} />
+        </Switch>
+      </BrowserRouter>
+    </StoreProvider>
+  </div>
+)
 
 export default App

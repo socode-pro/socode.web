@@ -310,23 +310,19 @@ const SearchInput: React.FC = (): JSX.Element => {
     let customConfig = {}
     if (currentKey.code === "eslint" && dsConfig.lang === Language.中文_简体) {
       customConfig = {
-        transformData: (hits) => {
-          return hits.map((hit) => {
+        transformData: (hits) => hits.map((hit) => {
             hit.url = hit.url.replace("https://eslint.org", "https://cn.eslint.org")
             return hit
-          })
-        },
+          }),
       }
     } else if (currentKey.code === "gradle") {
       customConfig = {
-        transformData: (hits) => {
-          return hits.map((hit) => {
+        transformData: (hits) => hits.map((hit) => {
             if (hit.anchor.substring(0, 10) === "org.gradle") {
               hit.hierarchy.lvl0 = "DSL Reference"
             }
             return hit
-          })
-        },
+          }),
       }
     }
 
@@ -390,8 +386,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   )
 
   const keysDom = useCallback(
-    (gkeys: SKey[]) => {
-      return gkeys.map((key, i) => {
+    (gkeys: SKey[]) => gkeys.map((key, i) => {
         let tooltipProps = {}
         if (key.tooltipsCN && language === InterfaceLanguage.中文) {
           tooltipProps = { "data-tooltip": key.tooltipsCN }
@@ -436,8 +431,7 @@ const SearchInput: React.FC = (): JSX.Element => {
             </div>
           </div>
         )
-      })
-    },
+      }),
     [language, kquery, keyIndex, changeKey, removePin, addPin]
   )
 
@@ -541,8 +535,7 @@ const SearchInput: React.FC = (): JSX.Element => {
   }, [])
 
   return (
-    <>
-      <div className={cs("container", { [css.expendWidth]: expandWidthView })}>
+    <div className={cs("container", { [css.expendWidth]: expandWidthView })}>
         {!expandView && <Brand />}
         <animated.div className={cs(css.searchWapper, { [css.focus]: focus })} style={{ top: spring.wapperTop }}>
           <div className={cs(css.searchInput)}>
@@ -1136,7 +1129,6 @@ const SearchInput: React.FC = (): JSX.Element => {
             currentKey.code === "npms" ||
             currentKey.code === "devdocs") && <Trending />}
       </div>
-    </>
   )
 }
 

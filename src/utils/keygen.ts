@@ -1,12 +1,10 @@
-const generateS4 = (): string => {
-  return Math.floor((1 + Math.random()) * 0x10000)
+const generateS4 = (): string =>
+  Math.floor((1 + Math.random()) * 0x10000)
     .toString(16)
     .substring(1)
-}
 
-export const generateUuid = (): string => {
-  return `${generateS4()}${generateS4()}-${generateS4()}-${generateS4()}-${generateS4()}-${generateS4()}${generateS4()}${generateS4()}`
-}
+export const generateUuid = (): string =>
+  `${generateS4()}${generateS4()}-${generateS4()}-${generateS4()}-${generateS4()}-${generateS4()}${generateS4()}${generateS4()}`
 
 const lowerCase = "abcdefghijklmnopqrstuvwxyz"
 const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

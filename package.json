@@ -27,9 +27,13 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
     "@testing-library/user-event": "^14.4.2",
+    "@toast-ui/editor": "^3.2.0",
     "@toast-ui/editor-plugin-code-syntax-highlight": "^3.1.0",
     "@toast-ui/editor-plugin-uml": "^3.0.1",
     "@toast-ui/react-editor": "^3.2.0",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.2",
+    "@types/react-router-dom": "^5.3.3",
     "algoliasearch": "^4.14.2",
     "autocomplete.js": "^0.38.1",
     "bulma": "^0.9.4",
@@ -64,10 +68,7 @@
     "react-spring": "^9.0.0-beta.34",
     "shortid": "^2.2.16",
     "source-map-explorer": "^2.5.2",
-    "typescript": "^4.7.4",
-    "@types/react": "^17.0.2",
-    "@types/react-dom": "^17.0.2",
-    "@types/react-router-dom": "^5.3.3"
+    "typescript": "^4.7.4"
   },
   "devDependencies": {
     "@types/jest": "^28.1.6",

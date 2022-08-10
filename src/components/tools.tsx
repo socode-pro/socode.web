@@ -65,20 +65,18 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
               <article className="tile is-child">
                 <p className="title is-5">Playground</p>
                 <div className={cs(css.collection, "content")}>
-                  {playground.map((a) => {
-                    return (
-                      <a
-                        key={a.href}
-                        title={a.title || a.label}
-                        className={cs({ [css.elite]: a.elite })}
-                        href={a.href}
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        {a.name}
-                        {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
-                      </a>
-                    )
-                  })}
+                  {playground.map((a) => (
+                    <a
+                      key={a.href}
+                      title={a.title || a.label}
+                      className={cs({ [css.elite]: a.elite })}
+                      href={a.href}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      {a.name}
+                      {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
+                    </a>
+                  ))}
                 </div>
               </article>
             </div>
@@ -86,20 +84,18 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
               <article className="tile is-child">
                 <p className="title is-5">Generator</p>
                 <div className={cs(css.collection, "content")}>
-                  {generator.map((a) => {
-                    return (
-                      <a
-                        key={a.href}
-                        title={a.title || a.label}
-                        className={cs({ [css.elite]: a.elite })}
-                        href={a.href}
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        {a.name}
-                        {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
-                      </a>
-                    )
-                  })}
+                  {generator.map((a) => (
+                    <a
+                      key={a.href}
+                      title={a.title || a.label}
+                      className={cs({ [css.elite]: a.elite })}
+                      href={a.href}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      {a.name}
+                      {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
+                    </a>
+                  ))}
                 </div>
               </article>
             </div>
@@ -110,20 +106,18 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
               <article className="tile is-child">
                 <p className="title is-5">Playground Backend</p>
                 <div className={cs(css.collection, "content")}>
-                  {playgroundBackend.map((a) => {
-                    return (
-                      <a
-                        key={a.href}
-                        title={a.title || a.label}
-                        className={cs({ [css.elite]: a.elite })}
-                        href={a.href}
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        {a.name}
-                        {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
-                      </a>
-                    )
-                  })}
+                  {playgroundBackend.map((a) => (
+                    <a
+                      key={a.href}
+                      title={a.title || a.label}
+                      className={cs({ [css.elite]: a.elite })}
+                      href={a.href}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      {a.name}
+                      {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
+                    </a>
+                  ))}
                 </div>
               </article>
             </div>
@@ -132,20 +126,18 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
               <article className="tile is-child">
                 <p className="title is-5">Validators</p>
                 <div className={cs(css.collection, "content")}>
-                  {validator.map((a) => {
-                    return (
-                      <a
-                        key={a.href}
-                        title={a.title || a.label}
-                        className={cs({ [css.elite]: a.elite })}
-                        href={a.href}
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        {a.name}
-                        {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
-                      </a>
-                    )
-                  })}
+                  {validator.map((a) => (
+                    <a
+                      key={a.href}
+                      title={a.title || a.label}
+                      className={cs({ [css.elite]: a.elite })}
+                      href={a.href}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      {a.name}
+                      {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
+                    </a>
+                  ))}
                 </div>
               </article>
             </div>
@@ -156,20 +148,18 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
               <article className="tile is-child">
                 <p className="title is-5">Minifier/Optimizer</p>
                 <div className={cs(css.collection, "content")}>
-                  {minifier.map((a) => {
-                    return (
-                      <a
-                        key={a.href}
-                        title={a.title || a.label}
-                        className={cs({ [css.elite]: a.elite })}
-                        href={a.href}
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        {a.name}
-                        {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
-                      </a>
-                    )
-                  })}
+                  {minifier.map((a) => (
+                    <a
+                      key={a.href}
+                      title={a.title || a.label}
+                      className={cs({ [css.elite]: a.elite })}
+                      href={a.href}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      {a.name}
+                      {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
+                    </a>
+                  ))}
                 </div>
               </article>
             </div>
@@ -177,20 +167,18 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
               <article className="tile is-child">
                 <p className="title is-5">Diff</p>
                 <div className={cs(css.collection, "content")}>
-                  {diffs.map((a) => {
-                    return (
-                      <a
-                        key={a.href}
-                        title={a.title || a.label}
-                        className={cs({ [css.elite]: a.elite })}
-                        href={a.href}
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        {a.name}
-                        {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
-                      </a>
-                    )
-                  })}
+                  {diffs.map((a) => (
+                    <a
+                      key={a.href}
+                      title={a.title || a.label}
+                      className={cs({ [css.elite]: a.elite })}
+                      href={a.href}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      {a.name}
+                      {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
+                    </a>
+                  ))}
                 </div>
               </article>
             </div>
@@ -202,52 +190,7 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                 <article className="tile is-child">
                   <p className="title is-5">String</p>
                   <div className={cs(css.collection, "content")}>
-                    {strings.map((a) => {
-                      return (
-                        <a
-                          key={a.href}
-                          title={a.title || a.label}
-                          className={cs({ [css.elite]: a.elite })}
-                          href={a.href}
-                          target="_blank"
-                          rel="noopener noreferrer">
-                          {a.name}
-                          {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
-                        </a>
-                      )
-                    })}
-                  </div>
-                </article>
-              </div>
-              <div className="tile is-parent">
-                <article className="tile is-child">
-                  <p className="title is-5">Encode/Escape</p>
-                  <div className={cs(css.collection, "content")}>
-                    {encodes.map((a) => {
-                      return (
-                        <a
-                          key={a.href}
-                          title={a.title || a.label}
-                          className={cs({ [css.elite]: a.elite })}
-                          href={a.href}
-                          target="_blank"
-                          rel="noopener noreferrer">
-                          {a.name}
-                          {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
-                        </a>
-                      )
-                    })}
-                  </div>
-                </article>
-              </div>
-            </div>
-
-            <div className="tile is-parent">
-              <article className="tile is-child">
-                <p className="title is-5">Unit Converter</p>
-                <div className={cs(css.collection, "content")}>
-                  {unitConverter.map((a) => {
-                    return (
+                    {strings.map((a) => (
                       <a
                         key={a.href}
                         title={a.title || a.label}
@@ -258,8 +201,47 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
                         {a.name}
                         {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
                       </a>
-                    )
-                  })}
+                    ))}
+                  </div>
+                </article>
+              </div>
+              <div className="tile is-parent">
+                <article className="tile is-child">
+                  <p className="title is-5">Encode/Escape</p>
+                  <div className={cs(css.collection, "content")}>
+                    {encodes.map((a) => (
+                      <a
+                        key={a.href}
+                        title={a.title || a.label}
+                        className={cs({ [css.elite]: a.elite })}
+                        href={a.href}
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        {a.name}
+                        {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
+                      </a>
+                    ))}
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <div className="tile is-parent">
+              <article className="tile is-child">
+                <p className="title is-5">Unit Converter</p>
+                <div className={cs(css.collection, "content")}>
+                  {unitConverter.map((a) => (
+                    <a
+                      key={a.href}
+                      title={a.title || a.label}
+                      className={cs({ [css.elite]: a.elite })}
+                      href={a.href}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      {a.name}
+                      {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
+                    </a>
+                  ))}
                 </div>
               </article>
             </div>
@@ -271,20 +253,18 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
             <article className="tile is-child">
               <p className="title is-5">Converter</p>
               <div className={cs(css.collection, "content")}>
-                {converter.map((a) => {
-                  return (
-                    <a
-                      key={a.href}
-                      title={a.title || a.label}
-                      className={cs({ [css.elite]: a.elite })}
-                      href={a.href}
-                      target="_blank"
-                      rel="noopener noreferrer">
-                      {a.name}
-                      {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
-                    </a>
-                  )
-                })}
+                {converter.map((a) => (
+                  <a
+                    key={a.href}
+                    title={a.title || a.label}
+                    className={cs({ [css.elite]: a.elite })}
+                    href={a.href}
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    {a.name}
+                    {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
+                  </a>
+                ))}
               </div>
             </article>
           </div>
@@ -293,20 +273,18 @@ const Tools: React.FC<Props> = ({ query }: Props): JSX.Element => {
             <article className="tile is-child">
               <p className="title is-5">Other</p>
               <div className={cs(css.collection, "content")}>
-                {others.map((a) => {
-                  return (
-                    <a
-                      key={a.href}
-                      title={a.title || a.label}
-                      className={cs({ [css.elite]: a.elite })}
-                      href={a.href}
-                      target="_blank"
-                      rel="noopener noreferrer">
-                      {a.name}
-                      {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
-                    </a>
-                  )
-                })}
+                {others.map((a) => (
+                  <a
+                    key={a.href}
+                    title={a.title || a.label}
+                    className={cs({ [css.elite]: a.elite })}
+                    href={a.href}
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    {a.name}
+                    {a.elite && <FontAwesomeIcon icon={faThumbsUp} />}
+                  </a>
+                ))}
               </div>
             </article>
           </div>

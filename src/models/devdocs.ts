@@ -7,14 +7,6 @@ import FuseHighlight from "../utils/fuse_highlight"
 import { setupPathParams, getPathParam } from "../utils/pathParam"
 import { StoreModel } from "./index"
 
-const fuseOptions: Fuse.IFuseOptions<DevdocEntrie> = {
-  keys: ["name", "type"],
-  threshold: 0.3,
-  includeMatches: true,
-  minMatchCharLength: 2,
-  useExtendedSearch: true,
-}
-
 export interface DevdocEntrie {
   name: string
   path: string
@@ -23,6 +15,13 @@ export interface DevdocEntrie {
   id: string
 }
 
+const fuseOptions: Fuse.IFuseOptions<DevdocEntrie> = {
+  keys: ["name", "type"],
+  threshold: 0.3,
+  includeMatches: true,
+  minMatchCharLength: 2,
+  useExtendedSearch: true,
+}
 export interface DevdocIndex {
   entries: Array<DevdocEntrie>
   types: Array<{

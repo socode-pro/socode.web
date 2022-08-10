@@ -103,46 +103,44 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
   )
 
   const Repositories = useCallback(
-    (s: Stack) => {
-      return (
-        <div className={css.repos}>
-          {s.repos.map((repo) => (
-            <p key={repo} className={css.repo}>
-              <a href={`https://github.com/${repo}`} target="_blank" rel="noopener noreferrer">
-                {repo}
-              </a>
-              {s.type === StackType.Private && (
-                <FontAwesomeIcon
-                  icon={faWindowClose}
-                  onClick={() => {
-                    removePrivateStackRepo({ stackid: s.id, repo })
-                  }}
-                  className={css.faclose}
-                />
-              )}
+    (s: Stack) => (
+      <div className={css.repos}>
+        {s.repos.map((repo) => (
+          <p key={repo} className={css.repo}>
+            <a href={`https://github.com/${repo}`} target="_blank" rel="noopener noreferrer">
+              {repo}
+            </a>
+            {s.type === StackType.Private && (
+              <FontAwesomeIcon
+                icon={faWindowClose}
+                onClick={() => {
+                  removePrivateStackRepo({ stackid: s.id, repo })
+                }}
+                className={css.faclose}
+              />
+            )}
+          </p>
+        ))}
+        {s.type === StackType.Private && (
+          <div className="field has-addons">
+            <p className="control is-expanded">
+              <input
+                className="input is-small"
+                type="text"
+                placeholder="username/repositorie"
+                value={inputRepoName}
+                onChange={(e) => setInputRepoName(e.target.value)}
+              />
             </p>
-          ))}
-          {s.type === StackType.Private && (
-            <div className="field has-addons">
-              <p className="control is-expanded">
-                <input
-                  className="input is-small"
-                  type="text"
-                  placeholder="username/repositorie"
-                  value={inputRepoName}
-                  onChange={(e) => setInputRepoName(e.target.value)}
-                />
-              </p>
-              <p className="control">
-                <a className="button is-info is-small" onClick={() => submitRepo(s.id)}>
-                  Add
-                </a>
-              </p>
-            </div>
-          )}
-        </div>
-      )
-    },
+            <p className="control">
+              <a className="button is-info is-small" onClick={() => submitRepo(s.id)}>
+                Add
+              </a>
+            </p>
+          </div>
+        )}
+      </div>
+    ),
     [inputRepoName, removePrivateStackRepo, submitRepo]
   )
 
@@ -156,8 +154,8 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
     })
   }, [currentStack?.name])
 
-  const LineChartMemoized = useMemo(() => {
-    return (
+  const LineChartMemoized = useMemo(
+    () => (
       <LineChart
         innerRef={chartEl}
         library={highchartsConfig}
@@ -166,8 +164,9 @@ const Stars: React.FC<Props> = ({ query }: Props): JSX.Element => {
         width="100%"
         ytitle="Stars"
       />
-    )
-  }, [repositorys])
+    ),
+    [repositorys]
+  )
 
   return (
     <div className={cs("columns", css.history)}>

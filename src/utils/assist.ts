@@ -1,22 +1,19 @@
 import dayjs from "dayjs"
 
-export const HumanDateParse = (date): string => {
-  return dayjs(date).format("M月d日 HH:mm")
-}
+export const HumanDateParse = (date): string => dayjs(date).format("M月d日 HH:mm")
 
-export const sleep = (ms): Promise<void> => {
-  return new Promise((r) => setTimeout(r, ms))
-}
+export const sleep = (ms): Promise<void> =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => resolve(), ms)
+  })
 
-export const StringEnumObjects = (enumme, prefix?: string): Array<{ label: string; value: string }> => {
-  return Object.keys(enumme).map((key, i) => ({ label: i === 0 && prefix ? prefix + key : key, value: enumme[key] }))
-}
+export const StringEnumObjects = (enumme, prefix?: string): Array<{ label: string; value: string }> =>
+  Object.keys(enumme).map((key, i) => ({ label: i === 0 && prefix ? prefix + key : key, value: enumme[key] }))
 
-export const IntEnumObjects = (enumme, prefix?: string): Array<{ label: string; value: number }> => {
-  return Object.keys(enumme)
+export const IntEnumObjects = (enumme, prefix?: string): Array<{ label: string; value: number }> =>
+  Object.keys(enumme)
     .filter((value) => !Number.isNaN(Number(value)))
     .map((key, i) => ({ label: i === 0 && prefix ? prefix + enumme[key] : enumme[key], value: parseInt(key, 10) }))
-}
 
 export const isRelationHref = (href: string): boolean =>
   !href.startsWith("http") && !href.startsWith("/?") && !href.startsWith("#")

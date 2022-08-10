@@ -21,9 +21,7 @@ const fuseOptions: Fuse.IFuseOptions<SearchItem> = {
   useExtendedSearch: true,
 }
 
-const getTags = (body: Element): NodeListOf<HTMLElement> => {
-  return body.querySelectorAll("ul>li a[href]") as NodeListOf<HTMLElement>
-}
+const getTags = (body: Element): NodeListOf<HTMLElement> => body.querySelectorAll("ul>li a[href]") as NodeListOf<HTMLElement>
 
 const changeTag = (tag: HTMLElement, display: string): void => {
   if (tag.parentElement) {

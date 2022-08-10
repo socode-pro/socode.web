@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 export const reworkUrl = (data): string => data.permalink
 export const rework = (data): string => {
   const template = `<a href='${reworkUrl(data)}' class='rework-item tile' target='_blank'>
