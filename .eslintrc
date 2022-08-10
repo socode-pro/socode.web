@@ -4,9 +4,7 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript",
-    "prettier",
-    "prettier/react",
-    "prettier/@typescript-eslint"
+    "prettier"
   ],
   "plugins": ["@typescript-eslint", "react-hooks", "prettier"],
   "parser": "@typescript-eslint/parser",
@@ -46,6 +44,18 @@
     "no-nested-ternary": "off",
     "no-unused-expressions": ["warn", { "allowShortCircuit": true, "allowTernary": true }],
     "no-restricted-syntax": "off",
-    "prefer-destructuring": ["error", { "AssignmentExpression": { "array": false } }]
+    "prefer-destructuring": ["error", { "AssignmentExpression": { "array": false } }],
+
+    "no-shadow": "off", // bug: https://stackoverflow.com/a/63961972
+    "@typescript-eslint/no-shadow": ["error"],
+
+    // https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/function-component-definition.md#rule-options
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ]
   }
 }

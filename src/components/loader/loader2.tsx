@@ -3,9 +3,7 @@ import cs from 'classnames'
 import css from './loader2.module.scss'
 
 // https://codepen.io/golle404/pen/oxpmbM
-const Loader2: React.FC<{ type: number }> = ({ type }: { type: number }): JSX.Element => {
-
-  return (
+const Loader2: React.FC<{ type: number }> = ({ type }: { type: number }): JSX.Element => (
     <div className={css.container}>
       {type === 1 && <div className={cs(css.cell, css.type1)}>
         <div className={css.loader}>
@@ -39,7 +37,6 @@ const Loader2: React.FC<{ type: number }> = ({ type }: { type: number }): JSX.El
         </div>
       </div>}
     </div>
-  );
-}
+  )
 
 export default Loader2

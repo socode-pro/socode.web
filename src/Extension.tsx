@@ -57,8 +57,8 @@ const Extension: React.FC = () => {
   }, [])
 
   const keysDom = useCallback(
-    (gkeys: SKey[]) => {
-      return gkeys.map((key, i) => {
+    (gkeys: SKey[]) =>
+      gkeys.map((key) => {
         let tooltipProps = {}
         if (key.tooltipsCN && language === InterfaceLanguage.中文) {
           tooltipProps = { "data-tooltip": key.tooltipsCN }
@@ -77,8 +77,7 @@ const Extension: React.FC = () => {
             </a>
           </div>
         )
-      })
-    },
+      }),
     [language]
   )
 
@@ -99,7 +98,7 @@ const Extension: React.FC = () => {
                 ),
               }}
               // 362 是目标的横轴线离屏幕上边距距离。纵轴线在这里无法计算 https://codesandbox.io/embed/rj998k4vmm
-              onMouseMove={({ clientX: x, clientY: y }) => setXys({ xys: [-(y - 362) / 20, 0, 1.05] })}
+              onMouseMove={({ clientY: y }) => setXys({ xys: [-(y - 362) / 20, 0, 1.05] })}
               onMouseLeave={() => setXys({ xys: [0, 0, 1] })}>
               <a
                 className={cs(css.arrow, {

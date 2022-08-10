@@ -2,9 +2,7 @@ import React from 'react'
 import css from './loader3.module.scss'
 
 // https://codepen.io/abergin/pen/XpwRpE
-const Loader3: React.FC = (): JSX.Element => {
-
-  return (
+const Loader3: React.FC = (): JSX.Element => (
     <div className={css.container}>
     <div className={css.loader}>
       <svg>
@@ -18,7 +16,6 @@ const Loader3: React.FC = (): JSX.Element => {
       </svg>
     </div>
     </div>
-  );
-}
+  )
 
 export default Loader3

@@ -3,9 +3,9 @@ import ky, { HTTPError } from "ky"
 import debounce from "lodash/debounce"
 import ClipboardJS from "clipboard"
 import cs from "classnames"
+import { DebouncedFunc } from "lodash"
 import { useStoreState } from "../Store"
 import css from "./short.module.scss"
-import { DebouncedFunc } from "lodash"
 
 interface RelResp {
   hashid: string
@@ -40,8 +40,8 @@ const Short: React.FC = (): JSX.Element => {
           setShorturl("")
         }
       } catch (err) {
-        const error = err as HTTPError
-        setError(error.message)
+        const herr = err as HTTPError
+        setError(herr.message)
         setShorturl("")
       }
       setLoading(false)
@@ -67,6 +67,7 @@ const Short: React.FC = (): JSX.Element => {
         data-tooltip={tooltips ? "Copied!" : null}>
         <input
           id="shorturl"
+          placeholder="Paste a URL to shorten"
           className="input is-medium"
           onClick={(e) => (e.target as HTMLInputElement).select()}
           value={shorturl}

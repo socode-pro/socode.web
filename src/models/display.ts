@@ -60,13 +60,8 @@ const displayModel: DisplayModel = {
       (state, storeState) => storeState.search.result,
       (state, storeState) => storeState.search.npmResult,
     ],
-    (expandView, displaySubtitle, result, npmResult) => {
-      return expandView || (result?.results.length || npmResult?.results.length || 0) > 0
-        ? -6
-        : displaySubtitle
-        ? 150
-        : 130
-    }
+    (expandView, displaySubtitle, result, npmResult) =>
+      expandView || (result?.results.length || npmResult?.results.length || 0) > 0 ? -6 : displaySubtitle ? 150 : 130
   ),
 
   expandWidthView: false,

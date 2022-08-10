@@ -1,5 +1,5 @@
 import { Action, action, Computed, computed, Thunk, thunk, ActionOn, actionOn } from "easy-peasy"
-import ky from "ky"
+import ky, { HTTPError } from "ky"
 import Stacks, { Stack, StackType } from "../utils/historystacks"
 import { setupPathParams } from "../utils/pathParam"
 import { generateUuid } from "../utils/keygen"
@@ -154,10 +154,10 @@ const starsModel: StarsModel = {
         }
       }
     } catch (err) {
-      if (err.message.startsWith("Unfortunately")) {
-        warn(err.message)
+      if ((err as HTTPError).message.startsWith("Unfortunately")) {
+        warn((err as HTTPError).message)
       } else {
-        error(err.message)
+        error((err as HTTPError).message)
       }
     }
     actions.setLoading(false)
@@ -194,7 +194,7 @@ const starsModel: StarsModel = {
     const stackid = searchParams.get("stack")
     let stack = getState().displayStacks.find((s) => s.id === stackid)
     if (stack) {
-      actions.setDisplayType((stack.type as unknown) as DisplayType)
+      actions.setDisplayType(stack.type as unknown as DisplayType)
       actions.selectStack(stack)
     } else {
       const repos = (searchParams.get("repos") || "").split(",")
@@ -250,10 +250,10 @@ const starsModel: StarsModel = {
             }
           }
         } catch (err) {
-          if (err.message.startsWith("Unfortunately")) {
-            warn(err.message)
+          if ((err as HTTPError).message.startsWith("Unfortunately")) {
+            warn((err as HTTPError).message)
           } else {
-            error(err.message)
+            error((err as HTTPError).message)
           }
         }
       })

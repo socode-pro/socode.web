@@ -26,8 +26,8 @@ const highlightedText = (inputText: string, regions: ReadonlyArray<RangeTuple>, 
   return content
 }
 
-const FuseHighlight = <T extends object>(result: Fuse.FuseResult<T>[], tags: TagTuple): Array<T> => {
-  return result.map(({ item, matches }) => {
+const FuseHighlight = <T extends object>(result: Fuse.FuseResult<T>[], tags: TagTuple): Array<T> =>
+  result.map(({ item, matches }) => {
     const highlightedItem = { ...item }
     if (matches) {
       matches.forEach((match: Fuse.FuseResultMatch) => {
@@ -38,6 +38,5 @@ const FuseHighlight = <T extends object>(result: Fuse.FuseResult<T>[], tags: Tag
     }
     return highlightedItem
   })
-}
 
 export default FuseHighlight

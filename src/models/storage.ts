@@ -9,7 +9,7 @@ import { warn } from "../utils/toast"
 const IpapiWarn =
   "Failed to get your region info, which can help us use the cache closer to you. Maybe it's because your ad block plugin blocked the ipapi.co domain"
 
-let UrlParmsSolved = false
+// let UrlParmsSolved = false
 
 export enum SearchModel {
   Devdocs,

@@ -167,12 +167,10 @@ export const getStarHistory = async (repoName: string, userToken?: string): Prom
     const data: Array<HistoryItem> = responses[i]
     return query.dataIndexes
       .filter(index => index < data.length) // skip latest not full pages
-      .map(index => {
-        return {
+      .map(index => ({
           date: data[index].starred_at.slice(0, 10),
           starNum: 30 * (query.pageIndex - 1) + index,
-        }
-      })
+        }))
   })
 
   // stars number for today (better view for repos with too much stars (>40000))
