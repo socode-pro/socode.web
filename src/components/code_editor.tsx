@@ -84,9 +84,9 @@ const CodeEditor: React.FC = (): JSX.Element => {
             value={examples[language].trim().replace(/^ {4}/gm, "")}
             options={{
               scrollBeyondLastLine: false,
-              wordWrap,
+              wordWrap: wordWrap ? "on" : "off",
             }}
-            editorDidMount={editorDidMount}
+            onMount={editorDidMount}
           />
         )}
         {isDiff && (
@@ -99,9 +99,9 @@ const CodeEditor: React.FC = (): JSX.Element => {
             modifiedLanguage={languages.find((o) => o.id === language)?.name}
             options={{
               scrollBeyondLastLine: false,
-              wordWrap,
+              wordWrap: wordWrap ? "on" : "off",
             }}
-            editorDidMount={editorDidMount}
+            onMount={editorDidMount}
           />
         )}
       </div>

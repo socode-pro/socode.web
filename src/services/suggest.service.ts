@@ -39,16 +39,14 @@ export interface NpmsIOItem {
 const NpmSuggester = async (q: string): Promise<Array<SuggestItem>> => {
   try {
     const data = await api.get(`https://api.npms.io/v2/search/suggestions?size=7&q=${q}`).json<NpmsIOItem[]>()
-    return data.map((d) => {
-      return {
+    return data.map((d) => ({
         name: d.package.name,
         version: d.package.version,
         description: d.package.description,
         homepage: d.package.links.homepage,
         publisher: d.package.publisher.username,
         highlight: d.highlight,
-      }
-    })
+      }))
   } catch (error) {
     console.warn("fetch:", error)
   }

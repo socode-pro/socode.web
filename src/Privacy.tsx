@@ -63,8 +63,7 @@ const useIntl = (words: Words): string => {
   return content
 }
 
-const Privacy: React.FC = () => {
-  return (
+const Privacy: React.FC = () => (
     <div className="container">
       <Brand />
       <h1 className="title mgt40">{useIntl(Words.PrivacyPolicy)}</h1>
@@ -83,6 +82,5 @@ const Privacy: React.FC = () => {
       </div>
     </div>
   )
-}
 
 export default Privacy

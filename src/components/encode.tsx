@@ -9,8 +9,7 @@ import Utf8 from "crypto-js/enc-utf8"
 import css from "./encode.module.scss"
 
 // https://gist.github.com/littlee/f726f61b1e0abd319da4
-const PlainToUnicode = (text): string => {
-  return text
+const PlainToUnicode = (text): string => text
     .split("")
     .map((value) => {
       const temp = value.charCodeAt(0).toString(16).toUpperCase()
@@ -20,14 +19,9 @@ const PlainToUnicode = (text): string => {
       return value
     })
     .join("")
-}
 
 // https://stackoverflow.com/a/22021709/346701
-const UnicodeToPlain = (text): string => {
-  return text.replace(/\\u[\dA-F]{4}/gi, (match) => {
-    return String.fromCharCode(parseInt(match.replace(/\\u/g, ""), 16))
-  })
-}
+const UnicodeToPlain = (text): string => text.replace(/\\u[\dA-F]{4}/gi, (match) => String.fromCharCode(parseInt(match.replace(/\\u/g, ""), 16)))
 
 const HtmlEncode = (html): string => {
   const a = document.createElement("a").appendChild(document.createTextNode(html))

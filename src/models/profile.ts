@@ -1,5 +1,5 @@
 import { Action, action, Thunk, thunk } from "easy-peasy"
-import ky from "ky"
+import ky, { HTTPError } from "ky"
 import { InterfaceLanguage } from "../utils/language"
 
 const { location, history } = window
@@ -150,7 +150,7 @@ const profileModel: ProfileModel = {
         actions.setSettings({ settings: JSON.parse(localSettings), storage: false })
       }
     } catch (err) {
-      console.error(err.message)
+      console.error((err as HTTPError).message)
       actions.logout()
     }
   }),

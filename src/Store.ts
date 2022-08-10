@@ -17,7 +17,7 @@ export interface Injections {
 }
 
 const persistConfig: PersistConfig<typeof model> = {
-  blacklist: ["trending"],
+  deny: ["trending"],
 }
 
 const store = createStore(persist(model, persistConfig), {

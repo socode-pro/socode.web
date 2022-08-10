@@ -140,8 +140,7 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
     <>
       {!!queryItems.length && (
         <div className={cs(css.searchItems)}>
-          {queryItems.map((item, i) => {
-            return (
+          {queryItems.map((item, i) => (
               <a
                 className={cs(css.item, { [css.selected]: i === queryIndex })}
                 // 没有 add/remove item 需求的时候可以使用索引作为key
@@ -152,8 +151,7 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
                 <Markup tagName="span" attributes={{ className: css.typename }} content={`${item.type} `} />
                 <Markup tagName="span" content={item.name} />
               </a>
-            )
-          })}
+            ))}
         </div>
       )}
       {!query && !!currentMeta && (
@@ -172,8 +170,7 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
                     <span>{group}</span>
                   </div>
                   <ul className={css.childrens}>
-                    {entries.map((item) => {
-                      return (
+                    {entries.map((item) => (
                         <li key={item.id}>
                           <a
                             title={item.name}
@@ -182,8 +179,7 @@ const DevdocsUnited: React.FC = (): JSX.Element => {
                             {item.name}
                           </a>
                         </li>
-                      )
-                    })}
+                      ))}
                   </ul>
                 </div>
               )

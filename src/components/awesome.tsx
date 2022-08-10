@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import cs from "classnames"
-import marked from "marked"
+import { marked } from "marked"
 import Fuse from "fuse.js"
 import { Markup } from "interweave"
 import { isRelationHref, transRelationHref } from "../utils/assist"
@@ -21,9 +21,7 @@ const fuseOptions: Fuse.IFuseOptions<SearchItem> = {
   useExtendedSearch: true,
 }
 
-const getTags = (body: Element): NodeListOf<HTMLElement> => {
-  return body.querySelectorAll("ul>li a[href]") as NodeListOf<HTMLElement>
-}
+const getTags = (body: Element): NodeListOf<HTMLElement> => body.querySelectorAll("ul>li a[href]") as NodeListOf<HTMLElement>
 
 const changeTag = (tag: HTMLElement, display: string): void => {
   if (tag.parentElement) {

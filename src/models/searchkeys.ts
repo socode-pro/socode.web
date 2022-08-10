@@ -104,9 +104,7 @@ const searchKeysModel: SearchKeysModel = {
     return ckeys
   }),
 
-  addressBarKeys: computed((state) => {
-    return state.keys.filter((k) => k.devdocs)
-  }),
+  addressBarKeys: computed((state) => state.keys.filter((k) => k.devdocs)),
 
   currentKey: SKeys[0],
   setCurrentKey: action((state, payload) => {

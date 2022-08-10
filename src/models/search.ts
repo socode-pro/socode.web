@@ -151,7 +151,7 @@ const searchModel: SearchModel = {
       try {
         result = await injections.searchService.search({ query, timeRange, pageno, searchLanguage })
       } catch (err) {
-        actions.setError(err)
+        actions.setError(err as SMError)
       }
       actions.setResult(result)
       actions.setLoading(false)
@@ -162,7 +162,7 @@ const searchModel: SearchModel = {
       try {
         result = await injections.npmsService.search({ query, pageno })
       } catch (err) {
-        actions.setError(err)
+        actions.setError(err as SMError)
       }
       actions.setNpmResult(result)
       actions.setLoading(false)
