@@ -26,11 +26,11 @@ const Home: React.FC = () => {
       <Search />
       <Drawer />
       {/* {!isInStandaloneMode && <ExtArrow />} */}
-      {insideFirewall && (
+      {/* {insideFirewall && (
         <a className="china-record" href="https://beian.miit.gov.cn/">
           苏ICP备18044337号-2
         </a>
-      )}
+      )} */}
     </>
   )
 }
