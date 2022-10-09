@@ -30,7 +30,9 @@ const readmeModel: ReadmeModel = {
     if (!path) return
 
     const insideFirewall = getStoreState().storage.insideFirewall
-    const domain = insideFirewall ? `${process.env.REACT_APP_NEST}/firewall` : "https://raw.githubusercontent.com"
+    const domain = insideFirewall
+      ? `${process.env.REACT_APP_NEST}/firewall/github`
+      : "https://raw.githubusercontent.com"
 
     actions.setLoading(true)
     const name = base + path

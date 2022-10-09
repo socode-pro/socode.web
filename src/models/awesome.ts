@@ -35,7 +35,7 @@ const awesomeModel: AwesomeModel = {
   getMarkdown: thunk(async (actions, payload, { getStoreState }) => {
     const path = payload.awesome + (payload.awesome.split("/").length <= 2 ? "/master" : "")
     const insideFirewall = getStoreState().storage.insideFirewall
-    const host = insideFirewall ? `${process.env.REACT_APP_NEST}/firewall` : "https://raw.githubusercontent.com"
+    const host = insideFirewall ? `${process.env.REACT_APP_NEST}/firewall/github` : "https://raw.githubusercontent.com"
 
     actions.setLoading(true)
     try {
