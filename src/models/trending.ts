@@ -122,7 +122,7 @@ const trendingModel: TrendingModel = {
       // https://github.com/huchenme/github-trending-api/issues/130#issuecomment-710780770
       data = await ky
         // .get("https://github-trending-api-wonder.herokuapp.com", { searchParams })
-        .get("https://nest.socode.pro/firewall/herokuapp", { searchParams })
+        .get(`${process.env.REACT_APP_NEST}/firewall/herokuapp`, { searchParams })
         .json<Array<Repository>>()
     } catch (err) {
       // https://github.com/huchenme/github-trending-api/issues/130#issuecomment-708848154

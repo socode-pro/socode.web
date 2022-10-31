@@ -44,7 +44,7 @@ const devhintsModel: DevhintsModel = {
       }
 
       actions.setLoading(true)
-      const html = await ky.get("https://nest.socode.pro/firewall/devhints").text()
+      const html = await ky.get(`${process.env.REACT_APP_NEST}/firewall/devhints`).text()
       actions.setHtml({ html, storage: true })
     } catch (err) {
       console.warn("DevhintsModel.getHtml:", err)
@@ -75,7 +75,7 @@ const devhintsModel: DevhintsModel = {
       }
 
       actions.setLoading(true)
-      const html = await ky.get(`https://nest.socode.pro/firewall/devhints/${currentKey.cheatsheets}`).text()
+      const html = await ky.get(`${process.env.REACT_APP_NEST}/firewall/devhints/${currentKey.cheatsheets}`).text()
       actions.setItemHtml({ key: currentKey.cheatsheets, html, storage: true })
     } catch (err) {
       console.warn("DevhintsModel.getItemHtml:", err)
