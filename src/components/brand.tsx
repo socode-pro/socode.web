@@ -113,7 +113,7 @@ const Brand: React.FC = (): JSX.Element => {
     <>
       <div className={cs(css.brand)}>
         <a href="/">
-          $OCODE
+          SOCODE
           {/* <FontAwesomeIcon icon={faHome} className={css.home} /> */}
         </a>
         .PR
