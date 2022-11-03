@@ -289,11 +289,11 @@ const Drawer: React.FC = (): JSX.Element => {
                 <h3>Discord</h3>
               </a>
             </li>
-            <li>
+            {/* <li>
               <a className={cs(css.navlink, css.wechat)} onClick={() => setWechatQR(true)}>
                 <h3>Wechat Group</h3>
               </a>
-            </li>
+            </li> */}
           </ul>
 
           <p className="menu-label">Setting</p>
@@ -373,13 +373,13 @@ const Drawer: React.FC = (): JSX.Element => {
             rel="noopener noreferrer">
             <FontAwesomeIcon icon={faProductHunt} />
           </a>
-          <a
+          {/* <a
             className={cs(css.navlink, css.footicon)}
             href="https://twitter.com/socode7"
             target="_blank"
             rel="noopener noreferrer">
             <FontAwesomeIcon icon={faTwitter} />
-          </a>
+          </a> */}
           <a
             className={cs(css.navlink, css.footicon)}
             target="_blank"
