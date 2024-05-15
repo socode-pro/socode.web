@@ -121,14 +121,16 @@ const trendingModel: TrendingModel = {
     try {
       // https://github.com/huchenme/github-trending-api/issues/130#issuecomment-710780770
       data = await ky
-        // .get("https://github-trending-api-wonder.herokuapp.com", { searchParams })
-        .get(`${process.env.REACT_APP_NEST}/firewall/herokuapp`, { searchParams })
+        // .get(`${process.env.REACT_APP_NEST}/firewall/herokuapp`, { searchParams })
+        // https://github.com/alisoft/github-trending-api?tab=readme-ov-file
+        .get("https://api.gitterapp.com/repositories", { searchParams })
         .json<Array<Repository>>()
     } catch (err) {
       // https://github.com/huchenme/github-trending-api/issues/130#issuecomment-708848154
-      data = await ky
-        .get("https://github-trending-api.waningflow.com/repositories", { searchParams })
-        .json<Array<Repository>>()
+      // data = await ky
+      //   .get("https://github-trending-api.waningflow.com/repositories", { searchParams })
+      //   .get("https://github-trending-api-wonder.herokuapp.com", { searchParams })
+      //   .json<Array<Repository>>()
     }
 
     actions.setRepositorys(data)
