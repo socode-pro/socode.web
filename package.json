@@ -97,6 +97,9 @@
     "react-dom": "^17.0.2",
     "sass": "^1.54.3"
   },
+  "engines": {
+    "node": ">=20.13.1"
+  },
   "browserslist": {
     "production": [
       "chrome 80",
